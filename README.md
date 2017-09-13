@@ -61,4 +61,5 @@ TODO: Explain security scopes, Chrome API being available from the background pa
 
 TODO: Define message passing API between the background page and content scripts.
 
+TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation
 
