@@ -66,21 +66,17 @@ TODO: Explain permissions set in manifest and motivation behind the `activeTab` 
 ### Search and Replace UI Components
 - 'Find' input field
 - 'Replace' input field
-- Action buttons (see below)
-- Options (see below)
+- **Action buttons** (see below)
+  - Replace (~ pressing ENTER in 'Replace' field)
+  - Replace All
+  - Find (~ pressing ENTER in 'Find' field) OR Next match (+ Previous match)
+  - Close
+- **Options** (see below)
+  - Match Case (Aa)
+  - Use Regex (.*)
+  - Whole Word (Ab|)
+  - In Text Selection
+  - In Current Input Field
 - 'X of Y' or 'No Results' indicator
 - Regex groups indicator (for regex search only)
 - Common Substitution Templates
-
-#### Action Buttons
-- Replace (~ pressing ENTER in 'Replace' field)
-- Replace All
-- Find (~ pressing ENTER in 'Find' field) OR Next match (+ Previous match)
-- Close
-
-#### Options
-- Match Case (Aa)
-- Use Regex (.*)
-- Whole Word (Ab|)
-- In Text Selection
-- In Current Input Field
