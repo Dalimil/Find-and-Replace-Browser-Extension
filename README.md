@@ -63,3 +63,24 @@ TODO: Define message passing API between the background page and content scripts
 
 TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation
 
+### Search and Replace UI Components
+- 'Find' input field
+- 'Replace' input field
+- Action buttons (see below)
+- Options (see below)
+- 'X of Y' or 'No Results' indicator
+- Regex groups indicator (for regex search only)
+- Common Substitution Templates
+
+#### Action Buttons
+- Replace (~ pressing ENTER in 'Replace' field)
+- Replace All
+- Find (~ pressing ENTER in 'Find' field) OR Next match (+ Previous match)
+- Close
+
+#### Options
+- Match Case (Aa)
+- Use Regex (.*)
+- Whole Word (Ab|)
+- In Text Selection
+- In Current Input Field
