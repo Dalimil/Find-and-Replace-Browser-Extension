@@ -5,19 +5,36 @@
   "description": "Adds search & replace functionality for text input fields.",
   "author": "Dalimil Hajek",
   "offline_enabled": true,
-  /*"icons": {
+  "icons": {
     "128": "images/icon128.png",
-    "48": "images/icon48.png"
-  },*/
+    "48": "images/icon48.png",
+    "32": "images/icon32.png"
+  },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "contextMenus"
   ],
   "background": {
     "persistent": false,
     "scripts": [ "src/background.js" ]
   },
   "browser_action": {
-    "default_title": "Search & Replace"
-    /* https://developer.chrome.com/extensions/browserAction */
+    "default_title": "Search & Replace",
+    "default_popup": "src/popup/popup.html"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "Command+Shift+F"
+      }
+    },
+    "replace-all-action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+A",
+        "mac": "Command+Shift+A"
+      },
+      "description": "Replaces all text occurrences."
+    }
   }
 }
