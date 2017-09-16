@@ -33,6 +33,14 @@ You could always paste the content into your word processor, fix it and paste it
 
 Web browsers support standard search functionality for any text on a page but no browsers have the search & replace functionality (Google Chrome Help Forum post asking for the feature: https://productforums.google.com/forum/#!topic/chrome/Y4UORlpdYfo)
 
+*Google Chrome browser:*
+
+![chrome-find](docs/browser-find-toolbar/chrome-find.png)
+
+*Mozilla Firefox browser:*
+
+![firefox-find](docs/browser-find-toolbar/firefox-find.png)
+
 There have been several attempts to implement this functionality via an extension. Most of them either don't work, are missing functionality (particularly regex), are limited to certain websites, or are unintuitive and hard to use in general. 
 
 ### Chrome
@@ -80,6 +88,27 @@ TODO: Explain permissions set in manifest and motivation behind the `activeTab` 
 - 'X of Y' or 'No Results' indicator
 - Regex groups indicator (for regex search only)
 - Common Substitution Templates
+
+In general we would like to follow the current standard of search & replace toolbars. Many of these can be seen in more advanced text editors:
+
+*Android Studio:*
+
+![Android Studio](docs/editor-find-and-replace/android-studio-find-and-replace.png)
+
+*Google Docs:*
+
+![Google Docs](docs/editor-find-and-replace/gdocs-find-and-replace.png)
+
+*Visual Studio Code:*
+
+![Visual Studio Code](docs/editor-find-and-replace/vscode-find-and-replace.png)
+
+*Sublime Text 3:*
+
+![Sublime Text 3](docs/editor-find-and-replace/sublime-find-and-replace.png)
+
+
+At the same time, we should not assume that regular users are familiar with regular expression or more advanced search functions. Therefore, the UI design of some of these editor widgets should only be used as an inspiration - regular users are not developers and the number of options in this extension must not feel overwhelming. 
 
 ### Accessibility
 
