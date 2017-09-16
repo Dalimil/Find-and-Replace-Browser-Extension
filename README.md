@@ -80,3 +80,19 @@ TODO: Explain permissions set in manifest and motivation behind the `activeTab` 
 - 'X of Y' or 'No Results' indicator
 - Regex groups indicator (for regex search only)
 - Common Substitution Templates
+
+### Accessibility
+
+#### Keyboard
+Launch the toolbar: `Ctrl+Shift+F` (`Command+Shift+F` on Mac)
+Note that all `Ctrl+F`, `Ctrl+R`, and `Ctrl+Shift+R` are already predefined browser shortcuts, so we cannot use those.
+
+Once the popup appears:
+  - Next match: `F3` or `Enter` in 'Find' input field
+  - Previous match: `Shift+F3`
+  - Replace: `Enter` in 'Replace' input field
+  - Replace All: `Ctrl+Shift+A`
+
+#### Context Menu
+User can select text on the page and, after right-clicking the selection, search for the text using the extension. This will open the extension popup and/or replace the current 'Find' input field with the selected text.
+
