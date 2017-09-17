@@ -125,3 +125,20 @@ Once the popup appears:
 #### Context Menu
 User can select text on the page and, after right-clicking the selection, search for the text using the extension. This will open the extension popup and/or replace the current 'Find' input field with the selected text.
 
+### Scope of Search
+
+#### <input type="text">
+For a short single line of text, HTML `<input>` element is often used. However, due to the short length, this will mostly not be a common target of search & replace. Still, it should be included for consistency.
+
+There are other types of input fields (many new were added with HTML5), such as date, email, number, tel, time, and similar, but text is the standard one.
+
+#### <textarea>
+Multi-line plain-text input space. This should be a common target for search & replace. It is used by many sites to allow users compose longer pieces of text, one of them is new post creation on Reddit.
+
+#### <div contenteditable="true">
+Enabling rich text formatting by allowing HTML tags inside the text area, `contenteditable` elements are used in Gmail, Facebook posts, Facebook Messenger, GitHub editor, Twitter, and many other sites.
+
+#### contenteditable inside an <iframe>
+Blogger.com is an example of a site that isolates the main contenteditable area in an iframe. When performing search & replace we must consider the scenario where we're dealing with elements inside an `<iframe>` on the page. 
+
+
