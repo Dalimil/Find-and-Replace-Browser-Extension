@@ -60,17 +60,6 @@ This project will focus on Chrome and Firefox, which mostly follow the same Exte
 
 ## Development
 
-### API Design
-There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'search & replace'.
-
-TODO: Explain the reasoning behind this and how extensions work in general (https://developer.chrome.com/extensions).
-
-TODO: Explain security scopes, Chrome API being available from the background page, page content being accessible only from via content scripts. 
-
-TODO: Define message passing API between the background page and content scripts.
-
-TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation
-
 ### Search and Replace UI Components
 - 'Find' input field
 - 'Replace' input field
@@ -146,4 +135,23 @@ This extension isn't meant to modify (search & replace) the raw HTML text of the
 There are certainly sites that might try to avoid all the options discussed above and implement their own text editor functionality. One noteable example is Google Docs, which is using static DOM but listen to user's keyboard events to modify it internally in JavaScript. Implementing your own online text editor from scratch without using contenteditable or textareas involves a lot of work, and such editor should probably include its own search & replace functionality, which is what Google Docs do.
 
 At this point, it seems reasonable to limit the implementation to only cover the choices discussed above and wait for the user feedback to see if there are any widely-used sites containing their own implementation of text input areas.
+
+### API Design
+There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'search & replace'.
+
+TODO: Explain the reasoning behind this and how extensions work in general (https://developer.chrome.com/extensions).
+
+TODO: Explain security scopes, Chrome API being available from the background page, page content being accessible only from content scripts. 
+
+TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation
+
+TODO: Define message passing API between the background page and content scripts. Add diagrams!
+
+#### User actions
+- Update search query or options
+  - 'Find' input field content changes
+  - One of the search options is toggled
+- Find next/previous
+- Replace current/all
+- Close the popup
 
