@@ -66,7 +66,8 @@ This project will focus on Chrome and Firefox, which mostly follow the same Exte
 - **Action buttons** (see below)
   - Replace (~ pressing ENTER in 'Replace' field)
   - Replace All
-  - Find (~ pressing ENTER in 'Find' field) OR Next match (+ Previous match)
+  - Find next (~ pressing ENTER in 'Find' field)
+  - Find previous
   - Close
 - **Options** (see below)
   - Match Case (Aa)
