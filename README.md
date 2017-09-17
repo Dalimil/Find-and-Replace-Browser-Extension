@@ -132,13 +132,13 @@ For a short single line of text, HTML `<input>` element is often used. However, 
 
 There are other types of input fields (many new were added with HTML5), such as date, email, number, tel, time, and similar, but text is the standard one.
 
-#### `<textarea>`
+#### `<textarea></textarea>`
 Multi-line plain-text input space. This should be a common target for search & replace. It is used by many sites to allow users compose longer pieces of text, one of them is new post creation on Reddit.
 
-#### `<div contenteditable="true">`
-Enabling rich text formatting by allowing HTML tags inside the text area, `contenteditable` elements are used in Gmail, Facebook posts, Facebook Messenger, GitHub editor, Twitter, and many other sites.
+#### `<div contenteditable="true"></div>`
+Enabling rich text formatting by allowing HTML tags inside the text area, `contenteditable` elements are used in Gmail, Facebook posts, Facebook Messenger, GitHub editor, Twitter, and many other sites. Note that `contenteditable` is a global attribute and is therefore not limited to `div` tags.
 
-#### `contenteditable` inside an `<iframe>`
+#### `contenteditable` tag inside an `<iframe></iframe>`
 Blogger.com is an example of a site that isolates the main contenteditable area in an iframe. When performing search & replace we must consider the scenario where we're dealing with elements inside an `<iframe>` on the page. 
 
 #### Other DOM
