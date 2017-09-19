@@ -1,0 +1,30 @@
+{
+  "name": "search-widget",
+  "version": "1.0.0",
+  "description": "Search UI widget for Search & Replace Chrome extension",
+  "author": "Dalimil Hajek",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --progress -p",
+    "start": "webpack-dev-server --progress --colors --config ./webpack.config.js"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
