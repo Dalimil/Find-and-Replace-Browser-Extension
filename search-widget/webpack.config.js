@@ -5,11 +5,16 @@ module.exports = {
     './src/index.js'
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+
+    /* webpack build */
+    path: path.resolve(__dirname, '../main/src/widget'),
+
+    /* webpack dev server */
+    publicPath: '/'
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './debug'
   },
   module: {
     loaders: [{

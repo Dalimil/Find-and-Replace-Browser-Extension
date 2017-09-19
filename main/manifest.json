@@ -20,7 +20,7 @@
   },
   "browser_action": {
     "default_title": "Search & Replace",
-    "default_popup": "src/popup/popup.html"
+    "default_popup": "src/widget/widget.html"
   },
   "commands": {
     "_execute_browser_action": {
