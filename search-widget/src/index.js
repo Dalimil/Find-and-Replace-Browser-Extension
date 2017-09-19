@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-const title = 'My Minimal React Webpack Babel Setup.';
+import Main from './Main';
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log("Loading Search Widget.");
 
   ReactDOM.render(
-    <div>{title}</div>,
+    <Main />,
     document.getElementById('app-root')
   );
 });
