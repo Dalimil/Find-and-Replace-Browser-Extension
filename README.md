@@ -106,14 +106,14 @@ At the same time, we should not assume that regular users are familiar with regu
 Launch the toolbar: `Ctrl+Shift+F` (`Command+Shift+F` on Mac)
 Note that all `Ctrl+F`, `Ctrl+R`, and `Ctrl+Shift+R` are already predefined browser shortcuts, so we cannot use those.
 
-Once the popup appears:
+Once the search widget appears:
   - Next match: `F3` or `Enter` in 'Find' input field
   - Previous match: `Shift+F3`
   - Replace: `Enter` in 'Replace' input field
   - Replace All: `Ctrl+Shift+A`
 
 #### Context Menu
-User can select text on the page and, after right-clicking the selection, search for the text using the extension. This will open the extension popup and/or replace the current 'Find' input field with the selected text.
+User can select text on the page and, after right-clicking the selection, search for the text using the extension. This will open the extension search widget and/or replace the current 'Find' input field with the selected text.
 
 ### Scope of Search
 
@@ -154,16 +154,16 @@ TODO: Define message passing API between the background page and content scripts
   - One of the search options is toggled
 - Find next/previous
 - Replace current/all
-- Close the popup
+- Close the widget
 
 
-### User Interface for Search Pop-up
+### User Interface for Search Widget
 
 #### UI Design
 We split the UI layout to two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for regular users, there should be a way of switching the search UI to the 'advanced' state that would include regex options and helpful previews of matched regex groups etc.
 
 #### UI Implementation
-To implement the search UI, we could simply create DOM for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to have the search parameters state in one central place/datastore and have the UI inputs reflect this data. Therefore, we are going to use the React.js library to implement the search UI.
+To implement the search UI widget, we could simply create DOM for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to have the search parameters state in one central place/datastore and have the UI inputs reflect this data. Therefore, we are going to use the React.js library to implement the search UI.
 
 React has become popular in recent years - one reason is that it enforces this pattern of always reflecting the current application state in the UI. Without it, we would have to manage all the inputs separately and this could create many UI inconsistencies - incorrect update of our internal data might create a state of the application where our search parameters are set to certain values internally but display different state externally via our UI. As we're dealing with a lot of different inputs (many search parameters as well as the simple and advanced modes of the search layout), using React seems to be a wise choice.
 
