@@ -1,5 +1,18 @@
 /* Custom CSS for the Search & Replace popup */
 
+@font-face {
+  font-family: 'Inconsolata';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/Inconsolata-Regular.ttf');
+}
+@font-face {
+  font-family: 'Inconsolata';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/Inconsolata-Bold.ttf');
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -14,5 +27,6 @@ html {
 }
 
 body {
+  font-family: 'Inconsolata', monospace;
   margin: 1em;
 }
