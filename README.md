@@ -1,5 +1,5 @@
-# Search-And-Replace
-RegEx Search &amp; Replace Extension for Chrome and Firefox browsers
+# Find & Replace Extension for Text Editing
+RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 ## Project Specification
 
@@ -31,7 +31,7 @@ You could always paste the content into your word processor, fix it and paste it
 
 ## What already exists?
 
-Web browsers support standard search functionality for any text on a page but no browsers have the search & replace functionality (Google Chrome Help Forum post asking for the feature: https://productforums.google.com/forum/#!topic/chrome/Y4UORlpdYfo)
+Web browsers support standard search functionality for any text on a page but no browsers have the find & replace functionality (Google Chrome Help Forum post asking for the feature: https://productforums.google.com/forum/#!topic/chrome/Y4UORlpdYfo)
 
 *Google Chrome browser:*
 
@@ -60,6 +60,11 @@ This project will focus on Chrome and Firefox, which mostly follow the same Exte
 
 ## Development
 
+### Naming and SEO
+Based on the research mentioned above, these extension names already exist: 'Easy Replace', 'Search and Replace', 'FindR', 'Find Replace', 'FoxReplace'. Using any of these existing names would be bad for SEO and discoverability. At the same time, we want to clearly indicate that the extension is used for input fields and editable content rather than HTML source code.
+
+People are likely to search for browser extensions by typing in the functionality that they need. In our case, that might look something like 'find and replace in text input fields extension'. Stating the extensions purpose in its title and description should help us do better in search results. I therefore avoided any newly-invented words and named it **Find & Replace for Text Editing**. We are not trying to trademark a new brand name, we are simply trying to match what people might search for.
+
 ### Search and Replace UI Components
 - 'Find' input field
 - 'Replace' input field
@@ -79,7 +84,7 @@ This project will focus on Chrome and Firefox, which mostly follow the same Exte
 - Regex groups indicator (for regex search only)
 - Common Substitution Templates
 
-In general we would like to follow the current standard of search & replace toolbars. Many of these can be seen in more advanced text editors:
+In general we would like to follow the current standard of find & replace toolbars. Many of these can be seen in more advanced text editors:
 
 *Android Studio:*
 
@@ -118,27 +123,27 @@ User can select text on the page and, after right-clicking the selection, search
 ### Scope of Search
 
 #### `<input type="text">`
-For a short single line of text, HTML `<input>` element is often used. However, due to the short length, this will mostly not be a common target of search & replace. Still, it should be included for consistency.
+For a short single line of text, HTML `<input>` element is often used. However, due to the short length, this will mostly not be a common target of find & replace. Still, it should be included for consistency.
 
 There are other types of input fields (many new were added with HTML5), such as date, email, number, tel, time, and similar, but text is the standard one.
 
 #### `<textarea></textarea>`
-Multi-line plain-text input space. This should be a common target for search & replace. It is used by many sites to allow users compose longer pieces of text, one of them is new post creation on Reddit.
+Multi-line plain-text input space. This should be a common target for find & replace. It is used by many sites to allow users compose longer pieces of text, one of them is new post creation on Reddit.
 
 #### `<div contenteditable="true"></div>`
 Enabling rich text formatting by allowing HTML tags inside the text area, `contenteditable` elements are used in Gmail, Facebook posts, Facebook Messenger, GitHub editor, Twitter, and many other sites. Note that `contenteditable` is a global attribute and is therefore not limited to `div` tags.
 
 #### `contenteditable` tag inside an `<iframe></iframe>`
-Blogger.com is an example of a site that isolates the main contenteditable area in an iframe. When performing search & replace we must consider the scenario where we're dealing with elements inside an `<iframe>` on the page. 
+Blogger.com is an example of a site that isolates the main contenteditable area in an iframe. When performing find & replace we must consider the scenario where we're dealing with elements inside an `<iframe>` on the page. 
 
 #### Other DOM
-This extension isn't meant to modify (search & replace) the raw HTML text of the page's source. It is limited to finding occurrences in text areas that are modifiable by users.  
-There are certainly sites that might try to avoid all the options discussed above and implement their own text editor functionality. One noteable example is Google Docs, which is using static DOM but listen to user's keyboard events to modify it internally in JavaScript. Implementing your own online text editor from scratch without using contenteditable or textareas involves a lot of work, and such editor should probably include its own search & replace functionality, which is what Google Docs do.
+This extension isn't meant to modify (find & replace) the raw HTML text of the page's source. It is limited to finding occurrences in text areas that are modifiable by users.  
+There are certainly sites that might try to avoid all the options discussed above and implement their own text editor functionality. One noteable example is Google Docs, which is using static DOM but listen to user's keyboard events to modify it internally in JavaScript. Implementing your own online text editor from scratch without using contenteditable or textareas involves a lot of work, and such editor should probably include its own find & replace functionality, which is what Google Docs do.
 
 At this point, it seems reasonable to limit the implementation to only cover the choices discussed above and wait for the user feedback to see if there are any widely-used sites containing their own implementation of text input areas.
 
 ### API Design
-There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'search & replace'.
+There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'find & replace'.
 
 TODO: Explain the reasoning behind this and how extensions work in general (https://developer.chrome.com/extensions).
 

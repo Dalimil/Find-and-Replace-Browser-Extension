@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Search and Replace Plus",
+  "name": "Find & Replace for Text Editing",
   "version": "0.1",
-  "description": "Adds search & replace functionality for text input fields.",
+  "description": "Adds search & replace tool for input fields and editable text content.",
   "author": "Dalimil Hajek",
   "offline_enabled": true,
   "icons": {
@@ -19,7 +19,7 @@
     "scripts": [ "src/background.js" ]
   },
   "browser_action": {
-    "default_title": "Search & Replace",
+    "default_title": "Find & Replace",
     "default_popup": "src/widget/widget.html"
   },
   "commands": {

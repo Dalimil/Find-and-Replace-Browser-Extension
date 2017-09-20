@@ -1,7 +1,7 @@
 {
-  "name": "search-widget",
+  "name": "search-widget-find-and-replace",
   "version": "1.0.0",
-  "description": "Search UI widget for Search & Replace Chrome extension",
+  "description": "Search UI widget for Find & Replace browser extension",
   "author": "Dalimil Hajek",
   "main": "index.js",
   "license": "MIT",
