@@ -48,38 +48,96 @@ body {
   outline: none;
 }
 
-.button-standard {
+/* Button */
+  .button-standard {
 
-  display: inline-block;
-  box-shadow: none;
-  background-color: #f5f5f5;
-  background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
-	color: #333;
-	border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 2px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  white-space: nowrap;
-  margin-right: 0.5em;
-  height: 28px;
-  line-height: 28px;
-  width: 80px;
-  outline: 0px;
-  padding: 0 8px;
-}
-.button-standard.button-disabled,
-.button-standard.button-disabled:hover {
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  color: #b8b8b8;
-  cursor: default;
-}
+    display: inline-block;
+    box-shadow: none;
+    background-color: #f5f5f5;
+    background-image: -moz-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+    color: #333;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    margin-right: 0.5em;
+    height: 28px;
+    line-height: 28px;
+    width: 80px;
+    outline: 0px;
+    padding: 0 8px;
+  }
+  .button-standard.button-disabled,
+  .button-standard.button-disabled:hover {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: #b8b8b8;
+    cursor: default;
+  }
 
-.button-standard:hover {
-  box-shadow: none;
-  background-color: #f8f8f8;
-  color: #111;
-  border: 1px solid #c6c6c6;
-}
+  .button-standard:hover {
+    box-shadow: none;
+    background-color: #f8f8f8;
+    color: #111;
+    border: 1px solid #c6c6c6;
+  }
+
+
+/* Checkbox */
+  .checkbox {
+    margin: 0.5em 0 0.5em 0;
+    transform: scale(0.8);
+    transform-origin: bottom center;
+    position: relative;
+    display: inline-block;
+  }
+
+  .checkbox label {
+    color: #333;
+    cursor: pointer;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    border-radius: 2px;
+
+    box-shadow: inset 0px 1px 3px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.1);
+    background: #fcfff4;
+    background: -moz-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background: linear-gradient(top,#f5f5f5,#f1f1f1);
+  }
+
+  .checkbox label:after {
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 5px;
+    background: transparent;
+    top: 4px;
+    left: 4px;
+    border: 3px solid #333;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+  }
+
+  .checkbox label:hover::after {
+    opacity: 0.2;
+  }
+
+  .checkbox input[type=checkbox]:checked + label:after {
+    opacity: 1;
+  }
+  .checkbox input:focus {
+    outline: none;
+  }
+  .checkbox input::-moz-focus-inner {
+    border: 0;
+  }
