@@ -1,11 +1,7 @@
 import React from 'react';
 
-const Button = ({title, onClick, disabled}) => 
-<div className={"button-standard" + (disabled ? " button-disabled":"")}
-  onClick={onClick}>
-  {title}
-</div>;
-
+import { Button, Checkbox } from './InputElements';
+  
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +12,9 @@ class Main extends React.Component {
       findTextInput: '',
       replaceTextInput: '',
       matchCaseInput: false,
-      wholeWordsInput: false
+      wholeWordsInput: false,
+      useRegexInput: false,
+      limitToSelectionInput: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -80,24 +78,31 @@ class Main extends React.Component {
         value={this.state.replaceTextInput}
         onChange={this.handleInputChange} />
     );
+
     // Checkboxes
     const MatchCaseCheckbox = (
-      <label>
-        <input type="checkbox"
-          name="matchCaseInput"
-          checked={this.state.matchCaseInput}
-          onChange={this.handleInputChange} />
-        Match Case
-      </label>
+      <Checkbox
+        name="matchCaseInput"
+        checked={this.state.matchCaseInput}
+        onChange={this.handleInputChange} />
     );
     const WholeWordsCheckbox = (
-      <label>
-        <input type="checkbox"
-          name="wholeWordsInput"
-          checked={this.state.wholeWordsInput}
-          onChange={this.handleInputChange} />
-        Whole Words
-      </label>
+      <Checkbox
+        name="wholeWordsInput"
+        checked={this.state.wholeWordsInput}
+        onChange={this.handleInputChange} />
+    );
+    const UseRegexCheckbox = (
+      <Checkbox
+        name="useRegexInput"
+        checked={this.state.useRegexInput}
+        onChange={this.handleInputChange} />
+    );
+    const LimitToSelectionCheckbox = (
+      <Checkbox
+        name="limitToSelectionInput"
+        checked={this.state.limitToSelectionInput}
+        onChange={this.handleInputChange} />
     );
 
     // Buttons
@@ -114,7 +119,11 @@ class Main extends React.Component {
         Seconds Elapsed: {this.state.secondsElapsed}<br />
         { FindFieldInput } { FindPrevButton } { FindNextButton }<br />
         { ReplaceFieldInput } { ReplaceOneButton } { ReplaceAllButton } <br />
-        { MatchCaseCheckbox }
+        { MatchCaseCheckbox } Match Case <br />
+        { WholeWordsCheckbox } Whole Words <br />
+        { /* Advanced Search */}
+        { LimitToSelectionCheckbox } Limit to text selection <br />
+        { UseRegexCheckbox } Use RegEx <br />
       </div>
     );
   }
