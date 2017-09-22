@@ -46,7 +46,7 @@ There have been several attempts to implement this functionality via an extensio
 ### Chrome
 - https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo?hl=en-GB (doesn't work in many places such as Blogger, Facebook, and has many other issues) 
 - https://chrome.google.com/webstore/detail/find-replace/cfjmfciolkikfodjfdmdpdmpfbjdofek?hl=en (requires copy-pasting your desired text)
-- https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc (replaces raw HTML - different, undesirable functionality)
+- https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc (replaces raw HTML - different, undesirable functionality, and requires excessive permissions)
 - https://chrome.google.com/webstore/detail/easy-replace/ojoeejfegihohnkjlfoonbnailkohkce (not working on most websites)
 
 ### Firefox
@@ -118,7 +118,9 @@ Once the search widget appears:
   - Replace All: `Ctrl+Shift+A`
 
 #### Context Menu
-User can select text on the page and, after right-clicking the selection, search for the text using the extension. This will open the extension search widget and/or replace the current 'Find' input field with the selected text.
+User can select text on the page and, after right-clicking the selection, search for the text using the extension. This should open the extension search widget and/or replace the current 'Find' input field with the selected text.
+
+UPDATE: The background page cannot open the pop-up(https://stackoverflow.com/questions/5544256/chrome-extensionhow-to-pragmatically-open-the-popup-window-from-background-htm). It cannot be opened programmatically - the user must click on the browser action to open it. But we can inject a content script that creates a floating div mimicking our search widget.
 
 ### Scope of Search
 
