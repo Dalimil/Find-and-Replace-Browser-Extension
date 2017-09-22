@@ -27,7 +27,9 @@ function setUpKeyboardCommands() {
 }
 
 function setUpContextMenu() {
+  const contextMenuHandlingContentScriptFilepath = "src/context_menu_content_script.js";
   const contextMenuItemId = 'default_context_menu_item';
+
   chrome.contextMenus.create({
     id: contextMenuItemId,
     contexts: ['selection'],
@@ -42,7 +44,24 @@ function setUpContextMenu() {
     }
     const selectionText = info.selectionText;
     console.log('Context menu selection: ', selectionText);
-    // TODO: check if popup is open and find the new text
+    // Pop-up is close and cannot be opened - insert content script instead
+    chrome.tabs.executeScript(/* tabId - defaults to the active tab */ null,
+      {
+        file: contextMenuHandlingContentScriptFilepath
+      }
+    );
+  });
+}
+
+function setUpMessageConnections() {
+  chrome.runtime.onConnect.addListener(port => {
+    // port.name matches the one defined in the runtime.connect call
+    if (port.name == "widget-connection") {
+      port.onDisconnect.addListener(() => {
+        console.log("Widget disconnected");
+        // TODO: notify content script to clean up and shut down
+      });
+    }
   });
 }
 
@@ -50,5 +69,6 @@ function setUpContextMenu() {
 setUpIconBrowserAction();
 setUpKeyboardCommands();
 setUpContextMenu();
+setUpMessageConnections();
 
 console.log("Background event page just executed.");
