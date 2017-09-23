@@ -139,13 +139,16 @@ Ideas for templates include:
 #### `<input type="text">`
 For a short single line of text, HTML `<input>` element is often used. However, due to the short length, this will mostly not be a common target of find & replace. Still, it should be included for consistency.
 
-There are other types of input fields (many new were added with HTML5), such as date, email, number, tel, time, and similar, but text is the standard one.
+There are other types of input fields (many new were added with HTML5), such as date, email, number, tel, time, and similar, but text is the standard one.  
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 
 #### `<textarea></textarea>`
-Multi-line plain-text input space. This should be a common target for find & replace. It is used by many sites to allow users compose longer pieces of text, one of them is new post creation on Reddit.
+Multi-line plain-text input space. This should be a common target for find & replace. It is used by many sites to allow users compose longer pieces of text, one of them is new post creation on Reddit.  
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea
 
 #### `<div contenteditable="true"></div>`
-Enabling rich text formatting by allowing HTML tags inside the text area, `contenteditable` elements are used in Gmail, Facebook posts, Facebook Messenger, GitHub editor, Twitter, and many other sites. Note that `contenteditable` is a global attribute and is therefore not limited to `div` tags.
+Enabling rich text formatting by allowing HTML tags inside the text area, `contenteditable` elements are used in Gmail, Facebook posts, Facebook Messenger, GitHub editor, Twitter, and many other sites. Note that `contenteditable` is a global attribute and is therefore not limited to `div` tags.  
+https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable
 
 #### `contenteditable` tag inside an `<iframe></iframe>`
 Blogger.com is an example of a site that isolates the main contenteditable area in an iframe. When performing find & replace we must consider the scenario where we're dealing with elements inside an `<iframe>` on the page. 
@@ -205,6 +208,14 @@ TODO:
 In Widget - Search params, all inputs;  
 In Content Script: Refs to all DOM textarea elements, Find-next number (because it keeps dynamically changing and search widget should only receive it from content script messages passed to it)
 In Background: Nothing - here we just set up events
+
+#### Highlighting Found Matches
+Highlighting `contenteditable` element should not be a problem - we can simply inject our own `span` element with our custom class into the element's DOM. Contenteditable elements are designed to contain any HTML nodes so no problem here.
+
+Highlighting `<input>` and `<textarea>` is more tricky because they both only allow plain text to be displayed inside them. Any styled markup will not render as expected. To overcome this, one must create an overlay that exactly matches the input or textarea element and then highlight text in this new element. Further, there are many browser-specific quirks and one must also take care of synchronizing scrolling and handling textareas that are resizable by the user. In other words, it is a lot of work.  
+http://codersblock.com/blog/highlight-text-inside-a-textarea/
+
+Fortunately, there have been a few attempts to implement this. The most successful version I found was the following jQuery plugin: https://github.com/lonekorean/highlight-within-textarea/ becase it also supports resizable textareas (other plugins I found did not).
 
 ### Testing
 
