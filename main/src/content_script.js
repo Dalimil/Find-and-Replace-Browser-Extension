@@ -36,6 +36,16 @@ function setUpMessageConnections() {
   });
 }
 
+function clearAllHighlights() {
+  const selector = 'span._find-and-replace-highlight';
+  document.querySelectorAll(selector).forEach(node => {
+    const parent = node.parentNode;
+    parent.replaceChild(node.firstChild, node);
+    // merge adjacent text nodes
+    parent.normalize();
+  });
+}
+
 setUpMessageConnections();
 
 /*
