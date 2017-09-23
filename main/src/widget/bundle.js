@@ -22456,6 +22456,10 @@ var Main = function (_React$Component) {
       limitToCurrentFieldInput: false
     };
 
+    _ConnectionApi2.default.addResponseHandler(function (msg) {
+      console.log("Handle ", msg);
+    });
+
     _this.handleSearchInputChange = _this.handleSearchInputChange.bind(_this);
     _this.handleFindNext = _this.handleFindNext.bind(_this);
     _this.handleFindPrev = _this.handleFindPrev.bind(_this);
@@ -22724,36 +22728,68 @@ var ConnectionApi = function () {
   }
 
   _createClass(ConnectionApi, [{
+    key: "executeOnPort",
+    value: function executeOnPort(func) {
+      if (this.dummy) return;
+
+      this.contentScriptConnectionPromise.then(function (port) {
+        return func(port);
+      });
+    }
+  }, {
     key: "addResponseHandler",
     value: function addResponseHandler(func) {
-      this.contentScriptConnectionPromise.then(function (port) {
+      this.executeOnPort(function (port) {
         port.onMessage.addListener(func);
       });
     }
   }, {
     key: "updateSearch",
     value: function updateSearch(searchParams) {
-      if (this.dummy) return;
+      this.executeOnPort(function (port) {
+        port.postMessage({
+          action: 'updateSearch',
+          data: searchParams
+        });
+      });
     }
   }, {
     key: "findNext",
     value: function findNext() {
-      if (this.dummy) return;
+      this.executeOnPort(function (port) {
+        port.postMessage({
+          action: 'findNext'
+        });
+      });
     }
   }, {
     key: "findPrev",
     value: function findPrev() {
-      if (this.dummy) return;
+      this.executeOnPort(function (port) {
+        port.postMessage({
+          action: 'findPrev'
+        });
+      });
     }
   }, {
     key: "replaceCurrent",
-    value: function replaceCurrent() {
-      if (this.dummy) return;
+    value: function replaceCurrent(replaceParams) {
+      this.executeOnPort(function (port) {
+        port.postMessage({
+          action: 'replaceCurrent',
+          data: replaceParams
+        });
+      });
     }
   }, {
     key: "replaceAll",
-    value: function replaceAll() {
-      if (this.dummy) return;
+    value: function replaceAll(replaceParams) {
+      this.executeOnPort(function (port) {
+        port.postMessage({
+          action: 'replaceAll',
+          data: replaceParams
+        });
+      });
     }
   }]);
 

@@ -55,7 +55,7 @@ function setUpMessageConnections() {
         console.log("Widget disconnected");
         // Notify content script to clean up and shut down
         if (contentScriptConnection) {
-          contentScriptConnection.postMessage({ type: 'shutdown' });
+          contentScriptConnection.postMessage({ action: 'shutdown' });
         }
       });
     }

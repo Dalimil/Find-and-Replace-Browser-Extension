@@ -13,7 +13,7 @@ function setUpMessageConnections() {
   
   port.onMessage.addListener(msg => {
     console.log("Content Script: ", msg);
-    if (msg.type == 'shutdown') {
+    if (msg.action == 'shutdown') {
       document.body.style.backgroundColor="skyblue";
     }
   });
