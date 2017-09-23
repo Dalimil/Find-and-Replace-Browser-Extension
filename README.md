@@ -156,6 +156,27 @@ There are certainly sites that might try to avoid all the options discussed abov
 
 At this point, it seems reasonable to limit the implementation to only cover the choices discussed above and wait for the user feedback to see if there are any widely-used sites containing their own implementation of text input areas.
 
+### User Interface for Search Widget
+
+#### UI Design
+TODO: Explain that extensions use a pop-up widget with browserAction icon
+
+We split the UI layout to two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for regular users, there should be a way of switching the search UI to the 'advanced' state that would include regex options and helpful previews of matched regex groups etc.
+
+##### Why not Material Design
+For the general look and feel, I decided not to use Google's increasingly popular [Material Design](https://material.io/) for several reasons. First, Material Design works well when there's a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed compononets.
+
+Secondly, Material Design likes to add its *ripple effect* to most interactions (such as clicking a button). I believe this looks great for actions that have large impact (e.g. navigating to a new page, or submitting a form), but for our purposes we need something less flashy, as most buttons are going to be pressed very often (Find prev/next, and Replace button) and too many effects or animations would cause too much distraction for the user.
+
+#### UI Implementation
+To implement the search UI widget, we could simply create DOM for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to have the search parameters state in one central place/datastore and have the UI inputs reflect this data. Therefore, we are going to use the React.js library to implement the search UI.
+
+React has become popular in recent years - one reason is that it enforces this pattern of always reflecting the current application state in the UI. Without it, we would have to manage all the inputs separately and this could create many UI inconsistencies - incorrect update of our internal data might create a state of the application where our search parameters are set to certain values internally but display different state externally via our UI. As we're dealing with a lot of different inputs (many search parameters as well as the simple and advanced modes of the search layout), using React seems to be a wise choice.
+
+TODO: explain React input handling (https://facebook.github.io/react/docs/forms.html) and technologies used (https://facebook.github.io/react/docs/installation.html) and my search-widget project setup + tech stack in general  
+TODO: mention [component separation for easier development](./search-widget/README.md)
+
+
 ### API Design
 There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'find & replace'.
 
@@ -175,25 +196,15 @@ TODO: Define message passing API between the background page and content scripts
 - Replace current/all
 - Close the widget
 
+#### Storing State
+TODO:  
+In Widget - Search params, all inputs;  
+In Content Script: Refs to all DOM textarea elements, Find-next number (because it keeps dynamically changing and search widget should only receive it from content script messages passed to it)
+In Background: Nothing - here we just set up events
 
-### User Interface for Search Widget
+### Testing
 
-#### UI Design
-We split the UI layout to two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for regular users, there should be a way of switching the search UI to the 'advanced' state that would include regex options and helpful previews of matched regex groups etc.
+### Distribution & Marketing
 
-##### Why not Material Design
-For the general look and feel, I decided not to use Google's increasingly popular [Material Design](https://material.io/) for several reasons. First, Material Design works well when there's a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed compononets.
-
-Secondly, Material Design likes to add its *ripple effect* to most interactions (such as clicking a button). I believe this looks great for actions that have large impact (e.g. navigating to a new page, or submitting a form), but for our purposes we need something less flashy, as most buttons are going to be pressed very often (Find prev/next, and Replace button) and too many effects or animations would cause too much distraction for the user.
-
-#### UI Implementation
-To implement the search UI widget, we could simply create DOM for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to have the search parameters state in one central place/datastore and have the UI inputs reflect this data. Therefore, we are going to use the React.js library to implement the search UI.
-
-React has become popular in recent years - one reason is that it enforces this pattern of always reflecting the current application state in the UI. Without it, we would have to manage all the inputs separately and this could create many UI inconsistencies - incorrect update of our internal data might create a state of the application where our search parameters are set to certain values internally but display different state externally via our UI. As we're dealing with a lot of different inputs (many search parameters as well as the simple and advanced modes of the search layout), using React seems to be a wise choice.
-
-TODO: explain React input handling (https://facebook.github.io/react/docs/forms.html) and technologies used (https://facebook.github.io/react/docs/installation.html) and my search-widget project setup + tech stack in general  
-TODO: mention [component separation for easier development](./search-widget/README.md)
-
-
-
+### Feedback & Iteration
 
