@@ -122,6 +122,18 @@ User can select text on the page and, after right-clicking the selection, search
 
 UPDATE: The background page cannot open the pop-up(https://stackoverflow.com/questions/5544256/chrome-extensionhow-to-pragmatically-open-the-popup-window-from-background-htm). It cannot be opened programmatically - the user must click on the browser action to open it. But we can inject a content script that creates a floating div mimicking our search widget.
 
+### Common Substitution Templates
+We might want to have a small library of commonly occurring patterns that users could quickly find and replace.  
+Ideas for templates include:
+  - Email address: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+  - URL
+  - Integer: /^-?\d+$/
+  - Any number: /^[+-]?\d*\.?\d+$/
+  - Excess whitespace at the beginning or end of a line: /^[ \t]+|[ \t]+$/
+  - No capital letter at the start of a sentence: /(^|\. )\w/
+  - More than one space after a period: /(?<=\.) {2,}(?=[A-Z])/
+  - Wordpress shortcode: /^\[([a-z-_0-9]+)([^\[]+)*(?:\](.*)\[\/\1\]|\s+\/\])$/
+
 ### Scope of Search
 
 #### `<input type="text">`
