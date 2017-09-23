@@ -49,15 +49,17 @@ class Main extends React.Component {
     this.setState({
       [name]: value
     }, () => {
-      // Notify content script to update search
-      ConnectionApi.updateSearch({
-        query: this.state.findTextInput,
-        regex: this.state.useRegexInput,
-        matchCase: this.state.matchCaseInput,
-        wholeWords: this.state.wholeWordsInput,
-        limitToSelection: this.state.limitToSelectionInput,
-        limitToCurrentField: this.state.limitToCurrentFieldInput
-      });
+      if (name != 'replaceTextInput') {
+        // Notify content script to update search
+        ConnectionApi.updateSearch({
+          query: this.state.findTextInput,
+          regex: this.state.useRegexInput,
+          matchCase: this.state.matchCaseInput,
+          wholeWords: this.state.wholeWordsInput,
+          limitToSelection: this.state.limitToSelectionInput,
+          limitToCurrentField: this.state.limitToCurrentFieldInput
+        });
+      }
     });
   }
 
@@ -76,6 +78,33 @@ class Main extends React.Component {
       limitToSelectionInput: false,
       limitToCurrentFieldInput: false
     });
+  }
+
+  handleFindNext(e) {
+    ConnectionApi.findNext();
+  }
+
+  handleFindPrev(e) {
+    ConnectionApi.findPrev();
+  }
+
+  handleReplaceOne(e) { 
+    ConnectionApi.replaceCurrent({
+      result: this.getReplaceText() 
+    });
+  }
+
+  handleReplaceAll(e) { 
+    ConnectionApi.replaceAll({
+      result: this.getReplaceText() 
+    });
+  }
+
+  getReplaceText() {
+    if (this.useRegexInput) {
+      // substitute groups first
+    }
+    return this.replaceTextInput;
   }
 
   tick() {

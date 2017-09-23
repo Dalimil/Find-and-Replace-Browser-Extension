@@ -22457,7 +22457,7 @@ var Main = function (_React$Component) {
     };
 
     _ConnectionApi2.default.addResponseHandler(function (msg) {
-      console.log("Handle ", msg);
+      _ConnectionApi2.default.log("Handle ", msg);
     });
 
     _this.handleSearchInputChange = _this.handleSearchInputChange.bind(_this);
@@ -22494,15 +22494,17 @@ var Main = function (_React$Component) {
       var name = target.name;
 
       this.setState(_defineProperty({}, name, value), function () {
-        // Notify content script to update search
-        _ConnectionApi2.default.updateSearch({
-          query: _this3.state.findTextInput,
-          regex: _this3.state.useRegexInput,
-          matchCase: _this3.state.matchCaseInput,
-          wholeWords: _this3.state.wholeWordsInput,
-          limitToSelection: _this3.state.limitToSelectionInput,
-          limitToCurrentField: _this3.state.limitToCurrentFieldInput
-        });
+        if (name != 'replaceTextInput') {
+          // Notify content script to update search
+          _ConnectionApi2.default.updateSearch({
+            query: _this3.state.findTextInput,
+            regex: _this3.state.useRegexInput,
+            matchCase: _this3.state.matchCaseInput,
+            wholeWords: _this3.state.wholeWordsInput,
+            limitToSelection: _this3.state.limitToSelectionInput,
+            limitToCurrentField: _this3.state.limitToCurrentFieldInput
+          });
+        }
       });
     }
   }, {
@@ -22525,6 +22527,38 @@ var Main = function (_React$Component) {
         limitToSelectionInput: false,
         limitToCurrentFieldInput: false
       });
+    }
+  }, {
+    key: 'handleFindNext',
+    value: function handleFindNext(e) {
+      _ConnectionApi2.default.findNext();
+    }
+  }, {
+    key: 'handleFindPrev',
+    value: function handleFindPrev(e) {
+      _ConnectionApi2.default.findPrev();
+    }
+  }, {
+    key: 'handleReplaceOne',
+    value: function handleReplaceOne(e) {
+      _ConnectionApi2.default.replaceCurrent({
+        result: this.getReplaceText()
+      });
+    }
+  }, {
+    key: 'handleReplaceAll',
+    value: function handleReplaceAll(e) {
+      _ConnectionApi2.default.replaceAll({
+        result: this.getReplaceText()
+      });
+    }
+  }, {
+    key: 'getReplaceText',
+    value: function getReplaceText() {
+      if (this.useRegexInput) {
+        // substitute groups first
+      }
+      return this.replaceTextInput;
     }
   }, {
     key: 'tick',
@@ -22572,10 +22606,10 @@ var Main = function (_React$Component) {
       var args = {
         disabled: !this.state.findTextInput
       };
-      var FindPrevButton = _react2.default.createElement(_InputElements.Button, _extends({ onClick: _ConnectionApi2.default.findPrev, title: '<' }, args, { small: true }));
-      var FindNextButton = _react2.default.createElement(_InputElements.Button, _extends({ onClick: _ConnectionApi2.default.findNext, title: '>' }, args, { small: true }));
-      var ReplaceOneButton = _react2.default.createElement(_InputElements.Button, _extends({ onClick: _ConnectionApi2.default.replaceCurrent, title: 'Replace' }, args));
-      var ReplaceAllButton = _react2.default.createElement(_InputElements.Button, _extends({ onClick: _ConnectionApi2.default.replaceAll, title: 'Replace all' }, args));
+      var FindPrevButton = _react2.default.createElement(_InputElements.Button, _extends({ onClick: this.handleFindPrev, title: '<' }, args, { small: true }));
+      var FindNextButton = _react2.default.createElement(_InputElements.Button, _extends({ onClick: this.handleFindNext, title: '>' }, args, { small: true }));
+      var ReplaceOneButton = _react2.default.createElement(_InputElements.Button, _extends({ onClick: this.handleReplaceOne, title: 'Replace' }, args));
+      var ReplaceAllButton = _react2.default.createElement(_InputElements.Button, _extends({ onClick: this.handleReplaceAll, title: 'Replace all' }, args));
 
       var SearchStatus = false ? '2 of 76' : 'No Results'; // todo
       return _react2.default.createElement(
@@ -22696,9 +22730,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 // Manages all message passing between extension components
 
-var contentScriptFilepath = "src/content_script.js";
-var SingletonConnectionApi = new ConnectionApi(contentScriptFilepath);
-
 var ConnectionApi = function () {
   function ConnectionApi(contentScriptPath) {
     _classCallCheck(this, ConnectionApi);
@@ -22741,6 +22772,20 @@ var ConnectionApi = function () {
     value: function addResponseHandler(func) {
       this.executeOnPort(function (port) {
         port.onMessage.addListener(func);
+      });
+    }
+  }, {
+    key: "log",
+    value: function log() {
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      this.executeOnPort(function (port) {
+        port.postMessage({
+          action: 'log',
+          data: args
+        });
       });
     }
   }, {
@@ -22796,6 +22841,8 @@ var ConnectionApi = function () {
   return ConnectionApi;
 }();
 
+var contentScriptFilepath = "src/content_script.js";
+var SingletonConnectionApi = new ConnectionApi(contentScriptFilepath);
 exports.default = SingletonConnectionApi;
 
 /***/ })

@@ -12,9 +12,26 @@ function setUpMessageConnections() {
   port.postMessage({ type: "test from content script"});
   
   port.onMessage.addListener(msg => {
-    console.log("Content Script: ", msg);
-    if (msg.action == 'shutdown') {
-      document.body.style.backgroundColor="skyblue";
+    console.log("Content Script API: ", msg.action);
+    switch (msg.action) {
+      case 'shutdown':
+        document.body.style.backgroundColor="skyblue";
+        break;
+      case 'log':
+        console.log("Widget Log: ", ...msg.data);
+        break;
+      case 'updateSearch':
+        break;
+      case 'findNext':
+        break;
+      case 'findPrev':
+        break;
+      case 'replaceCurrent':
+        break;
+      case 'replaceAll':
+        break;
+      default:
+        console.log('Invalid API Call: ', msg.action);
     }
   });
 }
