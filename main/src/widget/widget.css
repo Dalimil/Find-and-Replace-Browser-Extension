@@ -16,11 +16,14 @@
 html, body {
   margin: 0;
   padding: 0;
+  width: 560px;
 }
 
 body {
+  box-sizing: border-box;
+  padding: 0.5em;
   font-family: 'Inconsolata', monospace;
-  margin: 1em;
+  font-size: 15px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -64,10 +67,8 @@ body {
     font-weight: bold;
     text-align: center;
     white-space: nowrap;
-    margin-right: 0.5em;
-    height: 28px;
-    line-height: 28px;
-    width: 80px;
+    height: 30px;
+    line-height: 30px;
     outline: 0px;
     padding: 0 8px;
   }
@@ -84,6 +85,9 @@ body {
     background-color: #f8f8f8;
     color: #111;
     border: 1px solid #c6c6c6;
+  }
+  .button-small {
+    width: 20px;
   }
 
 
