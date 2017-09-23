@@ -28,6 +28,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     this.interval = setInterval(() => this.tick(), 1000);
+    this.findInputElement.focus();
   }
 
   componentWillUnmount() {
@@ -87,6 +88,7 @@ class Main extends React.Component {
     // Text inputs
     const FindFieldInput = (
       <input type="text" placeholder="Find" className="text-input"
+        ref={input => { this.findInputElement = input; }}
         name="findTextInput"
         value={this.state.findTextInput}
         onChange={this.handleInputChange} />
@@ -119,16 +121,16 @@ class Main extends React.Component {
     const args = {
       disabled: !this.state.findTextInput
     };
-    const FindPrevButton = <Button onClick={this.handleFindPrev} title="< Prev" {...args} />;
-    const FindNextButton = <Button onClick={this.handleFindNext} title="Next >" {...args} />;
+    const FindPrevButton = <Button onClick={this.handleFindPrev} title="<" {...args} small />;
+    const FindNextButton = <Button onClick={this.handleFindNext} title=">" {...args} small />;
     const ReplaceOneButton = <Button onClick={this.handleReplaceOne} title="Replace" {...args} />;
     const ReplaceAllButton = <Button onClick={this.handleReplaceAll} title="Replace all" {...args} />;
 
+    const SearchStatus = false ? '2 of 76' : 'No Results'; // todo
     return (
       <div>
-        Seconds Elapsed: {this.state.secondsElapsed}<br />
-        { FindFieldInput } { FindPrevButton } { FindNextButton }<br />
-        { ReplaceFieldInput } { ReplaceOneButton } { ReplaceAllButton } <br />
+        { FindFieldInput }{ FindPrevButton }{ FindNextButton } { SearchStatus }<br />
+        { ReplaceFieldInput } { ReplaceOneButton } { ReplaceAllButton } <br /><br />
         { checkboxes.MatchCaseCheckbox } Match Case <br />
         { checkboxes.WholeWordsCheckbox } Whole Words <br />
         <div onClick={this.toggleAdvancedSearch}>▾ Advanced Search</div>
@@ -140,6 +142,7 @@ class Main extends React.Component {
             { checkboxes.UseRegexCheckbox } Use RegEx <br />
           </div>
         )}
+        Seconds Elapsed: {this.state.secondsElapsed}<br />
       </div>
     );
   }
