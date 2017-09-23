@@ -14,7 +14,8 @@ class Main extends React.Component {
       matchCaseInput: false,
       wholeWordsInput: false,
       useRegexInput: false,
-      limitToSelectionInput: false
+      limitToSelectionInput: false,
+      limitToCurrentFieldInput: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -22,6 +23,7 @@ class Main extends React.Component {
     this.handleFindPrev = this.handleFindPrev.bind(this);
     this.handleReplaceOne = this.handleReplaceOne.bind(this);
     this.handleReplaceAll = this.handleReplaceAll.bind(this);
+    this.toggleAdvancedSearch = this.toggleAdvancedSearch.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +42,12 @@ class Main extends React.Component {
     this.setState({
       [name]: value
     });
+  }
+
+  toggleAdvancedSearch() {
+    this.setState(prevState => ({
+      advancedSearchExpanded: !prevState.advancedSearchExpanded
+    }));
   }
 
   handleFindNext(e) {
@@ -80,30 +88,21 @@ class Main extends React.Component {
     );
 
     // Checkboxes
-    const MatchCaseCheckbox = (
-      <Checkbox
-        name="matchCaseInput"
-        checked={this.state.matchCaseInput}
-        onChange={this.handleInputChange} />
-    );
-    const WholeWordsCheckbox = (
-      <Checkbox
-        name="wholeWordsInput"
-        checked={this.state.wholeWordsInput}
-        onChange={this.handleInputChange} />
-    );
-    const UseRegexCheckbox = (
-      <Checkbox
-        name="useRegexInput"
-        checked={this.state.useRegexInput}
-        onChange={this.handleInputChange} />
-    );
-    const LimitToSelectionCheckbox = (
-      <Checkbox
-        name="limitToSelectionInput"
-        checked={this.state.limitToSelectionInput}
-        onChange={this.handleInputChange} />
-    );
+    const checkboxes = {
+      MatchCaseCheckbox: "matchCaseInput",
+      WholeWordsCheckbox: "wholeWordsInput",
+      UseRegexCheckbox: "useRegexInput",
+      LimitToSelectionCheckbox: "limitToSelectionInput",
+      LimitToCurrentFieldCheckbox: "limitToCurrentFieldInput"
+    };
+    Object.keys(checkboxes).forEach(id => {
+      checkboxes[id] = (
+        <Checkbox
+          name={checkboxes[id]}
+          checked={this.state[checkboxes[id]]}
+          onChange={this.handleInputChange} />
+      );
+    });
 
     // Buttons
     const args = {
@@ -119,11 +118,17 @@ class Main extends React.Component {
         Seconds Elapsed: {this.state.secondsElapsed}<br />
         { FindFieldInput } { FindPrevButton } { FindNextButton }<br />
         { ReplaceFieldInput } { ReplaceOneButton } { ReplaceAllButton } <br />
-        { MatchCaseCheckbox } Match Case <br />
-        { WholeWordsCheckbox } Whole Words <br />
+        { checkboxes.MatchCaseCheckbox } Match Case <br />
+        { checkboxes.WholeWordsCheckbox } Whole Words <br />
+        <div onClick={this.toggleAdvancedSearch}>▾ Advanced Search</div>
         { /* Advanced Search */}
-        { LimitToSelectionCheckbox } Limit to text selection <br />
-        { UseRegexCheckbox } Use RegEx <br />
+        { this.state.advancedSearchExpanded && (
+          <div>
+            { checkboxes.LimitToSelectionCheckbox } Limit to text selection <br />
+            { checkboxes.LimitToCurrentFieldCheckbox } Limit to current field <br />
+            { checkboxes.UseRegexCheckbox } Use RegEx <br />
+          </div>
+        )}
       </div>
     );
   }
