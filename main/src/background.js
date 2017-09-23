@@ -1,19 +1,6 @@
 // Background extension page - Event page (only runs based on event listeners)
 // Console log messages will not be shown (only shown in special console)
 
-function setUpIconBrowserAction() {
-  const contentScriptFilepath = "src/content_script.js";
-
-  // Called when the user clicks on the browser action.
-  chrome.browserAction.onClicked.addListener(tab => {
-    chrome.tabs.executeScript(/* tabId - defaults to the active tab */ null,
-      {
-        file: contentScriptFilepath
-      }
-    );
-  });
-}
-
 function setUpKeyboardCommands() {
   const replaceAllManifestCommandName = 'replace-all-action';
 
@@ -54,19 +41,28 @@ function setUpContextMenu() {
 }
 
 function setUpMessageConnections() {
+  let contentScriptConnection = null;
+
   chrome.runtime.onConnect.addListener(port => {
     // port.name matches the one defined in the runtime.connect call
-    if (port.name == "widget-connection") {
+    if (port.name == "content-script-connection") {
+      contentScriptConnection = port;
+      return;
+    }
+    
+    if (port.name == "widget-background-connection") {
       port.onDisconnect.addListener(() => {
         console.log("Widget disconnected");
-        // TODO: notify content script to clean up and shut down
+        // Notify content script to clean up and shut down
+        if (contentScriptConnection) {
+          contentScriptConnection.postMessage({ type: 'shutdown' });
+        }
       });
     }
   });
 }
 
 // SET UP
-setUpIconBrowserAction();
 setUpKeyboardCommands();
 setUpContextMenu();
 setUpMessageConnections();
