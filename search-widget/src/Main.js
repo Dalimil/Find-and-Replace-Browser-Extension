@@ -45,9 +45,20 @@ class Main extends React.Component {
   }
 
   toggleAdvancedSearch() {
+    if (this.state.advancedSearchExpanded) {
+      this.resetAdvancedSearchOptions();
+    }
     this.setState(prevState => ({
       advancedSearchExpanded: !prevState.advancedSearchExpanded
     }));
+  }
+
+  resetAdvancedSearchOptions() {
+    this.setState({
+      useRegexInput: false,
+      limitToSelectionInput: false,
+      limitToCurrentFieldInput: false
+    });
   }
 
   handleFindNext(e) {
