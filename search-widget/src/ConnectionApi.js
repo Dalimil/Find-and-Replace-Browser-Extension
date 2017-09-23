@@ -31,35 +31,59 @@ class ConnectionApi {
     });
   }
 
+  executeOnPort(func) {
+    if (this.dummy) return;
+
+    this.contentScriptConnectionPromise.then(port => func(port));
+  }
+
   addResponseHandler(func) {
-    this.contentScriptConnectionPromise.then(port => {
+    this.executeOnPort(port => {
       port.onMessage.addListener(func);
     });
   }
 
   updateSearch(searchParams) {
-    if (this.dummy) return;
-
+    this.executeOnPort(port => {
+      port.postMessage({
+        action: 'updateSearch',
+        data: searchParams
+      });
+    });
   }
 
   findNext() {
-    if (this.dummy) return;
-
+    this.executeOnPort(port => {
+      port.postMessage({
+        action: 'findNext'
+      });
+    });
   }
 
   findPrev() {
-    if (this.dummy) return;
-
+    this.executeOnPort(port => {
+      port.postMessage({
+        action: 'findPrev'
+      });
+    });
   }
 
-  replaceCurrent() {
-    if (this.dummy) return;
-
+  replaceCurrent(replaceParams) {
+    this.executeOnPort(port => {
+      port.postMessage({
+        action: 'replaceCurrent',
+        data: replaceParams
+      });
+    });
   }
 
-  replaceAll() {
-    if (this.dummy) return;
-
+  replaceAll(replaceParams) {
+    this.executeOnPort(port => {
+      port.postMessage({
+        action: 'replaceAll',
+        data: replaceParams
+      });
+    });
   }
 
 }

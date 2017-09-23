@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { Button, Checkbox } from './InputElements';
-  
+
+import ConnectionApi from './ConnectionApi';
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +20,11 @@ class Main extends React.Component {
       limitToCurrentFieldInput: false
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
+    ConnectionApi.addResponseHandler(msg => {
+      console.log("Handle ", msg);
+    });
+
+    this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleFindNext = this.handleFindNext.bind(this);
     this.handleFindPrev = this.handleFindPrev.bind(this);
     this.handleReplaceOne = this.handleReplaceOne.bind(this);
@@ -35,13 +41,23 @@ class Main extends React.Component {
     clearInterval(this.interval);
   }
   
-  handleInputChange(e) {
+  handleSearchInputChange(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
     this.setState({
       [name]: value
+    }, () => {
+      // Notify content script to update search
+      ConnectionApi.updateSearch({
+        query: this.state.findTextInput,
+        regex: this.state.useRegexInput,
+        matchCase: this.state.matchCaseInput,
+        wholeWords: this.state.wholeWordsInput,
+        limitToSelection: this.state.limitToSelectionInput,
+        limitToCurrentField: this.state.limitToCurrentFieldInput
+      });
     });
   }
 
@@ -62,22 +78,6 @@ class Main extends React.Component {
     });
   }
 
-  handleFindNext(e) {
-    console.log("Find next");
-  }
-
-  handleFindPrev(e) {
-    console.log("Find prev");
-  }
-
-  handleReplaceOne(e) { 
-    console.log("Replace one");
-  }
-
-  handleReplaceAll(e) { 
-    console.log("Replace all");
-  }
-
   tick() {
     this.setState((prevState) => ({
       secondsElapsed: prevState.secondsElapsed + 1
@@ -91,13 +91,13 @@ class Main extends React.Component {
         ref={input => { this.findInputElement = input; }}
         name="findTextInput"
         value={this.state.findTextInput}
-        onChange={this.handleInputChange} />
+        onChange={this.handleSearchInputChange} />
     );
     const ReplaceFieldInput = (
       <input type="text" placeholder="Replace with" className="text-input"
         name="replaceTextInput"
         value={this.state.replaceTextInput}
-        onChange={this.handleInputChange} />
+        onChange={this.handleSearchInputChange} />
     );
 
     // Checkboxes
@@ -113,7 +113,7 @@ class Main extends React.Component {
         <Checkbox
           name={checkboxes[id]}
           checked={this.state[checkboxes[id]]}
-          onChange={this.handleInputChange} />
+          onChange={this.handleSearchInputChange} />
       );
     });
 
@@ -121,10 +121,10 @@ class Main extends React.Component {
     const args = {
       disabled: !this.state.findTextInput
     };
-    const FindPrevButton = <Button onClick={this.handleFindPrev} title="<" {...args} small />;
-    const FindNextButton = <Button onClick={this.handleFindNext} title=">" {...args} small />;
-    const ReplaceOneButton = <Button onClick={this.handleReplaceOne} title="Replace" {...args} />;
-    const ReplaceAllButton = <Button onClick={this.handleReplaceAll} title="Replace all" {...args} />;
+    const FindPrevButton = <Button onClick={ConnectionApi.findPrev} title="<" {...args} small />;
+    const FindNextButton = <Button onClick={ConnectionApi.findNext} title=">" {...args} small />;
+    const ReplaceOneButton = <Button onClick={ConnectionApi.replaceCurrent} title="Replace" {...args} />;
+    const ReplaceAllButton = <Button onClick={ConnectionApi.replaceAll} title="Replace all" {...args} />;
 
     const SearchStatus = false ? '2 of 76' : 'No Results'; // todo
     return (
