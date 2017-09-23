@@ -217,6 +217,9 @@ http://codersblock.com/blog/highlight-text-inside-a-textarea/
 
 Fortunately, there have been a few attempts to implement this. The most successful version I found was the following jQuery plugin: https://github.com/lonekorean/highlight-within-textarea/ becase it also supports resizable textareas (other plugins I found did not).
 
+For highlighting text in `contenteditable` elements I'm going to use https://markjs.io/ - TODO
+TODO: maybe I don't need this and can implement a lightweight highlighter myself
+
 ### Testing
 
 ### Distribution & Marketing
