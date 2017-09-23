@@ -1,8 +1,5 @@
 // Manages all message passing between extension components
 
-const contentScriptFilepath = "src/content_script.js";
-const SingletonConnectionApi = new ConnectionApi(contentScriptFilepath);
-
 class ConnectionApi {
   constructor(contentScriptPath) {
     this.dummy = window.chrome == undefined;
@@ -40,6 +37,15 @@ class ConnectionApi {
   addResponseHandler(func) {
     this.executeOnPort(port => {
       port.onMessage.addListener(func);
+    });
+  }
+
+  log(...args) {
+    this.executeOnPort(port => {
+      port.postMessage({
+        action: 'log',
+        data: args
+      });
     });
   }
 
@@ -88,5 +94,7 @@ class ConnectionApi {
 
 }
 
+const contentScriptFilepath = "src/content_script.js";
+const SingletonConnectionApi = new ConnectionApi(contentScriptFilepath);
 export default SingletonConnectionApi;
 

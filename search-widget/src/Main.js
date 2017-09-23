@@ -21,7 +21,7 @@ class Main extends React.Component {
     };
 
     ConnectionApi.addResponseHandler(msg => {
-      console.log("Handle ", msg);
+      ConnectionApi.log("Handle ", msg);
     });
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
@@ -121,10 +121,10 @@ class Main extends React.Component {
     const args = {
       disabled: !this.state.findTextInput
     };
-    const FindPrevButton = <Button onClick={ConnectionApi.findPrev} title="<" {...args} small />;
-    const FindNextButton = <Button onClick={ConnectionApi.findNext} title=">" {...args} small />;
-    const ReplaceOneButton = <Button onClick={ConnectionApi.replaceCurrent} title="Replace" {...args} />;
-    const ReplaceAllButton = <Button onClick={ConnectionApi.replaceAll} title="Replace all" {...args} />;
+    const FindPrevButton = <Button onClick={this.handleFindPrev} title="<" {...args} small />;
+    const FindNextButton = <Button onClick={this.handleFindNext} title=">" {...args} small />;
+    const ReplaceOneButton = <Button onClick={this.handleReplaceOne} title="Replace" {...args} />;
+    const ReplaceAllButton = <Button onClick={this.handleReplaceAll} title="Replace all" {...args} />;
 
     const SearchStatus = false ? '2 of 76' : 'No Results'; // todo
     return (
