@@ -23,7 +23,12 @@ function setUpMessageConnections() {
         break;
       case 'updateSearch':
         $('textarea').highlightWithinTextarea({
-          highlight: msg.data.query
+          highlight: [
+            {
+              highlight: msg.data.query,
+              className: 'hwt-mark-highlight'
+            }
+          ]
         });
         break;
       case 'findNext':

@@ -1,4 +1,7 @@
 /* CSS injected into the currently active tab */
+.hwt-mark-highlight {
+  background-color: skyblue;
+}
 
 /* jQuery Higlight Within Textarea */
   .hwt-container {
@@ -32,10 +35,8 @@
   .hwt-input {
     display: block !important;
     position: relative !important;
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
     border-radius: 0;
-    font: inherit;
     overflow-x: hidden !important;
     overflow-y: auto !important;
   }
