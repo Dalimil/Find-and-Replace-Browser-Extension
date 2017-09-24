@@ -94,7 +94,7 @@ class ConnectionApi {
 
 }
 
-const contentScriptFilepath = "src/content_script.js";
+const contentScriptFilepath = "src/page-content/content-script.js";
 const SingletonConnectionApi = new ConnectionApi(contentScriptFilepath);
 export default SingletonConnectionApi;
 

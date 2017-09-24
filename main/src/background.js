@@ -14,7 +14,7 @@ function setUpKeyboardCommands() {
 }
 
 function setUpContextMenu() {
-  const contextMenuHandlingContentScriptFilepath = "src/context_menu_content_script.js";
+  const contextMenuHandlingContentScriptFilepath = "src/page-content/context-menu-content-script.js";
   const contextMenuItemId = 'default_context_menu_item';
 
   chrome.contextMenus.create({
