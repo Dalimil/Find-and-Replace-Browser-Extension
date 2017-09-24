@@ -2,6 +2,9 @@
 .hwt-mark-highlight {
   background-color: skyblue;
 }
+.hwt-mark-highlight.hwt-highlight-current {
+  background-color: greenyellow;
+}
 
 /* jQuery Higlight Within Textarea */
   .hwt-container {

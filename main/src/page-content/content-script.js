@@ -1,8 +1,26 @@
 // Injected into the currently active tab
 // Runs sandboxed within the DOM context of the page
 
-document.body.style.backgroundColor="red";
 console.log($('textarea'));
+console.log($('[contenteditable]'));
+$('textarea').css({ border: "5px solid red" });
+$('[contenteditable]').css({ border: "5px solid red" });
+
+// todo make these 'let' after fixing duplicate injection
+var currentOccurrenceIndex = 0;
+var occurrenceCount = 0;
+
+function setOccurrenceIndex(index) {
+  const regularOccurrenceClass = 'hwt-mark-highlight';
+  const currentOccurrenceClass = 'hwt-highlight-current';
+
+  occurrenceCount = $(`.${regularOccurrenceClass}`).length;
+  index = ((index % occurrenceCount) + occurrenceCount) % occurrenceCount;
+  currentOccurrenceIndex = index;
+  $(`.${currentOccurrenceClass}`).removeClass(currentOccurrenceClass);
+  $(`.${regularOccurrenceClass}`).eq(index).addClass(currentOccurrenceClass);
+  console.log(currentOccurrenceIndex + "/" + occurrenceCount);
+}
 
 function setUpMessageConnections() {
   // Connect to search widget
@@ -15,25 +33,31 @@ function setUpMessageConnections() {
     console.log("Content Script API: ", msg.action);
     switch (msg.action) {
       case 'shutdown':
-        document.body.style.backgroundColor="skyblue";
-        //$('textarea').highlightWithinTextarea('destroy');
+        $('textarea').css({ border: "5px solid skyblue" });
+        $('[contenteditable]').css({ border: "5px solid skyblue" });
+        $('textarea').highlightWithinTextarea('destroy');
         break;
       case 'log':
         console.log("Widget Log: ", ...msg.data);
         break;
       case 'updateSearch':
         $('textarea').highlightWithinTextarea({
-          highlight: [
-            {
-              highlight: msg.data.query,
-              className: 'hwt-mark-highlight'
-            }
-          ]
+          highlight: [{
+            highlight: msg.data.query, // can be regex
+            className: 'hwt-mark-highlight'
+          }]
         });
+        setOccurrenceIndex(0);
+        /*port.postMessage({
+          response: 'updateSearch',
+          count: occurrenceCount
+        });*/
         break;
       case 'findNext':
+        setOccurrenceIndex(currentOccurrenceIndex + 1);
         break;
       case 'findPrev':
+        setOccurrenceIndex(currentOccurrenceIndex - 1);
         break;
       case 'replaceCurrent':
         break;
