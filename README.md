@@ -215,7 +215,8 @@ Highlighting `contenteditable` element should not be a problem - we can simply i
 Highlighting `<input>` and `<textarea>` is more tricky because they both only allow plain text to be displayed inside them. Any styled markup will not render as expected. To overcome this, one must create an overlay that exactly matches the input or textarea element and then highlight text in this new element. Further, there are many browser-specific quirks and one must also take care of synchronizing scrolling and handling textareas that are resizable by the user. In other words, it is a lot of work.  
 http://codersblock.com/blog/highlight-text-inside-a-textarea/
 
-Fortunately, there have been a few attempts to implement this. The most successful version I found was the following jQuery plugin: https://github.com/lonekorean/highlight-within-textarea/ becase it also supports resizable textareas (other plugins I found did not).
+Fortunately, there have been a few attempts to implement this. The most successful version I found was the following jQuery plugin: https://github.com/lonekorean/highlight-within-textarea/ becase it also supports resizable textareas (other plugins I found did not).  
+Even though this plugin does better than all the other plugins that exist, it still has many issues, particularly when it comes to transferring all necessary CSS styles. When I was testing it, it failed to properly align highlighting for several textareas with particular styling. Therefore, I contributed to the development of this open-source plugin by fixing all the bugs I found and creating a pull-request on GitHub. https://github.com/lonekorean/highlight-within-textarea/pull/19 (Open as of 24 Sep).
 
 For highlighting text in `contenteditable` elements I'm going to use https://markjs.io/ - TODO
 TODO: maybe I don't need this and can implement a lightweight highlighter myself
