@@ -22726,12 +22726,18 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _Utils = __webpack_require__(188);
+
+var _Utils2 = _interopRequireDefault(_Utils);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // Manages all message passing between extension components
 
 var ConnectionApi = function () {
-  function ConnectionApi(contentScriptPath) {
+  function ConnectionApi() {
     _classCallCheck(this, ConnectionApi);
 
     this.dummy = window.chrome == undefined;
@@ -22742,12 +22748,12 @@ var ConnectionApi = function () {
       name: "widget-background-connection"
     });
 
-    // Inject content script
-    chrome.tabs.executeScript( /* tabId - defaults to the active tab */null, {
-      file: contentScriptPath
-    });
+    // Inject content scripts
+    var scripts = ["src/page-content/lib/jquery-3.2.1.min.js", "src/page-content/lib/jquery.highlight-within-textarea.js", "src/page-content/content-script.js"];
+    chrome.tabs.insertCSS(null, { file: "src/page-content/content-script.css" });
+    _Utils2.default.executeScripts(scripts);
 
-    // Connect with content_script
+    // Connect with our content script
     this.contentScriptConnectionPromise = new Promise(function (resolve) {
       chrome.runtime.onConnect.addListener(function (port) {
         // port.name matches the one defined in the runtime.connect call
@@ -22841,9 +22847,40 @@ var ConnectionApi = function () {
   return ConnectionApi;
 }();
 
-var contentScriptFilepath = "src/content_script.js";
-var SingletonConnectionApi = new ConnectionApi(contentScriptFilepath);
+var SingletonConnectionApi = new ConnectionApi();
 exports.default = SingletonConnectionApi;
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// Contains static helper methods
+
+var Utils = {
+  // Injects scripts into a web page in a sequence specified by array order
+  executeScripts: function executeScripts(sources) {
+    var executeScriptPromise = function executeScriptPromise(source) {
+      return new Promise(function (resolve) {
+        chrome.tabs.executeScript(
+        /* tabId - defaults to the active tab */null, { file: source }, resolve);
+      });
+    };
+    var promiseSequence = Promise.resolve();
+    sources.forEach(function (source) {
+      promiseSequence = promiseSequence.then(function () {
+        return executeScriptPromise(source);
+      });
+    });
+  }
+};
+
+exports.default = Utils;
 
 /***/ })
 /******/ ]);

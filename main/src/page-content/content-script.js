@@ -2,7 +2,7 @@
 // Runs sandboxed within the DOM context of the page
 
 document.body.style.backgroundColor="red";
-
+console.log($('textarea'));
 
 function setUpMessageConnections() {
   // Connect to search widget
@@ -16,11 +16,15 @@ function setUpMessageConnections() {
     switch (msg.action) {
       case 'shutdown':
         document.body.style.backgroundColor="skyblue";
+        //$('textarea').highlightWithinTextarea('destroy');
         break;
       case 'log':
         console.log("Widget Log: ", ...msg.data);
         break;
       case 'updateSearch':
+        $('textarea').highlightWithinTextarea({
+          highlight: msg.data.query
+        });
         break;
       case 'findNext':
         break;
