@@ -13,7 +13,8 @@ let occurrenceCount = 0;
 
 const CLASSES = {
   regularHighlight: 'hwt-mark-highlight',
-  currentHighlight: 'hwt-highlight-current'
+  currentHighlight: 'hwt-highlight-current',
+  textareaContainer: 'hwt-container'
 };
 
 setUpMessageConnections();
@@ -46,19 +47,47 @@ function setOccurrenceIndex(index) {
   }
 }
 
+function getTextOffsetInParent(node) {
+  let sibling = node.parentNode.firstChild;
+  let textOffset = 0;
+  while (sibling && sibling != node) {
+    textOffset += sibling.textContent.length;
+    sibling = sibling.nextSibling;
+  }
+  return textOffset;
+}
+
 function replaceCurrent(resultText) {
   const $node = $(`.${CLASSES.currentHighlight}`)
     .removeClass(CLASSES.currentHighlight)
-    .removeClass(CLASSES.regularHighlight)
-    .text(resultText);
+    .removeClass(CLASSES.regularHighlight);
 
+  const originalLength = $node.text().length;
+  const originalOffset = getTextOffsetInParent($node.get(0));
+  $node.text(resultText);
   flattenNode($node.get(0));
+
+  // Check if this is a textarea highlight,
+  //  replace the mirrored text too if so
+  const wrapper = $node.closest(`.${CLASSES.textareaContainer}`);
+  if (wrapper.size() != 0) {
+    const textarea = wrapper.find('textarea');
+    const originalText = textarea.val();
+    const replacedText = originalText.substr(0, originalOffset) + resultText +
+      originalText.substr(originalOffset + originalLength);
+    textarea.val(replacedText);
+  }
+
   // Set to same index because count decreased
   setOccurrenceIndex(currentOccurrenceIndex);
 }
 
 function replaceAll(resultText) {
-
+  while (occurrenceCount > 0) {
+    replaceCurrent(resultText);
+  }
+  // Clear indexes
+  setOccurrenceIndex(0);
 }
 
 function flattenNode(node) {
