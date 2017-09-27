@@ -193,7 +193,6 @@ TODO: Explain security scopes, Chrome API being available from the background pa
 
 TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation  (we are not requesting chrome.tabs permission)
 
-TODO: Define message passing API between the background page and content scripts. 
 
 #### Component Lifecycle
 Our background page is only a single JavaScript file that sets up all required events and starts listening to incoming message connections. Whenever the extension icon is clicked (or the launch keyboard shortcut pressed), our UI widget pops up. The widget can be closed/destroyed by the user anytime, so it first registers itself with our background page, so that the background page can see when the message port disconnects (when the widget is closed). 
@@ -220,6 +219,33 @@ In Background: Nothing - here we just set up events
 - Find next/previous
 - Replace current/all
 - Close the widget
+
+#### Actions API
+User actions specified above directly translate to types of messages that need to be passed between our widget and the content scripts in the page. We define the following API, where each message has the prototype `{ action: string, data: Object }` where `data` is optional:
+
+**action: shutdown**
+- Clean up all active highlights when widget is closed
+
+**action: restart**
+- Trigger port reconnect action, on widget re-open
+
+**action: log**
+- Logs `data`
+
+**action: updateSearch**
+- Uses `data` to update search parameters
+
+**action: findNext**
+- Finds next match
+
+**action: findPrev**
+- Find previous match
+
+**action: replaceCurrent**
+- Replaces current match with `data`
+
+**action: replaceAll**
+- Replaces all matches with `data`
 
 #### Highlighting Found Matches
 Highlighting `contenteditable` element should not be a problem - we can simply inject our own `span` element with our custom class into the element's DOM. Contenteditable elements are designed to contain any HTML nodes so no problem here.
