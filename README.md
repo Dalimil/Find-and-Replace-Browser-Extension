@@ -260,7 +260,7 @@ https://github.com/lonekorean/highlight-within-textarea/pull/19
   - Submitted: Sep 24
   - Reviewed by the author: Sep 25
   - Review comments addressed: Sep 25
-  - Currently waiting for 2nd Review (as of Sep 26).
+  - After 2nd review the discussion still continues, there are backward-compatibility issues and conflicting views on the design and purpose of the plugin. As I'm injecting the code dynamically I have a slightly different use case and might need to leave my forked version unmerged.
 
 For highlighting text in `contenteditable` elements I'm going to use https://markjs.io/ - TODO
 TODO: maybe I don't need this and can implement a lightweight highlighter myself
