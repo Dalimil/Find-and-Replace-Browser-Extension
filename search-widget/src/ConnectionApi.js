@@ -1,5 +1,3 @@
-import Utils from './Utils';
-
 // Manages all message passing between extension components
 
 class ConnectionApi {
@@ -8,18 +6,10 @@ class ConnectionApi {
     if (this.dummy) return;
 
     // Connect to background page
+    // This will subsequently request content script connection
     chrome.runtime.connect({
       name: "widget-background-connection"
-    });    
-
-    // Inject content scripts
-    const scripts = [
-      "src/page-content/lib/jquery-3.2.1.min.js",
-      "src/page-content/lib/jquery.highlight-within-textarea.js",
-      "src/page-content/content-script.js"
-    ];
-    chrome.tabs.insertCSS(null, { file: "src/page-content/content-script.css" });
-    Utils.executeScripts(scripts);
+    });
 
     // Connect with our content script
     this.contentScriptConnectionPromise = new Promise(resolve => {

@@ -40,6 +40,34 @@ function setUpContextMenu() {
   });
 }
 
+/**
+ * Injects scripts into a web page in a sequence specified by array order
+ */ 
+function executeScripts(sources) {
+  const executeScriptPromise = (source) => new Promise(resolve => {
+    chrome.tabs.executeScript(
+      /* tabId - defaults to the active tab */ null,
+      { file: source },
+      resolve
+    );
+  });
+  let promiseSequence = Promise.resolve();
+  sources.forEach(source => {
+    promiseSequence = promiseSequence.then(() => executeScriptPromise(source));
+  });
+}
+
+function injectContentScripts() {
+  // Inject the following sources
+  const scripts = [
+    "src/page-content/lib/jquery-3.2.1.min.js",
+    "src/page-content/lib/jquery.highlight-within-textarea.js",
+    "src/page-content/content-script.js"
+  ];
+  chrome.tabs.insertCSS(null, { file: "src/page-content/content-script.css" });
+  executeScripts(scripts);
+}
+
 function setUpMessageConnections() {
   let contentScriptConnection = null;
 
@@ -47,10 +75,22 @@ function setUpMessageConnections() {
     // port.name matches the one defined in the runtime.connect call
     if (port.name == "content-script-connection") {
       contentScriptConnection = port;
+      contentScriptConnection.onDisconnect.addListener(() => {
+        contentScriptConnection = null;
+      });
       return;
     }
     
     if (port.name == "widget-background-connection") {
+      // Widget has been spawn
+      if (contentScriptConnection == null) {
+        // Content scripts not injected yet
+        injectContentScripts();
+      } else {
+        contentScriptConnection.postMessage({ action: 'restart' });
+      }
+
+      // Listen for widget shutdown
       port.onDisconnect.addListener(() => {
         console.log("Widget disconnected");
         // Notify content script to clean up and shut down

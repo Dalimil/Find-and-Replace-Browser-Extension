@@ -7,8 +7,19 @@ $('textarea').css({ border: "5px solid red" });
 $('[contenteditable]').css({ border: "5px solid red" });
 
 // todo make these 'let' after fixing duplicate injection
-var currentOccurrenceIndex = 0;
-var occurrenceCount = 0;
+let port = null;
+let currentOccurrenceIndex = 0;
+let occurrenceCount = 0;
+
+setUpMessageConnections();
+
+function setUpMessageConnections() {
+  // Connect to search widget
+  port = chrome.runtime.connect({
+    name: "content-script-connection"
+  });
+  port.onMessage.addListener(handleApiCall);
+}
 
 function setOccurrenceIndex(index) {
   const regularOccurrenceClass = 'hwt-mark-highlight';
@@ -22,51 +33,47 @@ function setOccurrenceIndex(index) {
   console.log(currentOccurrenceIndex + "/" + occurrenceCount);
 }
 
-function setUpMessageConnections() {
-  // Connect to search widget
-  const port = chrome.runtime.connect({
-    name: "content-script-connection"
-  });
-  port.postMessage({ type: "test from content script"});
-  
-  port.onMessage.addListener(msg => {
-    console.log("Content Script API: ", msg.action);
-    switch (msg.action) {
-      case 'shutdown':
-        $('textarea').css({ border: "5px solid skyblue" });
-        $('[contenteditable]').css({ border: "5px solid skyblue" });
-        $('textarea').highlightWithinTextarea('destroy');
-        break;
-      case 'log':
-        console.log("Widget Log: ", ...msg.data);
-        break;
-      case 'updateSearch':
-        $('textarea').highlightWithinTextarea({
-          highlight: [{
-            highlight: msg.data.query, // can be regex
-            className: 'hwt-mark-highlight'
-          }]
-        });
-        setOccurrenceIndex(0);
-        /*port.postMessage({
-          response: 'updateSearch',
-          count: occurrenceCount
-        });*/
-        break;
-      case 'findNext':
-        setOccurrenceIndex(currentOccurrenceIndex + 1);
-        break;
-      case 'findPrev':
-        setOccurrenceIndex(currentOccurrenceIndex - 1);
-        break;
-      case 'replaceCurrent':
-        break;
-      case 'replaceAll':
-        break;
-      default:
-        console.log('Invalid API Call: ', msg.action);
-    }
-  });
+function handleApiCall(msg) {
+  console.log("Content Script API: ", msg.action);
+  switch (msg.action) {
+    case 'shutdown':
+      $('textarea').css({ border: "5px solid skyblue" });
+      $('[contenteditable]').css({ border: "5px solid skyblue" });
+      $('textarea').highlightWithinTextarea('destroy');
+      break;
+    case 'restart':
+      port.onMessage.removeListener(handleApiCall);
+      return setUpMessageConnections();
+      break;
+    case 'log':
+      console.log("Widget Log: ", ...msg.data);
+      break;
+    case 'updateSearch':
+      $('textarea').highlightWithinTextarea({
+        highlight: [{
+          highlight: msg.data.query, // can be regex
+          className: 'hwt-mark-highlight'
+        }]
+      });
+      setOccurrenceIndex(0);
+      /*port.postMessage({
+        response: 'updateSearch',
+        count: occurrenceCount
+      });*/
+      break;
+    case 'findNext':
+      setOccurrenceIndex(currentOccurrenceIndex + 1);
+      break;
+    case 'findPrev':
+      setOccurrenceIndex(currentOccurrenceIndex - 1);
+      break;
+    case 'replaceCurrent':
+      break;
+    case 'replaceAll':
+      break;
+    default:
+      console.log('Invalid API Call: ', msg.action);
+  }
 }
 
 function clearAllHighlights() {
@@ -79,7 +86,6 @@ function clearAllHighlights() {
   });
 }
 
-setUpMessageConnections();
 
 /*
 const TYPES = {
