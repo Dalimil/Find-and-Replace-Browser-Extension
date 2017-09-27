@@ -191,9 +191,27 @@ TODO: Explain the reasoning behind this and how extensions work in general (http
 
 TODO: Explain security scopes, Chrome API being available from the background page, page content being accessible only from content scripts. 
 
-TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation
+TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation  (we are not requesting chrome.tabs permission)
 
-TODO: Define message passing API between the background page and content scripts. Add diagrams!
+TODO: Define message passing API between the background page and content scripts. 
+
+#### Component Lifecycle
+Our background page is only a single JavaScript file that sets up all required events and starts listening to incoming message connections. Whenever the extension icon is clicked (or the launch keyboard shortcut pressed), our UI widget pops up. The widget can be closed/destroyed by the user anytime, so it first registers itself with our background page, so that the background page can see when the message port disconnects (when the widget is closed). 
+
+The widget needs to communicate with the content script to manage highlighting in the page. Right after the widget connects to the background page, the background page checks if the content scripts have been injected already (the widget may have been previously closed and reopened). If they have not been injected yet, it injects them. If, on the other hand, they have been injected previously, it simply sends a message to the content script to reconnect (restart its port connection). 
+
+Once content scripts are injected, they broadcast a port connection - both the background page and UI widget are listening for this event. Background page needs to connect to the content script to see when the message port disconnects (user may have navigated to a different page and we thus lost the injected code). Search widget needs the content script connection for all its API actions - this is going to be the most frequent message passing channel.
+
+##### Why is the lifecycle complicated
+We are managing three separate component - the search widget, the background page, and the context of the webpage itself (via content scripts). None of these components are permanent - The search widget can be destroyed/closed anytime. The content scripts in the page are lost whenever the user navigates to a different website. And finally the background page isn't persistent either - it simply sets up a bunch of event listeners that can wake it up in the future, and shuts itself down.
+
+Could we do everything in the content scripts? Content scripts run in the content of the webpage and for security reasons they don't have access to the Chrome APIs - for a large portion of the extension functionality, and for the search widget integration, we need the background page.
+
+##### Storing State
+TODO:  
+In Widget - Search params, all inputs;  
+In Content Script: Refs to all DOM textarea elements, Find-next number (because it keeps dynamically changing and search widget should only receive it from content script messages passed to it)
+In Background: Nothing - here we just set up events
 
 #### User actions
 - Update search query or options
@@ -202,12 +220,6 @@ TODO: Define message passing API between the background page and content scripts
 - Find next/previous
 - Replace current/all
 - Close the widget
-
-#### Storing State
-TODO:  
-In Widget - Search params, all inputs;  
-In Content Script: Refs to all DOM textarea elements, Find-next number (because it keeps dynamically changing and search widget should only receive it from content script messages passed to it)
-In Background: Nothing - here we just set up events
 
 #### Highlighting Found Matches
 Highlighting `contenteditable` element should not be a problem - we can simply inject our own `span` element with our custom class into the element's DOM. Contenteditable elements are designed to contain any HTML nodes so no problem here.
