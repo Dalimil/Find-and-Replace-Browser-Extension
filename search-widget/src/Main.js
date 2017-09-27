@@ -90,13 +90,13 @@ class Main extends React.Component {
 
   handleReplaceOne(e) { 
     ConnectionApi.replaceCurrent({
-      result: this.getReplaceText() 
+      text: this.getReplaceText() 
     });
   }
 
   handleReplaceAll(e) { 
     ConnectionApi.replaceAll({
-      result: this.getReplaceText() 
+      text: this.getReplaceText() 
     });
   }
 

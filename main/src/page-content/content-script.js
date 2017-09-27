@@ -11,6 +11,11 @@ let port = null;
 let currentOccurrenceIndex = 0;
 let occurrenceCount = 0;
 
+const CLASSES = {
+  regularHighlight: 'hwt-mark-highlight',
+  currentHighlight: 'hwt-highlight-current'
+};
+
 setUpMessageConnections();
 
 function setUpMessageConnections() {
@@ -21,16 +26,57 @@ function setUpMessageConnections() {
   port.onMessage.addListener(handleApiCall);
 }
 
+/**
+ * Move the active highlight class to an element at position index
+ */
 function setOccurrenceIndex(index) {
-  const regularOccurrenceClass = 'hwt-mark-highlight';
-  const currentOccurrenceClass = 'hwt-highlight-current';
+  const regularOccurrenceClass = CLASSES.regularHighlight;
+  const currentOccurrenceClass = CLASSES.currentHighlight;
+  $(`.${currentOccurrenceClass}`).removeClass(currentOccurrenceClass);
 
   occurrenceCount = $(`.${regularOccurrenceClass}`).length;
-  index = ((index % occurrenceCount) + occurrenceCount) % occurrenceCount;
-  currentOccurrenceIndex = index;
-  $(`.${currentOccurrenceClass}`).removeClass(currentOccurrenceClass);
-  $(`.${regularOccurrenceClass}`).eq(index).addClass(currentOccurrenceClass);
-  console.log(currentOccurrenceIndex + "/" + occurrenceCount);
+  if (occurrenceCount != 0) {
+    index = ((index % occurrenceCount) + occurrenceCount) % occurrenceCount;
+    currentOccurrenceIndex = index;
+    $(`.${regularOccurrenceClass}`).eq(index).addClass(currentOccurrenceClass);
+    console.log(currentOccurrenceIndex + "/" + occurrenceCount);
+  } else {
+    currentOccurrenceIndex = 0;
+    console.log("No occurrences.");
+  }
+}
+
+function replaceCurrent(resultText) {
+  const $node = $(`.${CLASSES.currentHighlight}`)
+    .removeClass(CLASSES.currentHighlight)
+    .removeClass(CLASSES.regularHighlight)
+    .text(resultText);
+
+  flattenNode($node.get(0));
+  // Set to same index because count decreased
+  setOccurrenceIndex(currentOccurrenceIndex);
+}
+
+function replaceAll(resultText) {
+
+}
+
+function flattenNode(node) {
+  const parent = node.parentNode;
+  parent.replaceChild(node.firstChild, node);
+  // merge adjacent text nodes
+  parent.normalize();
+}
+
+
+function updateSearch(params) {
+  $('textarea').highlightWithinTextarea({
+    highlight: [{
+      highlight: params.query, // can be regex
+      className: CLASSES.regularHighlight
+    }]
+  });
+  setOccurrenceIndex(0);
 }
 
 function handleApiCall(msg) {
@@ -49,17 +95,7 @@ function handleApiCall(msg) {
       console.log("Widget Log: ", ...msg.data);
       break;
     case 'updateSearch':
-      $('textarea').highlightWithinTextarea({
-        highlight: [{
-          highlight: msg.data.query, // can be regex
-          className: 'hwt-mark-highlight'
-        }]
-      });
-      setOccurrenceIndex(0);
-      /*port.postMessage({
-        response: 'updateSearch',
-        count: occurrenceCount
-      });*/
+      updateSearch(msg.data);
       break;
     case 'findNext':
       setOccurrenceIndex(currentOccurrenceIndex + 1);
@@ -68,23 +104,16 @@ function handleApiCall(msg) {
       setOccurrenceIndex(currentOccurrenceIndex - 1);
       break;
     case 'replaceCurrent':
+      replaceCurrent(msg.data.text);
       break;
     case 'replaceAll':
+      replaceAll(msg.data.text);
       break;
     default:
       console.log('Invalid API Call: ', msg.action);
   }
 }
 
-function clearAllHighlights() {
-  const selector = 'span._find-and-replace-highlight';
-  document.querySelectorAll(selector).forEach(node => {
-    const parent = node.parentNode;
-    parent.replaceChild(node.firstChild, node);
-    // merge adjacent text nodes
-    parent.normalize();
-  });
-}
 
 
 /*
