@@ -62,6 +62,7 @@ function injectContentScripts() {
   const scripts = [
     "src/page-content/lib/jquery-3.2.1.min.js",
     "src/page-content/lib/jquery.highlight-within-textarea.js",
+    "src/page-content/lib/jquery.mark.min.js",
     "src/page-content/content-script.js"
   ];
   chrome.tabs.insertCSS(null, { file: "src/page-content/content-script.css" });

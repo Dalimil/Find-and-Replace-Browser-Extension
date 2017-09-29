@@ -99,12 +99,28 @@ function flattenNode(node) {
 
 
 function updateSearch(params) {
+  // Textarea
   $('textarea').highlightWithinTextarea({
     highlight: [{
       highlight: params.query, // can be regex
       className: CLASSES.regularHighlight
     }]
   });
+
+  // Contenteditable
+  // Remove previous marks and mark new elements
+  $("[contenteditable]").unmark({
+    done: function() {
+      $("[contenteditable]").mark(params.query, {
+        className: CLASSES.regularHighlight,
+        acrossElements: true,
+        iframes: true
+      });
+    }
+  });
+
+  // Reset current active
+  // todo: maybe keep the previous index based on cursor?
   setOccurrenceIndex(0);
 }
 
@@ -142,35 +158,3 @@ function handleApiCall(msg) {
       console.log('Invalid API Call: ', msg.action);
   }
 }
-
-
-
-/*
-const TYPES = {
-  input: 1,
-  textarea: 2,
-  ceditable: 3
-};
-
-function getInputElementsForNode(root) {
-  const inputTexts = [...root.querySelectorAll('input[type=text]')];
-  const textareas = [...root.querySelectorAll('textarea')];
-  const contentEditables = [...root.querySelectorAll('[contenteditable]')];
-  
-  return inputTexts.map(x => ({ el: x, type: TYPES.input }))
-  .concat(
-    textareas.map(x => ({ el: x, type: TYPES.textarea }))
-  )
-  .concat(
-    contentEditables.map(x => ({ el: x, type: TYPES.ceditable }))
-  );
-}
-
-const mainBody = getInputElementsForNode(document.body);
-
-const iframes = [...document.querySelectorAll('iframe')].map(iframe => ({
-  el: iframe,
-  inputElements: getInputElementsForNode(iframe.contentWindow.document.body)
-}));
-
-*/
