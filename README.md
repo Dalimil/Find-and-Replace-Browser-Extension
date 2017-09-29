@@ -137,10 +137,9 @@ Ideas for templates include:
 ### Scope of Search
 
 #### `<input type="text">`
-For a short single line of text, HTML `<input>` element is often used. However, due to the short length, this will mostly not be a common target of find & replace. Still, it should be included for consistency.
+For a short single line of text, HTML `<input>` element is often used. There are other types of input fields (many new were added with HTML5), such as date, email, number, tel, time, and similar, but text is the standard one. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 
-There are other types of input fields (many new were added with HTML5), such as date, email, number, tel, time, and similar, but text is the standard one.  
-https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+However, due to the short length (20 characters by default), this is not the kind of input that needs the find & replace functionality. The primary use case of our extension are large multi-line text areas, so this short single-line input kind can be skipped.
 
 #### `<textarea></textarea>`
 Multi-line plain-text input space. This should be a common target for find & replace. It is used by many sites to allow users compose longer pieces of text, one of them is new post creation on Reddit.  
@@ -248,10 +247,15 @@ User actions specified above directly translate to types of messages that need t
 **action: replaceAll**
 - Replaces all matches with `data` contents
 
+### RegEx Search
+JavaScript contains native support for regular expressions (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query.
+
+When choosing the string that we want to search in, we need to only consider the text content in our HTML nodes - finding matches in `innerHTML` would be a mistake since we need to ignore the website's source markup and only consider the text that users see.  
+
 #### Highlighting Found Matches
 Highlighting `contenteditable` element should not be a problem - we can simply inject our own `span` element with our custom class into the element's DOM. Contenteditable elements are designed to contain any HTML nodes so no problem here.
 
-Highlighting `<input>` and `<textarea>` is more tricky because they both only allow plain text to be displayed inside them. Any styled markup will not render as expected. To overcome this, one must create an overlay that exactly matches the input or textarea element and then highlight text in this new element. Further, there are many browser-specific quirks and one must also take care of synchronizing scrolling and handling textareas that are resizable by the user. In other words, it is a lot of work.  
+Highlighting `<textarea>` is more tricky because it only allows plain text to be displayed inside it. Any styled markup will not render as expected. To overcome this, one must create an overlay that exactly matches the textarea element and then highlight text in this new element. Further, there are many browser-specific quirks and one must also take care of synchronizing scrolling and handling textareas that are resizable by the user. In other words, it is a lot of work.  
 http://codersblock.com/blog/highlight-text-inside-a-textarea/
 
 Fortunately, there have been a few attempts to implement this. The most successful version I found was the following jQuery plugin: https://github.com/lonekorean/highlight-within-textarea/ becase it also supports resizable textareas (other plugins I found did not).  
@@ -262,7 +266,7 @@ https://github.com/lonekorean/highlight-within-textarea/pull/19
   - Review comments addressed: Sep 25
   - After 2nd review the discussion still continues, there are backward-compatibility issues and conflicting views on the design and purpose of the plugin. As I'm injecting the code dynamically I have a slightly different use case and might need to leave my forked version unmerged.
 
-For highlighting text in `contenteditable` elements I'm going to use https://markjs.io/ - TODO
+For highlighting text in `contenteditable` elements I'm going to use [mark.js](https://markjs.io/).  - TODO
 TODO: maybe I don't need this and can implement a lightweight highlighter myself
 
 ### Testing
