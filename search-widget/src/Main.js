@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, Checkbox } from './InputElements';
 
 import ConnectionApi from './ConnectionApi';
+import Storage from './Storage';
 
 class Main extends React.Component {
   constructor(props) {
@@ -24,6 +25,15 @@ class Main extends React.Component {
       ConnectionApi.log("Handle ", msg);
     });
 
+    Storage.previousSearchStatePromise.then(prevSearchState => {
+      // setState possibly merges empty {} object
+      this.setState(prevSearchState, () => {
+        if (prevSearchState.findTextInput) {
+          this.findInputElement.select(); // select text at the start
+        }
+      }); 
+    });
+
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleFindNext = this.handleFindNext.bind(this);
     this.handleFindPrev = this.handleFindPrev.bind(this);
@@ -34,7 +44,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     this.interval = setInterval(() => this.tick(), 1000);
-    this.findInputElement.focus();
+    this.findInputElement.select();
   }
 
   componentWillUnmount() {
@@ -60,6 +70,8 @@ class Main extends React.Component {
           limitToCurrentField: this.state.limitToCurrentFieldInput
         });
       }
+      // Save the full state (async low priority)
+      Storage.saveSearchState(this.state);
     });
   }
 
