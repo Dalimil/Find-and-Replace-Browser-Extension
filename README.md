@@ -28,6 +28,7 @@ Search and replace would be extremely useful on these websites: WordPress, Gmail
 
 You could always paste the content into your word processor, fix it and paste it back into the Chrome input field but that is a lengthy and time consuming process.
 
+With more advanced features, one could also see the history of previous find & replace operations, save favourite queries and also define paste-only templates (for instance various email templates).
 
 ## What already exists?
 
@@ -73,18 +74,22 @@ People are likely to search for browser extensions by typing in the functionalit
   - Replace All
   - Find next (~ pressing ENTER in 'Find' field)
   - Find previous
-  - Close
+  - Close widget
+  - Save to favourites
 - **Options** (see below)
   - Match Case (Aa)
   - Use Regex (.*)
   - Whole Word (Ab|)
   - In Text Selection
-  - In Current Input Field
 - 'X of Y' or 'No Results' indicator
 - Regex groups indicator (for regex search only)
-- Common Substitution Templates
+- **Panel buttons** (see below)
+  - Favourites
+  - History
+  - Templates
+  - Help/Info/Feedback
 
-In general we would like to follow the current standard of find & replace toolbars. Many of these can be seen in more advanced text editors:
+To some extent, we would like to follow the current standard of find & replace toolbars. Many of these can be seen in more advanced text editors:
 
 *Android Studio:*
 
@@ -155,6 +160,8 @@ We split the UI layout to two types - simple and advanced. Because displaying al
 
 TODO: explain disabling buttons to draw attention to the active input field elements 
 
+TODO: explain highlighting via inset box shadow the currently selected input area - (we always limit find & replace to current) - because user edits one textarea at a time - We want to draw focus to what text is going to be affected. If no textarea selected, select all available - for better usability (people might complain that the extension doesn't work otherwise). Or indicate that no valid input area present on the page.
+
 ##### Why not Material Design
 For the general look and feel, I decided not to use Google's increasingly popular [Material Design](https://material.io/) for several reasons. First, Material Design works well when there's a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed compononets.
 
@@ -209,6 +216,11 @@ TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage
 - Find next/previous
 - Replace current/all
 - Close the widget
+- Click one of the panel buttons
+  - Show Favourites
+  - Show History
+  - Show Templates
+  - Show Help/Info
 
 #### Actions API
 User actions specified above directly translate to types of messages that need to be passed between our widget and the content scripts in the page. We define the following API, where each message has the prototype `{ action: string, data: Object }` where `data` is optional:
@@ -266,6 +278,7 @@ https://github.com/lonekorean/highlight-within-textarea/pull/19
 ### Testing
 
 ### Distribution & Marketing
+Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
 
 ### Feedback & Iteration
 
