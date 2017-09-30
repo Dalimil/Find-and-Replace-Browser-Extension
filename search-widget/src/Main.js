@@ -31,6 +31,7 @@ class Main extends React.Component {
         if (prevSearchState.findTextInput) {
           this.findInputElement.select(); // select text at the start
         }
+        this.sendSeachUpdate();
       }); 
     });
 
@@ -60,18 +61,22 @@ class Main extends React.Component {
       [name]: value
     }, () => {
       if (name != 'replaceTextInput') {
-        // Notify content script to update search
-        ConnectionApi.updateSearch({
-          query: this.state.findTextInput,
-          regex: this.state.useRegexInput,
-          matchCase: this.state.matchCaseInput,
-          wholeWords: this.state.wholeWordsInput,
-          limitToSelection: this.state.limitToSelectionInput,
-          limitToCurrentField: this.state.limitToCurrentFieldInput
-        });
+       this.sendSeachUpdate();
       }
       // Save the full state (async low priority)
       Storage.saveSearchState(this.state);
+    });
+  }
+
+  sendSeachUpdate() {
+    // Notify content script to update search
+    ConnectionApi.updateSearch({
+      query: this.state.findTextInput,
+      regex: this.state.useRegexInput,
+      matchCase: this.state.matchCaseInput,
+      wholeWords: this.state.wholeWordsInput,
+      limitToSelection: this.state.limitToSelectionInput,
+      limitToCurrentField: this.state.limitToCurrentFieldInput
     });
   }
 

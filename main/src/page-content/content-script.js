@@ -6,7 +6,12 @@ console.log($('[contenteditable]'));
 $('textarea').css({ border: "5px solid red" });
 $('[contenteditable]').css({ border: "5px solid red" });
 
-// todo make these 'let' after fixing duplicate injection
+const TYPES = {
+  textarea: 'textarea',
+  contenteditable: 'contenteditable',
+  mix: 'mix'
+};
+
 let port = null;
 let currentOccurrenceIndex = 0;
 let occurrenceCount = 0;
@@ -97,40 +102,104 @@ function flattenNode(node) {
   parent.normalize();
 }
 
+function setEditableAreaGlow($element) {
+  $element.css({
+    boxShadow: "inset 0 0 1em rgb(255, 94, 94, 0.6)"
+  });
+}
 
-function updateSearch(params) {
-  // Textarea
-  $('textarea').highlightWithinTextarea({
+function clearEditableAreaGlow($element) {
+  $element.css({
+    boxShadow: ""
+  });
+}
+
+function highlightTextarea($element, params) {
+  $element.highlightWithinTextarea({
     highlight: [{
       highlight: params.query, // can be regex
       className: CLASSES.regularHighlight
     }]
   });
+  $element.focus();
+}
 
-  // Contenteditable
+function highlightContenteditable($element, params) {
   // Remove previous marks and mark new elements
   $("[contenteditable]").unmark({
     done: function() {
-      $("[contenteditable]").mark(params.query, {
+      $element.mark(params.query, {
         className: CLASSES.regularHighlight,
         acrossElements: true,
         iframes: true
       });
     }
   });
+}
+
+function updateSearch(params) {
+  const activeSelection = getActiveSelection();
+  console.log("Active element: ", activeSelection);
+
+  if (activeSelection.type == TYPES.textarea) {
+    // Textarea
+    highlightTextarea(activeSelection.$element, params);
+    setEditableAreaGlow(activeSelection.$element);
+  } else if (activeSelection.type == TYPES.contenteditable) {
+    // Contenteditable
+    highlightContenteditable(activeSelection.$element, params);
+    setEditableAreaGlow(activeSelection.$element);
+  } else {
+    // Both (all are inactive)
+    highlightTextarea($('textarea'), params);
+    highlightContenteditable($('[contenteditable]'), params);
+    setEditableAreaGlow($('textarea, [contenteditable]'));
+  }
 
   // Reset current active
   // todo: maybe keep the previous index based on cursor?
   setOccurrenceIndex(0);
 }
 
+
+function getActiveSelection() {
+  const activeElement = document.activeElement;
+  const tagName = activeElement.tagName.toLowerCase();
+  if (tagName == 'textarea') {
+    const text = activeElement.value;
+    const selectedText = text.substring(activeElement.selectionStart, activeElement.selectionEnd);
+    return {
+      type: TYPES.textarea,
+      $element: $(activeElement)
+    }
+  } else if (activeElement.hasAttribute('contenteditable')) {
+    const selection = window.getSelection();
+    if (selection.isCollapsed) {
+      // no text selected
+    }
+    return {
+      type: TYPES.contenteditable,
+      $element: $(activeElement)
+    };
+  }
+  // No valid active input - so select all valid inactive
+  return {
+    type: TYPES.mix
+  };
+}
+
+function shutdown() {
+  $('textarea').css({ border: "5px solid skyblue" });
+  $('[contenteditable]').css({ border: "5px solid skyblue" });
+  $('textarea').highlightWithinTextarea('destroy');
+  clearEditableAreaGlow($('textarea, [contenteditable]'));
+}
+
 function handleApiCall(msg) {
   console.log("Content Script API: ", msg.action);
   switch (msg.action) {
     case 'shutdown':
-      $('textarea').css({ border: "5px solid skyblue" });
-      $('[contenteditable]').css({ border: "5px solid skyblue" });
-      $('textarea').highlightWithinTextarea('destroy');
+      shutdown();
       break;
     case 'restart':
       port.onMessage.removeListener(handleApiCall);
