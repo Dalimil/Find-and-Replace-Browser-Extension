@@ -41,6 +41,9 @@ class Main extends React.Component {
     this.handleReplaceOne = this.handleReplaceOne.bind(this);
     this.handleReplaceAll = this.handleReplaceAll.bind(this);
     this.toggleAdvancedSearch = this.toggleAdvancedSearch.bind(this);
+    this.handleFindInputKeyboardPress = this.handleFindInputKeyboardPress.bind(this);
+    this.handleReplaceInputKeyboardPress = this.handleReplaceInputKeyboardPress.bind(this);
+    this.handleReplaceInputTabKey = this.handleReplaceInputTabKey.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +69,33 @@ class Main extends React.Component {
       // Save the full state (async low priority)
       Storage.saveSearchState(this.state);
     });
+  }
+
+  handleFindInputKeyboardPress(e) {
+    if (e.key == 'Enter') {
+      if (e.shiftKey) {
+        this.handleFindPrev();
+      } else {
+        this.handleFindNext();
+      }
+    }
+  }
+
+  handleReplaceInputKeyboardPress(e) {
+    if (e.key == 'Enter') {
+      if (e.shiftKey) {
+        this.handleReplaceAll();
+      } else {
+        this.handleReplaceOne();
+      }
+    }
+  }
+
+  handleReplaceInputTabKey(e) {
+    if (e.key == 'Tab') {
+      e.preventDefault();
+      this.findInputElement.select();
+    }
   }
 
   sendSeachUpdate() {
@@ -137,13 +167,16 @@ class Main extends React.Component {
         ref={input => { this.findInputElement = input; }}
         name="findTextInput"
         value={this.state.findTextInput}
-        onChange={this.handleSearchInputChange} />
+        onChange={this.handleSearchInputChange}
+        onKeyUp={this.handleFindInputKeyboardPress} />
     );
     const ReplaceFieldInput = (
       <input type="text" placeholder="Replace with" className="text-input"
         name="replaceTextInput"
         value={this.state.replaceTextInput}
-        onChange={this.handleSearchInputChange} />
+        onChange={this.handleSearchInputChange}
+        onKeyUp={this.handleReplaceInputKeyboardPress}
+        onKeyDown={this.handleReplaceInputTabKey} />
     );
 
     // Checkboxes
