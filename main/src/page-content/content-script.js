@@ -32,8 +32,24 @@ function setUpMessageConnections() {
   port.onMessage.addListener(handleApiCall);
 }
 
+
+function scrollInViewIfNotAlready($element) {
+  const currentTop = $element.offset().top;
+  const currentBottom = $element.offset().top + $element.outerHeight();
+  const $window = $(window);
+  const screenTop = $window.scrollTop();
+  const screenBottom = $window.scrollTop() + $window.height();
+  if ((currentTop > screenBottom) || (currentBottom < screenTop)) {
+    window.scrollTo(
+      0,
+      Math.max(0, Math.round((currentBottom + currentTop - $window.height()) / 2))
+    );
+  }
+}
+
 /**
  * Move the active highlight class to an element at position index
+ * Scrolls to the element in view if needed
  */
 function setOccurrenceIndex(index) {
   const regularOccurrenceClass = CLASSES.regularHighlight;
@@ -44,7 +60,8 @@ function setOccurrenceIndex(index) {
   if (occurrenceCount != 0) {
     index = ((index % occurrenceCount) + occurrenceCount) % occurrenceCount;
     currentOccurrenceIndex = index;
-    $(`.${regularOccurrenceClass}`).eq(index).addClass(currentOccurrenceClass);
+    const $current = $(`.${regularOccurrenceClass}`).eq(index).addClass(currentOccurrenceClass);
+    scrollInViewIfNotAlready($current);
     console.log(currentOccurrenceIndex + "/" + occurrenceCount);
   } else {
     currentOccurrenceIndex = 0;
