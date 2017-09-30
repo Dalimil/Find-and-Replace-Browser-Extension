@@ -29,13 +29,6 @@
         "default": "Ctrl+Shift+F",
         "mac": "Command+Shift+F"
       }
-    },
-    "replace-all-action": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+A",
-        "mac": "Command+Shift+A"
-      },
-      "description": "Replaces all text occurrences."
     }
   }
 }

@@ -117,10 +117,10 @@ Launch the toolbar: `Ctrl+Shift+F` (`Command+Shift+F` on Mac)
 Note that all `Ctrl+F`, `Ctrl+R`, and `Ctrl+Shift+R` are already predefined browser shortcuts, so we cannot use those.
 
 Once the search widget appears:
-  - Next match: `F3` or `Enter` in 'Find' input field
-  - Previous match: `Shift+F3`
-  - Replace: `Enter` in 'Replace' input field
-  - Replace All: `Ctrl+Shift+A`
+  - Next match: `Enter` in *Find* input field
+  - Previous match: `Shift+Enter` in *Find* input field
+  - Replace: `Enter` in *Replace* input field
+  - Replace All: `Shift+Enter` in *Replace* input field
 
 #### Context Menu
 User can select text on the page and, after right-clicking the selection, search for the text using the extension. This should open the extension search widget and/or replace the current 'Find' input field with the selected text.
