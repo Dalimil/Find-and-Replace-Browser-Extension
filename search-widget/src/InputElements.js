@@ -9,12 +9,15 @@ const Button = ({title, onClick, disabled, small}) => (
   </div>
 );
 
-const Checkbox = ({name, checked, onChange}) => {
+const Checkbox = ({name, checked, onChange, text: descr}) => {
   const id = "checkbox-" + name;
   return (
-    <div className="checkbox">
-      <input type="checkbox" name={name} id={id} checked={checked} onChange={onChange} />
-      <label htmlFor={id}></label>
+    <div>
+      <div className="checkbox">
+        <input type="checkbox" name={name} id={id} checked={checked} onChange={onChange} />
+        <label htmlFor={id}></label>
+      </div>
+      <label htmlFor={id} style={{ cursor: 'pointer' }}> {descr}</label>
     </div>
   );
 };

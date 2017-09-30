@@ -3,7 +3,10 @@
 class Storage {
   constructor() {
     this.dummy = window.chrome == undefined;
-    if (this.dummy) return;
+    if (this.dummy) {
+      this.previousSearchStatePromise = Promise.resolve({});
+      return;
+    }
 
     const searchStateKey = 'search-state';
     this.searchStateKey = searchStateKey;
