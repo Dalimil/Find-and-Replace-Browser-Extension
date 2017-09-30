@@ -122,6 +122,8 @@ Once the search widget appears:
   - Replace: `Enter` in *Replace* input field
   - Replace All: `Shift+Enter` in *Replace* input field
 
+When user jumps between occurrences we also want to keep the text in screen viewport and we therefore always check the current element position and scroll the window accordingly in case it is out of view.
+
 #### Context Menu
 User can select text on the page and, after right-clicking the selection, search for the text using the extension. This should open the extension search widget and/or replace the current 'Find' input field with the selected text.
 
