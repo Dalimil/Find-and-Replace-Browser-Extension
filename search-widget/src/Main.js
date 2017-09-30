@@ -1,6 +1,8 @@
 import React from 'react';
+import FontAwesome from 'react-fontawesome';
 
 import { Button, Checkbox } from './InputElements';
+import ButtonPanel from './ButtonPanel';
 
 import ConnectionApi from './ConnectionApi';
 import Storage from './Storage';
@@ -108,13 +110,14 @@ class Main extends React.Component {
     });
   }
 
-  toggleAdvancedSearch() {
-    if (this.state.advancedSearchExpanded) {
+  toggleAdvancedSearch(e) {
+    const expanded = e.target.checked;
+    if (!expanded) {
       this.resetAdvancedSearchOptions();
     }
-    this.setState(prevState => ({
-      advancedSearchExpanded: !prevState.advancedSearchExpanded
-    }));
+    this.setState({
+      advancedSearchExpanded: expanded
+    });
   }
 
   resetAdvancedSearchOptions() {
@@ -178,17 +181,18 @@ class Main extends React.Component {
 
     // Checkboxes
     const checkboxes = {
-      MatchCaseCheckbox: "matchCaseInput",
-      WholeWordsCheckbox: "wholeWordsInput",
-      UseRegexCheckbox: "useRegexInput",
-      LimitToSelectionCheckbox: "limitToSelectionInput"
+      MatchCaseCheckbox: { id: "matchCaseInput", text: "Match Case" },
+      WholeWordsCheckbox: { id: "wholeWordsInput", text: "Whole Words" },
+      UseRegexCheckbox: { id: "useRegexInput", text: "Use RegEx" },
+      LimitToSelectionCheckbox: { id: "limitToSelectionInput", text: "In Text Selection" }
     };
     Object.keys(checkboxes).forEach(id => {
       checkboxes[id] = (
         <Checkbox
-          name={checkboxes[id]}
-          checked={this.state[checkboxes[id]]}
-          onChange={this.handleSearchInputChange} />
+          name={checkboxes[id].id}
+          checked={this.state[checkboxes[id].id]}
+          onChange={this.handleSearchInputChange} 
+          text={checkboxes[id].text} />
       );
     });
 
@@ -196,27 +200,51 @@ class Main extends React.Component {
     const args = {
       disabled: !this.state.findTextInput
     };
-    const FindPrevButton = <Button onClick={this.handleFindPrev} title="<" {...args} small />;
-    const FindNextButton = <Button onClick={this.handleFindNext} title=">" {...args} small />;
+    const FindPrevButton = <Button onClick={this.handleFindPrev} title={<FontAwesome name='chevron-up' />} {...args} small />;
+    const FindNextButton = <Button onClick={this.handleFindNext} title={<FontAwesome name='chevron-down' />} {...args} small />;
     const ReplaceOneButton = <Button onClick={this.handleReplaceOne} title="Replace" {...args} />;
-    const ReplaceAllButton = <Button onClick={this.handleReplaceAll} title="Replace all" {...args} />;
+    const ReplaceAllButton = <Button onClick={this.handleReplaceAll} title="Replace all" {...args} style={{ marginLeft: '0.5em'}} />;
 
-    const SearchStatus = false ? '2 of 76' : 'No Results'; // todo
+    const SearchStatus = <div style={{ marginLeft: '0.5em' }}>{true ? '231 of 768' : 'No Results'}</div>; // todo
     return (
-      <div>
-        { FindFieldInput }{ FindPrevButton }{ FindNextButton } { SearchStatus }<br />
-        { ReplaceFieldInput } { ReplaceOneButton } { ReplaceAllButton } <br /><br />
-        { checkboxes.MatchCaseCheckbox } Match Case <br />
-        { checkboxes.WholeWordsCheckbox } Whole Words <br />
-        <div onClick={this.toggleAdvancedSearch}>▾ Advanced Search</div>
-        { /* Advanced Search */}
-        { this.state.advancedSearchExpanded && (
-          <div>
-            { checkboxes.LimitToSelectionCheckbox } Limit to text selection <br />
-            { checkboxes.UseRegexCheckbox } Use RegEx <br />
+      <div style={{
+        display: 'flex'
+      }}>
+        <div className="main-panel">
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            { FindFieldInput }{ FindPrevButton }{ FindNextButton } { SearchStatus }
           </div>
-        )}
-        Seconds Elapsed: {this.state.secondsElapsed}<br />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            { ReplaceFieldInput }{ ReplaceOneButton } { ReplaceAllButton }
+          </div>
+          <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
+              { checkboxes.MatchCaseCheckbox }
+              { checkboxes.WholeWordsCheckbox }
+              { /* Advanced Search */}
+              { this.state.advancedSearchExpanded && checkboxes.LimitToSelectionCheckbox }
+              { this.state.advancedSearchExpanded && checkboxes.UseRegexCheckbox } 
+              { /* TODO - BUT NOT MVP */ false && this.state.advancedSearchExpanded && this.state.useRegexInput && (
+                <div>
+                  <div style={{ fontSize: "1.2em" }}>RegEx Groups</div>
+                  <div>full ...</div>
+                  <div>$0 ...</div>
+                  <div>$1 ...</div>
+                  Seconds Elapsed: {this.state.secondsElapsed}<br />
+                </div>
+              )}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
+              <Checkbox name="advancedSearchInput"
+                checked={this.state.advancedSearchExpanded}
+                onChange={this.toggleAdvancedSearch} 
+                text="Advanced Options" />
+              <div><FontAwesome name='star-o' fixedWidth={true} size="lg" /> Save to Favourites</div>
+            </div>
+          </div>
+        </div>
+
+        <ButtonPanel />
       </div>
     );
   }
