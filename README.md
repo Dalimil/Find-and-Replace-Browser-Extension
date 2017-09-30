@@ -200,6 +200,8 @@ In Widget - Search params, all inputs;
 In Content Script: Refs to all DOM textarea elements, Find-next number (because it keeps dynamically changing and search widget should only receive it from content script messages passed to it)
 In Background: Nothing - here we just set up events
 
+TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage
+
 #### User actions
 - Update search query or options
   - 'Find' input field content changes
