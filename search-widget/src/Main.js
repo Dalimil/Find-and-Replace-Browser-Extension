@@ -17,8 +17,7 @@ class Main extends React.Component {
       matchCaseInput: false,
       wholeWordsInput: false,
       useRegexInput: false,
-      limitToSelectionInput: false,
-      limitToCurrentFieldInput: false
+      limitToSelectionInput: false
     };
 
     ConnectionApi.addResponseHandler(msg => {
@@ -105,8 +104,7 @@ class Main extends React.Component {
       regex: this.state.useRegexInput,
       matchCase: this.state.matchCaseInput,
       wholeWords: this.state.wholeWordsInput,
-      limitToSelection: this.state.limitToSelectionInput,
-      limitToCurrentField: this.state.limitToCurrentFieldInput
+      limitToSelection: this.state.limitToSelectionInput
     });
   }
 
@@ -122,8 +120,7 @@ class Main extends React.Component {
   resetAdvancedSearchOptions() {
     this.setState({
       useRegexInput: false,
-      limitToSelectionInput: false,
-      limitToCurrentFieldInput: false
+      limitToSelectionInput: false
     });
   }
 
@@ -184,8 +181,7 @@ class Main extends React.Component {
       MatchCaseCheckbox: "matchCaseInput",
       WholeWordsCheckbox: "wholeWordsInput",
       UseRegexCheckbox: "useRegexInput",
-      LimitToSelectionCheckbox: "limitToSelectionInput",
-      LimitToCurrentFieldCheckbox: "limitToCurrentFieldInput"
+      LimitToSelectionCheckbox: "limitToSelectionInput"
     };
     Object.keys(checkboxes).forEach(id => {
       checkboxes[id] = (
@@ -217,7 +213,6 @@ class Main extends React.Component {
         { this.state.advancedSearchExpanded && (
           <div>
             { checkboxes.LimitToSelectionCheckbox } Limit to text selection <br />
-            { checkboxes.LimitToCurrentFieldCheckbox } Limit to current field <br />
             { checkboxes.UseRegexCheckbox } Use RegEx <br />
           </div>
         )}
