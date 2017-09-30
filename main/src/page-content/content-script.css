@@ -1,6 +1,6 @@
 /* CSS injected into the currently active tab */
 .hwt-mark-highlight {
-  border-radius: 5px;
+  border-radius: 2px;
   background-color: skyblue;
 }
 .hwt-mark-highlight.hwt-highlight-current {

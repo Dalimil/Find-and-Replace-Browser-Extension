@@ -3,8 +3,8 @@
 
 console.log($('textarea'));
 console.log($('[contenteditable]'));
-$('textarea').css({ border: "5px solid red" });
-$('[contenteditable]').css({ border: "5px solid red" });
+$('textarea').css({ border: "1px solid red" });
+$('[contenteditable]').css({ border: "1px solid red" });
 
 const TYPES = {
   textarea: 'textarea',
@@ -104,7 +104,7 @@ function flattenNode(node) {
 
 function setEditableAreaGlow($element) {
   $element.css({
-    boxShadow: "inset 0 0 1em rgb(255, 94, 94, 0.6)"
+    boxShadow: "inset 0 0 1em rgba(255, 94, 94, 0.8)"
   });
 }
 
@@ -114,25 +114,33 @@ function clearEditableAreaGlow($element) {
   });
 }
 
-function highlightTextarea($element, params) {
+function highlightTextarea($element, params, refocus) {
   $element.highlightWithinTextarea({
     highlight: [{
-      highlight: params.query, // can be regex
+      highlight: params.query,
       className: CLASSES.regularHighlight
     }]
   });
-  $element.focus();
+  if (refocus) {
+    $element.focus();
+  }
 }
 
 function highlightContenteditable($element, params) {
   // Remove previous marks and mark new elements
   $("[contenteditable]").unmark({
     done: function() {
-      $element.mark(params.query, {
+      const options = {
         className: CLASSES.regularHighlight,
         acrossElements: true,
         iframes: true
-      });
+      };
+      if (params.regex) {
+        $element.markRegExp(params.query, options);
+      } else {
+        options.separateWordSearch = false;
+        $element.mark(params.query, options);
+      }
     }
   });
 }
@@ -143,7 +151,7 @@ function updateSearch(params) {
 
   if (activeSelection.type == TYPES.textarea) {
     // Textarea
-    highlightTextarea(activeSelection.$element, params);
+    highlightTextarea(activeSelection.$element, params, /* refocus */ true);
     setEditableAreaGlow(activeSelection.$element);
   } else if (activeSelection.type == TYPES.contenteditable) {
     // Contenteditable
@@ -189,9 +197,10 @@ function getActiveSelection() {
 }
 
 function shutdown() {
-  $('textarea').css({ border: "5px solid skyblue" });
-  $('[contenteditable]').css({ border: "5px solid skyblue" });
+  $('textarea').css({ border: "1px solid skyblue" });
+  $('[contenteditable]').css({ border: "1px solid skyblue" });
   $('textarea').highlightWithinTextarea('destroy');
+  $("[contenteditable]").unmark();
   clearEditableAreaGlow($('textarea, [contenteditable]'));
 }
 
