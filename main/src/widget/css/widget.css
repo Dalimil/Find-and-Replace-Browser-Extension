@@ -109,7 +109,9 @@ body {
     /*font-size: 0.9em;*/
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-bottom: none;
+    white-space: nowrap;
   }
   .favourites-list-item:last-child {
     border-bottom: 1px solid rgba(0,0,0,0.1);

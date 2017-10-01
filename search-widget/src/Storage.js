@@ -87,7 +87,7 @@ class Storage {
         'e': { findTextInput: 'abc', replaceTextInput: 'cdf' },
         'f': { findTextInput: 'abc', replaceTextInput: 'cdf' },
         'g': { findTextInput: 'abc', replaceTextInput: 'cdf' },
-        'h': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'h': { findTextInput: 'very long text specified as find input', replaceTextInput: 'very long replace input' },
         'i': { findTextInput: 'abc', replaceTextInput: 'cdf' },
         'j': { findTextInput: 'abc', replaceTextInput: 'cdf' },
         'k': { findTextInput: 'abc', replaceTextInput: 'cdf' },

@@ -33,10 +33,8 @@ class FavouritesPanel extends React.Component {
             return (
               <div className="favourites-list-item" key={id}
                   onClick={() => this.handleFavouriteSelected(id)}>
-                <span>
-                  {findTextInput}
-                  <FontAwesome name='long-arrow-right' />
-                  {replaceTextInput}
+                <span style={{ overflowX: 'hidden', textOverflow: 'ellipsis' }}>
+                  <span>{findTextInput}</span> <FontAwesome name='long-arrow-right' /> <span>{replaceTextInput}</span>
                 </span>
                 <FontAwesome className="favourites-list-item-remove" name='times'
                   onClick={(e) => {
