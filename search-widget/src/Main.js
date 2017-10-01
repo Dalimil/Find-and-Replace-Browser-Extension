@@ -1,7 +1,7 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 
-import { Button, Checkbox } from './InputElements';
+import { Button, Checkbox, Star } from './InputElements';
 import ButtonPanel from './ButtonPanel';
 
 import ConnectionApi from './ConnectionApi';
@@ -12,14 +12,14 @@ class Main extends React.Component {
     super(props);
 
     this.state = {
-      secondsElapsed: 0, // debug
       advancedSearchExpanded: false,
       findTextInput: '',
       replaceTextInput: '',
       matchCaseInput: false,
       wholeWordsInput: false,
       useRegexInput: false,
-      limitToSelectionInput: false
+      limitToSelectionInput: false,
+      addedToFavourites: false
     };
 
     ConnectionApi.addResponseHandler(msg => {
@@ -33,7 +33,8 @@ class Main extends React.Component {
           this.findInputElement.select(); // select text at the start
         }
         this.sendSeachUpdate();
-      }); 
+        this.checkIfStateInFavourites();
+      });
     });
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
@@ -45,17 +46,13 @@ class Main extends React.Component {
     this.handleFindInputKeyboardPress = this.handleFindInputKeyboardPress.bind(this);
     this.handleReplaceInputKeyboardPress = this.handleReplaceInputKeyboardPress.bind(this);
     this.handleReplaceInputTabKey = this.handleReplaceInputTabKey.bind(this);
+    this.toggleAddToFavourites = this.toggleAddToFavourites.bind(this);
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.tick(), 1000);
     this.findInputElement.select();
   }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-  
   handleSearchInputChange(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -69,6 +66,14 @@ class Main extends React.Component {
       }
       // Save the full state (async low priority)
       Storage.saveSearchState(this.state);
+      this.checkIfStateInFavourites();
+    });
+  }
+
+  checkIfStateInFavourites() {
+    // Check if the new state is in favourites and update state accordingly
+    Storage.isAddedToFavourites(this.getSearchStateForFavourites()).then(isAdded => {
+      this.setState({ addedToFavourites: isAdded });
     });
   }
 
@@ -127,6 +132,20 @@ class Main extends React.Component {
     });
   }
 
+  toggleAddToFavourites() {
+    const alreadyAdded = this.state.addedToFavourites;
+    Storage.setInFavourites(this.getSearchStateForFavourites(), /* delete? */ alreadyAdded);
+    this.setState({
+      addedToFavourites: !alreadyAdded
+    });
+  }
+
+  getSearchStateForFavourites() {
+    const searchState = Object.assign({}, this.state);
+    delete searchState.addedToFavourites;
+    return searchState;
+  }
+
   handleFindNext(e) {
     ConnectionApi.findNext();
   }
@@ -152,12 +171,6 @@ class Main extends React.Component {
       // substitute groups first
     }
     return this.replaceTextInput;
-  }
-
-  tick() {
-    this.setState((prevState) => ({
-      secondsElapsed: prevState.secondsElapsed + 1
-    }));
   }
 
   render() {
@@ -230,7 +243,6 @@ class Main extends React.Component {
                   <div>full ...</div>
                   <div>$0 ...</div>
                   <div>$1 ...</div>
-                  Seconds Elapsed: {this.state.secondsElapsed}<br />
                 </div>
               )}
             </div>
@@ -239,7 +251,9 @@ class Main extends React.Component {
                 checked={this.state.advancedSearchExpanded}
                 onChange={this.toggleAdvancedSearch} 
                 text="Advanced Options" />
-              <div><FontAwesome name='star-o' fixedWidth={true} size="lg" /> Save to Favourites</div>
+              <Star checked={this.state.addedToFavourites}
+                onClick={this.toggleAddToFavourites}
+                descrBefore="Save to Favourites" descrAfter="Saved" />
             </div>
           </div>
         </div>

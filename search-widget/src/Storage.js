@@ -8,12 +8,24 @@ class Storage {
       return;
     }
 
-    const searchStateKey = 'search-state';
-    this.searchStateKey = searchStateKey;
+    this.searchStateKey = 'search-state';
+    this.previousSearchStatePromise = this.getFromStorage(this.searchStateKey);
+    // search-state: { searchParams }
 
-    this.previousSearchStatePromise = new Promise(resolve => {
-      chrome.storage.local.get(searchStateKey, items => {
-        resolve(items[searchStateKey]);
+    this.favouritesKey = 'favourites';
+    this.favouritesPromise = this.getFromStorage(this.favouritesKey);
+    // favourites: { hashSearchParams: searchParams }
+    this.favouritesObservers = [];
+  }
+
+  getFromStorage(key) {
+    return new Promise(resolve => {
+      chrome.storage.local.get(key, data => {
+        if ((key in data) && data[key] != null && data[key] != undefined) {
+          resolve(data[key]);
+        } else {
+          resolve({});
+        }
       });
     });
   }
@@ -23,6 +35,64 @@ class Storage {
 
     chrome.storage.local.set({
       [this.searchStateKey]: searchState
+    });
+  }
+
+  /**
+   * Sets the given _searchState_ as 'favourite'
+   *  or deletes it (if _deleteNotAdd_ is set)
+   */
+  setInFavourites(searchState, deleteNotAdd) {
+    if (this.dummy) return;
+
+    const searchHash = this.hashSearchState_(searchState);
+    this.favouritesPromise = this.favouritesPromise.then(favourites => {
+      if (deleteNotAdd) {
+        delete favourites[searchHash];
+      } else {
+        favourites[searchHash] = searchState;
+      }
+      // Sync storage
+      chrome.storage.local.set({
+        [this.favouritesKey]: favourites
+      });
+      // Notify change
+      this.notifyFavouritesChanged_(favourites);
+
+      // Keep new object in memory
+      return favourites;
+    });
+  }
+
+  isAddedToFavourites(searchState) {
+    if (this.dummy) return;
+
+    const searchHash = this.hashSearchState_(searchState);
+    return this.favouritesPromise.then(favourites => {
+      return !!favourites[searchHash];
+    });
+  }
+
+  notifyFavouritesChanged_(favourites) {
+    this.favouritesObservers.forEach(observer => observer(favourites));
+  }
+
+  observeOnFavouritesChanged(func) {
+    if (this.dummy) return;
+    this.favouritesObservers.push(func);
+    // Give the observer current data straight away
+    this.favouritesPromise.then(favourites => func(favourites));
+  }
+
+  hashSearchState_(searchState) {
+    // Concatenate property values and stringify
+    return Object.keys(searchState).map(x => searchState[x].toString()).join(";");
+  }
+
+  reset() {
+    chrome.storage.local.set({
+      [this.favouritesKey]: {},
+      [this.searchStateKey]: {}
     });
   }
 

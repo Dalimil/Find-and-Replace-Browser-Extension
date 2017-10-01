@@ -1,6 +1,9 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 
+import Storage from './Storage';
+import ConnectionApi from './ConnectionApi';
+
 class ButtonPanel extends React.Component {
   constructor(props) {
     super(props);
@@ -20,9 +23,16 @@ class ButtonPanel extends React.Component {
 
     this.state = {
       expanded: false,
-      activeTab: null
+      activeTab: null,
+      favourites: {}
     };
+    Storage.observeOnFavouritesChanged(this.onFavouritesChanged.bind(this));
     this.selectMenuItem = this.selectMenuItem.bind(this);
+  }
+
+  onFavouritesChanged(favourites) {
+    ConnectionApi.log("Got favs update: ", favourites);
+    this.setState({ favourites });
   }
 
   selectMenuItem(name) {
@@ -46,7 +56,18 @@ class ButtonPanel extends React.Component {
       
       switch (this.state.activeTab) {
         case this.TABS.favourites:
-          return (<div>Favourites - these are user-saved collections</div>);
+          return (
+          <div>
+            <span><strong>Favourites</strong> (user-saved collections)</span>
+            <ul>
+              {Object.keys(this.state.favourites).map(id => {
+                const { findTextInput, replaceTextInput } = this.state.favourites[id];
+                return (
+                  <li style={{ fontSize: '9px' }} key={id}>{findTextInput} -> {replaceTextInput}</li>
+                );
+              })}
+            </ul>
+          </div>);
         case this.TABS.history:
           return (<div>History</div>);
         case this.TABS.templates:
