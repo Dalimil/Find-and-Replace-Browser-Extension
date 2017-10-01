@@ -12,7 +12,7 @@ class FavouritesPanel extends React.Component {
   }
 
   handleFavouriteSelected(id) {
-    // todo- callback up - fill in state and close
+    this.props.onFavouriteSelected(this.props.favourites[id]);
   }
 
   handleFavouriteRemoved(id) {
@@ -20,10 +20,14 @@ class FavouritesPanel extends React.Component {
   }
 
   render() {
+    const noSavedFavouritesMessage = <div style={{ padding: '1em' }}>
+        Currently you have no saved items.</div>;
+
     return (
       <div className="favourites-list">
         <div className="panel-title">Favourites</div>
         <div>
+          {Object.keys(this.props.favourites).length == 0 && noSavedFavouritesMessage}
           {Object.keys(this.props.favourites).map(id => {
             const { findTextInput, replaceTextInput } = this.props.favourites[id];
             return (
@@ -35,7 +39,10 @@ class FavouritesPanel extends React.Component {
                   {replaceTextInput}
                 </span>
                 <FontAwesome className="favourites-list-item-remove" name='times'
-                  onClick={() => this.handleFavouriteRemoved(id)} />
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    this.handleFavouriteRemoved(id);
+                  }} />
               </div>
             );
           })}

@@ -10,7 +10,7 @@ import Storage from './Storage';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       advancedSearchExpanded: false,
       findTextInput: '',
@@ -26,17 +26,6 @@ class Main extends React.Component {
       ConnectionApi.log("Handle ", msg);
     });
 
-    Storage.previousSearchStatePromise.then(prevSearchState => {
-      // setState possibly merges empty {} object
-      this.setState(prevSearchState, () => {
-        if (prevSearchState.findTextInput) {
-          this.findInputElement.select(); // select text at the start
-        }
-        this.sendSeachUpdate();
-        this.checkIfStateInFavourites();
-      });
-    });
-
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleFindNext = this.handleFindNext.bind(this);
     this.handleFindPrev = this.handleFindPrev.bind(this);
@@ -47,10 +36,27 @@ class Main extends React.Component {
     this.handleReplaceInputKeyboardPress = this.handleReplaceInputKeyboardPress.bind(this);
     this.handleReplaceInputTabKey = this.handleReplaceInputTabKey.bind(this);
     this.toggleAddToFavourites = this.toggleAddToFavourites.bind(this);
+    this.onButtonsPanelClosed = this.onButtonsPanelClosed.bind(this);
+    this.onFavouriteSelectedInPanel = this.onFavouriteSelectedInPanel.bind(this);
   }
 
   componentDidMount() {
     this.findInputElement.select();
+
+    Storage.previousSearchStatePromise.then(prevSearchState => {
+      // Sometimes empty {} object - that's OK
+      this.updateStateFromSaved(prevSearchState);
+    });
+  }
+
+  updateStateFromSaved(savedPartialState) {
+    this.setState(savedPartialState, () => {
+      if (savedPartialState.findTextInput) {
+        this.findInputElement.select(); // select text at the start
+      }
+      this.sendSeachUpdate();
+      this.checkIfStateInFavourites();
+    });
   }
 
   handleSearchInputChange(e) {
@@ -75,6 +81,15 @@ class Main extends React.Component {
     Storage.isAddedToFavourites(this.getSearchStateForFavourites()).then(isAdded => {
       this.setState({ addedToFavourites: isAdded });
     });
+  }
+
+  onFavouriteSelectedInPanel(favourite) {
+    this.updateStateFromSaved(favourite);
+  }
+
+  onButtonsPanelClosed() {
+    // Maybe previously removed from favourites list
+    this.checkIfStateInFavourites();
   }
 
   handleFindInputKeyboardPress(e) {
@@ -258,7 +273,9 @@ class Main extends React.Component {
           </div>
         </div>
 
-        <ButtonPanel />
+        <ButtonPanel
+          onPanelClosed={this.onButtonsPanelClosed}
+          onFavouriteSelected={this.onFavouriteSelectedInPanel} />
       </div>
     );
   }
