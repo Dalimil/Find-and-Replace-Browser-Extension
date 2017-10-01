@@ -1,5 +1,5 @@
-// Persists UI state even after the widget is destroyed
 
+// Persists UI state even after the widget is destroyed
 class Storage {
   constructor() {
     this.dummy = window.chrome == undefined;
@@ -65,7 +65,7 @@ class Storage {
   }
 
   isAddedToFavourites(searchState) {
-    if (this.dummy) return;
+    if (this.dummy) return Promise.resolve(false);
 
     const searchHash = this.hashSearchState_(searchState);
     return this.favouritesPromise.then(favourites => {
@@ -78,7 +78,23 @@ class Storage {
   }
 
   observeOnFavouritesChanged(func) {
-    if (this.dummy) return;
+    if (this.dummy) {
+      func({
+        'a': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'b': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'c': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'd': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'e': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'f': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'g': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'h': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'i': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'j': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'k': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+        'l': { findTextInput: 'abc', replaceTextInput: 'cdf' },
+      });
+      return;
+    }
     this.favouritesObservers.push(func);
     // Give the observer current data straight away
     this.favouritesPromise.then(favourites => func(favourites));
@@ -86,7 +102,7 @@ class Storage {
 
   hashSearchState_(searchState) {
     // Concatenate property values and stringify
-    return Object.keys(searchState).map(x => searchState[x].toString()).join(";");
+    return Object.keys(searchState).sort().map(x => searchState[x].toString()).join(";");
   }
 
   reset() {
