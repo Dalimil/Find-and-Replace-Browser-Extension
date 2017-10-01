@@ -211,6 +211,9 @@ In Background: Nothing - here we just set up events
 
 TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage
 
+#### Favourites
+TODO: explain hashing search state to check if the item is in favourites
+
 #### User actions
 - Update search query or options
   - 'Find' input field content changes
