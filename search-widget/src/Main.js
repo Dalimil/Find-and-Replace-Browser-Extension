@@ -197,10 +197,10 @@ class Main extends React.Component {
   }
 
   getReplaceText() {
-    if (this.useRegexInput) {
-      // substitute groups first
+    if (this.state.useRegexInput) {
+      // todo - substitute groups first
     }
-    return this.replaceTextInput;
+    return this.state.replaceTextInput;
   }
 
   render() {

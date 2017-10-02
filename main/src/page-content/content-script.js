@@ -86,14 +86,14 @@ function replaceCurrent(resultText) {
 
   const originalLength = $node.text().length;
   const originalOffset = getTextOffsetInParent($node.get(0));
-  $node.text(resultText);
+  const $wrapper = $node.closest(`.${CLASSES.textareaContainer}`);
+  $node.text(resultText); // todo - wrong for ceditable
   flattenNode($node.get(0));
 
   // Check if this is a textarea highlight,
   //  replace the mirrored text too if so
-  const wrapper = $node.closest(`.${CLASSES.textareaContainer}`);
-  if (wrapper.size() != 0) {
-    const textarea = wrapper.find('textarea');
+  if ($wrapper.length != 0) {
+    const textarea = $wrapper.find('textarea');
     const originalText = textarea.val();
     const replacedText = originalText.substr(0, originalOffset) + resultText +
       originalText.substr(originalOffset + originalLength);
@@ -114,7 +114,8 @@ function replaceAll(resultText) {
 
 function flattenNode(node) {
   const parent = node.parentNode;
-  parent.replaceChild(node.firstChild, node);
+  // replace '<>text<>' with 'text'
+  parent.replaceChild(node.firstChild, node); 
   // merge adjacent text nodes
   parent.normalize();
 }
@@ -222,10 +223,10 @@ function shutdown() {
 }
 
 function handleApiCall(msg) {
-  console.log("Content Script API: ", msg.action);
+  console.log("Content Script API: ", msg.action, msg.data);
   switch (msg.action) {
     case 'shutdown':
-      shutdown();
+      //shutdown();
       break;
     case 'restart':
       port.onMessage.removeListener(handleApiCall);
