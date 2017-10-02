@@ -8,7 +8,7 @@
       font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
       padding: 1em;
     }
-    textarea {
+    .simpleTextarea {
       min-width: 300px;
       width: 30%;
       height: 80px;
@@ -17,19 +17,32 @@
       outline: 1px solid gray;
       padding: 0.5em;
     }
+
+    .multipleTextareas textarea {
+      height: 50px;
+      min-width: 300px;
+    }
   </style>
 </head>
 
 <body>
   <h2>Textarea</h2>
   <p>Here is a simple textarea</p>
-  <textarea>OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?
+  <textarea class="simpleTextarea">OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?
 OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
 
   <h2>Contenteditable</h2>
   <p>Here is a simple contenteditable div</p>
   <div class="cEditable" contenteditable="true">OK and <strong>ok and</strong> Ok <strong>and <em>oK</em> and</strong> _k and o_ and OK in
     <div>Lorem <div>ipsum</div> <span>dolor?</span>?</div>?
+  </div>
+
+  <h2>Multiple Textareas</h2>
+  <p>Here is a couple of simple textareas</p>
+  <div class="multipleTextareas">
+    <textarea>OK and ok and Ok</textarea>
+    <textarea>and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
+    <textarea>OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
   </div>
 
 </body>
