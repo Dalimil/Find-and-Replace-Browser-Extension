@@ -2,7 +2,7 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 
 import { Button, Checkbox, Star } from './InputElements';
-import ButtonPanel from './ButtonPanel';
+import ButtonPanel from './panels/ButtonPanel';
 
 import ConnectionApi from './ConnectionApi';
 import Storage from './Storage';
@@ -38,6 +38,7 @@ class Main extends React.Component {
     this.toggleAddToFavourites = this.toggleAddToFavourites.bind(this);
     this.onButtonsPanelClosed = this.onButtonsPanelClosed.bind(this);
     this.onFavouriteSelectedInPanel = this.onFavouriteSelectedInPanel.bind(this);
+    this.onHistorySelecedInPanel = this.onHistorySelecedInPanel.bind(this);
   }
 
   componentDidMount() {
@@ -85,6 +86,10 @@ class Main extends React.Component {
 
   onFavouriteSelectedInPanel(favourite) {
     this.updateStateFromSaved(favourite);
+  }
+
+  onHistorySelecedInPanel(history) {
+    this.updateStateFromSaved(history);
   }
 
   onButtonsPanelClosed() {
@@ -155,6 +160,14 @@ class Main extends React.Component {
     });
   }
 
+  getSearchStateForHistory() {
+    const { findTextInput, replaceTextInput } = this.state;
+    return {
+      findTextInput,
+      replaceTextInput
+    };
+  }
+
   getSearchStateForFavourites() {
     const searchState = Object.assign({}, this.state);
     delete searchState.addedToFavourites;
@@ -169,16 +182,18 @@ class Main extends React.Component {
     ConnectionApi.findPrev();
   }
 
-  handleReplaceOne(e) { 
+  handleReplaceOne(e) {
     ConnectionApi.replaceCurrent({
       text: this.getReplaceText() 
     });
+    Storage.addToHistory(this.getSearchStateForHistory());
   }
 
   handleReplaceAll(e) { 
     ConnectionApi.replaceAll({
       text: this.getReplaceText() 
     });
+    Storage.addToHistory(this.getSearchStateForHistory());
   }
 
   getReplaceText() {
@@ -275,7 +290,8 @@ class Main extends React.Component {
 
         <ButtonPanel
           onPanelClosed={this.onButtonsPanelClosed}
-          onFavouriteSelected={this.onFavouriteSelectedInPanel} />
+          onFavouriteSelected={this.onFavouriteSelectedInPanel}
+          onHistorySelected={this.onHistorySelecedInPanel} />
       </div>
     );
   }
