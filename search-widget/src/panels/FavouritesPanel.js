@@ -1,7 +1,7 @@
 import React from 'react';
 
 import FontAwesome from 'react-fontawesome';
-import Storage from './Storage';
+import Storage from '../Storage';
 
 class FavouritesPanel extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class FavouritesPanel extends React.Component {
         <div className="panel-title">Favourites</div>
         <div>
           {Object.keys(this.props.favourites).length == 0 && noSavedFavouritesMessage}
-          {Object.keys(this.props.favourites).map(id => {
+          {Object.keys(this.props.favourites).sort().map(id => {
             const { findTextInput, replaceTextInput } = this.props.favourites[id];
             return (
               <div className="favourites-list-item" key={id}

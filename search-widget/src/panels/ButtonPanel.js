@@ -1,9 +1,10 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 
-import Storage from './Storage';
-import ConnectionApi from './ConnectionApi';
+import Storage from '../Storage';
+import ConnectionApi from '../ConnectionApi';
 import FavouritesPanel from './FavouritesPanel';
+import HistoryPanel from './HistoryPanel';
 
 class ButtonPanel extends React.Component {
   constructor(props) {
@@ -25,20 +26,29 @@ class ButtonPanel extends React.Component {
     this.state = {
       expanded: false,
       activeTab: null,
-      favourites: {}
+      favourites: {},
+      history: {}
     };
 
     this.selectMenuItem = this.selectMenuItem.bind(this);
     this.onFavouriteSelected = this.onFavouriteSelected.bind(this);
+    this.onHistorySelected = this.onHistorySelected.bind(this);
   }
 
   componentDidMount() {
     Storage.observeOnFavouritesChanged(this.onFavouritesChanged.bind(this));
+    Storage.observeOnHistoryChanged(this.onHistoryChanged.bind(this));
   }
 
   onFavouritesChanged(favourites) {
     ConnectionApi.log("Got favs update: ", favourites);
     this.setState({ favourites });
+  }
+
+  onHistoryChanged(history) {
+    const historyListLatestFirst = history.slice().reverse();
+    ConnectionApi.log("Got history update: ", historyListLatestFirst);
+    this.setState({ history: historyListLatestFirst });
   }
 
   selectMenuItem(name) {
@@ -66,6 +76,11 @@ class ButtonPanel extends React.Component {
     this.props.onFavouriteSelected(favourite);
   }
 
+  onHistorySelected(historyItem) {
+    this.closePanels();
+    this.props.onHistorySelected(historyItem);
+  }
+
   render() {
     const renderTab = () => {
       if (!this.state.expanded) return;
@@ -78,7 +93,11 @@ class ButtonPanel extends React.Component {
               onFavouriteSelected={this.onFavouriteSelected} />
           );
         case this.TABS.history:
-          return (<div>History</div>);
+          return (
+            <HistoryPanel
+              history={this.state.history}
+              onHistorySelected={this.onHistorySelected} />
+          );
         case this.TABS.templates:
           return (<div>Templates - paste-only text - create new here</div>);
         case this.TABS.help:
