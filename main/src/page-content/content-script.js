@@ -19,8 +19,13 @@ let occurrenceCount = 0;
 const CLASSES = {
   regularHighlight: 'hwt-mark-highlight',
   currentHighlight: 'hwt-highlight-current',
-  textareaContainer: 'hwt-container'
+  textareaContainer: 'hwt-container',
+  textareaContentMirror: 'hwt-highlights'
 };
+const SELECTORS = {}; // '.' + 'className'
+Object.keys(CLASSES).forEach(classId => {
+  SELECTORS[classId] = `.${CLASSES[classId]}`;
+});
 
 setUpMessageConnections();
 
@@ -52,15 +57,13 @@ function scrollInViewIfNotAlready($element) {
  * Scrolls to the element in view if needed
  */
 function setOccurrenceIndex(index) {
-  const regularOccurrenceClass = CLASSES.regularHighlight;
-  const currentOccurrenceClass = CLASSES.currentHighlight;
-  $(`.${currentOccurrenceClass}`).removeClass(currentOccurrenceClass);
+  $(SELECTORS.currentHighlight).removeClass(CLASSES.currentHighlight);
 
-  occurrenceCount = $(`.${regularOccurrenceClass}`).length;
+  occurrenceCount = $(SELECTORS.regularHighlight).length;
   if (occurrenceCount != 0) {
     index = ((index % occurrenceCount) + occurrenceCount) % occurrenceCount;
     currentOccurrenceIndex = index;
-    const $current = $(`.${regularOccurrenceClass}`).eq(index).addClass(currentOccurrenceClass);
+    const $current = $(SELECTORS.regularHighlight).eq(index).addClass(CLASSES.currentHighlight);
     scrollInViewIfNotAlready($current);
     console.log(currentOccurrenceIndex + "/" + occurrenceCount);
   } else {
@@ -80,13 +83,13 @@ function getTextOffsetInParent(node) {
 }
 
 function replaceCurrent(resultText) {
-  const $node = $(`.${CLASSES.currentHighlight}`)
+  const $node = $(SELECTORS.currentHighlight)
     .removeClass(CLASSES.currentHighlight)
     .removeClass(CLASSES.regularHighlight);
 
   const originalLength = $node.text().length;
   const originalOffset = getTextOffsetInParent($node.get(0));
-  const $wrapper = $node.closest(`.${CLASSES.textareaContainer}`);
+  const $wrapper = $node.closest(SELECTORS.textareaContainer);
   $node.text(resultText); // todo - wrong for ceditable
   flattenNode($node.get(0));
 
@@ -132,36 +135,46 @@ function clearEditableAreaGlow($element) {
   });
 }
 
-function highlightTextarea($element, params, refocus) {
-  $element.highlightWithinTextarea({
-    highlight: [{
-      highlight: params.query,
-      className: CLASSES.regularHighlight
-    }]
+function highlightTextarea($elements, params, refocus) {
+  // Sets up containers ONLY
+  $elements.highlightWithinTextarea({
+    highlight: ''
   });
-  if (refocus) {
-    $element.focus();
+  if (refocus && $elements.length == 1) {
+    // only works for a single (previously focused) element
+    $elements.focus();
   }
+  const $containers = $elements.closest(SELECTORS.textareaContainer);
+  const $mirrors = $containers.find(SELECTORS.textareaContentMirror);
+  console.log($elements, $containers, $mirrors);
+  highlightHtml($mirrors, params);
 }
 
-function highlightContenteditable($element, params) {
-  // Remove previous marks and mark new elements
-  $("[contenteditable]").unmark({
+function highlightContenteditable($elements, params) {
+  highlightHtml($elements, params);
+}
+
+function highlightHtml($elements, params) {
+  // First unmark all potential previous highlights
+  $elements.unmark({
     done: function() {
+      // Once finished, mark new elements 
       const options = {
         className: CLASSES.regularHighlight,
         acrossElements: true,
         iframes: true
       };
       if (params.regex) {
-        $element.markRegExp(params.query, options);
+        $elements.markRegExp(params.query, options);
       } else {
         options.separateWordSearch = false;
-        $element.mark(params.query, options);
+        $elements.mark(params.query, options);
       }
     }
   });
 }
+
+
 
 function updateSearch(params) {
   const activeSelection = getActiveSelection();
@@ -218,7 +231,8 @@ function shutdown() {
   $('textarea').css({ border: "1px solid skyblue" });
   $('[contenteditable]').css({ border: "1px solid skyblue" });
   $('textarea').highlightWithinTextarea('destroy');
-  $("[contenteditable]").unmark();
+  $('[contenteditable]').unmark();
+  $(SELECTORS.textareaContentMirror).unmark();
   clearEditableAreaGlow($('textarea, [contenteditable]'));
 }
 
