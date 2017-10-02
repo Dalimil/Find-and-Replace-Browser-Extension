@@ -164,10 +164,20 @@ function highlightHtml($elements, params) {
         acrossElements: true,
         iframes: true
       };
-      if (params.regex) {
-        $elements.markRegExp(params.query, options);
+      if (params.useRegex) {
+        const mod = params.matchCase ? "mg" : "mgi";
+        let regexQuery = params.query;
+        if (params.wholeWords) {
+          regexQuery = `\\b${regexQuery}\\b`;
+        }
+        const regexp = new RegExp(regexQuery, mod);
+        $elements.markRegExp(regexp, options);
       } else {
         options.separateWordSearch = false;
+        options.caseSensitive = params.matchCase;
+        if (params.wholeWords) {
+          options.accuracy = 'exactly'; // predefined option
+        }
         $elements.mark(params.query, options);
       }
     }

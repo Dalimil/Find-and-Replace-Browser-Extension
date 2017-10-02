@@ -128,7 +128,7 @@ class Main extends React.Component {
     // Notify content script to update search
     ConnectionApi.updateSearch({
       query: this.state.findTextInput,
-      regex: this.state.useRegexInput,
+      useRegex: this.state.useRegexInput,
       matchCase: this.state.matchCaseInput,
       wholeWords: this.state.wholeWordsInput,
       limitToSelection: this.state.limitToSelectionInput
