@@ -28,6 +28,7 @@ body {
   -ms-user-select: none;
   user-select: none;
   position: relative;
+  background-color: #fff;
 
   --main-color: #4569ac;
   --main-color-dark: #355084;
