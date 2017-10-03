@@ -87,19 +87,28 @@ function getTextOffsetInParent(node) {
   return textOffset;
 }
 
+/**
+ * Replaces the current (highlighted) occurrence
+ *    performs the replacement in the first node if matched accross elements
+ */
 function replaceCurrent(resultText) {
-  const $node = $(SELECTORS.currentHighlight, Context.doc)
+  const $nodes = $(SELECTORS.currentHighlight, Context.doc)
     .removeClass(CLASSES.currentHighlight)
     .removeClass(CLASSES.regularHighlight);
 
-  const originalLength = $node.text().length;
-  const originalOffset = getTextOffsetInParent($node.get(0));
-  const $wrapper = $node.closest(SELECTORS.textareaContainer);
-  $node.text(resultText); // todo - wrong for ceditable
-  flattenNode($node.get(0));
+  const originalLength = $nodes.text().length;
+  const originalOffset = getTextOffsetInParent($nodes.get(0));
+  const $wrapper = $nodes.eq(0).closest(SELECTORS.textareaContainer);
+  $nodes.each((index, el) => {
+    if (index == 0) {
+      $(el).text(resultText);
+    } else {
+      $(el).text("");
+    }
+    flattenNode(el);
+  });
 
-  // Check if this is a textarea highlight,
-  //  replace the mirrored text too if so
+  // Check if this is a textarea highlight, replace the mirrored text too if so
   if ($wrapper.length != 0) {
     const textarea = $wrapper.find('textarea');
     const originalText = textarea.val();
@@ -151,7 +160,6 @@ function highlightTextarea($elements, params, refocus) {
   }
   const $containers = $elements.closest(SELECTORS.textareaContainer);
   const $mirrors = $containers.find(SELECTORS.textareaContentMirror);
-  console.log($elements, $containers, $mirrors);
   highlightHtml($mirrors, params);
 }
 
@@ -166,8 +174,7 @@ function highlightHtml($elements, params) {
       // Once finished, mark new elements 
       const options = {
         className: CLASSES.regularHighlight,
-        acrossElements: true,
-        iframes: true
+        acrossElements: true
       };
       if (params.useRegex) {
         const mod = params.matchCase ? "mg" : "mgi";
@@ -196,8 +203,7 @@ function updateSearch(params) {
   Context.doc = activeSelection.documentContext;
   Context.win = activeSelection.windowContext;
 
-  console.log("Active element: ", activeSelection,
-      " Document: ", activeSelection.documentContext);
+  console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
 
   if (activeSelection.type == TYPES.textarea) {
     // Textarea
