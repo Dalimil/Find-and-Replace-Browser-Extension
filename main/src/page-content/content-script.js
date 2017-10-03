@@ -1,9 +1,11 @@
 // Injected into the currently active tab
 // Runs sandboxed within the DOM context of the page
 
-// todo remove
-$('textarea').css({ border: "1px solid red" });
-$('[contenteditable]').css({ border: "1px solid red" });
+// todo remove debug
+(() => {
+  $('textarea').css({ border: "1px solid red" });
+  $('[contenteditable]').css({ border: "1px solid red" });
+})();
 
 const TYPES = {
   textarea: 'textarea',
@@ -267,12 +269,10 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
 }
 
 function shutdown() {
-  $('textarea').css({ border: "1px solid skyblue" });
-  $('[contenteditable]').css({ border: "1px solid skyblue" });
-  $('textarea').highlightWithinTextarea('destroy');
-  $('[contenteditable]').unmark();
-  $(SELECTORS.textareaContentMirror).unmark();
-  clearEditableAreaGlow($('textarea, [contenteditable]'));
+  $('textarea', Context.doc).highlightWithinTextarea('destroy');
+  $('[contenteditable]', Context.doc).unmark();
+  $(SELECTORS.textareaContentMirror, Context.doc).unmark();
+  clearEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
 }
 
 function handleApiCall(msg) {
