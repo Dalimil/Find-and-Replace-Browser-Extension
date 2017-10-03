@@ -187,9 +187,11 @@ function highlightHtml($elements, params) {
 
 
 function updateSearch(params) {
-  const activeSelection = getActiveSelection();
-  console.log("Active element: ", activeSelection);
+  const activeSelection = getActiveSelection(document);
+  console.log("Active element: ", activeSelection,
+      " Document: ", activeSelection.documentContext);
 
+  // TODO: consider activeSelection.documentContex for all jQuery find $() operations
   if (activeSelection.type == TYPES.textarea) {
     // Textarea
     highlightTextarea(activeSelection.$element, params, /* refocus */ true);
@@ -211,29 +213,47 @@ function updateSearch(params) {
 }
 
 
-function getActiveSelection() {
-  const activeElement = document.activeElement;
-  const tagName = activeElement.tagName.toLowerCase();
-  if (tagName == 'textarea') {
-    const text = activeElement.value;
-    const selectedText = text.substring(activeElement.selectionStart, activeElement.selectionEnd);
-    return {
-      type: TYPES.textarea,
-      $element: $(activeElement)
+// TODO: return current text selection
+function getActiveSelection(documentContext) {
+  const activeElement = documentContext.activeElement;
+  if (activeElement) {
+    const tagName = activeElement.tagName.toLowerCase();
+    if (tagName == 'textarea') {
+      const text = activeElement.value;
+      const selectedText = text.substring(activeElement.selectionStart, activeElement.selectionEnd);
+      return {
+        type: TYPES.textarea,
+        $element: $(activeElement),
+        documentContext
+      }
+    } else if (activeElement.hasAttribute('contenteditable')) {
+      const selection = window.getSelection();
+      if (selection.isCollapsed) {
+        // no text selected
+      }
+      return {
+        type: TYPES.contenteditable,
+        $element: $(activeElement),
+        documentContext
+      };
+    } else if (tagName == 'iframe') {
+      try {
+        // Get 'document' object of the iframe
+        const innerContext = $(activeElement).contents().get(0);
+        return getActiveSelection(innerContext);
+      } catch (e) {
+        // ^^^ cross-origin iframe not accessible
+        return {
+          type: TYPES.mix,
+          documentContext
+        };
+      }
     }
-  } else if (activeElement.hasAttribute('contenteditable')) {
-    const selection = window.getSelection();
-    if (selection.isCollapsed) {
-      // no text selected
-    }
-    return {
-      type: TYPES.contenteditable,
-      $element: $(activeElement)
-    };
   }
   // No valid active input - so select all valid inactive
   return {
-    type: TYPES.mix
+    type: TYPES.mix,
+    documentContext
   };
 }
 
