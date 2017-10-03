@@ -8,7 +8,7 @@ function setUpContextMenu() {
   chrome.contextMenus.create({
     id: contextMenuItemId,
     contexts: ['selection'],
-    title: `Search for '%s' on this page.`
+    title: 'Find and Replace in Text Selection'
   });
 
   // Context menu handler
@@ -18,13 +18,24 @@ function setUpContextMenu() {
       return;
     }
     const selectionText = info.selectionText;
-    console.log('Context menu selection: ', selectionText);
-    // Pop-up is close and cannot be opened - insert content script instead
+    // Pop-up is closed and cannot be opened - insert content script instead
     chrome.tabs.executeScript(/* tabId - defaults to the active tab */ null,
       {
         file: contextMenuHandlingContentScriptFilepath
       }
     );
+    // User expects to search in the text selection - update Storage
+    const searchStateKey = 'search-state'; // fixed ID
+    chrome.storage.local.get(searchStateKey, data => {
+      const isPreviousSaved = ((searchStateKey in data) && data[searchStateKey] != null &&
+          data[searchStateKey] != undefined);
+      const searchState = isPreviousSaved ? data[searchStateKey] : {};
+      searchState.advancedSearchExpanded = true;
+      searchState.limitToSelectionInput = true;
+      chrome.storage.local.set({
+        [searchStateKey]: searchState
+      });
+    });
   });
 }
 
