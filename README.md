@@ -164,6 +164,8 @@ TODO: explain disabling buttons to draw attention to the active input field elem
 
 TODO: explain highlighting via inset box shadow the currently selected input area - (we always limit find & replace to current) - because user edits one textarea at a time - We want to draw focus to what text is going to be affected. If no textarea selected, select all available - for better usability (people might complain that the extension doesn't work otherwise). Or indicate that no valid input area present on the page.
 
+TODO: unify design / colors (blue theme based on extension icon?)
+
 ##### Why not Material Design
 For the general look and feel, I decided not to use Google's increasingly popular [Material Design](https://material.io/) for several reasons. First, Material Design works well when there's a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed compononets.
 
@@ -211,8 +213,14 @@ In Background: Nothing - here we just set up events
 
 TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage
 
-#### Favourites
+#### Favourites Panel
 TODO: explain hashing search state to check if the item is in favourites
+
+#### History Panel
+
+#### Templates Panel
+
+#### Help Panel
 
 #### User actions
 - Update search query or options
@@ -284,8 +292,18 @@ For highlighting text in the `<div>` mirroring our textarea, I'll use **mark.js*
 
 ### Testing
 
+#### TODO Ideas
+- Debouncer for search and Debouncer for 'storage save search-state' - this would need timing tests before and after to justify
+
 ### Distribution & Marketing
 Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
 
 ### Feedback & Iteration
 
+#### TODO Ideas
+- Implement Google Analytics and measure how many times user click icons and use advanced features
+
+### More ideas/TODOs
+- Look at structure of previous dissertation projects
+- Find a good Markdown to Latex converter
+- Use we or I in text
