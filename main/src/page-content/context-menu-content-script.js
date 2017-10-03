@@ -1,11 +1,11 @@
 // Injected into the currently active tab when context menu item is clicked
 
 (() => {
-
-
+  
   const activeElement = document.activeElement;
-  const tagName = activeElement.tagName.toLowerCase();
-  const isEditable = (tagName == 'textarea' || activeElement.hasAttribute('contenteditable'));
+  const tagName = activeElement && activeElement.tagName.toLowerCase();
+  const isEditable = (tagName == 'textarea' || tagName == 'iframe' ||
+      (activeElement && activeElement.hasAttribute('contenteditable')));
 
   const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
   const displayText = isEditable ? `Press ${isMac ? 'Cmd' : 'Ctrl'}+Shift+F` : 'Text is not editable';
@@ -18,8 +18,9 @@
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 30px;
     font-weight: bold;
+    color: #111;
     text-shadow: 0 0 1px #fff, 0 0 1px #000;
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 50px;
     z-index: 9999;
