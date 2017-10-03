@@ -1,10 +1,18 @@
 // Injected into the currently active tab when context menu item is clicked
 
 (() => {
+
+
+  const activeElement = document.activeElement;
+  const tagName = activeElement.tagName.toLowerCase();
+  const isEditable = (tagName == 'textarea' || activeElement.hasAttribute('contenteditable'));
+
   const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+  const displayText = isEditable ? `Press ${isMac ? 'Cmd' : 'Ctrl'}+Shift+F` : 'Text is not editable';
+
   // Create a new DOM element with a hint text
   const hintText = document.createElement('div');
-  hintText.innerText = `Press ${isMac ? 'Cmd' : 'Ctrl'}+Shift+F`;
+  hintText.innerText = displayText;
   hintText.style.cssText = `
     all: initial;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
