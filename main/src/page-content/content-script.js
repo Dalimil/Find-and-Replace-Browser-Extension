@@ -14,8 +14,10 @@ const TYPES = {
 };
 
 let port = null;
+// Total # of highlights; multiple adjacent marks across element boundaries count as 1
+let occurrenceCount = 0; 
+// Current highlight index - again the 'real' index (merging cross boundary occurrences)
 let currentOccurrenceIndex = 0;
-let occurrenceCount = 0;
 const Context = {
   doc: document,
   win: window
@@ -160,39 +162,51 @@ function highlightTextarea($elements, params, refocus) {
   }
   const $containers = $elements.closest(SELECTORS.textareaContainer);
   const $mirrors = $containers.find(SELECTORS.textareaContentMirror);
-  highlightHtml($mirrors, params);
+  return highlightHtml($mirrors, params);
 }
 
 function highlightContenteditable($elements, params) {
-  highlightHtml($elements, params);
+  return highlightHtml($elements, params);
 }
 
 function highlightHtml($elements, params) {
-  // First unmark all potential previous highlights
-  $elements.unmark({
-    done: function() {
-      // Once finished, mark new elements 
-      const options = {
-        className: CLASSES.regularHighlight,
-        acrossElements: true
-      };
-      if (params.useRegex) {
-        const mod = params.matchCase ? "mg" : "mgi";
-        let regexQuery = params.query;
-        if (params.wholeWords) {
-          regexQuery = `\\b${regexQuery}\\b`;
+  return new Promise((resolve, reject) => {
+    // First unmark all potential previous highlights
+    $elements.unmark({
+      done: function() {
+        // Once finished, mark new elements 
+        const options = {
+          className: CLASSES.regularHighlight,
+          acrossElements: true,
+          done: resolve,
+          filter: (node, term, counter) => {
+            // todo
+            console.log(" filter ->", node, term, counter, node.parentNode);
+            return true;
+          }
+        };
+        if (params.useRegex) {
+          const mod = params.matchCase ? "mg" : "mgi";
+          let regexQuery = params.query;
+          if (params.wholeWords) {
+            regexQuery = `\\b${regexQuery}\\b`;
+          }
+          try {
+            const regexp = new RegExp(regexQuery, mod);
+            $elements.markRegExp(regexp, options);
+          } catch (e) {
+            reject(e);
+          }
+        } else {
+          options.separateWordSearch = false;
+          options.caseSensitive = params.matchCase;
+          if (params.wholeWords) {
+            options.accuracy = 'exactly'; // predefined option
+          }
+          $elements.mark(params.query, options);
         }
-        const regexp = new RegExp(regexQuery, mod);
-        $elements.markRegExp(regexp, options);
-      } else {
-        options.separateWordSearch = false;
-        options.caseSensitive = params.matchCase;
-        if (params.wholeWords) {
-          options.accuracy = 'exactly'; // predefined option
-        }
-        $elements.mark(params.query, options);
       }
-    }
+    });
   });
 }
 
@@ -205,24 +219,37 @@ function updateSearch(params) {
 
   console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
 
-  if (activeSelection.type == TYPES.textarea) {
-    // Textarea
-    highlightTextarea(activeSelection.$element, params, /* refocus */ true);
-    setEditableAreaGlow(activeSelection.$element);
-  } else if (activeSelection.type == TYPES.contenteditable) {
-    // Contenteditable
-    highlightContenteditable(activeSelection.$element, params);
-    setEditableAreaGlow(activeSelection.$element);
-  } else {
-    // Both (all are inactive) - but possibly inside a selected iframe
-    highlightTextarea($('textarea', Context.doc), params);
-    highlightContenteditable($('[contenteditable]', Context.doc), params);
-    setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
-  }
+  const highlightMatchesPromise = new Promise((resolve, reject) => {
+    if (activeSelection.type == TYPES.textarea) {
+      // Textarea
+      highlightTextarea(activeSelection.$element, params, /* refocus */ true)
+          .then(resolve).catch(reject);
+      setEditableAreaGlow(activeSelection.$element);
+    } else if (activeSelection.type == TYPES.contenteditable) {
+      // Contenteditable
+      highlightContenteditable(activeSelection.$element, params)
+          .then(resolve).catch(reject);
+      setEditableAreaGlow(activeSelection.$element);
+    } else {
+      // Both (all are inactive) - but possibly inside a selected iframe
+      Promise.all([
+        highlightTextarea($('textarea', Context.doc), params),
+        highlightContenteditable($('[contenteditable]', Context.doc), params)
+      ])
+      .then(values => values[0] + values[1])
+      .then(resolve)
+      .catch(reject);
+      setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
+    }
+  });
 
-  // Reset current active
-  // todo: maybe keep the previous index based on cursor?
-  setOccurrenceIndex(0);
+  highlightMatchesPromise.then(totalMarks => {
+    console.log("Total ", totalMarks);
+    /* findAll */
+    setOccurrenceIndex(0); // maybe keep current
+  }).catch(e => {
+    console.log("Invalid regexp? ", e);
+  });
 }
 
 
