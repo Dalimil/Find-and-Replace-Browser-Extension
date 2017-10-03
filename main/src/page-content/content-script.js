@@ -1,8 +1,7 @@
 // Injected into the currently active tab
 // Runs sandboxed within the DOM context of the page
 
-console.log($('textarea'));
-console.log($('[contenteditable]'));
+// todo remove
 $('textarea').css({ border: "1px solid red" });
 $('[contenteditable]').css({ border: "1px solid red" });
 
@@ -15,6 +14,10 @@ const TYPES = {
 let port = null;
 let currentOccurrenceIndex = 0;
 let occurrenceCount = 0;
+const Context = {
+  doc: document,
+  win: window
+};
 
 const CLASSES = {
   regularHighlight: 'hwt-mark-highlight',
@@ -41,11 +44,11 @@ function setUpMessageConnections() {
 function scrollInViewIfNotAlready($element) {
   const currentTop = $element.offset().top;
   const currentBottom = $element.offset().top + $element.outerHeight();
-  const $window = $(window);
+  const $window = $(Context.win);
   const screenTop = $window.scrollTop();
   const screenBottom = $window.scrollTop() + $window.height();
   if ((currentTop > screenBottom) || (currentBottom < screenTop)) {
-    window.scrollTo(
+    Context.win.scrollTo(
       0,
       Math.max(0, Math.round((currentBottom + currentTop - $window.height()) / 2))
     );
@@ -57,13 +60,13 @@ function scrollInViewIfNotAlready($element) {
  * Scrolls to the element in view if needed
  */
 function setOccurrenceIndex(index) {
-  $(SELECTORS.currentHighlight).removeClass(CLASSES.currentHighlight);
+  $(SELECTORS.currentHighlight, Context.doc).removeClass(CLASSES.currentHighlight);
 
-  occurrenceCount = $(SELECTORS.regularHighlight).length;
+  occurrenceCount = $(SELECTORS.regularHighlight, Context.doc).length;
   if (occurrenceCount != 0) {
     index = ((index % occurrenceCount) + occurrenceCount) % occurrenceCount;
     currentOccurrenceIndex = index;
-    const $current = $(SELECTORS.regularHighlight).eq(index).addClass(CLASSES.currentHighlight);
+    const $current = $(SELECTORS.regularHighlight, Context.doc).eq(index).addClass(CLASSES.currentHighlight);
     scrollInViewIfNotAlready($current);
     console.log(currentOccurrenceIndex + "/" + occurrenceCount);
   } else {
@@ -83,7 +86,7 @@ function getTextOffsetInParent(node) {
 }
 
 function replaceCurrent(resultText) {
-  const $node = $(SELECTORS.currentHighlight)
+  const $node = $(SELECTORS.currentHighlight, Context.doc)
     .removeClass(CLASSES.currentHighlight)
     .removeClass(CLASSES.regularHighlight);
 
@@ -187,11 +190,13 @@ function highlightHtml($elements, params) {
 
 
 function updateSearch(params) {
-  const activeSelection = getActiveSelection(document);
+  const activeSelection = getActiveSelectionAndContext(document, window);
+  Context.doc = activeSelection.documentContext;
+  Context.win = activeSelection.windowContext;
+
   console.log("Active element: ", activeSelection,
       " Document: ", activeSelection.documentContext);
 
-  // TODO: consider activeSelection.documentContex for all jQuery find $() operations
   if (activeSelection.type == TYPES.textarea) {
     // Textarea
     highlightTextarea(activeSelection.$element, params, /* refocus */ true);
@@ -201,10 +206,10 @@ function updateSearch(params) {
     highlightContenteditable(activeSelection.$element, params);
     setEditableAreaGlow(activeSelection.$element);
   } else {
-    // Both (all are inactive)
-    highlightTextarea($('textarea'), params);
-    highlightContenteditable($('[contenteditable]'), params);
-    setEditableAreaGlow($('textarea, [contenteditable]'));
+    // Both (all are inactive) - but possibly inside a selected iframe
+    highlightTextarea($('textarea', Context.doc), params);
+    highlightContenteditable($('[contenteditable]', Context.doc), params);
+    setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
   }
 
   // Reset current active
@@ -214,7 +219,7 @@ function updateSearch(params) {
 
 
 // TODO: return current text selection
-function getActiveSelection(documentContext) {
+function getActiveSelectionAndContext(documentContext, windowContext) {
   const activeElement = documentContext.activeElement;
   if (activeElement) {
     const tagName = activeElement.tagName.toLowerCase();
@@ -224,7 +229,8 @@ function getActiveSelection(documentContext) {
       return {
         type: TYPES.textarea,
         $element: $(activeElement),
-        documentContext
+        documentContext,
+        windowContext
       }
     } else if (activeElement.hasAttribute('contenteditable')) {
       const selection = window.getSelection();
@@ -234,18 +240,20 @@ function getActiveSelection(documentContext) {
       return {
         type: TYPES.contenteditable,
         $element: $(activeElement),
-        documentContext
+        documentContext,
+        windowContext
       };
     } else if (tagName == 'iframe') {
       try {
         // Get 'document' object of the iframe
         const innerContext = $(activeElement).contents().get(0);
-        return getActiveSelection(innerContext);
+        return getActiveSelection(innerContext, activeElement.contentWindow);
       } catch (e) {
         // ^^^ cross-origin iframe not accessible
         return {
           type: TYPES.mix,
-          documentContext
+          documentContext,
+          windowContext
         };
       }
     }
@@ -253,7 +261,8 @@ function getActiveSelection(documentContext) {
   // No valid active input - so select all valid inactive
   return {
     type: TYPES.mix,
-    documentContext
+    documentContext,
+    windowContext
   };
 }
 
