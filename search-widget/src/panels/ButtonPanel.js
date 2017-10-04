@@ -102,8 +102,10 @@ class ButtonPanel extends React.Component {
 
   onTemplateSelected(templateText) {
     this.closePanels();
-    // TODO: send via ConnectionApi to paste template
     ConnectionApi.log(`Pasting template: "${templateText}"`);
+    ConnectionApi.insertTemplate({
+      text: templateText
+    });
   }
 
   render() {

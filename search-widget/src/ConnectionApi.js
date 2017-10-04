@@ -86,6 +86,15 @@ class ConnectionApi {
     });
   }
 
+  insertTemplate(template) {
+    this.executeOnPort(port => {
+      port.postMessage({
+        action: 'insertTemplate',
+        data: template
+      });
+    })
+  }
+
 }
 
 const SingletonConnectionApi = new ConnectionApi();

@@ -211,7 +211,7 @@ In Widget - Search params, all inputs;
 In Content Script: Refs to all DOM textarea elements, Find-next number (because it keeps dynamically changing and search widget should only receive it from content script messages passed to it)
 In Background: Nothing - here we just set up events
 
-TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage
+TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage and describe challenges faced when syncing state within the app - abstracting with Promises and chaining async operations once finished + observer pattern - subscribing to updates when another part of the app changes storage
 
 #### Favourites Panel
 TODO: explain hashing search state to check if the item is in favourites
@@ -262,6 +262,9 @@ User actions specified above directly translate to types of messages that need t
 **action: replaceAll**
 - Replaces all matches with `data` contents
 
+**action: insertTemplate**
+- Inserts template text `data` at current cursor
+
 ### RegEx Search
 JavaScript contains native support for regular expressions (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query.
 
@@ -289,6 +292,11 @@ https://github.com/lonekorean/highlight-within-textarea/pull/19
   - After 2nd review the discussion still continues, there are backward-compatibility issues and conflicting views on the design and purpose of the plugin. As I'm injecting the code dynamically I have a slightly different use case and might need to leave my forked version unmerged.
 
 For highlighting text in the `<div>` mirroring our textarea, I'll use **mark.js** again. This is mostly for making things consistent and having a single unified function interface (finding and replacing the plaintext separately would also be an option, but we are using the library already so there's no need to make things more complicated).
+
+### Handling iframes
+TODO: explain recursive search for active element
+
+TODO: explain the concept of my Context object - performing all dom operations (in particular jQuery functions) with respect to a specific Window and Document objects (such as window.getActiveSelection, window.scroll etc.)
 
 ### Testing
 

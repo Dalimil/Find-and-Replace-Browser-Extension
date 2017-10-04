@@ -151,6 +151,16 @@ function clearEditableAreaGlow($element) {
   });
 }
 
+function insertTemplate(templateText) {
+  const selection = Context.win.getSelection();
+  if (selection.rangeCount > 0) {
+    const { endContainer: target, endOffset: offset } = selection.getRangeAt(0);
+    // todo check if inside contenteditable or textarea
+    // textarea will fail getSelection() test
+    // todo: save this globally in getActiveSelectionAndContext and just use the element ref + type, here
+  }
+}
+
 function highlightTextarea($elements, params, refocus) {
   // Sets up containers ONLY
   $elements.highlightWithinTextarea({
@@ -333,6 +343,9 @@ function handleApiCall(msg) {
       break;
     case 'replaceAll':
       replaceAll(msg.data.text);
+      break;
+    case 'insertTemplate':
+      insertTemplate(msg.data.text);
       break;
     default:
       console.log('Invalid API Call: ', msg.action);
