@@ -89,14 +89,15 @@ body {
   z-index: 1;
 }
 
-/* FAVOURITES TAB */
+/* TAB PANELS */
   .panel-title {
     font-weight: bold;
     padding: 1em 1em 0;
     margin-bottom: 0.5em;
   }
   .favourites-list,
-  .history-list {
+  .history-list,
+  .templates-list {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -105,41 +106,58 @@ body {
   }
 
   .favourites-list-item,
-  .history-list-item {
+  .history-list-item,
+  .templates-list-item {
     background-color: #fdfdfd;
     border-radius: 2px;
     padding: 5px 1em;
     /*font-size: 0.9em;*/
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border: 1px solid rgba(0,0,0,0.1);
     border-bottom: none;
     white-space: nowrap;
+    height: 1.3em;
   }
   .favourites-list-item > span:first-child,
-  .history-list-item > span:first-child {
+  .history-list-item > span:first-child,
+  .templates-list-item > span:first-child {
     overflow-x: hidden;
     text-overflow: ellipsis;
+    cursor: default;
   }
   .favourites-list-item:last-child,
-  .history-list-item:last-child {
+  .history-list-item:last-child,
+  .templates-list-item:last-child {
     border-bottom: 1px solid rgba(0,0,0,0.1);
   }
   .favourites-list-item:hover,
-  .history-list-item:hover {
+  .history-list-item:hover,
+  .templates-list-item:hover {
     box-shadow: inset 0 0 2px var(--main-color);
     background-color: #f1f1f1;
   }
-  .favourites-list-item-remove {
+  .favourites-list-item-remove,
+  .templates-list-item-remove,
+  .templates-list-item-edit {
     display: none;
     cursor: pointer;
-    font-size: 1.2em;
     color: #333;
+    font-size: 1.3em;
   }
-  .favourites-list-item:hover .favourites-list-item-remove {
+  .templates-list-item-edit {
+    font-size: 1.2em;
+    margin-right: 10px;
+  }
+  .favourites-list-item:hover .favourites-list-item-remove,
+  .templates-list-item:hover .templates-list-item-remove,
+  .templates-list-item:hover .templates-list-item-edit {
     display: inline-block;
   }
-  .favourites-list-item-remove:hover {
+  .favourites-list-item-remove:hover,
+  .templates-list-item-remove:hover,
+  .templates-list-item-edit:hover {
     color: #111;
   }
 
