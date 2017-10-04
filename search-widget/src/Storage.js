@@ -22,6 +22,11 @@ class Storage {
     this.historyMaxLength = 10;
     // history: [ searchParamsOldest, ..., searchParamsLatest ]
     this.historyObservers = [];
+
+    this.templatesKey = 'templates';
+    this.templatesPromise = this.getFromStorage(this.templatesKey);
+    // templates: { templateHash: { title: "title", text: "template text" } }
+    this.templatesObservers = [];
   }
 
   getFromStorage(key) {
@@ -109,12 +114,46 @@ class Storage {
     });
   }
 
+  addToTemplates(title, text) {
+    if (this.dummy) return;
+
+    const templateHash = this.hashTemplate_(title, text);
+    this.templatesPromise = this.templatesPromise.then(templates => {
+      templates[templateHash] = { title, text };
+      // Sync storage
+      chrome.storage.local.set({
+        [this.templatesKey]: templates
+      });
+      // Notify change
+      this.notifyTemplatesChanged_(templates);
+      // Keep new object in memory
+      return templates;
+    });
+  }
+
+  removeTemplate(templateId) {
+    if (this.dummy) return;
+
+    this.templatesPromise = this.templatesPromise.then(templates => {
+      delete templates[templateId];
+      chrome.storage.local.set({
+        [this.templatesKey]: templates
+      });
+      this.notifyTemplatesChanged_(templates);
+      return templates;
+    });
+  }
+
   notifyHistoryChanged_(history) {
     this.historyObservers.forEach(observer => observer(history));
   }
 
   notifyFavouritesChanged_(favourites) {
     this.favouritesObservers.forEach(observer => observer(favourites));
+  }
+
+  notifyTemplatesChanged_(templates) {
+    this.templatesObservers.forEach(observer => observer(templates));
   }
 
   observeOnFavouritesChanged(func) {
@@ -154,6 +193,20 @@ class Storage {
     this.historyPromise.then(history => func(history));
   }
 
+  observeOnTemplatesChanged(func) {
+    if (this.dummy) {
+      func({
+        'a': { title: 'abc', text: 'cdf' },
+        'b': { title: 'signature', text: 'Dalimil Hajek' },
+        'c': { title: 'abc', text: 'cdf' }
+      });
+      return;
+    }
+    this.templatesObservers.push(func);
+    // Give the observer current data once available
+    this.templatesPromise.then(templates => func(templates));
+  }
+
   hashSearchState_(searchState) {
     // Concatenate property values and stringify
     // Prefix helps with sorting (hack)
@@ -161,11 +214,17 @@ class Storage {
     return prefix + Object.keys(searchState).sort().map(x => searchState[x].toString()).join(";");
   }
 
+  hashTemplate_(title, text) {
+    // todo
+    return title + text;
+  }
+
   reset() {
     chrome.storage.local.set({
       [this.favouritesKey]: {},
       [this.searchStateKey]: {},
-      [this.historyKey]: []
+      [this.historyKey]: [],
+      [this.templatesKey]: {}
     });
   }
 
