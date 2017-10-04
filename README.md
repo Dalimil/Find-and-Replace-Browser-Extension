@@ -308,6 +308,9 @@ Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} w
 
 ### Feedback & Iteration
 
+#### Support website
+TODO: explain Firebase hosting: https://firebase.google.com/docs/hosting/
+
 #### TODO Ideas
 - Implement Google Analytics and measure how many times user click icons and use advanced features https://developer.chrome.com/apps/analytics
 
