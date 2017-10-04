@@ -232,19 +232,17 @@ function updateSearch(params) {
       setEditableAreaGlow(activeSelection.$element);
     } else {
       // Both (all are inactive) - but possibly inside a selected iframe
-      Promise.all([
-        highlightTextarea($('textarea', Context.doc), params),
+      highlightTextarea($('textarea', Context.doc), params)
+      .then(() => 
         highlightContenteditable($('[contenteditable]', Context.doc), params)
-      ])
-      .then(values => values[0] + values[1])
+      )
       .then(resolve)
       .catch(reject);
       setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
     }
   });
 
-  highlightMatchesPromise.then(totalMarks => {
-    console.log("Total ", totalMarks);
+  highlightMatchesPromise.then(() => {
     /* findAll */
     setOccurrenceIndex(0); // maybe keep current
   }).catch(e => {

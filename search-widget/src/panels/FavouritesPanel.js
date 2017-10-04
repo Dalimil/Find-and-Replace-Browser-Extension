@@ -25,7 +25,7 @@ class FavouritesPanel extends React.Component {
 
     return (
       <div className="favourites-list">
-        <div className="panel-title">Favourites</div>
+        <div className="panel-title"><FontAwesome name='star' fixedWidth={true} /> Favourites</div>
         <div>
           {Object.keys(this.props.favourites).length == 0 && noSavedFavouritesMessage}
           {Object.keys(this.props.favourites).sort().map(id => {
@@ -33,14 +33,16 @@ class FavouritesPanel extends React.Component {
             return (
               <div className="favourites-list-item" key={id}
                   onClick={() => this.handleFavouriteSelected(id)}>
-                <span style={{ overflowX: 'hidden', textOverflow: 'ellipsis' }}>
+                <span>
                   <span>{findTextInput}</span> <FontAwesome name='long-arrow-right' /> <span>{replaceTextInput}</span>
                 </span>
-                <FontAwesome className="favourites-list-item-remove" name='times'
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    this.handleFavouriteRemoved(id);
-                  }} />
+                <span>
+                  <FontAwesome className="favourites-list-item-remove" name='times'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      this.handleFavouriteRemoved(id);
+                    }} />
+                </span>
               </div>
             );
           })}

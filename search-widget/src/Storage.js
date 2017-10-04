@@ -2,7 +2,7 @@
 // Persists UI state even after the widget is destroyed
 class Storage {
   constructor() {
-    this.dummy = window.chrome == undefined;
+    this.dummy = window.chrome == undefined || window.chrome.storage == undefined;
     if (this.dummy) {
       this.previousSearchStatePromise = Promise.resolve({});
       return;
@@ -198,7 +198,8 @@ class Storage {
       func({
         'a': { title: 'abc', text: 'cdf' },
         'b': { title: 'signature', text: 'Dalimil Hajek' },
-        'c': { title: 'abc', text: 'cdf' }
+        'c': { title: 'abc', text: 'This is a long text specified as template ' +
+            'content, mouse hover tooltip should wrap the preview of this template.' }
       });
       return;
     }

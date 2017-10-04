@@ -5,6 +5,7 @@ import Storage from '../Storage';
 import ConnectionApi from '../ConnectionApi';
 import FavouritesPanel from './FavouritesPanel';
 import HistoryPanel from './HistoryPanel';
+import TemplatesPanel from './TemplatesPanel';
 
 class ButtonPanel extends React.Component {
   constructor(props) {
@@ -27,17 +28,20 @@ class ButtonPanel extends React.Component {
       expanded: false,
       activeTab: null,
       favourites: {},
-      history: {}
+      history: [],
+      templates: []
     };
 
     this.selectMenuItem = this.selectMenuItem.bind(this);
     this.onFavouriteSelected = this.onFavouriteSelected.bind(this);
     this.onHistorySelected = this.onHistorySelected.bind(this);
+    this.onTemplateSelected = this.onTemplateSelected.bind(this);
   }
 
   componentDidMount() {
     Storage.observeOnFavouritesChanged(this.onFavouritesChanged.bind(this));
     Storage.observeOnHistoryChanged(this.onHistoryChanged.bind(this));
+    Storage.observeOnTemplatesChanged(this.onTemplatesChanged.bind(this));
   }
 
   onFavouritesChanged(favourites) {
@@ -49,6 +53,21 @@ class ButtonPanel extends React.Component {
     const historyListLatestFirst = history.slice().reverse();
     ConnectionApi.log("Got history update: ", historyListLatestFirst);
     this.setState({ history: historyListLatestFirst });
+  }
+
+  onTemplatesChanged(templates) {
+    // Sort templates by title (and keep their id)
+    const templateList = Object.keys(templates).map(templateId => {
+      return Object.assign({}, templates[templateId], { id: templateId });
+    }).sort((a, b) => {
+      const titleA = a.title.toUpperCase();
+      const titleB = b.title.toUpperCase();
+      if (titleA < titleB) return -1;
+      if (titleA > titleB) return 1;
+      return 0;
+    });
+    ConnectionApi.log("Got templates update: ", templates, templateList);
+    this.setState({ templates: templateList });
   }
 
   selectMenuItem(name) {
@@ -81,6 +100,12 @@ class ButtonPanel extends React.Component {
     this.props.onHistorySelected(historyItem);
   }
 
+  onTemplateSelected(templateText) {
+    this.closePanels();
+    // TODO: send via ConnectionApi to paste template
+    ConnectionApi.log(`Pasting template: "${templateText}"`);
+  }
+
   render() {
     const renderTab = () => {
       if (!this.state.expanded) return;
@@ -99,7 +124,11 @@ class ButtonPanel extends React.Component {
               onHistorySelected={this.onHistorySelected} />
           );
         case this.TABS.templates:
-          return (<div>Templates - paste-only text - create new here</div>);
+          return (
+            <TemplatesPanel
+              templates={this.state.templates}
+              onTemplateSelected={this.onTemplateSelected} />
+          );
         case this.TABS.help:
           return (<div>Help/Info/Feedback</div>);
       }

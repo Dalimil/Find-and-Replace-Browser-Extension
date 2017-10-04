@@ -2,7 +2,7 @@
 
 class ConnectionApi {
   constructor() {
-    this.dummy = window.chrome == undefined;
+    this.dummy = window.chrome == undefined || window.chrome.storage == undefined;
     if (this.dummy) return;
 
     // Connect to background page

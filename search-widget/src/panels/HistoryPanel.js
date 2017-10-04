@@ -1,8 +1,6 @@
 import React from 'react';
 
 import FontAwesome from 'react-fontawesome';
-import Storage from '../Storage';
-import ConnectionApi from '../ConnectionApi';
 
 class HistoryPanel extends React.Component {
   constructor(props) {
@@ -21,7 +19,7 @@ class HistoryPanel extends React.Component {
 
     return (
       <div className="history-list">
-        <div className="panel-title">History</div>
+        <div className="panel-title"><FontAwesome name='history' fixedWidth={true} /> History</div>
         <div>
           {this.props.history.length == 0 && noSavedHistoryMessage}
           {this.props.history.map((historyItem, index) => {
