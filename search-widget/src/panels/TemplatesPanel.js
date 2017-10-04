@@ -30,7 +30,7 @@ class TemplatesPanel extends React.Component {
 
     return (
       <div className="templates-list">
-        <div className="panel-title"><FontAwesome name='file-text' fixedWidth={true} /> Templates (click to paste text)</div>
+        <div className="panel-title"><FontAwesome name='file-text' fixedWidth={true} /> Templates (click to paste)</div>
         <div>
           {this.props.templates.length == 0 && noSavedTemplatesMessage}
           {this.props.templates.map(({ title, text, id }) => {

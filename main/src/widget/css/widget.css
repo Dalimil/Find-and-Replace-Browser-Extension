@@ -4,13 +4,13 @@
   font-family: 'Inconsolata';
   font-style: normal;
   font-weight: 400;
-  src: url('./fonts/Inconsolata-Regular.ttf');
+  src: url('../fonts/Inconsolata-Regular.ttf');
 }
 @font-face {
   font-family: 'Inconsolata';
   font-style: normal;
   font-weight: 700;
-  src: url('./fonts/Inconsolata-Bold.ttf');
+  src: url('../fonts/Inconsolata-Bold.ttf');
 }
 
 html, body {
@@ -19,9 +19,12 @@ html, body {
   width: 590px;
 }
 
+input {
+  font-family: 'Inconsolata', monospace;
+}
 body {
   box-sizing: border-box;
-  font-family: 'Inconsolata', monospace;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 13px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -37,6 +40,7 @@ body {
   --btn-bg-color: #f5f5f5;
   --btn-bg-color-hover: #f8f8f8;
 }
+
 
 /* MAIN LAYOUT */
 .main-panel {
