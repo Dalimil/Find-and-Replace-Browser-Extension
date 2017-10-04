@@ -8,8 +8,20 @@
     ],
     "rewrites": [
       {
-        "source": "**",
+        "source": "/",
         "destination": "/index.html"
+      },
+      {
+        "source": "/uninstall",
+        "destination": "/uninstall.html"
+      },
+      {
+        "source": "/submit-uninstall-feedback",
+        "function": "submitUninstallFeedback"
+      },
+      {
+        "source": "/submit-general-feedback",
+        "function": "submitGeneralFeedback"
       }
     ]
   }
