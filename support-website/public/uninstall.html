@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Find &amp; Replace Extension</title>
+  <title>Thank you for trying Find &amp; Replace!</title>
   <link rel="icon" type="image/png" href="icon32.png" />
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -11,7 +11,7 @@
 <body>
   <div id="message">
     <h2>Thank you for using Find &amp; Replace</h2>
-    <h1>How can we improve this extension?</h1>
+    <h1>Why did you uninstall?</h1>
     <textarea name="feedback" id="feedback-input" autofocus></textarea>
     <p></p>
     <a href="#" id='feedback-submit'>Send Feedback</a>
@@ -24,7 +24,7 @@
 		$(() => {
       const $textarea = $('#feedback-input');
       const $button = $('#feedback-submit');
-      submitFeedback($textarea, $button, '/submit-general-feedback');
+      submitFeedback($textarea, $button, '/submit-uninstall-feedback');
 		});
 	</script>
 </body>
