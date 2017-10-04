@@ -311,6 +311,13 @@ Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} w
 #### Support website
 TODO: explain Firebase hosting: https://firebase.google.com/docs/hosting/
 
+TODO: explain Firebase functions: https://firebase.google.com/docs/functions/write-firebase-functions
+
+There are various ways we could collect feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends an email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did user just uninstall the extension, or are they happy and simply want to propose new features?). 
+
+I decided to go with an alternative solution - we store all submitted feedback messages in a database. This database can be later queried and filters based on various criteria (time of submission, feedback type, ...).
+
+
 #### TODO Ideas
 - Implement Google Analytics and measure how many times user click icons and use advanced features https://developer.chrome.com/apps/analytics
 
