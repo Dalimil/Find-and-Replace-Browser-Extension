@@ -9,7 +9,7 @@
 
 const Search = {
   // Group marks by term (without cross-boundary matches it's just 1-to-1 mapping)
-  // [{ term, marks: jQuery{el1, el2, el3} }, ...]
+  // [{ term, $marks: jQuery{el1, el2, el3} }, ...]
   groupedMarks: [], 
   // Current highlight index - again the 'real' index (merging cross boundary occurrences)
   activeTermIndex: 0
@@ -62,13 +62,13 @@ function scrollInViewIfNotAlready($element) {
 function setOccurrenceIndex(index) {
   $(SELECTORS.currentHighlight, Context.doc).removeClass(CLASSES.currentHighlight);
 
-  occurrenceCount = $(SELECTORS.regularHighlight, Context.doc).length;
-  if (occurrenceCount != 0) {
-    index = ((index % occurrenceCount) + occurrenceCount) % occurrenceCount;
+  const termCount = Search.groupedMarks.length;
+  if (termCount != 0) {
+    index = ((index % termCount) + termCount) % termCount;
     Search.activeTermIndex = index;
-    const $current = $(SELECTORS.regularHighlight, Context.doc).eq(index).addClass(CLASSES.currentHighlight);
-    scrollInViewIfNotAlready($current);
-    console.log(Search.activeTermIndex + "/" + occurrenceCount);
+    const $current = Search.groupedMarks[index].$marks.addClass(CLASSES.currentHighlight);
+    scrollInViewIfNotAlready($current.eq(0));
+    console.log((Search.activeTermIndex + 1) + "/" + termCount);
   } else {
     Search.activeTermIndex = 0;
     console.log("No occurrences.");
@@ -103,7 +103,7 @@ function replaceCurrent(resultText) {
     } else {
       $(el).text("");
     }
-    flattenNode(el);
+    Utils.flattenNode(el);
   });
 
   // Check if this is a textarea highlight, replace the mirrored text too if so
@@ -125,14 +125,6 @@ function replaceAll(resultText) {
   }
   // Clear indexes
   setOccurrenceIndex(0);
-}
-
-function flattenNode(node) {
-  const parent = node.parentNode;
-  // replace '<>text<>' with 'text'
-  parent.replaceChild(node.firstChild, node); 
-  // merge adjacent text nodes
-  parent.normalize();
 }
 
 function setEditableAreaGlow($element) {
@@ -176,6 +168,28 @@ function initTextareas($elements, refocus) {
 }
 
 function highlightHtml($elements, params) {
+  const groupMarks = (terms) => {
+    // Group marks by term (without cross-boundary matches it's just 1-to-1 mapping)
+    const markGroups = []; // [{ term, $marks: jQuery{el1, el2, el3} }, ...]
+    const $marks = $(SELECTORS.regularHighlight, Context.doc);
+    let termSoFar = "";
+    let markStartIndex = 0;
+    // todo this will fail for mix - we had previous marks
+    $marks.each((ind, el) => {
+      termSoFar += el.textContent;
+      if (termSoFar == terms[ind]) {
+        markGroups.push({
+          term: termSoFar,
+          $marks: $marks.slice(markStartIndex, ind + 1)
+        });
+        markStartIndex = ind + 1;
+        termSoFar = "";
+      }
+    });
+    console.log("Terms: ", terms, "Marks: ", $marks, "Result: ", markGroups);
+    return markGroups;
+  };
+
   return new Promise((resolve, reject) => {
     // First unmark all potential previous highlights
     // Once finished, mark new elements 
@@ -190,49 +204,13 @@ function highlightHtml($elements, params) {
             terms.push(term);
             return true;
           },
-          done: () => {
-            // Group marks by term (without cross-boundary matches it's just 1-to-1 mapping)
-            const markGroups = []; // [{ term, marks: jQuery{el1, el2, el3} }, ...]
-            const $marks = $(SELECTORS.regularHighlight, Context.doc);
-            console.log($marks);
-            let termSoFar = "";
-            let markStartIndex = 0;
-            // todo this will fail for mix - we had previous marks
-            $marks.each((ind, el) => {
-              termSoFar += el.textContent;
-              console.log("Sofar: ", termSoFar, " Term: ", terms[ind]);
-              if (termSoFar == terms[ind]) {
-                markGroups.push({
-                  term: termSoFar,
-                  marks: $marks.slice(markStartIndex, ind + 1)
-                });
-                markStartIndex = ind + 1;
-                termSoFar = "";
-              }
-            });
-            console.log("Result: ", markGroups);
-            resolve(markGroups);
-          }
+          done: () => { resolve(groupMarks(terms)); }
         };
-        if (params.useRegex) {
-          const mod = params.matchCase ? "mg" : "mgi";
-          let regexQuery = params.query;
-          if (params.wholeWords) {
-            regexQuery = `\\b${regexQuery}\\b`;
-          }
-          try {
-            const regexp = new RegExp(regexQuery, mod);
-            $elements.markRegExp(regexp, options);
-          } catch (e) {
-            reject(e);
-          }
-        } else {
-          options.separateWordSearch = false;
-          options.caseSensitive = params.matchCase;
-          if (params.wholeWords) {
-            options.accuracy = 'exactly'; // predefined option
-          }
-          $elements.mark(params.query, options);
+        try {
+          const regexp = Utils.constructRegExpFromSearchParams(params);
+          $elements.markRegExp(regexp, options);
+        } catch (e) {
+          reject(e);
         }
       }
     });
@@ -245,9 +223,8 @@ function updateSearch(params) {
   const activeSelection = getActiveSelectionAndContext(document, window);
   Context.doc = activeSelection.documentContext;
   Context.win = activeSelection.windowContext;
-
   console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
-
+  
   const highlightMatchesPromise = new Promise((resolve, reject) => {
     if (activeSelection.type == TYPES.textarea) {
       // Textarea
@@ -263,7 +240,7 @@ function updateSearch(params) {
       $mirrors = initTextareas($('textarea', Context.doc), params);
       $elements = $('[contenteditable]', Context.doc).add($mirrors);
       // $elements sorted in document order (jQuery add() spec)
-      highlightHtml($elements).then(resolve).catch(reject);
+      highlightHtml($elements, params).then(resolve).catch(reject);
       setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
     }
   });
@@ -338,6 +315,7 @@ function shutdown() {
   clearEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
 }
 
+
 function setUpApi() {
   let port = null;
   setUpMessageConnections();
@@ -351,7 +329,7 @@ function setUpApi() {
   }
 
   function handleApiCall(msg) {
-    console.log("Content Script API: ", msg.action, msg.data);
+    console.log("Content Script API: ", msg.action, " Data: ", msg.data);
     switch (msg.action) {
       case 'shutdown':
         //shutdown();
@@ -386,3 +364,27 @@ function setUpApi() {
     }
   }
 }
+
+
+const Utils = {
+  flattenNode(node) {
+    const parent = node.parentNode;
+    // replace '<>text<>' with 'text'
+    parent.replaceChild(node.firstChild, node); 
+    // merge adjacent text nodes
+    parent.normalize();
+  },
+
+  escapeRegExp(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  },
+
+  constructRegExpFromSearchParams(params) {
+    const mod = params.matchCase ? "mg" : "mgi";
+    let regexQuery = params.useRegex ? params.query : Utils.escapeRegExp(params.query);
+    if (params.wholeWords) {
+      regexQuery = `\\b${regexQuery}\\b`;
+    }
+    return new RegExp(regexQuery, mod);
+  }
+};
