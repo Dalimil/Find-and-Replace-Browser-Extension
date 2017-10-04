@@ -7,20 +7,24 @@
   $('[contenteditable]').css({ border: "1px solid red" });
 })();
 
+const Search = {
+  // Group marks by term (without cross-boundary matches it's just 1-to-1 mapping)
+  // [{ term, marks: jQuery{el1, el2, el3} }, ...]
+  groupedMarks: [], 
+  // Current highlight index - again the 'real' index (merging cross boundary occurrences)
+  activeTermIndex: 0
+};
+
+/** iFrame handling - all search will only happen in a given context */
+const Context = {
+  doc: document,
+  win: window
+};
+
 const TYPES = {
   textarea: 'textarea',
   contenteditable: 'contenteditable',
   mix: 'mix'
-};
-
-let port = null;
-// Total # of highlights; multiple adjacent marks across element boundaries count as 1
-let occurrenceCount = 0; 
-// Current highlight index - again the 'real' index (merging cross boundary occurrences)
-let currentOccurrenceIndex = 0;
-const Context = {
-  doc: document,
-  win: window
 };
 
 const CLASSES = {
@@ -34,16 +38,8 @@ Object.keys(CLASSES).forEach(classId => {
   SELECTORS[classId] = `.${CLASSES[classId]}`;
 });
 
-setUpMessageConnections();
-
-function setUpMessageConnections() {
-  // Connect to search widget
-  port = chrome.runtime.connect({
-    name: "content-script-connection"
-  });
-  port.onMessage.addListener(handleApiCall);
-}
-
+// Main function that creates connections and inits API
+setUpApi();
 
 function scrollInViewIfNotAlready($element) {
   const currentTop = $element.offset().top;
@@ -69,12 +65,12 @@ function setOccurrenceIndex(index) {
   occurrenceCount = $(SELECTORS.regularHighlight, Context.doc).length;
   if (occurrenceCount != 0) {
     index = ((index % occurrenceCount) + occurrenceCount) % occurrenceCount;
-    currentOccurrenceIndex = index;
+    Search.activeTermIndex = index;
     const $current = $(SELECTORS.regularHighlight, Context.doc).eq(index).addClass(CLASSES.currentHighlight);
     scrollInViewIfNotAlready($current);
-    console.log(currentOccurrenceIndex + "/" + occurrenceCount);
+    console.log(Search.activeTermIndex + "/" + occurrenceCount);
   } else {
-    currentOccurrenceIndex = 0;
+    Search.activeTermIndex = 0;
     console.log("No occurrences.");
   }
 }
@@ -120,11 +116,11 @@ function replaceCurrent(resultText) {
   }
 
   // Set to same index because count decreased
-  setOccurrenceIndex(currentOccurrenceIndex);
+  setOccurrenceIndex(Search.activeTermIndex);
 }
 
 function replaceAll(resultText) {
-  while (occurrenceCount > 0) {
+  while (Search.groupedMarks.length > 0) {
     replaceCurrent(resultText);
   }
   // Clear indexes
@@ -161,7 +157,11 @@ function insertTemplate(templateText) {
   }
 }
 
-function highlightTextarea($elements, params, refocus) {
+/**
+ * Returns HTML overlay elements that can be highlighted
+ *  instead of the actual textareas
+ */
+function initTextareas($elements, refocus) {
   // Sets up containers ONLY
   $elements.highlightWithinTextarea({
     highlight: ''
@@ -172,27 +172,46 @@ function highlightTextarea($elements, params, refocus) {
   }
   const $containers = $elements.closest(SELECTORS.textareaContainer);
   const $mirrors = $containers.find(SELECTORS.textareaContentMirror);
-  return highlightHtml($mirrors, params);
-}
-
-function highlightContenteditable($elements, params) {
-  return highlightHtml($elements, params);
+  return $mirrors;
 }
 
 function highlightHtml($elements, params) {
   return new Promise((resolve, reject) => {
     // First unmark all potential previous highlights
+    // Once finished, mark new elements 
     $elements.unmark({
       done: function() {
-        // Once finished, mark new elements 
+        // For each mark we save the corresponding term (potentially longer)
+        const terms = [];
         const options = {
           className: CLASSES.regularHighlight,
           acrossElements: true,
-          done: resolve,
           filter: (node, term, counter) => {
-            // todo
-            console.log(" filter ->", node, term, counter, node.parentNode);
+            terms.push(term);
             return true;
+          },
+          done: () => {
+            // Group marks by term (without cross-boundary matches it's just 1-to-1 mapping)
+            const markGroups = []; // [{ term, marks: jQuery{el1, el2, el3} }, ...]
+            const $marks = $(SELECTORS.regularHighlight, Context.doc);
+            console.log($marks);
+            let termSoFar = "";
+            let markStartIndex = 0;
+            // todo this will fail for mix - we had previous marks
+            $marks.each((ind, el) => {
+              termSoFar += el.textContent;
+              console.log("Sofar: ", termSoFar, " Term: ", terms[ind]);
+              if (termSoFar == terms[ind]) {
+                markGroups.push({
+                  term: termSoFar,
+                  marks: $marks.slice(markStartIndex, ind + 1)
+                });
+                markStartIndex = ind + 1;
+                termSoFar = "";
+              }
+            });
+            console.log("Result: ", markGroups);
+            resolve(markGroups);
           }
         };
         if (params.useRegex) {
@@ -232,29 +251,32 @@ function updateSearch(params) {
   const highlightMatchesPromise = new Promise((resolve, reject) => {
     if (activeSelection.type == TYPES.textarea) {
       // Textarea
-      highlightTextarea(activeSelection.$element, params, /* refocus */ true)
-          .then(resolve).catch(reject);
+      const $mirrors = initTextareas(activeSelection.$element, /* refocus */ true);
+      highlightHtml($mirrors, params).then(resolve).catch(reject);
       setEditableAreaGlow(activeSelection.$element);
     } else if (activeSelection.type == TYPES.contenteditable) {
       // Contenteditable
-      highlightContenteditable(activeSelection.$element, params)
-          .then(resolve).catch(reject);
+      highlightHtml(activeSelection.$element, params).then(resolve).catch(reject);
       setEditableAreaGlow(activeSelection.$element);
     } else {
       // Both (all are inactive) - but possibly inside a selected iframe
-      highlightTextarea($('textarea', Context.doc), params)
-      .then(() => 
-        highlightContenteditable($('[contenteditable]', Context.doc), params)
-      )
-      .then(resolve)
-      .catch(reject);
+      $mirrors = initTextareas($('textarea', Context.doc), params);
+      $elements = $('[contenteditable]', Context.doc).add($mirrors);
+      // $elements sorted in document order (jQuery add() spec)
+      highlightHtml($elements).then(resolve).catch(reject);
       setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
     }
   });
 
-  highlightMatchesPromise.then(() => {
-    /* findAll */
-    setOccurrenceIndex(0); // maybe keep current
+  highlightMatchesPromise.then((groupedMarks) => {
+    const oldCount = Search.groupedMarks.length;
+    Search.groupedMarks = groupedMarks;
+    if (oldCount == groupedMarks.length) {
+      // don't jump/reset to first occurrence if same number
+      setOccurrenceIndex(Search.activeTermIndex);
+    } else {
+      setOccurrenceIndex(0);
+    }
   }).catch(e => {
     console.log("Invalid regexp? ", e);
   });
@@ -316,38 +338,51 @@ function shutdown() {
   clearEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
 }
 
-function handleApiCall(msg) {
-  console.log("Content Script API: ", msg.action, msg.data);
-  switch (msg.action) {
-    case 'shutdown':
-      //shutdown();
-      break;
-    case 'restart':
-      port.onMessage.removeListener(handleApiCall);
-      return setUpMessageConnections();
-      break;
-    case 'log':
-      console.log("Widget Log: ", ...msg.data);
-      break;
-    case 'updateSearch':
-      updateSearch(msg.data);
-      break;
-    case 'findNext':
-      setOccurrenceIndex(currentOccurrenceIndex + 1);
-      break;
-    case 'findPrev':
-      setOccurrenceIndex(currentOccurrenceIndex - 1);
-      break;
-    case 'replaceCurrent':
-      replaceCurrent(msg.data.text);
-      break;
-    case 'replaceAll':
-      replaceAll(msg.data.text);
-      break;
-    case 'insertTemplate':
-      insertTemplate(msg.data.text);
-      break;
-    default:
-      console.log('Invalid API Call: ', msg.action);
+function setUpApi() {
+  let port = null;
+  setUpMessageConnections();
+
+  function setUpMessageConnections() {
+    // Connect to search widget
+    port = chrome.runtime.connect({
+      name: "content-script-connection"
+    });
+    port.onMessage.addListener(handleApiCall);
+  }
+
+  function handleApiCall(msg) {
+    console.log("Content Script API: ", msg.action, msg.data);
+    switch (msg.action) {
+      case 'shutdown':
+        //shutdown();
+        break;
+      case 'restart':
+        port.onMessage.removeListener(handleApiCall);
+        return setUpMessageConnections();
+        break;
+      case 'log':
+        console.log("Widget Log: ", ...msg.data);
+        break;
+      case 'updateSearch':
+        updateSearch(msg.data);
+        break;
+      case 'findNext':
+        setOccurrenceIndex(Search.activeTermIndex + 1);
+        break;
+      case 'findPrev':
+        setOccurrenceIndex(Search.activeTermIndex - 1);
+        break;
+      case 'replaceCurrent':
+        replaceCurrent(msg.data.text);
+        break;
+      case 'replaceAll':
+        replaceAll(msg.data.text);
+        break;
+      case 'insertTemplate':
+        insertTemplate(msg.data.text);
+        break;
+      default:
+        console.log('Invalid API Call: ', msg.action);
+    }
   }
 }
