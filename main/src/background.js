@@ -1,6 +1,22 @@
 // Background extension page - Event page (only runs based on event listeners)
 // Console log messages will not be shown (only shown in special console)
 
+function setUpExtensionInstallEvents() {
+  if (chrome && chrome.runtime && chrome.runtime.setUninstallURL) {
+    // todo
+    console.log("uninstalled");
+    // chrome.runtime.setUninstallURL("https://momentumdash.com/uninstall");
+  }
+
+  chrome.runtime.onInstalled.addListener(details => {
+    if (details && details.reason && details.reason == 'install') {
+      // todo
+      console.log("installed");
+     // chrome.tabs.create({ url: "help.html" });
+    }
+  });
+}
+
 function setUpContextMenu() {
   const contextMenuHandlingContentScriptFilepath = "src/page-content/context-menu-content-script.js";
   const contextMenuItemId = 'default_context_menu_item';
@@ -103,6 +119,7 @@ function setUpMessageConnections() {
 }
 
 // SET UP
+setUpExtensionInstallEvents();
 setUpContextMenu();
 setUpMessageConnections();
 

@@ -185,7 +185,7 @@ TODO: mention [component separation for easier development](./search-widget/READ
 ### API Design
 There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'find & replace'.
 
-TODO: Explain the reasoning behind this and how extensions work in general (https://developer.chrome.com/extensions).
+TODO: Explain the reasoning behind this and how extensions work in general (https://developer.chrome.com/extensions). And also: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Anatomy_of_a_WebExtension#Options_pages
 
 TODO: Explain security scopes, Chrome API being available from the background page, page content being accessible only from content scripts. 
 
@@ -309,7 +309,7 @@ Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} w
 ### Feedback & Iteration
 
 #### TODO Ideas
-- Implement Google Analytics and measure how many times user click icons and use advanced features
+- Implement Google Analytics and measure how many times user click icons and use advanced features https://developer.chrome.com/apps/analytics
 
 ### More ideas/TODOs
 - Look at structure of previous dissertation projects
