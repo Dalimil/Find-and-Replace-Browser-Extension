@@ -3,16 +3,12 @@
 
 function setUpExtensionInstallEvents() {
   if (chrome && chrome.runtime && chrome.runtime.setUninstallURL) {
-    // todo
-    console.log("uninstalled");
-    // chrome.runtime.setUninstallURL("https://momentumdash.com/uninstall");
+    chrome.runtime.setUninstallURL("https://find-and-replace-f6588.firebaseapp.com/uninstall");
   }
 
   chrome.runtime.onInstalled.addListener(details => {
     if (details && details.reason && details.reason == 'install') {
-      // todo
-      console.log("installed");
-     // chrome.tabs.create({ url: "help.html" });
+      chrome.tabs.create({ url: "help.html" });
     }
   });
 }
