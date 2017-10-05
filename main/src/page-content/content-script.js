@@ -3,8 +3,8 @@
 
 // todo remove debug
 (() => {
-  $('textarea').css({ border: "1px solid red" });
-  $('[contenteditable]').css({ border: "1px solid red" });
+  $('textarea').css({ outline: "1px solid red" });
+  $('[contenteditable]').css({ outline: "1px solid red" });
 })();
 
 const Search = {
@@ -237,7 +237,7 @@ function updateSearch(params) {
       setEditableAreaGlow(activeSelection.$element);
     } else {
       // Both (all are inactive) - but possibly inside a selected iframe
-      $mirrors = initTextareas($('textarea', Context.doc), params);
+      $mirrors = initTextareas($('textarea', Context.doc));
       $elements = $('[contenteditable]', Context.doc).add($mirrors);
       // $elements sorted in document order (jQuery add() spec)
       highlightHtml($elements, params).then(resolve).catch(reject);
