@@ -249,21 +249,27 @@ User actions specified above directly translate to types of messages that need t
 
 **action: updateSearch**
 - Uses `data` to update search parameters
+- Returns: `{ invalidRegex: boolean, missingSelection: boolean, searchIndex: number, searchCount: number }`
 
 **action: findNext**
 - Finds next match
+- Returns: `{ searchIndex: number, searchCount: number }`
 
 **action: findPrev**
 - Find previous match
+- Returns: `{ searchIndex: number, searchCount: number }`
 
 **action: replaceCurrent**
 - Replaces current match with `data` contents
+- Returns: `{ searchIndex: number, searchCount: number }`
 
 **action: replaceAll**
 - Replaces all matches with `data` contents
+- Returns: `{ searchIndex: number, searchCount: number }`
 
 **action: insertTemplate**
 - Inserts template text `data` at current cursor
+- Returns: `{ missingSelection: boolean }`
 
 ### RegEx Search
 JavaScript contains native support for regular expressions (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query.
