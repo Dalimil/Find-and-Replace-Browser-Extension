@@ -99,12 +99,17 @@ function setUpMessageConnections() {
     
     if (port.name == "widget-background-connection") {
       // Widget has been spawn
-      if (contentScriptConnection == null) {
-        // Content scripts not injected yet
-        injectContentScripts();
-      } else {
-        contentScriptConnection.postMessage({ action: 'restart' });
-      }
+      // Inject a content script checking if the page has been initialized
+      //  (and script triggers port reconnect if it has)
+      chrome.tabs.executeScript(null, {
+        file: "src/page-content/init-content-script.js"
+      }, ([initialized=false]) => {
+        console.log("Script previously injected?: ", initialized);
+        if (!initialized) {
+          // Content scripts not injected yet
+          injectContentScripts();
+        }
+      });
 
       // Listen for widget shutdown
       port.onDisconnect.addListener(() => {

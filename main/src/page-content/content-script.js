@@ -2,12 +2,10 @@
 // Runs sandboxed within the DOM context of the page
 
 (() => {
-
-// todo remove debug
-(() => {
-  $('textarea').css({ outline: "1px solid red" });
-  $('[contenteditable]').css({ outline: "1px solid red" });
-})();
+// Needed for init-content-script.js check
+window.FindAndReplaceExtension = {
+  isInjected: true
+};
 
 const Search = {
   // Group marks by term (without cross-boundary matches it's just 1-to-1 mapping)
@@ -330,15 +328,17 @@ function setUpApi() {
     port.onMessage.addListener(handleApiCall);
   }
 
+  // To be used inside init-content-script.js
+  window.FindAndReplaceExtension.restart = () => {
+    port.onMessage.removeListener(handleApiCall);
+    return setUpMessageConnections();
+  };
+
   function handleApiCall(msg) {
     console.log("Content Script API: ", msg.action, " Data: ", msg.data);
     switch (msg.action) {
       case 'shutdown':
         //shutdown();
-        break;
-      case 'restart':
-        port.onMessage.removeListener(handleApiCall);
-        return setUpMessageConnections();
         break;
       case 'log':
         console.log("Widget Log: ", ...msg.data);
