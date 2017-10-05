@@ -291,7 +291,7 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
       try {
         // Get 'document' object of the iframe
         const innerContext = $(activeElement).contents().get(0);
-        return getActiveSelection(innerContext, activeElement.contentWindow);
+        return getActiveSelectionAndContext(innerContext, activeElement.contentWindow);
       } catch (e) {
         // ^^^ cross-origin iframe not accessible
         return {

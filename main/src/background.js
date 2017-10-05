@@ -76,7 +76,11 @@ function injectContentScripts() {
     "src/page-content/lib/jquery.mark.min.js",
     "src/page-content/content-script.js"
   ];
-  chrome.tabs.insertCSS(null, { file: "src/page-content/content-script.css" });
+  chrome.tabs.insertCSS(null, {
+    file: "src/page-content/content-script.css",
+    allFrames: true,
+    matchAboutBlank: true
+  });
   executeScripts(scripts);
 }
 
