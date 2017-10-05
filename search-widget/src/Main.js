@@ -248,7 +248,10 @@ class Main extends React.Component {
     const ReplaceOneButton = <Button onClick={this.handleReplaceOne} title="Replace" {...args} />;
     const ReplaceAllButton = <Button onClick={this.handleReplaceAll} title="Replace all" {...args} style={{ marginLeft: '0.5em'}} />;
 
-    const SearchStatus = <div style={{ marginLeft: '0.5em' }}>{true ? '231 of 768' : 'No Results'}</div>; // todo
+    const SearchStatus = ( // todo
+      <div className="search-status-text">{true ? '231 of 768' : 'No Results'}</div>
+    );
+
     return (
       <div style={{
         display: 'flex'

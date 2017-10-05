@@ -1,6 +1,8 @@
 // Injected into the currently active tab
 // Runs sandboxed within the DOM context of the page
 
+(() => {
+
 // todo remove debug
 (() => {
   $('textarea').css({ outline: "1px solid red" });
@@ -388,3 +390,5 @@ const Utils = {
     return new RegExp(regexQuery, mod);
   }
 };
+
+})();

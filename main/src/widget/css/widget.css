@@ -86,7 +86,7 @@ body {
   height: 100%;
   background: #fff;
   border-left: 1px solid gray;
-  transition: opacity 0.3s ease-out;
+  transition: opacity 0.25s ease-out;
 }
 .right-panel-content.active {
   opacity: 1;
@@ -102,6 +102,7 @@ body {
   .favourites-list,
   .history-list,
   .templates-list {
+    cursor: default;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -165,7 +166,54 @@ body {
     color: #111;
   }
 
+  /* HELP PANEL */
+  .help-panel {
+    cursor: default;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    overflow: auto;
+    padding: 0;
+  }
+  .help-panel-title {
+    align-self: flex-start;
+    font-weight: bold;
+    padding: 1em 1em 0;
+  }
+  .help-panel-links {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .help-panel-links > a {
+    display: inline-block;
+    font-weight: bold;
+    padding: 5px 8px;
+    opacity: 0.8;
+  }
+  .help-panel-links > a:hover {
+    opacity: 1;
+  }
+  .help-panel-descr {
+    margin: 0.5em 0;
+    font-size: 1.2em;
+  }
+  .help-panel-icon {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .help-panel-footnote {
+    font-size: 0.9em;
+  }
+
+
 /* INPUT COMPONENTS */
+  .search-status-text {
+    cursor: default;
+    padding: 0 0.5em;
+  }
 
 /* Text input */
   .text-input {

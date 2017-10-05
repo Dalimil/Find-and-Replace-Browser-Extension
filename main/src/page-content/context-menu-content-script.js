@@ -37,5 +37,6 @@
     hintText.style.display = 'none';
     hintText.remove();
   }, 2000);
+
 })();
 

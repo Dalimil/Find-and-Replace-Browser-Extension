@@ -6,6 +6,7 @@ import ConnectionApi from '../ConnectionApi';
 import FavouritesPanel from './FavouritesPanel';
 import HistoryPanel from './HistoryPanel';
 import TemplatesPanel from './TemplatesPanel';
+import HelpPanel from './HelpPanel';
 
 class ButtonPanel extends React.Component {
   constructor(props) {
@@ -113,26 +114,24 @@ class ButtonPanel extends React.Component {
       if (!this.state.expanded) return;
       
       switch (this.state.activeTab) {
-        case this.TABS.favourites:
-          return (
-            <FavouritesPanel
-              favourites={this.state.favourites}
-              onFavouriteSelected={this.onFavouriteSelected} />
-          );
-        case this.TABS.history:
-          return (
-            <HistoryPanel
-              history={this.state.history}
-              onHistorySelected={this.onHistorySelected} />
-          );
-        case this.TABS.templates:
-          return (
-            <TemplatesPanel
-              templates={this.state.templates}
-              onTemplateSelected={this.onTemplateSelected} />
-          );
-        case this.TABS.help:
-          return (<div>Help/Info/Feedback</div>);
+        case this.TABS.favourites: return (
+          <FavouritesPanel
+            favourites={this.state.favourites}
+            onFavouriteSelected={this.onFavouriteSelected} />
+        );
+        case this.TABS.history: return (
+          <HistoryPanel
+            history={this.state.history}
+            onHistorySelected={this.onHistorySelected} />
+        );
+        case this.TABS.templates: return (
+          <TemplatesPanel
+            templates={this.state.templates}
+            onTemplateSelected={this.onTemplateSelected} />
+        );
+        case this.TABS.help: return (
+          <HelpPanel />
+        );
       }
       return null;
     };
