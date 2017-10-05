@@ -33,6 +33,14 @@
       min-width: 400px;
       min-height: 300px;
     }
+    .textarea-scroll {
+      height: 200px;
+    }
+    .ceditable-scroll {
+      height: 100px;
+      overflow: auto; 
+      border: 1px solid green;
+    }
   </style>
 </head>
 
@@ -98,6 +106,24 @@ OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
       </body>`;
   </script>
   
+  <h2>Textare with scrollbar</h2>
+  <p>Here is a simple textarea with a scrollbar</p>
+  <textarea class="textarea-scroll">Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
+    Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
+    Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
+    Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
+    OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?
+      OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
+      
+  <h2>Contenteditable with a scrollbar</h2>
+  <p>Here is a simple contenteditable with a scrollbar</p>
+  <div class="ceditable-scroll" contenteditable="true">Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
+    Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
+    Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
+    Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
+    OK and <strong>ok and</strong> Ok <strong>and <em>oK</em> and</strong> _k and o_ and OK in
+    <div>Lorem <div>ipsum</div> <span>dolor?</span>?</div>?
+  </div>
 
 </body>
 
