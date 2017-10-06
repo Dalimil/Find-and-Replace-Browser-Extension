@@ -23,7 +23,7 @@ class HelpPanel extends React.Component {
 
           <a href={this.baseUrl} >Help</a>
         </div>
-        <div className="help-panel-footnote">Made with ♥ by Dalimil</div>
+        <div className="help-panel-footnote">Made with <FontAwesome name='heart' /> by Dalimil</div>
       </div>
     );
   }

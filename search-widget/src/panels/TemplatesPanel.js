@@ -16,12 +16,21 @@ class TemplatesPanel extends React.Component {
     this.props.onTemplateSelected(templateText);
   }
 
+  handleTemplateRemoved(templateId) {
+    Storage.removeTemplate(templateId);
+  }
+
   handleTemplateStartEdit(title, text) {
     // todo
   }
 
-  handleTemplateRemoved(templateId) {
-    Storage.removeTemplate(templateId);
+  handleTemplateFinishEdit() {
+
+  }
+
+  handleCreateNewTemplate() {
+    Storage.addToTemplates(" New Template - Click the pencil icon to edit.",
+      "This is the template text that will be pasted at your cursor location.");
   }
 
   render() {
@@ -32,7 +41,13 @@ class TemplatesPanel extends React.Component {
 
     return (
       <div className="templates-list">
-        <div className="panel-title"><FontAwesome name='file-text' fixedWidth={true} /> Templates (click to paste)</div>
+        <div className="panel-title">
+          <span><FontAwesome name='file-text' fixedWidth={true} /> Templates (click to paste)</span>
+          <span className="templates-create-new-button"
+            onClick={this.handleCreateNewTemplate}>
+            <FontAwesome name='plus' style={{ marginRight: '0.5em' }} />Create New
+          </span>
+        </div>
         <div>
           {this.props.templates.length == 0 && noSavedTemplatesMessage}
           {this.props.templatesDisabled && templatesDisabledMessage}
@@ -45,7 +60,7 @@ class TemplatesPanel extends React.Component {
                     }
                   }}>
                 <span title={`Template: "${text}"`}>
-                  <span>{title}</span>
+                  {title}
                 </span>
                 <span>
                   <FontAwesome className="templates-list-item-edit" name='pencil'

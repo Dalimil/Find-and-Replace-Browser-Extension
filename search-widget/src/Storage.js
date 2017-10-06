@@ -216,8 +216,11 @@ class Storage {
   }
 
   hashTemplate_(title, text) {
-    // todo
-    return title + text;
+    const hashText = (s) => s.split("").reduce((a,b) => {
+      a = a * 31 + b.charCodeAt(0);
+      return (a & a);
+    }, 0).toString();
+    return hashText(title) + "_" + hashText(text);
   }
 
   reset() {

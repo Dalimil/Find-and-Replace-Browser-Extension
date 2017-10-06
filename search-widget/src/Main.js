@@ -44,6 +44,7 @@ class Main extends React.Component {
     this.onButtonsPanelClosed = this.onButtonsPanelClosed.bind(this);
     this.onFavouriteSelectedInPanel = this.onFavouriteSelectedInPanel.bind(this);
     this.onHistorySelecedInPanel = this.onHistorySelecedInPanel.bind(this);
+    this.onTemplateSelectedInPanel = this.onTemplateSelectedInPanel.bind(this);
     this.handleContentScriptApiResponse = this.handleContentScriptApiResponse.bind(this);
 
     // Register content-script response listener
@@ -64,7 +65,7 @@ class Main extends React.Component {
       if (savedPartialState.findTextInput) {
         this.findInputElement.select(); // select text at the start
       }
-      this.sendSeachUpdate();
+      this.sendSearchUpdate();
       this.checkIfStateInFavourites();
     });
   }
@@ -78,7 +79,7 @@ class Main extends React.Component {
       [name]: value
     }, () => {
       if (name != 'replaceTextInput') {
-       this.sendSeachUpdate();
+       this.sendSearchUpdate();
       }
       // Save the full state (async low priority)
       Storage.saveSearchState(this.getSearchStateForStorage());
@@ -127,6 +128,10 @@ class Main extends React.Component {
     this.updateStateFromSaved(history);
   }
 
+  onTemplateSelectedInPanel() {
+    this.sendSearchUpdate();
+  }
+
   onButtonsPanelClosed() {
     // Maybe previously removed from favourites list
     this.checkIfStateInFavourites();
@@ -159,7 +164,7 @@ class Main extends React.Component {
     }
   }
 
-  sendSeachUpdate() {
+  sendSearchUpdate() {
     // Notify content script to update search
     ConnectionApi.updateSearch({
       query: this.state.findTextInput,
@@ -341,7 +346,8 @@ class Main extends React.Component {
         <ButtonPanel
           onPanelClosed={this.onButtonsPanelClosed}
           onFavouriteSelected={this.onFavouriteSelectedInPanel}
-          onHistorySelected={this.onHistorySelecedInPanel} />
+          onHistorySelected={this.onHistorySelecedInPanel}
+          onTemplateSelected={this.onTemplateSelectedInPanel} />
       </div>
     );
   }

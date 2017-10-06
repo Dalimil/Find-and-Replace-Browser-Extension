@@ -95,6 +95,8 @@ body {
 
 /* TAB PANELS */
   .panel-title {
+    display: flex;
+    justify-content: space-between;
     font-weight: bold;
     padding: 1em 1em 0;
     margin-bottom: 0.5em;
@@ -164,6 +166,13 @@ body {
   .templates-list-item-remove:hover,
   .templates-list-item-edit:hover {
     color: #111;
+  }
+  .templates-create-new-button {
+    cursor: pointer;
+    color: var(--main-color);
+  }
+  .templates-create-new-button:hover {
+    color: var(--main-color-dark);
   }
 
   /* HELP PANEL */

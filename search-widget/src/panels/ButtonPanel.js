@@ -46,6 +46,10 @@ class ButtonPanel extends React.Component {
         this.setState({
           contentScript: { noCursorPosition: msg.data.noCursorPosition }
         });
+        if (!msg.data.noCursorPosition) {
+          // No error, signal template insertion success
+          this.props.onTemplateSelected();
+        }
       }
     });
   }
