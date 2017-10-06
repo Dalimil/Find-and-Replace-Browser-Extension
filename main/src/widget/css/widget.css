@@ -100,6 +100,7 @@ body {
     font-weight: bold;
     padding: 1em 1em 0;
     margin-bottom: 0.5em;
+    flex-shrink: 0;
   }
   .favourites-list,
   .history-list,
@@ -127,6 +128,25 @@ body {
     white-space: nowrap;
     height: 1.3em;
   }
+  .templates-list-editable-item {
+    background-color: #fdfdfd;
+    border-radius: 2px;
+    padding: 8px 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-bottom: none;
+  }
+  .templates-editable-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .templates-editable-body {
+    position: relative;
+    padding: 5px 0 0;
+  }
   .favourites-list-item > span:first-child,
   .history-list-item > span:first-child,
   .templates-list-item > span:first-child {
@@ -136,22 +156,33 @@ body {
   }
   .favourites-list-item:last-child,
   .history-list-item:last-child,
-  .templates-list-item:last-child {
+  .templates-list-item:last-child,
+  .templates-list-editable-item:last-child {
     border-bottom: 1px solid rgba(0,0,0,0.1);
   }
   .favourites-list-item:hover,
   .history-list-item:hover,
-  .templates-list-item:hover {
+  .templates-list-item:hover,
+  .templates-list-editable-item {
     box-shadow: inset 0 0 2px var(--main-color);
     background-color: #f1f1f1;
   }
   .favourites-list-item-remove,
   .templates-list-item-remove,
-  .templates-list-item-edit {
+  .templates-list-item-edit,
+  .templates-editable-item-save,
+  .templates-editable-item-cancel {
     display: none;
     cursor: pointer;
-    color: #333;
+    color: #444;
     font-size: 1.3em;
+  }
+  .templates-editable-item-save,
+  .templates-editable-item-cancel {
+    display: inline-block;
+  }
+  .templates-editable-item-save {
+    margin-right: 10px;
   }
   .templates-list-item-edit {
     font-size: 1.2em;
@@ -164,7 +195,9 @@ body {
   }
   .favourites-list-item-remove:hover,
   .templates-list-item-remove:hover,
-  .templates-list-item-edit:hover {
+  .templates-list-item-edit:hover,
+  .templates-editable-item-cancel:hover,
+  .templates-editable-item-save:hover {
     color: #111;
   }
   .templates-create-new-button {
@@ -244,6 +277,23 @@ body {
     border: 1px solid #4d90fe;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
     outline: none;
+  }
+
+  .templates-editable-title-input {
+    width: 60%;
+    height: 22px;
+    margin: 0;
+    padding: 1px 5px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  .templates-editable-textarea-input {
+    resize: none;
+    box-sizing: border-box;
+    width: 100%;
+    height: 6em;
+    margin: 0;
+    padding: 5px 5px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
 /* Button */
