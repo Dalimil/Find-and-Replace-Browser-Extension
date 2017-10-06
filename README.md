@@ -253,27 +253,29 @@ User actions specified above directly translate to types of messages that need t
 
 **action: updateSearch**
 - Uses `data` to update search parameters
-- Returns: `{ invalidRegex: boolean, missingSelection: boolean, searchIndex: number, searchCount: number }`
+- Returns: `{ invalidRegex: boolean, invalidSelection: boolean, searchIndex: number, searchCount: number, currentMatch: object }`
 
 **action: findNext**
 - Finds next match
-- Returns: `{ searchIndex: number, searchCount: number }`
+- Returns: `{ searchIndex: number, searchCount: number, currentMatch: object }`
 
 **action: findPrev**
 - Find previous match
-- Returns: `{ searchIndex: number, searchCount: number }`
+- Returns: `{ searchIndex: number, searchCount: number, currentMatch: object }`
 
 **action: replaceCurrent**
 - Replaces current match with `data` contents
-- Returns: `{ searchIndex: number, searchCount: number }`
+- Returns: `{ searchIndex: number, searchCount: number, currentMatch: object }`
 
 **action: replaceAll**
 - Replaces all matches with `data` contents
-- Returns: `{ searchIndex: number, searchCount: number }`
+- Returns: `{ searchIndex: number, searchCount: number, currentMatch: object }`
 
 **action: insertTemplate**
 - Inserts template text `data` at current cursor
-- Returns: `{ missingSelection: boolean }`
+- Returns: `{ noCursorPosition: boolean }`
+
+Object `currentMatch` is used to display advanced regex information about matched regex groups. It has the following structure: `{ groups: Array<string>, replace: string }`
 
 ### RegEx Search
 JavaScript contains native support for regular expressions (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query.
@@ -302,6 +304,14 @@ https://github.com/lonekorean/highlight-within-textarea/pull/19
   - After 2nd review the discussion still continues, there are backward-compatibility issues and conflicting views on the design and purpose of the plugin. As I'm injecting the code dynamically I have a slightly different use case and might need to leave my forked version unmerged.
 
 For highlighting text in the `<div>` mirroring our textarea, I'll use **mark.js** again. This is mostly for making things consistent and having a single unified function interface (finding and replacing the plaintext separately would also be an option, but we are using the library already so there's no need to make things more complicated).
+
+#### RegExp Replace
+In the replace input string, user can specify special symbols to refer to the found occurrence.
+
+- `$n` - Where n is a positive integer, inserts the n-th parenthesized submatch string.
+- `$0` or `$&` - Inserts the matched substring.
+
+These are commonly used to extend find & replace functionality in advanced text editors. Inspiratio also taken from Mozilla's spec on MDN website: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
 
 ### Handling iframes
 TODO: explain recursive search for active element
@@ -335,3 +345,5 @@ I decided to go with an alternative solution - we store all submitted feedback m
 - Look at structure of previous dissertation projects
 - Find a good Markdown to Latex converter
 - Use we or I in text
+
+- Note that replacing all current occurrences may have generated new matches, but if someone click replace all, and gets many new (not replaced) matches afterward, it is confusing, replacing all recursively is confusing too
