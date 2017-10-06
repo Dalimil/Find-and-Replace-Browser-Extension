@@ -29,35 +29,18 @@ class ButtonPanel extends React.Component {
       expanded: false,
       activeTab: null,
       favourites: {},
-      history: [],
-      templates: [],
-      contentScript: {
-        noCursorPosition: false
-      }
+      history: []
     };
 
     this.selectMenuItem = this.selectMenuItem.bind(this);
     this.onFavouriteSelected = this.onFavouriteSelected.bind(this);
     this.onHistorySelected = this.onHistorySelected.bind(this);
     this.onTemplateSelected = this.onTemplateSelected.bind(this);
-
-    ConnectionApi.addResponseHandler(msg => {
-      if (msg.reply == 'insertTemplate') {
-        this.setState({
-          contentScript: { noCursorPosition: msg.data.noCursorPosition }
-        });
-        if (!msg.data.noCursorPosition) {
-          // No error, signal template insertion success
-          this.props.onTemplateSelected();
-        }
-      }
-    });
   }
 
   componentDidMount() {
     Storage.observeOnFavouritesChanged(this.onFavouritesChanged.bind(this));
     Storage.observeOnHistoryChanged(this.onHistoryChanged.bind(this));
-    Storage.observeOnTemplatesChanged(this.onTemplatesChanged.bind(this));
   }
 
   onFavouritesChanged(favourites) {
@@ -69,21 +52,6 @@ class ButtonPanel extends React.Component {
     const historyListLatestFirst = history.slice().reverse();
     ConnectionApi.log("Got history update: ", historyListLatestFirst);
     this.setState({ history: historyListLatestFirst });
-  }
-
-  onTemplatesChanged(templates) {
-    // Sort templates by title (and keep their id)
-    const templateList = Object.keys(templates).map(templateId => {
-      return Object.assign({}, templates[templateId], { id: templateId });
-    }).sort((a, b) => {
-      const titleA = a.title.toUpperCase();
-      const titleB = b.title.toUpperCase();
-      if (titleA < titleB) return -1;
-      if (titleA > titleB) return 1;
-      return 0;
-    });
-    ConnectionApi.log("Got templates update: ", templates, templateList);
-    this.setState({ templates: templateList });
   }
 
   selectMenuItem(name) {
@@ -116,12 +84,9 @@ class ButtonPanel extends React.Component {
     this.props.onHistorySelected(historyItem);
   }
 
-  onTemplateSelected(templateText) {
+  onTemplateSelected() {
     // this.closePanels();
-    ConnectionApi.log(`Pasting template: "${templateText}"`);
-    ConnectionApi.insertTemplate({
-      text: templateText
-    });
+    this.props.onTemplateSelected();
   }
 
   render() {
@@ -141,8 +106,6 @@ class ButtonPanel extends React.Component {
         );
         case this.TABS.templates: return (
           <TemplatesPanel
-            templatesDisabled={this.state.contentScript.noCursorPosition}
-            templates={this.state.templates}
             onTemplateSelected={this.onTemplateSelected} />
         );
         case this.TABS.help: return (

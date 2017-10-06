@@ -142,6 +142,7 @@ class Storage {
       this.notifyTemplatesChanged_(templates);
       return templates;
     });
+    return this.templatesPromise;
   }
 
   notifyHistoryChanged_(history) {
