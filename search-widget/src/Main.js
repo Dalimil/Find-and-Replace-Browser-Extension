@@ -19,12 +19,17 @@ class Main extends React.Component {
       wholeWordsInput: false,
       useRegexInput: false,
       limitToSelectionInput: false,
-      addedToFavourites: false
+      addedToFavourites: false,
+      contentScriptSearch: {
+        searchIndex: 0,
+        searchCount: 0,
+        currentMatch: {}
+      },
+      contentScriptError: {
+        invalidRegex: false,
+        invalidSelection: false
+      }
     };
-
-    ConnectionApi.addResponseHandler(msg => {
-      ConnectionApi.log("Handle ", msg);
-    });
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleFindNext = this.handleFindNext.bind(this);
@@ -39,6 +44,10 @@ class Main extends React.Component {
     this.onButtonsPanelClosed = this.onButtonsPanelClosed.bind(this);
     this.onFavouriteSelectedInPanel = this.onFavouriteSelectedInPanel.bind(this);
     this.onHistorySelecedInPanel = this.onHistorySelecedInPanel.bind(this);
+    this.handleContentScriptApiResponse = this.handleContentScriptApiResponse.bind(this);
+
+    // Register content-script response listener
+    ConnectionApi.addResponseHandler(this.handleContentScriptApiResponse);
   }
 
   componentDidMount() {
@@ -72,7 +81,7 @@ class Main extends React.Component {
        this.sendSeachUpdate();
       }
       // Save the full state (async low priority)
-      Storage.saveSearchState(this.state);
+      Storage.saveSearchState(this.getSearchStateForStorage());
       this.checkIfStateInFavourites();
     });
   }
@@ -82,6 +91,37 @@ class Main extends React.Component {
     Storage.isAddedToFavourites(this.getSearchStateForFavourites()).then(isAdded => {
       this.setState({ addedToFavourites: isAdded });
     });
+  }
+
+  handleContentScriptApiResponse(msg) {
+    ConnectionApi.log("Widget Handling ", msg.reply, " Data: ", msg.data);
+    switch (msg.reply) {
+      case 'updateSearch':
+        this.setState({
+          contentScript: {
+            searchIndex: msg.data.searchIndex,
+            searchCount: msg.data.searchCount,
+            currentMatch: msg.data.currentMatch
+          },
+          contentScriptError: {
+            invalidRegex: msg.data.invalidRegex,
+            invalidSelection: msg.data.invalidSelection
+          }
+        });
+        break;
+      case 'findNext':
+      case 'findPrev':
+      case 'replaceCurrent':
+      case 'replaceAll':
+        this.setState({
+          contentScript: {
+            searchIndex: msg.data.searchIndex,
+            searchCount: msg.data.searchCount,
+            currentMatch: msg.data.currentMatch
+          }
+        });
+        break;
+    }
   }
 
   onFavouriteSelectedInPanel(favourite) {
@@ -169,9 +209,19 @@ class Main extends React.Component {
   }
 
   getSearchStateForFavourites() {
-    const searchState = Object.assign({}, this.state);
-    delete searchState.addedToFavourites;
-    return searchState;
+    return this.getSearchStateForStorage();
+  }
+
+  getSearchStateForStorage() {
+    return {
+      advancedSearchExpanded: this.state.advancedSearchExpanded,
+      findTextInput: this.state.findTextInput,
+      replaceTextInput: this.state.replaceTextInput,
+      matchCaseInput: this.state.matchCaseInput,
+      wholeWordsInput: this.state.wholeWordsInput,
+      useRegexInput: this.state.useRegexInput,
+      limitToSelectionInput: this.state.limitToSelectionInput
+    };
   }
 
   handleFindNext(e) {

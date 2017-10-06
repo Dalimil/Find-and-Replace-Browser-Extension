@@ -392,7 +392,7 @@ function setUpApi() {
         insertTemplate(msg.data.text);
         break;
       default:
-        console.log('Invalid API Call: ', msg.action);
+        console.warn('Invalid API Call: ', msg.action);
     }
   }
 }

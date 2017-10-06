@@ -30,13 +30,24 @@ class ButtonPanel extends React.Component {
       activeTab: null,
       favourites: {},
       history: [],
-      templates: []
+      templates: [],
+      contentScript: {
+        noCursorPosition: false
+      }
     };
 
     this.selectMenuItem = this.selectMenuItem.bind(this);
     this.onFavouriteSelected = this.onFavouriteSelected.bind(this);
     this.onHistorySelected = this.onHistorySelected.bind(this);
     this.onTemplateSelected = this.onTemplateSelected.bind(this);
+
+    ConnectionApi.addResponseHandler(msg => {
+      if (msg.reply == 'insertTemplate') {
+        this.setState({
+          contentScript: { noCursorPosition: msg.data.noCursorPosition }
+        });
+      }
+    });
   }
 
   componentDidMount() {
@@ -102,7 +113,7 @@ class ButtonPanel extends React.Component {
   }
 
   onTemplateSelected(templateText) {
-    this.closePanels();
+    // this.closePanels();
     ConnectionApi.log(`Pasting template: "${templateText}"`);
     ConnectionApi.insertTemplate({
       text: templateText
@@ -126,6 +137,7 @@ class ButtonPanel extends React.Component {
         );
         case this.TABS.templates: return (
           <TemplatesPanel
+            templatesDisabled={this.state.contentScript.noCursorPosition}
             templates={this.state.templates}
             onTemplateSelected={this.onTemplateSelected} />
         );
