@@ -184,23 +184,18 @@ class Main extends React.Component {
 
   handleReplaceOne(e) {
     ConnectionApi.replaceCurrent({
-      text: this.getReplaceText() 
+      text: this.state.replaceTextInput,
+      regexGroups: this.state.useRegexInput
     });
     Storage.addToHistory(this.getSearchStateForHistory());
   }
 
   handleReplaceAll(e) { 
     ConnectionApi.replaceAll({
-      text: this.getReplaceText() 
+      text: this.state.replaceTextInput,
+      regexGroups: this.state.useRegexInput
     });
     Storage.addToHistory(this.getSearchStateForHistory());
-  }
-
-  getReplaceText() {
-    if (this.state.useRegexInput) {
-      // todo - substitute groups first
-    }
-    return this.state.replaceTextInput;
   }
 
   render() {
@@ -273,7 +268,8 @@ class Main extends React.Component {
               { /* TODO - BUT NOT MVP */ false && this.state.advancedSearchExpanded && this.state.useRegexInput && (
                 <div>
                   <div style={{ fontSize: "1.2em" }}>RegEx Groups</div>
-                  <div>full ...</div>
+                  <div>Replace with</div>
+                  <div>Found - full: ...</div>
                   <div>$0 ...</div>
                   <div>$1 ...</div>
                 </div>

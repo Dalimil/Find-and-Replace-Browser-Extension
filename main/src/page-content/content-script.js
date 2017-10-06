@@ -12,7 +12,9 @@ const Search = {
   // [{ term, $marks: jQuery{el1, el2, el3} }, ...]
   groupedMarks: [], 
   // Current highlight index - again the 'real' index (merging cross boundary occurrences)
-  activeTermIndex: 0
+  activeTermIndex: 0,
+  // Save the most recent regexp used during 'find all' operation
+  lastSearchRegexp: /^$/
 };
 
 /** iFrame handling - all search will only happen in a given context */
@@ -85,6 +87,10 @@ function getTextOffsetInParent(node) {
   return textOffset;
 }
 
+function getCurrentOccurrenceText() {
+  return $(SELECTORS.currentHighlight, Context.doc).text();
+}
+
 /**
  * Replaces the current (highlighted) occurrence
  *    performs the replacement in the first node if matched accross elements
@@ -115,6 +121,8 @@ function replaceCurrent(resultText) {
     textarea.val(replacedText);
   }
 
+  // Delete term mark-group from our list
+  Search.groupedMarks.splice(Search.activeTermIndex, 1);
   // Set to same index because count decreased
   setOccurrenceIndex(Search.activeTermIndex);
 }
@@ -208,6 +216,9 @@ function highlightHtml($elements, params) {
         };
         try {
           const regexp = Utils.constructRegExpFromSearchParams(params);
+          // Save regexp for reuse, (but not 'g' mod due to lastIndex issue)
+          Search.lastSearchRegexp = new RegExp(regexp.source, regexp.flags.replace("g", ""));
+          // Mark.js
           $elements.markRegExp(regexp, options);
         } catch (e) {
           reject(e);
@@ -308,6 +319,25 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
   };
 }
 
+function getReplaceText({ text, regexGroups }) {
+  if (!regexGroups) {
+    return text;
+  }
+  // replace regex groups
+  const currentOccurrenceText = getCurrentOccurrenceText();
+  const matches = Search.lastSearchRegexp.match(currentOccurrenceText);
+  if (matches && matches.length > 0) {
+    // Replace starting from the largest number (replace $11 before $1)
+    matches.reverse().forEach((groupText, index) => {
+      index = matches.length - 1 - index;
+      text = text.replace(new RegExp("\\$" + index, "g"), groupText);
+    });
+    text = text.replace(new RegExp("\\$", "g"), matches[0]);
+  }
+  return text;
+}
+
+
 function shutdown() {
   $('textarea', Context.doc).highlightWithinTextarea('destroy');
   $('[contenteditable]', Context.doc).unmark();
@@ -353,10 +383,10 @@ function setUpApi() {
         setOccurrenceIndex(Search.activeTermIndex - 1);
         break;
       case 'replaceCurrent':
-        replaceCurrent(msg.data.text);
+        replaceCurrent(getReplaceText(msg.data));
         break;
       case 'replaceAll':
-        replaceAll(msg.data.text);
+        replaceAll(getReplaceText(msg.data));
         break;
       case 'insertTemplate':
         insertTemplate(msg.data.text);
