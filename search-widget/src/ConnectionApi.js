@@ -52,18 +52,20 @@ class ConnectionApi {
     });
   }
 
-  findNext() {
+  findNext(data) {
     this.executeOnPort(port => {
       port.postMessage({
-        action: 'findNext'
+        action: 'findNext',
+        data: data
       });
     });
   }
 
-  findPrev() {
+  findPrev(data) {
     this.executeOnPort(port => {
       port.postMessage({
-        action: 'findPrev'
+        action: 'findPrev',
+        data
       });
     });
   }

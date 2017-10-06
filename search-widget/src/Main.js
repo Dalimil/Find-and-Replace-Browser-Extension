@@ -23,7 +23,7 @@ class Main extends React.Component {
       contentScriptSearch: {
         searchIndex: 0,
         searchCount: 0,
-        currentMatch: {}
+        currentMatch: null
       },
       contentScriptError: {
         invalidRegex: false,
@@ -97,28 +97,23 @@ class Main extends React.Component {
     ConnectionApi.log("Widget Handling ", msg.reply, " Data: ", msg.data);
     switch (msg.reply) {
       case 'updateSearch':
-        this.setState({
-          contentScript: {
-            searchIndex: msg.data.searchIndex,
-            searchCount: msg.data.searchCount,
-            currentMatch: msg.data.currentMatch
-          },
+        const stateUpdateObject = {
           contentScriptError: {
-            invalidRegex: msg.data.invalidRegex,
-            invalidSelection: msg.data.invalidSelection
+            invalidRegex: msg.data.errors.invalidRegex,
+            invalidSelection: msg.data.errors.invalidSelection
           }
-        });
+        };
+        if (msg.data.searchState) {
+          stateUpdateObject.contentScriptSearch = msg.data.searchState;
+        }
+        this.setState(stateUpdateObject);
         break;
       case 'findNext':
       case 'findPrev':
       case 'replaceCurrent':
       case 'replaceAll':
         this.setState({
-          contentScript: {
-            searchIndex: msg.data.searchIndex,
-            searchCount: msg.data.searchCount,
-            currentMatch: msg.data.currentMatch
-          }
+          contentScriptSearch: msg.data.searchState
         });
         break;
     }
@@ -171,7 +166,8 @@ class Main extends React.Component {
       useRegex: this.state.useRegexInput,
       matchCase: this.state.matchCaseInput,
       wholeWords: this.state.wholeWordsInput,
-      limitToSelection: this.state.limitToSelectionInput
+      limitToSelection: this.state.limitToSelectionInput,
+      replaceText: this.state.replaceTextInput
     });
   }
 
@@ -225,25 +221,27 @@ class Main extends React.Component {
   }
 
   handleFindNext(e) {
-    ConnectionApi.findNext();
+    ConnectionApi.findNext({
+      replaceText: this.state.replaceTextInput
+    });
   }
 
   handleFindPrev(e) {
-    ConnectionApi.findPrev();
+    ConnectionApi.findPrev({
+      replaceText: this.state.replaceTextInput
+    });
   }
 
   handleReplaceOne(e) {
     ConnectionApi.replaceCurrent({
-      text: this.state.replaceTextInput,
-      regexGroups: this.state.useRegexInput
+      replaceText: this.state.replaceTextInput
     });
     Storage.addToHistory(this.getSearchStateForHistory());
   }
 
   handleReplaceAll(e) { 
     ConnectionApi.replaceAll({
-      text: this.state.replaceTextInput,
-      regexGroups: this.state.useRegexInput
+      replaceText: this.state.replaceTextInput
     });
     Storage.addToHistory(this.getSearchStateForHistory());
   }
@@ -293,8 +291,11 @@ class Main extends React.Component {
     const ReplaceOneButton = <Button onClick={this.handleReplaceOne} title="Replace" {...args} />;
     const ReplaceAllButton = <Button onClick={this.handleReplaceAll} title="Replace all" {...args} style={{ marginLeft: '0.5em'}} />;
 
-    const SearchStatus = ( // todo
-      <div className="search-status-text">{true ? '231 of 768' : 'No Results'}</div>
+    const occurrenceCount = this.state.contentScriptSearch.searchCount;
+    const SearchStatus = (
+      <div className="search-status-text">{(occurrenceCount == 0 ?
+          'No Results' :
+          `${this.state.contentScriptSearch.searchIndex + 1} of ${occurrenceCount}`)}</div>
     );
 
     return (

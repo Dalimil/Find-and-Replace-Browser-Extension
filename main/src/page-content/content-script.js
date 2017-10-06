@@ -13,6 +13,8 @@ const Search = {
   groupedMarks: [], 
   // Current highlight index - again the 'real' index (merging cross boundary occurrences)
   activeTermIndex: 0,
+  // Whether last performed search used user-specified regex
+  lastSearchUsedRegexp: false,
   // Save the most recent regexp used during 'find all' operation
   lastSearchRegexp: /^$/
 };
@@ -70,10 +72,8 @@ function setOccurrenceIndex(index) {
     Search.activeTermIndex = index;
     const $current = Search.groupedMarks[index].$marks.addClass(CLASSES.currentHighlight);
     scrollInViewIfNotAlready($current.eq(0));
-    console.log((Search.activeTermIndex + 1) + "/" + termCount);
   } else {
     Search.activeTermIndex = 0;
-    console.log("No occurrences.");
   }
 }
 
@@ -155,6 +155,8 @@ function insertTemplate(templateText) {
     // textarea will fail getSelection() test
     // todo: save this globally in getActiveSelectionAndContext and just use the element ref + type, here
   }
+  // Return success
+  return false;
 }
 
 /**
@@ -218,6 +220,7 @@ function highlightHtml($elements, params) {
           const regexp = Utils.constructRegExpFromSearchParams(params);
           // Save regexp for reuse, (but not 'g' mod due to lastIndex issue)
           Search.lastSearchRegexp = new RegExp(regexp.source, regexp.flags.replace("g", ""));
+          Search.lastSearchUsedRegexp = params.useRegex;
           // Mark.js
           $elements.markRegExp(regexp, options);
         } catch (e) {
@@ -256,7 +259,7 @@ function updateSearch(params) {
     }
   });
 
-  highlightMatchesPromise.then((groupedMarks) => {
+  return highlightMatchesPromise.then((groupedMarks) => {
     const oldCount = Search.groupedMarks.length;
     Search.groupedMarks = groupedMarks;
     if (oldCount == groupedMarks.length) {
@@ -265,8 +268,10 @@ function updateSearch(params) {
     } else {
       setOccurrenceIndex(0);
     }
+    return { invalidRegex: false };
   }).catch(e => {
-    console.log("Invalid regexp? ", e);
+    // Invalid regexp, or error in Mark.js
+    return { invalidRegex: true };
   });
 }
 
@@ -319,13 +324,13 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
   };
 }
 
-function getReplaceText({ text, regexGroups }) {
+function getReplaceText({ replaceText: text, regexGroups }) {
   if (!regexGroups) {
     return text;
   }
   // replace regex groups
   const currentOccurrenceText = getCurrentOccurrenceText();
-  const matches = Search.lastSearchRegexp.match(currentOccurrenceText);
+  const matches = Search.lastSearchRegexp.exec(currentOccurrenceText);
   if (matches && matches.length > 0) {
     // Replace starting from the largest number (replace $11 before $1)
     matches.reverse().forEach((groupText, index) => {
@@ -335,6 +340,28 @@ function getReplaceText({ text, regexGroups }) {
     text = text.replace(new RegExp("\\$", "g"), matches[0]);
   }
   return text;
+}
+
+function getCurrentMatchInfo(replaceText) {
+  const currentOccurrenceText = getCurrentOccurrenceText();
+  const matches = Search.lastSearchRegexp.exec(currentOccurrenceText);
+  return {
+    groups: (matches && matches.length > 0) ? matches : [currentOccurrenceText],
+    replace: getReplaceText({ replaceText, regexGroups: Search.lastSearchUsedRegexp })
+  };
+}
+
+function getApiResponseData(actionName, replaceText) {
+  return {
+    reply: actionName,
+    data: {
+      searchState: {
+        searchIndex: Search.activeTermIndex,
+        searchCount: Search.groupedMarks.length,
+        currentMatch: getCurrentMatchInfo(replaceText)
+      }
+    }
+  };
 }
 
 
@@ -374,22 +401,41 @@ function setUpApi() {
         console.log("Widget Log: ", ...msg.data);
         break;
       case 'updateSearch':
-        updateSearch(msg.data);
+        updateSearch(msg.data).then(({ invalidRegex }) => {
+          const response = {
+            reply: msg.action,
+            data: {
+              errors: { invalidRegex }
+            }
+          };
+          if (!invalidRegex) {
+            Object.assign(response.data, getApiResponseData(msg.action, msg.data.replaceText).data);
+          }
+          port.postMessage(response);
+        });
         break;
       case 'findNext':
         setOccurrenceIndex(Search.activeTermIndex + 1);
+        port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'findPrev':
         setOccurrenceIndex(Search.activeTermIndex - 1);
+        port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'replaceCurrent':
         replaceCurrent(getReplaceText(msg.data));
+        port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'replaceAll':
         replaceAll(getReplaceText(msg.data));
+        port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'insertTemplate':
-        insertTemplate(msg.data.text);
+        const success = insertTemplate(msg.data.text);
+        port.postMessage({
+          reply: msg.action,
+          data: { noCursorPosition: !success }
+        });
         break;
       default:
         console.warn('Invalid API Call: ', msg.action);
@@ -401,8 +447,12 @@ function setUpApi() {
 const Utils = {
   flattenNode(node) {
     const parent = node.parentNode;
-    // replace '<>text<>' with 'text'
-    parent.replaceChild(node.firstChild, node); 
+    if (node.firstChild == null) {
+      parent.removeChild(node);
+    } else {
+      // replace '<>text<>' with 'text'
+      parent.replaceChild(node.firstChild, node); 
+    }
     // merge adjacent text nodes
     parent.normalize();
   },
