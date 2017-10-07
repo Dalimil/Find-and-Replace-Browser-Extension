@@ -1,6 +1,7 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 
+import Logger from '../Logger';
 import Storage from '../Storage';
 import ConnectionApi from '../ConnectionApi';
 
@@ -53,12 +54,12 @@ class TemplatesPanel extends React.Component {
       if (titleA > titleB) return 1;
       return 0;
     });
-    ConnectionApi.log("Got templates update: ", templates, templateList);
+    Logger.log("Got templates update: ", templates, templateList);
     this.setState({ templates: templateList });
   }
 
   handleTemplateSelected(templateText) {
-    ConnectionApi.log(`Pasting template: "${templateText}"`);
+    Logger.log(`Pasting template: "${templateText}"`);
     ConnectionApi.insertTemplate({
       text: templateText
     });

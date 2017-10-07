@@ -2,7 +2,7 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 
 import Storage from '../Storage';
-import ConnectionApi from '../ConnectionApi';
+import Logger from '../Logger';
 import FavouritesPanel from './FavouritesPanel';
 import HistoryPanel from './HistoryPanel';
 import TemplatesPanel from './TemplatesPanel';
@@ -44,13 +44,13 @@ class ButtonPanel extends React.Component {
   }
 
   onFavouritesChanged(favourites) {
-    ConnectionApi.log("Got favs update: ", favourites);
+    Logger.log("Got favs update: ", favourites);
     this.setState({ favourites });
   }
 
   onHistoryChanged(history) {
     const historyListLatestFirst = history.slice().reverse();
-    ConnectionApi.log("Got history update: ", historyListLatestFirst);
+    Logger.log("Got history update: ", historyListLatestFirst);
     this.setState({ history: historyListLatestFirst });
   }
 
