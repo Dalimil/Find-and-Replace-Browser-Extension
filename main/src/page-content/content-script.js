@@ -324,8 +324,8 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
   };
 }
 
-function getReplaceText({ replaceText: text, regexGroups }) {
-  if (!regexGroups) {
+function getReplaceText(text) {
+  if (!Search.lastSearchUsedRegexp) {
     return text;
   }
   // replace regex groups
@@ -333,11 +333,11 @@ function getReplaceText({ replaceText: text, regexGroups }) {
   const matches = Search.lastSearchRegexp.exec(currentOccurrenceText);
   if (matches && matches.length > 0) {
     // Replace starting from the largest number (replace $11 before $1)
-    matches.reverse().forEach((groupText, index) => {
+    matches.slice().reverse().forEach((groupText, index) => {
       index = matches.length - 1 - index;
       text = text.replace(new RegExp("\\$" + index, "g"), groupText);
     });
-    text = text.replace(new RegExp("\\$", "g"), matches[0]);
+    text = text.replace(new RegExp("\\$&", "g"), matches[0]);
   }
   return text;
 }
@@ -347,7 +347,7 @@ function getCurrentMatchInfo(replaceText) {
   const matches = Search.lastSearchRegexp.exec(currentOccurrenceText);
   return {
     groups: (matches && matches.length > 0) ? matches : [currentOccurrenceText],
-    replace: getReplaceText({ replaceText, regexGroups: Search.lastSearchUsedRegexp })
+    replace: getReplaceText(replaceText)
   };
 }
 
@@ -426,11 +426,11 @@ function setUpApi() {
         port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'replaceCurrent':
-        replaceCurrent(getReplaceText(msg.data));
+        replaceCurrent(getReplaceText(msg.data.replaceText));
         port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'replaceAll':
-        replaceAll(getReplaceText(msg.data));
+        replaceAll(getReplaceText(msg.data.replaceText));
         port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'insertTemplate':
