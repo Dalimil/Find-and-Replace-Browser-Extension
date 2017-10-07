@@ -19,8 +19,8 @@ html, body {
   width: 590px;
 }
 
-input {
-  font-family: 'Inconsolata', monospace;
+input,.code-font {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 body {
   box-sizing: border-box;
@@ -250,6 +250,32 @@ body {
     font-size: 0.9em;
   }
 
+
+.advanced-search-info-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100px;
+  overflow-y: auto;
+}
+.advanced-search-info-item {
+  display: flex;
+  flex-shrink: 0;
+  padding: 3px 0;
+  border-top: 1px solid #dcdcdc;
+}
+.advanced-search-info-item:last-child {
+  border-bottom: 1px solid #dcdcdc;
+}
+.advanced-search-info-item-name {
+  display: inline-block;
+  width: 45px;
+  padding: 0 10px 0 0;
+}
+.advanced-search-info-item-text {
+  display: inline-block;
+  padding-top: 1px;
+}
 
 /* INPUT COMPONENTS */
   .search-status-text {

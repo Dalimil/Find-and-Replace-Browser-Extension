@@ -3,6 +3,7 @@ import FontAwesome from 'react-fontawesome';
 
 import { Button, Checkbox, Star } from './InputElements';
 import ButtonPanel from './panels/ButtonPanel';
+import AdvancedSearchInfo from './AdvancedSearchInfo';
 
 import ConnectionApi from './ConnectionApi';
 import Storage from './Storage';
@@ -321,15 +322,6 @@ class Main extends React.Component {
               { /* Advanced Search */}
               { this.state.advancedSearchExpanded && checkboxes.LimitToSelectionCheckbox }
               { this.state.advancedSearchExpanded && checkboxes.UseRegexCheckbox } 
-              { /* TODO - BUT NOT MVP */ false && this.state.advancedSearchExpanded && this.state.useRegexInput && (
-                <div>
-                  <div style={{ fontSize: "1.2em" }}>RegEx Groups</div>
-                  <div>Replace with</div>
-                  <div>Found - full: ...</div>
-                  <div>$0 ...</div>
-                  <div>$1 ...</div>
-                </div>
-              )}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
               <Checkbox name="advancedSearchInput"
@@ -341,6 +333,13 @@ class Main extends React.Component {
                 descrBefore="Save to Favourites" descrAfter="Saved" />
             </div>
           </div>
+          { this.state.advancedSearchExpanded &&
+            this.state.useRegexInput &&
+            !this.state.contentScriptError.invalidRegex &&
+            this.state.contentScriptSearch.searchCount > 0 &&
+            <AdvancedSearchInfo
+              matchInfo={this.state.contentScriptSearch.currentMatch} />
+          }
         </div>
 
         <ButtonPanel

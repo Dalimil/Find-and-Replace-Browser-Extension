@@ -392,7 +392,10 @@ function setUpApi() {
   };
 
   function handleApiCall(msg) {
-    console.log("Content Script API: ", msg.action, " Data: ", msg.data);
+    if (msg.action != 'log') {
+      // Debug log
+      console.log("Content Script API: ", msg.action, " Data: ", msg.data);
+    }
     switch (msg.action) {
       case 'shutdown':
         //shutdown();
