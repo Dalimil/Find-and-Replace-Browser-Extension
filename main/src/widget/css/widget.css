@@ -305,6 +305,11 @@ body {
     outline: none;
   }
 
+  .text-input.input-error {
+    border: 1px solid #FF0011;
+    box-shadow: inset 0 1px 5px rgba(255, 0, 20, 0.5);
+  }
+
   .templates-editable-title-input {
     width: 60%;
     height: 22px;

@@ -255,7 +255,9 @@ class Main extends React.Component {
   render() {
     // Text inputs
     const FindFieldInput = (
-      <input type="text" placeholder="Find" className="text-input"
+      <input type="text" placeholder="Find"
+        className={"text-input" + (
+          (this.state.useRegexInput && this.state.contentScriptError.invalidRegex) ? " input-error" :"")}
         ref={input => { this.findInputElement = input; }}
         name="findTextInput"
         value={this.state.findTextInput}
