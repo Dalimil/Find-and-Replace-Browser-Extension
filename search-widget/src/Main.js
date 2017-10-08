@@ -252,12 +252,42 @@ class Main extends React.Component {
     Storage.addToHistory(this.getSearchStateForHistory());
   }
 
+  renderIndividualCheckboxes() {
+    const invalidSelectionInput = (this.state.limitToSelectionInput &&
+      this.state.contentScriptError.invalidSelection);
+    const checkboxes = {
+      MatchCaseCheckbox: { id: "matchCaseInput", text: "Match Case" },
+      WholeWordsCheckbox: { id: "wholeWordsInput", text: "Whole Words" },
+      UseRegexCheckbox: { id: "useRegexInput", text: "Use RegEx" },
+      LimitToSelectionCheckbox: {
+        id: "limitToSelectionInput",
+        text: "In Text Selection",
+        tooltip: invalidSelectionInput ? "You must select editable text on the page first." : "",
+        error: invalidSelectionInput
+      }
+    };
+    Object.keys(checkboxes).forEach(id => {
+      const cbox = checkboxes[id];
+      checkboxes[id] = (
+        <Checkbox
+          name={cbox.id}
+          checked={this.state[cbox.id]}
+          onChange={this.handleSearchInputChange} 
+          text={cbox.text}
+          tooltip={cbox.tooltip}
+          error={cbox.error} />
+      );
+    });
+    return checkboxes;
+  }
+
   render() {
     // Text inputs
+    const invalidFindInput = (this.state.useRegexInput && this.state.contentScriptError.invalidRegex);
     const FindFieldInput = (
       <input type="text" placeholder="Find"
-        className={"text-input" + (
-          (this.state.useRegexInput && this.state.contentScriptError.invalidRegex) ? " input-error" :"")}
+        className={"text-input" + (invalidFindInput ? " input-error" :"")}
+        title={invalidFindInput ? "Invalid RegEx" : null}
         ref={input => { this.findInputElement = input; }}
         name="findTextInput"
         value={this.state.findTextInput}
@@ -274,21 +304,7 @@ class Main extends React.Component {
     );
 
     // Checkboxes
-    const checkboxes = {
-      MatchCaseCheckbox: { id: "matchCaseInput", text: "Match Case" },
-      WholeWordsCheckbox: { id: "wholeWordsInput", text: "Whole Words" },
-      UseRegexCheckbox: { id: "useRegexInput", text: "Use RegEx" },
-      LimitToSelectionCheckbox: { id: "limitToSelectionInput", text: "In Text Selection" }
-    };
-    Object.keys(checkboxes).forEach(id => {
-      checkboxes[id] = (
-        <Checkbox
-          name={checkboxes[id].id}
-          checked={this.state[checkboxes[id].id]}
-          onChange={this.handleSearchInputChange} 
-          text={checkboxes[id].text} />
-      );
-    });
+    const checkboxes = this.renderIndividualCheckboxes();
 
     // Buttons
     const args = {

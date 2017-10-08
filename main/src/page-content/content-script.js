@@ -218,6 +218,11 @@ function updateSearch(params) {
   const activeSelection = getActiveSelectionAndContext(document, window);
   Context.doc = activeSelection.documentContext;
   Context.win = activeSelection.windowContext;
+  //Search.activeElement = activeSelection.$element || null;
+  Search.limitedToSelection = params.limitToSelection &&
+    (activeSelection.selection && !activeSelection.selection.collapsed);
+  const limitToSelectionError = params.limitToSelection &&
+    (!activeSelection.selection || activeSelection.selection.collapsed);
   // todo work with activeSelection.selection
   console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
   
@@ -250,10 +255,10 @@ function updateSearch(params) {
     } else {
       setOccurrenceIndex(0);
     }
-    return { invalidRegex: false };
+    return { invalidRegex: false, invalidSelection: limitToSelectionError };
   }).catch(e => {
     // Invalid regexp, or error in Mark.js
-    return { invalidRegex: true };
+    return { invalidRegex: true, invalidSelection: limitToSelectionError };
   });
 }
 
@@ -263,6 +268,7 @@ function updateSearch(params) {
  * It also returns active selection range (as text indexes)
  */
 function getActiveSelectionAndContext(documentContext, windowContext) {
+  const defaultReturn = { type: TYPES.mix, documentContext, windowContext };
   const activeElement = documentContext.activeElement;
   if (activeElement) {
     const tagName = activeElement.tagName.toLowerCase();
@@ -270,7 +276,11 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
       return {
         type: TYPES.textarea,
         $element: $(activeElement),
-        selection: { start: activeElement.selectionStart, end: activeElement.selectionEnd },
+        selection: {
+          start: activeElement.selectionStart,
+          end: activeElement.selectionEnd,
+          collapsed: activeElement.selectionStart == activeElement.selectionEnd
+        },
         documentContext,
         windowContext
       }
@@ -281,7 +291,7 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
       return {
         type: TYPES.contenteditable,
         $element: $(activeElement),
-        selection: { start, end },
+        selection: { start, end, collapsed: start == end },
         documentContext,
         windowContext
       };
@@ -292,20 +302,12 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
         return getActiveSelectionAndContext(innerContext, activeElement.contentWindow);
       } catch (e) {
         // ^^^ cross-origin iframe not accessible
-        return {
-          type: TYPES.mix,
-          documentContext,
-          windowContext
-        };
+        return defaultReturn;
       }
     }
   }
   // No valid active input - so select all valid inactive
-  return {
-    type: TYPES.mix,
-    documentContext,
-    windowContext
-  };
+  return defaultReturn;
 }
 
 function getReplaceText(text) {
@@ -388,14 +390,12 @@ function setUpApi() {
         console.log("Widget Log: ", ...msg.data);
         break;
       case 'updateSearch':
-        updateSearch(msg.data).then(({ invalidRegex }) => {
+        updateSearch(msg.data).then(errors => {
           const response = {
             reply: msg.action,
-            data: {
-              errors: { invalidRegex }
-            }
+            data: { errors }
           };
-          if (!invalidRegex) {
+          if (!errors.invalidRegex) {
             Object.assign(response.data, getApiResponseData(msg.action, msg.data.replaceText).data);
           }
           port.postMessage(response);
@@ -456,7 +456,7 @@ const Utils = {
 
   getTextOffsetInContentEditable(node, offsetInNode) {
     let textOffset = offsetInNode;
-    while (node && !node.hasAttribute('contenteditable')) {
+    while (node && !(node.hasAttribute && node.hasAttribute('contenteditable'))) {
       textOffset += Utils.getTextOffsetInParent(node);
       node = node.parentElement;
     }
