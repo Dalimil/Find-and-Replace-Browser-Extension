@@ -16,7 +16,11 @@ const Search = {
   // Whether last performed search used user-specified regex
   lastSearchUsedRegexp: false,
   // Save the most recent regexp used during 'find all' operation
-  lastSearchRegexp: /^$/
+  lastSearchRegexp: /^$/,
+  // Is the search limited to the (non-collapsed) user-specified text selection
+  limitedToSelection: false,
+  // Save { start, end, element, type } (or null) for the current cursor selection
+  activeCursorSelection: null
 };
 
 /** iFrame handling - all search will only happen in a given context */
@@ -73,6 +77,9 @@ function getCurrentOccurrenceText() {
  *    performs the replacement in the first node if matched accross elements
  */
 function replaceCurrent(resultText) {
+  if (Search.groupedMarks.length == 0) {
+    return;
+  }
   const $nodes = $(SELECTORS.currentHighlight, Context.doc)
     .removeClass(CLASSES.currentHighlight)
     .removeClass(CLASSES.regularHighlight);
@@ -154,28 +161,54 @@ function initTextareas($elements, refocus) {
   return $mirrors;
 }
 
-function highlightHtml($elements, params) {
-  const groupMarks = (terms) => {
-    // Group marks by term (without cross-boundary matches it's just 1-to-1 mapping)
-    const markGroups = []; // [{ term, $marks: jQuery{el1, el2, el3} }, ...]
-    const $marks = $(SELECTORS.regularHighlight, Context.doc);
-    let termSoFar = "";
-    let markStartIndex = 0;
-    $marks.each((ind, el) => {
-      termSoFar += el.textContent;
-      if (termSoFar == terms[ind]) {
-        markGroups.push({
-          term: termSoFar,
-          $marks: $marks.slice(markStartIndex, ind + 1)
-        });
-        markStartIndex = ind + 1;
-        termSoFar = "";
-      }
-    });
-    console.log("Terms: ", terms, "Marks: ", $marks, "Result: ", markGroups);
-    return markGroups;
-  };
+/**
+ * Filters out marks that are outside text selection
+ * It also removes <mark> highlight tags for those filtered-out
+ * Assumes we have an active (uncollapsed) cursor selection
+ */
+function filterMarksInSelection(markGroups) {
+  return markGroups.filter(({ term, $marks }) => {
+    const containerTextOffset = (Search.activeCursorSelection.type == TYPES.textarea) ?
+      Utils.getTextOffsetInTextareaMirror($marks.get(0)) :
+      Utils.getTextOffsetInContentEditable($marks.get(0), 0);
+    const termLength = $marks.text().length;
+    const isIncluded = (Search.activeCursorSelection.start <= containerTextOffset &&
+      containerTextOffset + termLength <= Search.activeCursorSelection.end);
+    if (!isIncluded) {
+      // Strip <mark> tags
+      $marks.each((index, el) => {
+        Utils.flattenNode(el);
+      });
+    }
+    return isIncluded;
+  });
+}
 
+function groupMarks(terms) {
+  // Group marks by term (with no cross-boundary matches it's just 1-to-1 mapping)
+  let markGroups = []; // [{ term, $marks: jQuery{el1, el2, el3} }, ...]
+  const $marks = $(SELECTORS.regularHighlight, Context.doc);
+  let termSoFar = "";
+  let markStartIndex = 0;
+  $marks.each((ind, el) => {
+    termSoFar += el.textContent;
+    if (termSoFar == terms[ind]) {
+      markGroups.push({
+        term: termSoFar,
+        $marks: $marks.slice(markStartIndex, ind + 1)
+      });
+      markStartIndex = ind + 1;
+      termSoFar = "";
+    }
+  });
+  if (Search.limitedToSelection) {
+    markGroups = filterMarksInSelection(markGroups);
+  }
+  console.log("Terms: ", terms, "Marks: ", $marks, "Result: ", markGroups);
+  return markGroups;
+}
+
+function highlightHtml($elements, params) {
   return new Promise((resolve, reject) => {
     // First unmark all potential previous highlights
     // Once finished, mark new elements 
@@ -187,11 +220,6 @@ function highlightHtml($elements, params) {
           className: CLASSES.regularHighlight,
           acrossElements: true,
           filter: (node, term, counter) => {
-            // todo traverse from node up until you hit textarea/ceditable container 
-            if (params.limitToSelection) {
-
-              // return false;
-            }
             terms.push(term);
             return true;
           },
@@ -213,17 +241,21 @@ function highlightHtml($elements, params) {
 }
 
 
-
 function updateSearch(params) {
   const activeSelection = getActiveSelectionAndContext(document, window);
+  // Update globals
   Context.doc = activeSelection.documentContext;
   Context.win = activeSelection.windowContext;
-  //Search.activeElement = activeSelection.$element || null;
-  Search.limitedToSelection = params.limitToSelection &&
-    (activeSelection.selection && !activeSelection.selection.collapsed);
-  const limitToSelectionError = params.limitToSelection &&
-    (!activeSelection.selection || activeSelection.selection.collapsed);
-  // todo work with activeSelection.selection
+  Search.activeCursorSelection = (!activeSelection.selection ? null : {
+    start: activeSelection.selection.start,
+    end: activeSelection.selection.end,
+    $element: activeSelection.$element,
+    type: activeSelection.type
+  });
+  const uncollapsedSelection = (activeSelection.selection && !activeSelection.selection.collapsed);
+  Search.limitedToSelection = params.limitToSelection && uncollapsedSelection;
+  const limitToSelectionError = params.limitToSelection && !uncollapsedSelection;
+  // Debug info
   console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
   
   const highlightMatchesPromise = new Promise((resolve, reject) => {
@@ -285,7 +317,7 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
         windowContext
       }
     } else if (activeElement.hasAttribute('contenteditable')) {
-      const range = windowContext.getSelection().getRangeAt(0);
+      const range = windowContext.getSelection().getRangeAt(0).cloneRange();
       const start = Utils.getTextOffsetInContentEditable(range.startContainer, range.startOffset);
       const end = Utils.getTextOffsetInContentEditable(range.endContainer, range.endOffset);
       return {
@@ -461,6 +493,11 @@ const Utils = {
       node = node.parentElement;
     }
     return textOffset;
+  },
+
+  getTextOffsetInTextareaMirror(node) {
+    // Equals offset in parent (the mirror is flat plain-text with <mark>s)
+    return Utils.getTextOffsetInParent(node);
   },
 
   escapeRegExp(str) {
