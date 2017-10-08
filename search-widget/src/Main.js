@@ -191,6 +191,8 @@ class Main extends React.Component {
     this.setState({
       useRegexInput: false,
       limitToSelectionInput: false
+    }, () => {
+      this.sendSearchUpdate();
     });
   }
 
@@ -262,7 +264,7 @@ class Main extends React.Component {
       LimitToSelectionCheckbox: {
         id: "limitToSelectionInput",
         text: "In Text Selection",
-        tooltip: invalidSelectionInput ? "You must select editable text on the page first." : "",
+        tooltip: invalidSelectionInput ? "You must select editable text in the page first." : "",
         error: invalidSelectionInput
       }
     };
