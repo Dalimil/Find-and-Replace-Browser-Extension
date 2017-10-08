@@ -11,12 +11,12 @@ const Button = ({title, onClick, disabled, small, style}) => (
   </div>
 );
 
-const Checkbox = ({name, checked, onChange, text: descr}) => {
+const Checkbox = ({name, checked, onChange, text: descr, tooltip, error}) => {
   const id = "checkbox-" + name;
   return (
-    <div style={{ display: 'flex', alignItems: 'baseline' }}>
+    <div style={{ display: 'flex', alignItems: 'baseline' }} title={tooltip || null}>
       <label htmlFor={id} style={{ cursor: 'pointer', order: '1' }}> {descr}</label>
-      <div className="checkbox">
+      <div className={"checkbox" + (error ? " input-error" : "")}>
         <input type="checkbox" name={name} id={id} checked={checked} onChange={onChange} />
         <label htmlFor={id}></label>
       </div>

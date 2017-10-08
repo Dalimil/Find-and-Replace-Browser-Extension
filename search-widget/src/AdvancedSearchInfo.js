@@ -13,8 +13,8 @@ class AdvancedSearchInfo extends React.Component {
     }
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={{ fontWeight: 'bold', margin: '5px 0' }}>RegEx Group Info</div>
+      <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '1px' }}>
+        <div style={{ fontWeight: 'bold', margin: '10px 0 5px' }}>RegEx Group Info</div>
         <div className="advanced-search-info-list">
           {this.props.matchInfo.groups.map((group, index) => (
             <div className="advanced-search-info-item">
