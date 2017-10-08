@@ -45,19 +45,6 @@ Object.keys(CLASSES).forEach(classId => {
 // Main function that creates connections and inits API
 setUpApi();
 
-function scrollInViewIfNotAlready($element) {
-  const currentTop = $element.offset().top;
-  const currentBottom = $element.offset().top + $element.outerHeight();
-  const $window = $(Context.win);
-  const screenTop = $window.scrollTop();
-  const screenBottom = $window.scrollTop() + $window.height();
-  if ((currentTop > screenBottom) || (currentBottom < screenTop)) {
-    Context.win.scrollTo(
-      0,
-      Math.max(0, Math.round((currentBottom + currentTop - $window.height()) / 2))
-    );
-  }
-}
 
 /**
  * Move the active highlight class to an element at position index
@@ -71,20 +58,10 @@ function setOccurrenceIndex(index) {
     index = ((index % termCount) + termCount) % termCount;
     Search.activeTermIndex = index;
     const $current = Search.groupedMarks[index].$marks.addClass(CLASSES.currentHighlight);
-    scrollInViewIfNotAlready($current.eq(0));
+    Utils.scrollInViewIfNotAlready($current.eq(0), Context.win);
   } else {
     Search.activeTermIndex = 0;
   }
-}
-
-function getTextOffsetInParent(node) {
-  let sibling = node.parentNode.firstChild;
-  let textOffset = 0;
-  while (sibling && sibling != node) {
-    textOffset += sibling.textContent.length;
-    sibling = sibling.nextSibling;
-  }
-  return textOffset;
 }
 
 function getCurrentOccurrenceText() {
@@ -101,7 +78,7 @@ function replaceCurrent(resultText) {
     .removeClass(CLASSES.regularHighlight);
 
   const originalLength = $nodes.text().length;
-  const originalOffset = getTextOffsetInParent($nodes.get(0));
+  const originalOffset = Utils.getTextOffsetInParent($nodes.get(0));
   const $wrapper = $nodes.eq(0).closest(SELECTORS.textareaContainer);
   $nodes.each((index, el) => {
     if (index == 0) {
@@ -184,7 +161,6 @@ function highlightHtml($elements, params) {
     const $marks = $(SELECTORS.regularHighlight, Context.doc);
     let termSoFar = "";
     let markStartIndex = 0;
-    // todo this will fail for mix - we had previous marks
     $marks.each((ind, el) => {
       termSoFar += el.textContent;
       if (termSoFar == terms[ind]) {
@@ -211,6 +187,11 @@ function highlightHtml($elements, params) {
           className: CLASSES.regularHighlight,
           acrossElements: true,
           filter: (node, term, counter) => {
+            // todo traverse from node up until you hit textarea/ceditable container 
+            if (params.limitToSelection) {
+
+              // return false;
+            }
             terms.push(term);
             return true;
           },
@@ -237,6 +218,7 @@ function updateSearch(params) {
   const activeSelection = getActiveSelectionAndContext(document, window);
   Context.doc = activeSelection.documentContext;
   Context.win = activeSelection.windowContext;
+  // todo work with activeSelection.selection
   console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
   
   const highlightMatchesPromise = new Promise((resolve, reject) => {
@@ -275,29 +257,31 @@ function updateSearch(params) {
   });
 }
 
-
-// TODO: return current text selection
+/**
+ * By inspecting activeElement in the page, it (potentially) descends into the active iframe
+ * It inspects whether the active element is a textarea or contenteditable (or neither)
+ * It also returns active selection range (as text indexes)
+ */
 function getActiveSelectionAndContext(documentContext, windowContext) {
   const activeElement = documentContext.activeElement;
   if (activeElement) {
     const tagName = activeElement.tagName.toLowerCase();
     if (tagName == 'textarea') {
-      const text = activeElement.value;
-      const selectedText = text.substring(activeElement.selectionStart, activeElement.selectionEnd);
       return {
         type: TYPES.textarea,
         $element: $(activeElement),
+        selection: { start: activeElement.selectionStart, end: activeElement.selectionEnd },
         documentContext,
         windowContext
       }
     } else if (activeElement.hasAttribute('contenteditable')) {
-      const selection = window.getSelection();
-      if (selection.isCollapsed) {
-        // no text selected
-      }
+      const range = windowContext.getSelection().getRangeAt(0);
+      const start = Utils.getTextOffsetInContentEditable(range.startContainer, range.startOffset);
+      const end = Utils.getTextOffsetInContentEditable(range.endContainer, range.endOffset);
       return {
         type: TYPES.contenteditable,
         $element: $(activeElement),
+        selection: { start, end },
         documentContext,
         windowContext
       };
@@ -460,6 +444,25 @@ const Utils = {
     parent.normalize();
   },
 
+  getTextOffsetInParent(node) {
+    let sibling = node.parentNode.firstChild;
+    let textOffset = 0;
+    while (sibling && sibling != node) {
+      textOffset += sibling.textContent.length;
+      sibling = sibling.nextSibling;
+    }
+    return textOffset;
+  },
+
+  getTextOffsetInContentEditable(node, offsetInNode) {
+    let textOffset = offsetInNode;
+    while (node && !node.hasAttribute('contenteditable')) {
+      textOffset += Utils.getTextOffsetInParent(node);
+      node = node.parentElement;
+    }
+    return textOffset;
+  },
+
   escapeRegExp(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   },
@@ -471,6 +474,20 @@ const Utils = {
       regexQuery = `\\b${regexQuery}\\b`;
     }
     return new RegExp(regexQuery, mod);
+  },
+
+  scrollInViewIfNotAlready($element, contextWindow) {
+    const currentTop = $element.offset().top;
+    const currentBottom = $element.offset().top + $element.outerHeight();
+    const $window = $(contextWindow);
+    const screenTop = $window.scrollTop();
+    const screenBottom = $window.scrollTop() + $window.height();
+    if ((currentTop > screenBottom) || (currentBottom < screenTop)) {
+      contextWindow.scrollTo(
+        0,
+        Math.max(0, Math.round((currentBottom + currentTop - $window.height()) / 2))
+      );
+    }
   }
 };
 
