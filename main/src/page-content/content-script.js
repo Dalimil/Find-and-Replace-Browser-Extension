@@ -240,6 +240,27 @@ function highlightHtml($elements, params) {
   });
 }
 
+function highlightMatchesProcess(activeSelectionType, $activeElement, params) {
+  return new Promise((resolve, reject) => {
+    if (activeSelectionType == TYPES.textarea) {
+      // Textarea
+      const $mirror = initTextareas($activeElement, /* refocus */ true);
+      highlightHtml($mirror, params).then(resolve).catch(reject);
+      setEditableAreaGlow($activeElement);
+    } else if (activeSelectionType == TYPES.contenteditable) {
+      // Contenteditable
+      highlightHtml($activeElement, params).then(resolve).catch(reject);
+      setEditableAreaGlow($activeElement);
+    } else {
+      // Both (all are inactive) - but possibly inside a selected iframe
+      $mirrors = initTextareas($('textarea', Context.doc));
+      $elements = $('[contenteditable]', Context.doc).add($mirrors);
+      // $elements sorted in document order (jQuery add() spec)
+      highlightHtml($elements, params).then(resolve).catch(reject);
+      setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
+    }
+  });
+}
 
 function updateSearch(params) {
   const activeSelection = getActiveSelectionAndContext(document, window);
@@ -258,25 +279,9 @@ function updateSearch(params) {
   // Debug info
   console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
   
-  const highlightMatchesPromise = new Promise((resolve, reject) => {
-    if (activeSelection.type == TYPES.textarea) {
-      // Textarea
-      const $mirrors = initTextareas(activeSelection.$element, /* refocus */ true);
-      highlightHtml($mirrors, params).then(resolve).catch(reject);
-      setEditableAreaGlow(activeSelection.$element);
-    } else if (activeSelection.type == TYPES.contenteditable) {
-      // Contenteditable
-      highlightHtml(activeSelection.$element, params).then(resolve).catch(reject);
-      setEditableAreaGlow(activeSelection.$element);
-    } else {
-      // Both (all are inactive) - but possibly inside a selected iframe
-      $mirrors = initTextareas($('textarea', Context.doc));
-      $elements = $('[contenteditable]', Context.doc).add($mirrors);
-      // $elements sorted in document order (jQuery add() spec)
-      highlightHtml($elements, params).then(resolve).catch(reject);
-      setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
-    }
-  });
+  // Highlighting operation
+  const highlightMatchesPromise =
+    highlightMatchesProcess(activeSelection.type, activeSelection.$element, params);
 
   return highlightMatchesPromise.then((groupedMarks) => {
     const oldCount = Search.groupedMarks.length;
@@ -381,7 +386,6 @@ function getApiResponseData(actionName, replaceText) {
     }
   };
 }
-
 
 function shutdown() {
   $('textarea', Context.doc).highlightWithinTextarea('destroy');
