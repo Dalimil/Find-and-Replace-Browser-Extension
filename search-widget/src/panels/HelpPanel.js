@@ -6,7 +6,17 @@ class HelpPanel extends React.Component {
   constructor(props) {
     super(props);
 
+    this.navigate = this.navigate.bind(this);
     this.baseUrl = 'https://find-and-replace-f6588.firebaseapp.com/';
+    this.feedbackUrl = this.baseUrl + 'feedback';
+    this.contributeUrl = 'https://www.paypal.me/Dalimil/3';
+    this.helpUrl = '/help.html';
+  }
+
+  navigate(e) {
+    e.preventDefault();
+    const href = e.target.href;
+    chrome.tabs.create({ url: href });
   }
 
   render() {
@@ -17,11 +27,11 @@ class HelpPanel extends React.Component {
         <div style={{ fontWeight: 'bold' }} >Find &amp; Replace for Text Editing</div>
         <div className="help-panel-descr">Thank you for your support!</div>
         <div className="help-panel-links">
-          <a href={this.baseUrl} >Feedback</a>
-          <a href={this.baseUrl} >Website</a>
-          <a href={this.baseUrl} >Contribute</a>
+          <a onClick={this.navigate} href={this.feedbackUrl} >Feedback</a>
+          <a onClick={this.navigate} href={this.baseUrl} >Website</a>
+          <a onClick={this.navigate} href={this.contributeUrl} >Contribute</a>
 
-          <a href={this.baseUrl} >Help</a>
+          <a onClick={this.navigate} href={this.helpUrl} >Help</a>
         </div>
         <div className="help-panel-footnote">Made with <FontAwesome name='heart' /> by Dalimil</div>
       </div>
