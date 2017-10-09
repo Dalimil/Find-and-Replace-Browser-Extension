@@ -3,29 +3,20 @@
 <head>
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Find &amp; Replace Extension</title>
+  <title>Find &amp; Replace Extension for Text Editing</title>
   <link rel="icon" type="image/png" href="icon32.png" />
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <div id="message">
-    <h2>Thank you for using Find &amp; Replace</h2>
-    <h1>How can we improve this extension?</h1>
-    <textarea name="feedback" id="feedback-input" autofocus></textarea>
-    <p></p>
-    <a href="#" id='feedback-submit'>Send Feedback</a>
+    <h2>Find &amp; Replace for Text Editing</h2>
+    <h1>Available on Chrome and Firefox</h1>
+    <p>Adds search &amp; replace tool for input fields and editable text content.</p>
+    <a href="#">Download</a>
   </div>
-  <p id="load">Your feedback helps us improve the product for everyone, thank you. 🙂</p>
+  <p id="load">Thank you for your support!</p>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="./feedback.js"></script>
-  <script>
-		$(() => {
-      const $textarea = $('#feedback-input');
-      const $button = $('#feedback-submit');
-      submitFeedback($textarea, $button, '/submit-general-feedback');
-		});
-	</script>
 </body>
 </html>

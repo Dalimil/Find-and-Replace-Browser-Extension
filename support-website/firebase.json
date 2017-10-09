@@ -12,6 +12,10 @@
         "destination": "/index.html"
       },
       {
+        "source": "/feedback",
+        "destination": "/feedback.html"
+      },
+      {
         "source": "/uninstall",
         "destination": "/uninstall.html"
       },
