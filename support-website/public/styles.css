@@ -1,13 +1,14 @@
 /* Basic styling */
 
 body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-#message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-#message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-#message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-#message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+#message, #contact { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+#message h2, #contact h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+#message h1, #contact h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+#message p, #contact p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
 #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-#message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+#message, #message a, #contact { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
 #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+#contact { margin: 0 auto 16px; padding: 24px; }
 textarea {
   box-sizing: border-box;
   resize: none;
@@ -23,7 +24,70 @@ textarea {
   line-height: 140%;
   transition: height 1s ease-in-out;
 }
+
+.btn {
+  background: #5784bf;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 2px 0 0 rgba(0,0,0,.1),inset 0 -2px 0 0 rgba(0,0,0,.1);
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.5;
+  padding: 8px 14px 9px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow linear 0.25s;
+}
+.btn-red {
+  background: #f8243a;
+}
+.btn-green {
+  background: #57bd35;
+  box-shadow: 0 2px 0 0 rgba(0,0,0,.1),inset 0 -2px 0 0 rgba(56,136,30,.5);
+}
+.btn:hover {
+  box-shadow: 0 2px rgba(0,0,0,.1),inset 0 -2px rgba(0,0,0,.1),inset 0 0 100px rgba(255,255,255,.2);
+}
+.btn:active {
+  top: 2px;
+  box-shadow: none;
+}
+.btn:active::before {
+  content: "";
+  display: block;
+  height: 2px;
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+}
+.space-right {
+  margin-right: 5px;
+}
+.profile-wrapper {
+  display: flex;
+  align-items: center;
+}
+.profile-wrapper .btn {
+  margin: 0 15px 10px;
+}
+.profile-wrapper .btn.btn-last {
+  margin: 0 15px 0;
+}
+.avatar {
+  display: block;
+  width: 6em;
+  height: 6em;
+  box-sizing: border-box;
+  border: 2px solid #bbb;
+  border-radius: 3px;
+}
+
 @media (max-width: 600px) {
-  body, #message { margin-top: 0; background: white; box-shadow: none; }
+  body, #message, #contact { margin-top: 0; background: white; box-shadow: none; }
   body { border-top: 16px solid #ffa100; }
 }
