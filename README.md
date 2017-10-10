@@ -164,8 +164,6 @@ TODO: explain disabling buttons to draw attention to the active input field elem
 
 TODO: explain highlighting via inset box shadow the currently selected input area - (we always limit find & replace to current) - because user edits one textarea at a time - We want to draw focus to what text is going to be affected. If no textarea selected, select all available - for better usability (people might complain that the extension doesn't work otherwise). Or indicate that no valid input area present on the page.
 
-TODO: unify design / colors (blue theme based on extension icon?)
-
 ##### Why not Material Design
 For the general look and feel, I decided not to use Google's increasingly popular [Material Design](https://material.io/) for several reasons. First, Material Design works well when there's a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed compononets.
 
