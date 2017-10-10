@@ -122,7 +122,9 @@ class ButtonPanel extends React.Component {
         </div>
         <div className="right-panel-buttons">
           { Object.keys(this.buttonNames).map(id => (
-            <FontAwesome key={id} className="menu-item"
+            <FontAwesome key={id}
+              className={"menu-item" +
+                ((this.buttonNames[id] == this.state.activeTab) ? " menu-item-active":"")}
               name={id} fixedWidth={true} size='2x'
               title={this.buttonNames[id][0].toUpperCase() + this.buttonNames[id].slice(1)}
               onClick={() => this.selectMenuItem(id)} />

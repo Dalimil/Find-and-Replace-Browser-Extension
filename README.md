@@ -318,9 +318,6 @@ TODO: explain the concept of my Context object - performing all dom operations (
 
 ### Testing
 
-#### TODO Ideas
-- Debouncer for search and Debouncer for 'storage save search-state' - this would need timing tests before and after to justify
-
 ### Distribution & Marketing
 Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
 

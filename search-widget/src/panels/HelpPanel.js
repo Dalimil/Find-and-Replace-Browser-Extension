@@ -25,7 +25,6 @@ class HelpPanel extends React.Component {
         <div className="help-panel-title"><FontAwesome name='question-circle' fixedWidth={true} /> Help</div>
         <img className="help-panel-icon" src='/images/icon48.png' />
         <div style={{ fontWeight: 'bold' }} >Find &amp; Replace for Text Editing</div>
-        <div className="help-panel-descr">Thank you for your support!</div>
         <div className="help-panel-links">
           <a onClick={this.navigate} href={this.feedbackUrl} >Feedback</a>
           <a onClick={this.navigate} href={this.baseUrl} >Website</a>
@@ -33,7 +32,7 @@ class HelpPanel extends React.Component {
 
           <a onClick={this.navigate} href={this.helpUrl} >Help</a>
         </div>
-        <div className="help-panel-footnote">Made with <FontAwesome name='heart' /> by Dalimil</div>
+        <div className="help-panel-footnote">Made with <FontAwesome name='heart-o' /> by by Dalimil Hajek. Thank you for your support!</div>
       </div>
     );
   }

@@ -70,11 +70,14 @@ body {
 .right-panel-buttons > .menu-item {
   margin-bottom: 0.3em;
   cursor: pointer;
-  text-shadow: 0 0 1px var(--main-color);
+  text-shadow: 1px 1px 0px var(--main-color);
 }
 .right-panel-buttons > .menu-item:hover {
   color: var(--main-color);
   text-shadow: 0 0 2px var(--main-color-light);
+}
+.right-panel-buttons > .menu-item-active {
+  color: #039be5;
 }
 .right-panel-content {
   opacity: 0;
@@ -229,20 +232,31 @@ body {
   .help-panel-links {
     display: flex;
     justify-content: center;
-    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 1px;
+    padding: 0 30px;
+    margin: 10px 0;
   }
   .help-panel-links > a {
     display: inline-block;
     font-weight: bold;
+    outline: 0;
+    text-decoration: none;
     padding: 5px 8px;
     opacity: 0.8;
+    font-size: 1.1em;
+  }
+  .help-panel-links > a,
+  .help-panel-links > a:visited {
+    color: var(--main-color);
   }
   .help-panel-links > a:hover {
     opacity: 1;
+    color: #039be5;
   }
-  .help-panel-descr {
-    margin: 0.5em 0;
-    font-size: 1.2em;
+  .help-panel-links > a:active {
+    color: #42C1FC;
   }
   .help-panel-icon {
     display: block;
