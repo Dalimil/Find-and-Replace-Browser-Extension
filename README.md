@@ -337,13 +337,10 @@ There are various ways we could collect feedback. We could have a website that p
 
 I decided to go with an alternative solution - we store all submitted feedback messages in a database. This database can be later queried and filters based on various criteria (time of submission, feedback type, ...).
 
-
-#### TODO Ideas
-- Implement Google Analytics and measure how many times user click icons and use advanced features https://developer.chrome.com/apps/analytics
-
 ### More ideas/TODOs
 - Look at structure of previous dissertation projects
 - Find a good Markdown to Latex converter
 - Use we or I in text
 
 - Note that replacing all current occurrences may have generated new matches, but if someone click replace all, and gets many new (not replaced) matches afterward, it is confusing, replacing all recursively is confusing too
+- Decision not to use Google Analytics in the extension - requires additional permission, and users who might search for potentially sensitive content might be dissuaded from installing
