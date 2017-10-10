@@ -32,7 +32,7 @@ class HelpPanel extends React.Component {
 
           <a onClick={this.navigate} href={this.helpUrl} >Help</a>
         </div>
-        <div className="help-panel-footnote">Made with <FontAwesome name='heart-o' /> by by Dalimil Hajek. Thank you for your support!</div>
+        <div className="help-panel-footnote">Made with <FontAwesome name='heart-o' /> by Dalimil. Thank you for your support!</div>
       </div>
     );
   }

@@ -264,6 +264,8 @@ body {
   }
   .help-panel-footnote {
     font-size: 0.9em;
+    color: #333;
+    text-align: center;
   }
 
 
