@@ -325,6 +325,7 @@ TODO: explain the concept of my Context object - performing all dom operations (
 Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
 
 ### Feedback & Iteration
+User interaction testing challenge: 1) Perform a find and replace 2nd and 3rd occurrence, but only match case 2) Page refresh and perform that again but this time replace all occurrences, knowing the extension has a history tab 3) Now send me feedback - must find link in extension's help panel (promise not to read feedback until later)
 
 #### Support website
 TODO: explain Firebase hosting: https://firebase.google.com/docs/hosting/
