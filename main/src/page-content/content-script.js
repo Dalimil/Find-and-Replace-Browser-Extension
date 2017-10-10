@@ -131,16 +131,31 @@ function clearEditableAreaGlow($element) {
   });
 }
 
+/**
+ * Inserts templateText at current cursor position
+ * Returns success boolean value
+ */
 function insertTemplate(templateText) {
-  const selection = Context.win.getSelection();
-  if (selection.rangeCount > 0) {
-    const { endContainer: target, endOffset: offset } = selection.getRangeAt(0);
-    // todo check if inside contenteditable or textarea
-    // textarea will fail getSelection() test
-    // todo: save this globally in getActiveSelectionAndContext and just use the element ref + type, here
+  if (Search.activeCursorSelection == null) {
+    return false;
   }
-  // Return success
-  return false;
+  // Active cursor is in a textarea or in a contenteditable element
+  if (Search.activeCursorSelection.type == TYPES.textarea) {
+    // insert in textarea
+    const $textarea = Search.activeCursorSelection.$element;
+    const originalText = $textarea.val();
+    const replacedText = originalText.substr(0, Search.activeCursorSelection.end) +
+      templateText + originalText.substr(Search.activeCursorSelection.end);
+    $textarea.val(replacedText);
+    // Make sure mirror is updated too
+    $textarea.change();
+  } else { // contenteditable
+    // either use $element and .end
+    // or Context.win.getSelection() ,rangeCount > 0, getRangeAt(0)
+    return false;
+    // todo
+  }
+  return true;
 }
 
 /**
