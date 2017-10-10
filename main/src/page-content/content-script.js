@@ -150,10 +150,14 @@ function insertTemplate(templateText) {
     // Make sure mirror is updated too
     $textarea.change();
   } else { // contenteditable
-    // either use $element and .end
-    // or Context.win.getSelection() ,rangeCount > 0, getRangeAt(0)
-    return false;
-    // todo
+    // Inserts a new text node at the end of the current selection
+    const range = Context.win.getSelection().getRangeAt(0).cloneRange();
+    range.collapse(/* toStart */ false);
+    const textNode = Context.doc.createTextNode(templateText);
+    range.insertNode(textNode);
+    if (textNode && textNode.parentElement) {
+      textNode.parentElement.normalize();
+    }
   }
   return true;
 }
