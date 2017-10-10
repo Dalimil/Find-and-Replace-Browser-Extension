@@ -111,7 +111,7 @@ class TemplatesPanel extends React.Component {
 
     return (
       <div className="templates-list">
-        <div className="panel-title">
+        <div className="panel-title panel-title-extended">
           <span><FontAwesome name='file-text' fixedWidth={true} /> Templates (click to paste)</span>
           <span className="templates-create-new-button"
             onClick={this.handleCreateNewTemplate}>

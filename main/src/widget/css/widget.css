@@ -95,11 +95,13 @@ body {
 
 /* TAB PANELS */
   .panel-title {
-    display: flex;
-    justify-content: space-between;
     font-weight: bold;
     padding: 1em 1em 0;
     margin-bottom: 0.5em;
+  }
+  .panel-title-extended {
+    display: flex;
+    justify-content: space-between;
     flex-shrink: 0;
   }
   .favourites-list,
