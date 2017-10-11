@@ -289,7 +289,8 @@ class Main extends React.Component {
     const FindFieldInput = (
       <input type="text" placeholder="Find"
         spellCheck="false"
-        className={"text-input" + (invalidFindInput ? " input-error" :"")}
+        className={"text-input" + (invalidFindInput ? " input-error" :"") +
+          (this.state.useRegexInput ? " code-font" : "")}
         title={invalidFindInput ? "Invalid RegEx" : null}
         ref={input => { this.findInputElement = input; }}
         name="findTextInput"
@@ -300,7 +301,7 @@ class Main extends React.Component {
     const ReplaceFieldInput = (
       <input type="text" placeholder="Replace with"
         spellCheck="false"
-        className="text-input"
+        className={"text-input" + (this.state.useRegexInput ? " code-font" : "")}
         name="replaceTextInput"
         value={this.state.replaceTextInput}
         onChange={this.handleSearchInputChange}
