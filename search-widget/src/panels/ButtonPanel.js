@@ -21,7 +21,7 @@ class ButtonPanel extends React.Component {
     this.buttonNames = {
       'star': 'favourites',
       'history': 'history',
-      'file-text': 'templates',
+      'book': 'templates',
       'question-circle': 'help'
     };
 
@@ -122,12 +122,14 @@ class ButtonPanel extends React.Component {
         </div>
         <div className="right-panel-buttons">
           { Object.keys(this.buttonNames).map(id => (
-            <FontAwesome key={id}
-              className={"menu-item" +
-                ((this.buttonNames[id] == this.state.activeTab) ? " menu-item-active":"")}
-              name={id} fixedWidth={true} size='2x'
-              title={this.buttonNames[id][0].toUpperCase() + this.buttonNames[id].slice(1)}
-              onClick={() => this.selectMenuItem(id)} />
+            <div key={id}
+                className={"menu-item" +
+                  ((this.buttonNames[id] == this.state.activeTab) ? " menu-item-active":"")}
+                title={this.buttonNames[id][0].toUpperCase() + this.buttonNames[id].slice(1)}
+                onClick={() => this.selectMenuItem(id)}>
+
+              <FontAwesome name={id} fixedWidth={true} size='2x' />
+            </div>
           ))}
         </div>
       </div>

@@ -23,7 +23,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  width: 590px;
+  width: 570px;
 }
 
 body {
@@ -62,11 +62,11 @@ input, textarea {
 .right-panel {
   color: #222;
   box-sizing: border-box;
-  padding: 0.8em 0.5em 0.5em;
+  padding: 0.5em 0 0.2em;
   display: flex;
   flex-shrink: 0;
-  width: 70px;
-  border-left: 1px solid gray;
+  width: 55px;
+  border-left: 1px solid #bbb;
   background-color: var(--btn-bg-color);
   background-image: -moz-linear-gradient(top,#f5f5f5,#f1f1f1);
   background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
@@ -77,33 +77,46 @@ input, textarea {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+  font-size: 0.9em;
 }
 .right-panel-buttons > .menu-item {
-  margin-bottom: 0.3em;
+  box-sizing: border-box;
+  padding: 6px 5px;
+  text-align: center;
+  width: 100%;
   cursor: pointer;
-  text-shadow: 1px 1px 0px var(--main-color);
 }
 .right-panel-buttons > .menu-item:hover {
   color: var(--main-color);
-  text-shadow: 0 0 2px var(--main-color-light);
+  text-shadow: 0 0 10px var(--main-color-light);
+  background: #ddd;
+}
+.right-panel-buttons > .menu-item:hover > .fa {
+  transform: scale(1.2);
 }
 .right-panel-buttons > .menu-item-active {
-  color: #039be5;
+  color: var(--main-color);
+  background: #ddd;
+}
+.right-panel-buttons > .menu-item-active > .fa {
+  transform: scale(1.1);
 }
 .right-panel-content {
   opacity: 0;
   position: absolute;
   z-index: -1;
-  right: 70px;
+  right: 55px;
   top: 0;
-  width: calc(100% - 70px);
+  width: calc(100% - 55px);
   height: 100%;
   background: #fff;
   border-left: 1px solid gray;
-  transition: opacity 0.25s ease-out;
+  transform: translateY(-100%);
+  transition: all 0.25s ease-out;
 }
 .right-panel-content.active {
   opacity: 1;
+  transform: translateY(0);
   z-index: 1;
 }
 
@@ -135,7 +148,6 @@ input, textarea {
     background-color: #fdfdfd;
     border-radius: 2px;
     padding: 5px 1em;
-    /*font-size: 0.9em;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -243,6 +255,7 @@ input, textarea {
   .help-panel-links {
     display: flex;
     justify-content: center;
+    flex-shrink: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.15);
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 1px;
@@ -275,8 +288,9 @@ input, textarea {
   }
   .help-panel-footnote {
     font-size: 0.9em;
-    color: #333;
+    color: #444;
     text-align: center;
+    margin-bottom: 8px;
   }
 
 
