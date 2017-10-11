@@ -288,6 +288,7 @@ class Main extends React.Component {
     const invalidFindInput = (this.state.useRegexInput && this.state.contentScriptError.invalidRegex);
     const FindFieldInput = (
       <input type="text" placeholder="Find"
+        spellCheck="false"
         className={"text-input" + (invalidFindInput ? " input-error" :"")}
         title={invalidFindInput ? "Invalid RegEx" : null}
         ref={input => { this.findInputElement = input; }}
@@ -297,7 +298,9 @@ class Main extends React.Component {
         onKeyUp={this.handleFindInputKeyboardPress} />
     );
     const ReplaceFieldInput = (
-      <input type="text" placeholder="Replace with" className="text-input"
+      <input type="text" placeholder="Replace with"
+        spellCheck="false"
+        className="text-input"
         name="replaceTextInput"
         value={this.state.replaceTextInput}
         onChange={this.handleSearchInputChange}
