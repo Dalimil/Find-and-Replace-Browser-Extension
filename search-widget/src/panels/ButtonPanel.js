@@ -33,6 +33,7 @@ class ButtonPanel extends React.Component {
     };
 
     this.selectMenuItem = this.selectMenuItem.bind(this);
+    this.closePanels = this.closePanels.bind(this);
     this.onFavouriteSelected = this.onFavouriteSelected.bind(this);
     this.onHistorySelected = this.onHistorySelected.bind(this);
     this.onTemplateSelected = this.onTemplateSelected.bind(this);
@@ -89,7 +90,6 @@ class ButtonPanel extends React.Component {
   }
 
   onTemplateSelected() {
-    // this.closePanels();
     this.props.onTemplateSelected();
   }
 
@@ -124,13 +124,16 @@ class ButtonPanel extends React.Component {
         <div className={"right-panel-content" + (this.state.expanded ? " active" : "") }>
           {renderTab()}
         </div>
-        <div className="right-panel-buttons">
+        <div className="right-panel-buttons" onClick={this.closePanels}>
           { Object.keys(this.buttonNames).map(id => (
             <div key={id}
                 className={"menu-item" +
                   ((this.buttonNames[id] == this.state.activeTab) ? " menu-item-active":"")}
                 title={this.buttonNames[id][0].toUpperCase() + this.buttonNames[id].slice(1)}
-                onClick={() => this.selectMenuItem(id)}>
+                onClick={(e) => {
+                  e.stopPropagation();
+                  this.selectMenuItem(id);
+                }}>
 
               <FontAwesome name={id} fixedWidth={true} size='2x' />
             </div>
