@@ -60,10 +60,14 @@ class ButtonPanel extends React.Component {
       this.closePanels();
       return;
     }
+    const wasClosed = !this.state.expanded;
     this.setState({
       expanded: true,
       activeTab: tab
     });
+    if (wasClosed) {
+      this.props.onPanelOpened();
+    }
   }
 
   closePanels() {

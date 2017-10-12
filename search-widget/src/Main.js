@@ -29,7 +29,8 @@ class Main extends React.Component {
       contentScriptError: {
         invalidRegex: false,
         invalidSelection: false
-      }
+      },
+      tallView: false
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
@@ -43,6 +44,7 @@ class Main extends React.Component {
     this.handleReplaceInputTabKey = this.handleReplaceInputTabKey.bind(this);
     this.toggleAddToFavourites = this.toggleAddToFavourites.bind(this);
     this.onButtonsPanelClosed = this.onButtonsPanelClosed.bind(this);
+    this.onButtonsPanelOpened = this.onButtonsPanelOpened.bind(this);
     this.onFavouriteSelectedInPanel = this.onFavouriteSelectedInPanel.bind(this);
     this.onHistorySelecedInPanel = this.onHistorySelecedInPanel.bind(this);
     this.onTemplateSelectedInPanel = this.onTemplateSelectedInPanel.bind(this);
@@ -133,9 +135,19 @@ class Main extends React.Component {
     this.sendSearchUpdate();
   }
 
+  onButtonsPanelOpened() {
+    this.setState({
+      tallView: true
+    });
+  }
+
   onButtonsPanelClosed() {
     // Maybe previously removed from favourites list
     this.checkIfStateInFavourites();
+
+    this.setState({
+      tallView: false
+    });
   }
 
   handleFindInputKeyboardPress(e) {
@@ -329,7 +341,7 @@ class Main extends React.Component {
     );
 
     return (
-      <div style={{
+      <div className={this.state.tallView ? "tall-view":""} style={{
         display: 'flex'
       }}>
         <div className="main-panel">
@@ -367,6 +379,7 @@ class Main extends React.Component {
         </div>
 
         <ButtonPanel
+          onPanelOpened={this.onButtonsPanelOpened}
           onPanelClosed={this.onButtonsPanelClosed}
           onFavouriteSelected={this.onFavouriteSelectedInPanel}
           onHistorySelected={this.onHistorySelecedInPanel}

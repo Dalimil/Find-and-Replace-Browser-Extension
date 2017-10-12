@@ -25,7 +25,9 @@ html, body {
   padding: 0;
   width: 570px;
 }
-
+.tall-view {
+  min-height: 200px;
+}
 body {
   box-sizing: border-box;
   font-family: 'OpenSans', sans-serif;
@@ -440,7 +442,7 @@ input, textarea {
     box-shadow: inset 0px 1px 3px rgba(0,0,0,0.2);
     border: 1px solid rgba(0,0,0,0.1);
     background: #fcfff4;
-    background: linear-gradient(0deg,#f5f5f5,#f1f1f1);
+    background: linear-gradient(0deg,#fcfff4,#f5f5f5);
   }
   .checkbox.input-error label {
     color: #FF0011;
