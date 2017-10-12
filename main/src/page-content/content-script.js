@@ -139,6 +139,10 @@ function insertTemplate(templateText) {
   if (Search.activeCursorSelection == null) {
     return false;
   }
+  if (!templateText) {
+    // Empty template text => nothing to do => done
+    return true;
+  }
   // Active cursor is in a textarea or in a contenteditable element
   if (Search.activeCursorSelection.type == TYPES.textarea) {
     // insert in textarea

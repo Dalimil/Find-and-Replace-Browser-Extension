@@ -41,6 +41,8 @@ class TemplatesPanel extends React.Component {
 
   componentDidMount() {
     Storage.observeOnTemplatesChanged(this.onTemplatesChanged.bind(this));
+    // Obtain and show immediate status => templates enabled/disabled
+    this.handleTemplateSelected("");
   }
 
   onTemplatesChanged(templates) {
@@ -106,13 +108,19 @@ class TemplatesPanel extends React.Component {
   render() {
     const noSavedTemplatesMessage = <div style={{ padding: '1em' }}>
         Currently you have no saved templates.</div>;
-    const templatesDisabledMessage = <div style={{ padding: '1em', color: '#e22' }}>
-        Templates disabled. You must select an editable text area in the page first.</div>;
 
     return (
       <div className="templates-list">
         <div className="panel-title panel-title-extended">
-          <span><FontAwesome name='file-text' fixedWidth={true} /> Templates (click to paste)</span>
+          <span>
+            <FontAwesome name='file-text' fixedWidth={true} />
+            <span style={{ paddingRight: '10px' }}> Templates</span>
+            {this.state.contentScript.noCursorPosition ?
+              <span className="templates-panel-title-note-error">
+                (Disabled - click inside editable text area first)</span> :
+              <span className="templates-panel-title-note-success">(Click to paste)</span>
+            }
+          </span>
           <span className="templates-create-new-button"
             onClick={this.handleCreateNewTemplate}>
             <FontAwesome name='plus' style={{ marginRight: '0.5em' }} />Create New
@@ -120,7 +128,6 @@ class TemplatesPanel extends React.Component {
         </div>
         <div>
           {this.state.templates.length == 0 && noSavedTemplatesMessage}
-          {this.state.contentScript.noCursorPosition && templatesDisabledMessage}
           {this.state.templates.map(({ title, text, id, isBeingEdited }) => {
             if (isBeingEdited) {
               return (

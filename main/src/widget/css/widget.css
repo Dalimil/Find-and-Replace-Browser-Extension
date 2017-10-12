@@ -241,6 +241,12 @@ input, textarea {
   .templates-create-new-button:hover {
     color: var(--main-color-dark);
   }
+  .templates-panel-title-note-success {
+    color: green;
+  }
+  .templates-panel-title-note-error {
+    color: #FF0011;
+  }
 
   /* HELP PANEL */
   .help-panel {
