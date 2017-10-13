@@ -121,7 +121,7 @@ function replaceAll(resultText) {
 
 function setEditableAreaGlow($element) {
   $element.css({
-    boxShadow: "inset 0 0 1em rgba(255, 94, 94, 0.8)"
+    boxShadow: "inset 0 0 0.5em rgba(0, 90, 255, 0.9)"
   });
 }
 

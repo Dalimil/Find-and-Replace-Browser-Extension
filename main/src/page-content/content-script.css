@@ -1,10 +1,10 @@
 /* CSS injected into the currently active tab */
 .hwt-mark-highlight {
   border-radius: 1px;
-  background-color: skyblue;
+  background-color: #70CEF9;
 }
 .hwt-mark-highlight.hwt-highlight-current {
-  background-color: greenyellow;
+  background-color: #ffa100;
 }
 
 /* jQuery Higlight Within Textarea */
