@@ -316,6 +316,11 @@ TODO: explain recursive search for active element
 
 TODO: explain the concept of my Context object - performing all dom operations (in particular jQuery functions) with respect to a specific Window and Document objects (such as window.getActiveSelection, window.scroll etc.)
 
+### Google Analytics
+In order to collect statistics on how users use our extension and how they interact with different UI elements, we are going to implement Google Analytics into our extension.
+
+Collecting this data will require additional manifest permissions and also requires us to provide a way for the users to be able to opt-out from collecting them. This might dissuade a small percentage of potential users from installing the extension in the first place, but I believe this will only be a small percentage.
+
 ### Testing
 
 ### Distribution & Marketing
@@ -339,4 +344,3 @@ I decided to go with an alternative solution - we store all submitted feedback m
 - Use we or I in text
 
 - Note that replacing all current occurrences may have generated new matches, but if someone click replace all, and gets many new (not replaced) matches afterward, it is confusing, replacing all recursively is confusing too
-- Decision not to use Google Analytics in the extension - requires additional permission, and users who might search for potentially sensitive content might be dissuaded from installing
