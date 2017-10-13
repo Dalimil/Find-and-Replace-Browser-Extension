@@ -121,6 +121,7 @@ input, textarea {
   transform: scale(1.2);
 }
 .right-panel-content {
+  box-sizing: border-box;
   opacity: 0;
   position: absolute;
   z-index: -1;
@@ -132,8 +133,7 @@ input, textarea {
   transform: translateY(-100%);
   transition: all 0.25s ease-out;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
-  border-right: 2px solid var(--col-theme);
+  border-right: 3px solid var(--col-theme);
 }
 .right-panel-content.active {
   opacity: 1;
@@ -166,25 +166,24 @@ input, textarea {
   .favourites-list-item,
   .history-list-item,
   .templates-list-item {
+    position: relative;
     background-color: rgba(0, 0, 0, 0.01);
-    border-radius: 2px;
-    padding: 5px 1em;
+    border-top: 1px solid rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid rgba(0,0,0,0.1);
     white-space: nowrap;
     height: 1.3em;
-    margin-left: 2px;
+    padding: 5px 1em;
   }
   .templates-list-editable-item {
+    position: relative;
     background-color: rgba(0, 0, 0, 0.01);
-    border-radius: 2px;
-    padding: 8px 1em;
+    border-top: 1px solid rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    padding: 8px 1em;
   }
   .templates-editable-header {
     display: flex;
@@ -212,10 +211,23 @@ input, textarea {
   .history-list-item:hover,
   .templates-list-item:hover,
   .templates-list-editable-item {
-    /* todo */
-    /*box-shadow: inset 0 0 2px var(--col-blue-dark);*/
     background-color: var(--col-bg-d);
+    /* background: linear-gradient(180deg, var(--col-bg-b), var(--col-bg-c)); */
   }
+  .favourites-list-item:hover::before,
+  .history-list-item:hover::before,
+  .templates-list-item:hover::before,
+  .templates-list-editable-item::before {
+    content: "";
+    margin: -1px 0;
+    height: calc(100% + 2px);
+    width: 2px;
+    background: var(--col-theme);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
   .favourites-list-item-remove,
   .templates-list-item-remove,
   .templates-list-item-edit,
