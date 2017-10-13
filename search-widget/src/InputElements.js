@@ -14,7 +14,7 @@ const Button = ({title, onClick, disabled, small, style}) => (
 const Checkbox = ({name, checked, onChange, text: descr, tooltip, error}) => {
   const id = "checkbox-" + name;
   return (
-    <div style={{ display: 'flex', alignItems: 'baseline' }} title={tooltip || null}>
+    <div style={{ display: 'flex', alignItems: 'center' }} title={tooltip || null}>
       <label htmlFor={id} style={{ cursor: 'pointer', order: '1' }}> {descr}</label>
       <div className={"checkbox" + (error ? " input-error" : "")}>
         <input type="checkbox" name={name} id={id} checked={checked} onChange={onChange} />
