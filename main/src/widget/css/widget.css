@@ -358,6 +358,10 @@ input, textarea {
   .search-status-text {
     cursor: default;
     padding: 0 10px;
+    font-weight: bold;
+  }
+  .search-status-text.status-error {
+    color: var(--col-red);
   }
 
 /* Text input */

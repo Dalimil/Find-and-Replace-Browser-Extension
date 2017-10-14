@@ -27,6 +27,7 @@ class Main extends React.Component {
         currentMatch: null
       },
       contentScriptError: {
+        noSearchTarget: false,
         invalidRegex: false,
         invalidSelection: false
       },
@@ -103,6 +104,7 @@ class Main extends React.Component {
       case 'updateSearch':
         const stateUpdateObject = {
           contentScriptError: {
+            noSearchTarget: msg.data.errors.noSearchTarget,
             invalidRegex: msg.data.errors.invalidRegex,
             invalidSelection: msg.data.errors.invalidSelection
           }
@@ -295,6 +297,22 @@ class Main extends React.Component {
     return checkboxes;
   }
 
+  renderSearchStatus() {
+    const occurrenceCount = this.state.contentScriptSearch.searchCount;
+    const noSearchTarget = this.state.contentScriptError.noSearchTarget;
+    const noOccurrences = (occurrenceCount == 0);
+    const SearchStatus = (
+      <div className={"search-status-text" + ((noSearchTarget || noOccurrences) ? " status-error" : "")}>
+        {noSearchTarget ?
+          'No Target' : (noOccurrences ?
+            'No Results' :
+            `${this.state.contentScriptSearch.searchIndex + 1} of ${occurrenceCount}`)
+        }
+      </div>
+    );
+    return SearchStatus;
+  }
+
   render() {
     // Text inputs
     const invalidFindInput = (this.state.useRegexInput && this.state.contentScriptError.invalidRegex);
@@ -333,12 +351,7 @@ class Main extends React.Component {
     const ReplaceOneButton = <Button onClick={this.handleReplaceOne} title="Replace" {...args} />;
     const ReplaceAllButton = <Button onClick={this.handleReplaceAll} title="Replace all" {...args} style={{ marginLeft: '0.5em'}} />;
 
-    const occurrenceCount = this.state.contentScriptSearch.searchCount;
-    const SearchStatus = (
-      <div className="search-status-text">{(occurrenceCount == 0 ?
-          'No Results' :
-          `${this.state.contentScriptSearch.searchIndex + 1} of ${occurrenceCount}`)}</div>
-    );
+    const SearchStatus = this.renderSearchStatus();
 
     return (
       <div className={this.state.tallView ? "tall-view":""} style={{
