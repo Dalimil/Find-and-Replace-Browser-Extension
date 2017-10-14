@@ -306,6 +306,9 @@ function updateSearch(params) {
   const highlightMatchesPromise =
     highlightMatchesProcess(activeSelection.type, activeSelection.$element, params);
 
+  const noSearchTarget = ((activeSelection.type == TYPES.mix) &&
+    $('textarea, [contenteditable]', Context.doc).length == 0);
+
   return highlightMatchesPromise.then((groupedMarks) => {
     const oldCount = Search.groupedMarks.length;
     Search.groupedMarks = groupedMarks;
@@ -315,10 +318,10 @@ function updateSearch(params) {
     } else {
       setOccurrenceIndex(0);
     }
-    return { invalidRegex: false, invalidSelection: limitToSelectionError };
+    return { invalidRegex: false, invalidSelection: limitToSelectionError, noSearchTarget };
   }).catch(e => {
     // Invalid regexp, or error in Mark.js
-    return { invalidRegex: true, invalidSelection: limitToSelectionError };
+    return { invalidRegex: true, invalidSelection: limitToSelectionError, noSearchTarget };
   });
 }
 
