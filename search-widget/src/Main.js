@@ -344,7 +344,9 @@ class Main extends React.Component {
 
     // Buttons
     const args = {
-      disabled: !this.state.findTextInput
+      disabled: (!this.state.findTextInput ||
+        this.state.contentScriptError.noSearchTarget ||
+        (this.state.contentScriptSearch.searchCount == 0))
     };
     const FindPrevButton = <Button onClick={this.handleFindPrev} title={<FontAwesome name='chevron-up' />} {...args} small />;
     const FindNextButton = <Button onClick={this.handleFindNext} title={<FontAwesome name='chevron-down' />} {...args} small />;

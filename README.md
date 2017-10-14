@@ -160,7 +160,7 @@ TODO: Explain that extensions use a pop-up widget with browserAction icon
 
 We split the UI layout to two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for regular users, there should be a way of switching the search UI to the 'advanced' state that would include regex options and helpful previews of matched regex groups etc.
 
-TODO: explain disabling buttons to draw attention to the active input field elements 
+TODO: explain disabling buttons to draw attention to the active input field elements (when there are no results, or no search target)
 
 TODO: explain highlighting via inset box shadow the currently selected input area - (we always limit find & replace to current) - because user edits one textarea at a time - We want to draw focus to what text is going to be affected. If no textarea selected, select all available - for better usability (people might complain that the extension doesn't work otherwise). Or indicate that no valid input area present on the page.
 
