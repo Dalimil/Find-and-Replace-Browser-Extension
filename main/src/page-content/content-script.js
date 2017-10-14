@@ -443,7 +443,7 @@ function setUpApi() {
     }
     switch (msg.action) {
       case 'shutdown':
-        //shutdown();
+        shutdown();
         break;
       case 'log':
         console.log("Widget Log: ", ...msg.data);
