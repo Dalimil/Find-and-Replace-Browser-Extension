@@ -297,24 +297,7 @@ class Main extends React.Component {
     return checkboxes;
   }
 
-  renderSearchStatus() {
-    const occurrenceCount = this.state.contentScriptSearch.searchCount;
-    const noSearchTarget = this.state.contentScriptError.noSearchTarget;
-    const noOccurrences = (occurrenceCount == 0);
-    const SearchStatus = (
-      <div className={"search-status-text" + ((noSearchTarget || noOccurrences) ? " status-error" : "")}>
-        {noSearchTarget ?
-          'No Target' : (noOccurrences ?
-            'No Results' :
-            `${this.state.contentScriptSearch.searchIndex + 1} of ${occurrenceCount}`)
-        }
-      </div>
-    );
-    return SearchStatus;
-  }
-
-  render() {
-    // Text inputs
+  renderTextFieldInputs() {
     const invalidFindInput = (this.state.useRegexInput && this.state.contentScriptError.invalidRegex);
     const FindFieldInput = (
       <input type="text" placeholder="Find"
@@ -338,7 +321,29 @@ class Main extends React.Component {
         onKeyUp={this.handleReplaceInputKeyboardPress}
         onKeyDown={this.handleReplaceInputTabKey} />
     );
+    
+    return { FindFieldInput, ReplaceFieldInput };
+  }
 
+  renderSearchStatus() {
+    const occurrenceCount = this.state.contentScriptSearch.searchCount;
+    const noSearchTarget = this.state.contentScriptError.noSearchTarget;
+    const noOccurrences = (occurrenceCount == 0);
+    const SearchStatus = (
+      <div className={"search-status-text" + ((noSearchTarget || noOccurrences) ? " status-error" : "")}>
+        {noSearchTarget ?
+          'No Target' : (noOccurrences ?
+            'No Results' :
+            `${this.state.contentScriptSearch.searchIndex + 1} of ${occurrenceCount}`)
+        }
+      </div>
+    );
+    return SearchStatus;
+  }
+
+  render() {
+    // Text inputs
+    const { FindFieldInput, ReplaceFieldInput } = this.renderTextFieldInputs();
     // Checkboxes
     const checkboxes = this.renderIndividualCheckboxes();
 
