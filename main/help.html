@@ -120,7 +120,10 @@
       </div>
       All search results are highlighted directly in your webpage. The currently selected match is
       highlighted in different color. Click the <em>Up and Down</em> buttons to move the currently selected match
-      to a match with a higher or lower index.<br /><br />
+      to a match with a higher or lower index.
+      <div class="img-one">
+        <img src="images/help/highlighting.png" />
+      </div>
       When you click the <em>Replace</em> button, the currently selected match is replaced with the text in
       your <em>Replace input field</em>. You can also click <em>Replace all</em> to replace all occurrences at once.
     </div>
@@ -153,9 +156,23 @@
       <a href="#s1-2">open your search widget</a> as usual (both clicking the icon and using keyboard shortcut
       preserve your text selection). Now your search matches will be restricted to your text selection.
     </div>
-    <h4>Using RegEx</h4>
-    <p>https://support.google.com/docs/answer/62754#regular_expressions</p>
-    <p>todo</p>
+    <h4 id="s4-2">Using RegEx</h4>
+    <div class="para">
+      By turning on the <em>Use RegEx</em> option, the search will treat your search query text
+      as a <a href="https://en.wikipedia.org/wiki/Regular_expression">regular expression</a>. It will
+      also enable you to see additional regex information relevant to your current match.<br /><br />
+
+      You can replace parts of a regular expression with <em>capture groups</em>. You reference these capture
+      groups in the <em>Replace input field</em> using the format <em>$n</em> (where n is a positive
+      integer referring to the n-th capture group). You can also use <em>$0</em> or <em>$&amp;</em> to
+      reference the whole matched string.<br /><br />
+
+      For example, the expression <strong>(\d*)/\d*/(\d{4})</strong> matches dates such as 3/8/2015.
+      This expression has two capture groups: <strong>(\d*)</strong> matches the month
+      and <strong>(\d{4})</strong> matches the year <br />
+      To replace each date matched with the above regular expression to the first date of the month,
+      you would use the string <strong>$1/1/$2</strong>. The date 3/8/2015 would be replaced with 3/1/2015.
+    </div>
     <h3>Using Favourites</h3>
     <p>todo</p>
     <h3>Using History</h3>
