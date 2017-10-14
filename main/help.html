@@ -7,12 +7,14 @@
   <link rel="icon" type="image/png" href="images/icon32.png" />
 
   <style>
-    body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+    body { background: #ECEFF1; color: rgba(0,0,0,0.85); font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
     #message { background: white; max-width: 600px; margin: 50px auto 16px; padding: 32px 24px; border-radius: 3px; }
     #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
     #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+    #message h3 { font-weight: bold; font-size: 16px; }
+    #message h4 { font-weight: bold; font-size: 14px; }
     #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-    #message .para { line-height: 140%; margin: 16px 0; font-size: 14px; }
+    #message .para { line-height: 140%; margin: 16px 0; font-size: 14px; text-align: justify; }
     #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
     #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
     #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
@@ -32,22 +34,32 @@
     }
     img {
       border-radius: 3px;
-      margin: 10px;
       display: block;
     }
     img.framed {
       border: 1px dotted black;
     }
-    .img-row {
+    .img-row, .img-one {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      box-sizing: border-box;
+    }
+    .img-row > img, .img-one > img {
+      display: inline-block;
+      max-width: 100%;
     }
     .img-row > img {
-      display: inline-block;
+      margin: 10px;
+    }
+    .img-one {
+      padding: 10px;
     }
     .arrow-next {
       height: 25px;
+    }
+    em {
+      font-weight: bold;
     }
     @media (max-width: 600px) {
       body, #message { margin-top: 0; background: white; box-shadow: none; }
@@ -59,10 +71,12 @@
 <body>
   <div id="message">
     <h2>Welcome to Find &amp; Replace</h2>
-    <h1>Help &amp; Guide</h1>
+    <h1>Help Text &amp; User Guide</h1>
     <p>Find &amp; Replace for Text Editing is a browser extension that allows you to search &amp; replace
       text in input fields and editable text content directly in your browser.</p>
-    <h3>Basic Usage</h3>
+    <h3>1. Basic Usage</h3>
+    <h4>1.1. Selecting Target Text Area (optional)</h4>
+    <h4>1.2. Opening the Search Widget</h4>
     <div class="para">
       To launch the extension click on the icon that was added to your browser toolbar.
       <div class="img-row">
@@ -74,7 +88,30 @@
         (Mac: <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>) to achieve the same effect,
         as long as there is no other browser extension using that shortcut.
     </div>
-    <h3>Keyboard Shortcuts</h3>
+    <h4>1.3. Finding Text</h4>
+    <div class="para">
+      After you open the search widget, you are presented with the following interface:
+      <div class="img-one">
+        <img src="images/help/find-initial.png" />
+      </div>
+      You can start typing your search query into the <em>Find input field</em>, the text search
+      results will be continuously updated as you type. You can see the total number of found occurrences
+      as well as the current occurrence index in the status text. 
+      <div class="img-one">
+        <img src="images/help/find-basic.png" />
+      </div>
+      All search results are highlighted directly in your webpage. The currently selected match is
+      highlighted in different color. Click the <em>Up and Down</em> buttons to move the currently selected match
+      to a match with a higher or lower index.<br />
+      When you click the <em>Replace</em> button, the currently selected match is replaced with the text in
+      your <em>Replace input field</em>. You can also click <em>Replace all</em> to replace all occurrences at once.
+    </div>
+    <h3>Search Options</h3>
+    <p>todo</p>
+    <h3>Advanced Search</h3>
+    <h4>Limiting search to text selection</h4>
+    <h4>Using RegEx</h4>
+    <p>https://support.google.com/docs/answer/62754#regular_expressions</p>
     <p>todo</p>
     <h3>Using Favourites</h3>
     <p>todo</p>
@@ -82,10 +119,6 @@
     <p>todo</p>
     <h3>Using Templates</h3>
     <p>todo</p>
-    <h3>Limiting search to text selection</h3>
-    <p>todo</p>
-    <h3>Using RegEx</h3>
-    <p>https://support.google.com/docs/answer/62754#regular_expressions</p>
   </div>
   <p id="load">Footnote text</p>
 

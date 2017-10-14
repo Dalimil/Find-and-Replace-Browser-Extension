@@ -21,7 +21,7 @@
 }
 
 :root {
-  --col-text-regular: rgba(0,0,0,0.87);
+  --col-text-regular: rgba(0,0,0,0.85);
   --col-text-light: rgba(0,0,0,0.6);
   --col-orange: #ffa100;
   --col-blue: #1565C0;
