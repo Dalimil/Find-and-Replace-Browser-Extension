@@ -11,10 +11,10 @@
     #message { background: white; max-width: 600px; margin: 50px auto 16px; padding: 32px 24px; border-radius: 3px; }
     #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
     #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-    #message h3 { font-weight: bold; font-size: 16px; }
-    #message h4 { font-weight: bold; font-size: 14px; }
-    #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-    #message .para { line-height: 140%; margin: 16px 0; font-size: 14px; text-align: justify; }
+    #message h3 { font-weight: bold; font-size: 16px; margin: 35px 0 0px; }
+    #message h4 { font-weight: bold; font-size: 14px; margin: 20px 0 3px; }
+    #message .lead-para { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+    #message .para { line-height: 140%; margin: 5px 0 10px; font-size: 14px; text-align: justify; }
     #message a { text-decoration: none; color: #1565C0; font-weight: bold; }
     #message a:hover, #message a:active { color: #2196F3; }
     #message { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
@@ -73,8 +73,10 @@
   <div id="message">
     <h2>Welcome to Find &amp; Replace</h2>
     <h1>Help Text &amp; User Guide</h1>
-    <p>Find &amp; Replace for Text Editing is a browser extension that allows you to search &amp; replace
-      text in input fields and editable text content directly in your browser.</p>
+    <div class="lead-para">Find &amp; Replace for Text Editing is a browser extension that allows
+      you to search &amp; replace text in input fields and editable text content directly in
+      your browser.
+    </div>
     <h3 id="s1">1. Basic Usage</h3>
     <h4 id="s1-1">1.1. Selecting Target Text Area (optional)</h4>
     <h4 id="s1-2">1.2. Opening the Search Widget</h4>
@@ -91,7 +93,9 @@
     </div>
     <h4 id="s1-3">1.3. Finding Text</h4>
     <div class="para">
-      After you open the search widget, you are presented with the following interface:
+      After you open the search widget, you are presented with the following interface. If your status text
+      indicates <em>No Target</em> (instead of <em>No Results</em>), see section <a href="#s1-1">1.1.
+        Selecting Target Text Area</a>.
       <div class="img-one">
         <img src="images/help/find-initial.png" />
       </div>
@@ -103,7 +107,7 @@
       </div>
       All search results are highlighted directly in your webpage. The currently selected match is
       highlighted in different color. Click the <em>Up and Down</em> buttons to move the currently selected match
-      to a match with a higher or lower index.<br />
+      to a match with a higher or lower index.<br /><br />
       When you click the <em>Replace</em> button, the currently selected match is replaced with the text in
       your <em>Replace input field</em>. You can also click <em>Replace all</em> to replace all occurrences at once.
     </div>
