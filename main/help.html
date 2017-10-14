@@ -12,7 +12,7 @@
     #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
     #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
     #message h3 { font-weight: bold; font-size: 16px; margin: 35px 0 0px; }
-    #message h4 { font-weight: bold; font-size: 14px; margin: 20px 0 3px; }
+    #message h4 { font-weight: bold; font-size: 14px; margin: 25px 0 3px; }
     #message .lead-para { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
     #message .para { line-height: 140%; margin: 5px 0 10px; font-size: 14px; text-align: justify; }
     #message a { text-decoration: none; color: #1565C0; font-weight: bold; }
@@ -75,10 +75,21 @@
     <h1>Help Text &amp; User Guide</h1>
     <div class="lead-para">Find &amp; Replace for Text Editing is a browser extension that allows
       you to search &amp; replace text in input fields and editable text content directly in
-      your browser.
+      your browser. <br /><br />
+      Visit the <a href="https://find-and-replace-f6588.firebaseapp.com/">Official Website</a> to
+      submit feedback or find more information.
     </div>
     <h3 id="s1">1. Basic Usage</h3>
     <h4 id="s1-1">1.1. Selecting Target Text Area (optional)</h4>
+    <div class="para">
+      Before you open the extension, you should select the input area where you want to perform the
+      search &amp; replace operation. This extension works with any kind of <em>multi-line input
+        area</em>.<br /><br />
+      By default, the extension will select all text areas at once and perform the search across
+      all of them. If however, you want to limit the search to a single input area, simply click
+      inside it, before moving on to the <a href="#s1-2">next step</a>. If you have been typing
+      text, it is already selected.
+    </div>
     <h4 id="s1-2">1.2. Opening the Search Widget</h4>
     <div class="para">
       To launch the extension click on the icon that was added to your browser toolbar.
@@ -88,8 +99,10 @@
         <img src="images/icon32.png" />
       </div>
       You can also press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>
-        (Mac: <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>) to achieve the same effect,
-        as long as there is no other browser extension using that shortcut.
+      (Mac: <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>) to achieve the same effect,
+      as long as there is no other browser extension using that shortcut.<br /><br />
+      After opening the search widget, input areas selected in the <a href="#s1-1">previous step</a>
+      (or by default all of them) should be indicated by showing a glowing outline.
     </div>
     <h4 id="s1-3">1.3. Finding Text</h4>
     <div class="para">
@@ -133,7 +146,13 @@
       </ul>
     </div>
     <h3 id="s4">4. Advanced Search</h3>
-    <h4>Limiting search to text selection</h4>
+    <h4 id="s4-1">4.1. Limiting Search to Text Selection</h4>
+    <div class="para">
+      Before being able to use the <em>In Text Selection</em> option, there must be a piece of text in
+      your webpage that is currently selected (inside an input area). Once you have an active text selection,
+      <a href="#s1-2">open your search widget</a> as usual (both clicking the icon and using keyboard shortcut
+      preserve your text selection). Now your search matches will be restricted to your text selection.
+    </div>
     <h4>Using RegEx</h4>
     <p>https://support.google.com/docs/answer/62754#regular_expressions</p>
     <p>todo</p>
