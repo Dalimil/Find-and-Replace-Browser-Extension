@@ -4,17 +4,51 @@
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Find &amp; Replace Extension</title>
-  <link rel="icon" type="image/png" href="icon32.png" />
+  <link rel="icon" type="image/png" href="images/icon32.png" />
 
   <style>
-    body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+    body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
     #message { background: white; max-width: 600px; margin: 50px auto 16px; padding: 32px 24px; border-radius: 3px; }
     #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
     #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
     #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+    #message .para { line-height: 140%; margin: 16px 0; font-size: 14px; }
     #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
     #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
     #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+    kbd {
+      display: inline-block;
+      margin: 0 .1em;
+      padding: .1em .6em;
+      font-size: 11px;
+      line-height: 1.4;
+      color: #242729;
+      text-shadow: 0 1px 0 #FFF;
+      background-color: #e1e3e5;
+      border: 1px solid #adb3b9;
+      border-radius: 3px;
+      box-shadow: 0 1px 0 rgba(12,13,14,0.2),0 0 0 2px #FFF inset;
+      white-space: nowrap;
+    }
+    img {
+      border-radius: 3px;
+      margin: 10px;
+      display: block;
+    }
+    img.framed {
+      border: 1px dotted black;
+    }
+    .img-row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .img-row > img {
+      display: inline-block;
+    }
+    .arrow-next {
+      height: 25px;
+    }
     @media (max-width: 600px) {
       body, #message { margin-top: 0; background: white; box-shadow: none; }
       body { border-top: 16px solid #ffa100; }
@@ -26,10 +60,20 @@
   <div id="message">
     <h2>Welcome to Find &amp; Replace</h2>
     <h1>Help &amp; Guide</h1>
-    <p>This is the help page - todo: inspiration: chrome-extension://bldchfkhmnkoimaciljpilanilmbnofo/help.html</p>
+    <p>Find &amp; Replace for Text Editing is a browser extension that allows you to search &amp; replace
+      text in input fields and editable text content directly in your browser.</p>
     <h3>Basic Usage</h3>
-    <p>To launch the extension click on the icon that was added to your toolbar.
-      Alternatively press the keyboard shortcut `Ctrl+Shift+F`. </p>
+    <div class="para">
+      To launch the extension click on the icon that was added to your browser toolbar.
+      <div class="img-row">
+        <img class="framed" src="images/help/launch.png" />
+        <img class="arrow-next" src="images/help/arrow-next.png" />
+        <img src="images/icon32.png" />
+      </div>
+      You can also press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>
+        (Mac: <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>) to achieve the same effect,
+        as long as there is no other browser extension using that shortcut.
+    </div>
     <h3>Keyboard Shortcuts</h3>
     <p>todo</p>
     <h3>Using Favourites</h3>
@@ -45,6 +89,5 @@
   </div>
   <p id="load">Footnote text</p>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </body>
 </html>
