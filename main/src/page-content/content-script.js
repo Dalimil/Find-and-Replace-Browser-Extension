@@ -39,7 +39,8 @@ const CLASSES = {
   regularHighlight: 'hwt-mark-highlight',
   currentHighlight: 'hwt-highlight-current',
   textareaContainer: 'hwt-container',
-  textareaContentMirror: 'hwt-highlights'
+  textareaContentMirror: 'hwt-highlights',
+  textareaInput: 'hwt-input'
 };
 const SELECTORS = {}; // '.' + 'className'
 Object.keys(CLASSES).forEach(classId => {
@@ -171,13 +172,18 @@ function insertTemplate(templateText) {
  *  instead of the actual textareas
  */
 function initTextareas($elements, refocus) {
-  // Sets up containers ONLY
-  $elements.highlightWithinTextarea({
-    highlight: ''
-  });
-  if (refocus && $elements.length == 1) {
-    // only works for a single (previously focused) element
-    $elements.focus();
+  const skipSetup = ($elements.length == 1 && $elements.hasClass(CLASSES.textareaInput));
+  // skipSetup check is needed for single textarea re-stealing focus from popup - only Firefox issue
+  if (!skipSetup) {
+    // Set up containers only
+    $elements.highlightWithinTextarea({
+      highlight: ''
+    });
+    if (refocus && $elements.length == 1) {
+      // only works for a single (previously focused) element
+      // BUG (fixed by skipSetup check above): In Firefox this steals the focus from the pop-up!
+      $elements.focus();
+    }
   }
   const $containers = $elements.closest(SELECTORS.textareaContainer);
   const $mirrors = $containers.find(SELECTORS.textareaContentMirror);
