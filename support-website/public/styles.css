@@ -68,6 +68,9 @@ textarea {
 .space-right {
   margin-right: 5px;
 }
+.btn-space-right {
+  margin-right: 5px;
+}
 .profile-wrapper {
   display: flex;
   align-items: center;
@@ -80,9 +83,9 @@ textarea {
 }
 .avatar {
   display: block;
-  width: 6em;
-  height: 6em;
-  border: 2px solid #aaa;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #222;
   border-radius: 3px;
 }
 
