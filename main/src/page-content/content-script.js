@@ -437,6 +437,11 @@ function setUpApi() {
       name: "content-script-connection"
     });
     port.onMessage.addListener(handleApiCall);
+
+    // Firefox fix (Firefox disconnects our port, so we listen for runtime message)
+    chrome.runtime.onMessage.addListener(msg => {
+      if (msg.action == 'shutdown') shutdown();
+    });
   }
 
   // To be used inside init-content-script.js

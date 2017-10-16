@@ -84,6 +84,22 @@ function injectContentScripts() {
   executeScripts(scripts);
 }
 
+function sendContentScriptShutdownCmd(contentScriptConnection) {
+  const isFirefox = typeof InstallTrigger !== 'undefined';
+
+  // (bugfix) Firefox disconnects the port in content script on pop-up close
+  if (isFirefox) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "shutdown" });
+    });
+  } else {
+    // Chrome
+    if (contentScriptConnection) {
+      contentScriptConnection.postMessage({ action: 'shutdown' });
+    }
+  }
+}
+
 function setUpMessageConnections() {
   let contentScriptConnection = null;
 
@@ -92,6 +108,7 @@ function setUpMessageConnections() {
     if (port.name == "content-script-connection") {
       contentScriptConnection = port;
       contentScriptConnection.onDisconnect.addListener(() => {
+        // Event only fires in Chrome (Firefox bug)
         contentScriptConnection = null;
       });
       return;
@@ -110,14 +127,11 @@ function setUpMessageConnections() {
           injectContentScripts();
         }
       });
-
       // Listen for widget shutdown
       port.onDisconnect.addListener(() => {
         console.log("Widget disconnected");
         // Notify content script to clean up and shut down
-        if (contentScriptConnection) {
-          contentScriptConnection.postMessage({ action: 'shutdown' });
-        }
+        sendContentScriptShutdownCmd(contentScriptConnection);
       });
     }
   });
