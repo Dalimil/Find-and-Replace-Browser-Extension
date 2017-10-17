@@ -1,34 +1,39 @@
 // Sets up Google Analytics
 
-const GA_TRACKING_ID = 'UA-82810279-4';
-const GA_CLIENT_ID = "4FB5D5BF-B582-41AD-9BDF-1EC789AE6544";
-const BASE_PARAMS = `v=1&tid=${GA_TRACKING_ID}&cid=${GA_CLIENT_ID}`;
-
 class Analytics {
+  constructor() {
+    this.GA_TRACKING_ID = 'UA-82810279-4';
+    this.GA_CLIENT_ID = "4FB5D5BF-B582-41AD-9BDF-1EC789AE6544"; //todo
+    this.BASE_PARAMS = `v=1&tid=${GA_TRACKING_ID}&cid=${GA_CLIENT_ID}`;
+    this.ANALYTICS_URL = "https://www.google-analytics.com/collect";
+  }
 
   sendPageView(pageName) {
-    const params = BASE_PARAMS + `&t=pageview&dp=%2F${pageName}&dh=find.and.replace.io`;
+    const params = this.BASE_PARAMS + `&t=pageview&dp=%2F${pageName}&dh=${window.document.location.origin}`;
+    this.sendRequest_(params);
   }
   
-  sendEvent(eventName, eventCategory, eventAction) {
-    const params = BASE_PARAMS + `&t=event&ec=${eventCategory}&ea=${eventCategory}`;
+  sendEvent(eventCategory, eventAction) {
+    const params = this.BASE_PARAMS + `&t=event&ec=${eventCategory}&ea=${eventAction}`;
+    this.sendRequest_(params);
   }
 
   /**
    * Reports the event to Google Analytics
    */
-  _sendRequest(message) {
-    try {
-      let request = new XMLHttpRequest();
-      const hitType = "event";
-      let message =
-        "v=1&tid=" + GA_TRACKING_ID + "&cid= " + GA_CLIENT_ID +
-        "&ds=widget&t="+ hitType+"&ec=AAA&ea=" + aType;
-  
-      request.open("POST", "https://www.google-analytics.com/collect", true);
-      request.send(message);
-    } catch (e) {
-      this._log("Error sending report to Google Analytics.\n" + e);
-    }
+  sendRequest_(message) {
+    fetch(this.ANALYTICS_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: message
+    }).then(d => {
+      console.log("done");
+    }).catch(e => {
+      console.log("aaaaaaa", e);
+    });
   }
 }
+
+export default Analytics;
