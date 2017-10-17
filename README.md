@@ -321,6 +321,16 @@ In order to collect statistics on how users use our extension and how they inter
 
 Collecting this data will require additional manifest permissions and also requires us to provide a way for the users to be able to opt-out from collecting them. This might dissuade a small percentage of potential users from installing the extension in the first place, but I believe this will only be a small percentage.
 
+#### General Tracking
+I am going to embed the Google Analytics code into our extension's widget, so that we can track how many times users open the search widget, as well as how many unique users we have, and what kind of population they represent (along with additional user details).
+
+#### Event Tracking
+In addition to the basic user and page view tracking we would like to know how users interact with our extension and in particular, if they use certain functionality significantly less/more. This might suggest potential ways we can improve our extension - for instance, if nobody ever uses the templates panel, perhaps we need to educate users on how to use it more effectively, or perhaps reconsider its overall usability.
+
+##### Events
+TODO
+
+
 ### Testing
 
 ### Distribution & Marketing
