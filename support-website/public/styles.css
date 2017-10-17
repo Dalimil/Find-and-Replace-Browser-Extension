@@ -1,14 +1,35 @@
 /* Basic styling */
 
 body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-#message, #contact { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+#message, #contact, #presentation { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
 #message h2, #contact h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
 #message h1, #contact h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
 #message p, #contact p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
 #message .default-a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-#message, #message .default-a, #contact { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+#message, #message .default-a, #contact, #presentation { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
 #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
 #contact { margin: 0 auto 16px; padding: 24px; }
+#main {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0 16px;
+}
+#presentation {
+  order: 1;
+  margin: 0 16px;
+}
+#right-panel {
+  order: 2;
+  margin-right: 16px;
+}
+#right-panel > #message {
+  margin: 0 0 16px;
+}
+#right-panel > #contact {
+  margin: 0;
+}
+
+
 textarea {
   box-sizing: border-box;
   resize: none;
@@ -90,6 +111,8 @@ textarea {
 }
 
 @media (max-width: 600px) {
-  body, #message, #contact { margin-top: 0; background: white; box-shadow: none; }
+  body, #message, #contact, #presentation, #main { margin-top: 0; background: white; box-shadow: none; }
   body { border-top: 16px solid #ffa100; }
+  #presentation { display: none }
+  #right-panel { margin-right: 0 }
 }
