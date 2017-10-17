@@ -27,6 +27,18 @@ class Storage {
     this.templatesPromise = this.getFromStorage(this.templatesKey);
     // templates: { templateHash: { title: "title", text: "template text" } }
     this.templatesObservers = [];
+
+    this.clientIdKey = 'clientid';
+    this.clientIdPromise = this.getFromStorage(this.clientIdKey);
+    // clientid: 'string-id'
+
+    this.initialValues = {
+      [this.favouritesKey]: {},
+      [this.searchStateKey]: {},
+      [this.historyKey]: [],
+      [this.templatesKey]: {},
+      [this.clientIdKey]: ''
+    };
   }
 
   getFromStorage(key) {
@@ -36,11 +48,7 @@ class Storage {
           resolve(data[key]);
         } else {
           // Set to initial value
-          if (key == this.historyKey) {
-            resolve([]);
-          } else {
-            resolve({});
-          }
+          resolve(this.initialValues[key]);
         }
       });
     });
@@ -51,6 +59,22 @@ class Storage {
 
     chrome.storage.local.set({
       [this.searchStateKey]: searchState
+    });
+  }
+
+  getClientId() {
+    if (this.dummy) return Promise.resolve("_dummyClientId");
+
+    return this.clientIdPromise = this.clientIdPromise.then(currentId => {
+      if (!currentId) {
+        const newClientId = this.generateUserId_();
+        chrome.storage.local.set({
+          [this.clientIdKey]: newClientId
+        });
+        // Return immediately (there's no need to wait for the actual storage sync)
+        return newClientId;
+      }
+      return currentId;
     });
   }
 
@@ -224,13 +248,16 @@ class Storage {
     return hashText(title) + "_" + hashText(text);
   }
 
-  reset() {
-    chrome.storage.local.set({
-      [this.favouritesKey]: {},
-      [this.searchStateKey]: {},
-      [this.historyKey]: [],
-      [this.templatesKey]: {}
+  generateUserId_() {
+    // Taken from https://stackoverflow.com/a/2117523
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
     });
+  }
+
+  reset() {
+    chrome.storage.local.set(this.initialValues);
   }
 
 }
