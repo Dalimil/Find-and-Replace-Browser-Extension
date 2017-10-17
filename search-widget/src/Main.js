@@ -7,6 +7,7 @@ import AdvancedSearchInfo from './AdvancedSearchInfo';
 
 import ConnectionApi from './ConnectionApi';
 import Storage from './Storage';
+import Analytics from './Analytics';
 
 class Main extends React.Component {
   constructor(props) {
@@ -62,6 +63,7 @@ class Main extends React.Component {
       // Sometimes empty {} object - that's OK
       this.updateStateFromSaved(prevSearchState);
     });
+    Analytics.sendPageView("search");
   }
 
   updateStateFromSaved(savedPartialState) {

@@ -1,39 +1,47 @@
-// Sets up Google Analytics
+// Google Analytics
+
+import Storage from './Storage';
+import Logger from './Logger';
 
 class Analytics {
   constructor() {
     this.GA_TRACKING_ID = 'UA-82810279-4';
-    this.GA_CLIENT_ID = "4FB5D5BF-B582-41AD-9BDF-1EC789AE6544"; //todo
-    this.BASE_PARAMS = `v=1&tid=${GA_TRACKING_ID}&cid=${GA_CLIENT_ID}`;
     this.ANALYTICS_URL = "https://www.google-analytics.com/collect";
+    
+    this.clientIdPromise = Storage.getClientId();
+  }
+
+  getBaseParams_(clientId) {
+    return `v=1&tid=${this.GA_TRACKING_ID}&cid=${clientId}`;
   }
 
   sendPageView(pageName) {
-    const params = this.BASE_PARAMS + `&t=pageview&dp=%2F${pageName}&dh=${window.document.location.origin}`;
-    this.sendRequest_(params);
+    this.sendRequest_(`t=pageview&dp=%2F${pageName}&dh=find.and.replace.io`);
   }
   
   sendEvent(eventCategory, eventAction) {
-    const params = this.BASE_PARAMS + `&t=event&ec=${eventCategory}&ea=${eventAction}`;
-    this.sendRequest_(params);
+    this.sendRequest_(`t=event&ec=${eventCategory}&ea=${eventAction}`);
   }
 
   /**
    * Reports the event to Google Analytics
    */
-  sendRequest_(message) {
-    fetch(this.ANALYTICS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      },
-      body: message
-    }).then(d => {
-      console.log("done");
-    }).catch(e => {
-      console.log("aaaaaaa", e);
+  sendRequest_(additionalParams) {
+    this.clientIdPromise.then(clientId => {
+      const params = this.getBaseParams_(clientId) + "&" + additionalParams;
+
+      fetch(this.ANALYTICS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: params
+      }).then(() => {
+        Logger.log("Analytics sent: ", additionalParams);
+      }).catch(e => { /* Fail silently */ });
     });
   }
 }
 
-export default Analytics;
+const MyAnalytics = new Analytics();
+export default MyAnalytics;
