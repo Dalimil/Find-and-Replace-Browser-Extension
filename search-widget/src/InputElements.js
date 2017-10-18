@@ -43,8 +43,20 @@ const Star = ({descrBefore, descrAfter, onClick, checked}) => {
   );
 };
 
+const Toggle = ({ checked, onChange }) => {
+  return (
+    <label class="switch">
+      <input type="checkbox" class="switch-input" checked={checked} onChange={onChange} />
+      <span class="switch-label" data-on="On" data-off="Off"></span>
+      <span class="switch-handle"></span>
+    </label>
+  );
+};
+
+
 export {
   Button,
   Checkbox,
-  Star
+  Star,
+  Toggle
 };
