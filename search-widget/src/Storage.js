@@ -32,12 +32,17 @@ class Storage {
     this.clientIdPromise = this.getFromStorage(this.clientIdKey);
     // clientid: 'string-id'
 
+    this.analyticsEnabledKey = 'analytics-enabled';
+    this.analyticsEnabledPromise = this.getFromStorage(this.analyticsEnabledKey);
+    // analytics-enabled: true
+
     this.initialValues = {
       [this.favouritesKey]: {},
       [this.searchStateKey]: {},
       [this.historyKey]: [],
       [this.templatesKey]: {},
-      [this.clientIdKey]: ''
+      [this.clientIdKey]: '',
+      [this.analyticsEnabledKey]: true
     };
   }
 
@@ -76,6 +81,23 @@ class Storage {
       }
       return currentId;
     });
+  }
+
+  setAnalyticsEnabled(enabled) {
+    if (this.dummy) return;
+
+    this.analyticsEnabledPromise = this.analyticsEnabledPromise.then(() => {
+      chrome.storage.local.set({
+        [this.analyticsEnabledKey]: enabled
+      });
+      return enabled;
+    });
+  }
+
+  isAnalyticsEnabled() {
+    if (this.dummy) return Promise.resolve(false);
+
+    return this.analyticsEnabledPromise;
   }
 
   addToHistory(searchState) {
