@@ -601,6 +601,7 @@ input, textarea {
     top: 50%;
     margin-top: -0.5em;
     line-height: 1;
+    font-weight: bold;
     transition: inherit;
   }
   .switch-label:before {

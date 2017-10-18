@@ -7,8 +7,6 @@ class Analytics {
   constructor() {
     this.GA_TRACKING_ID = 'UA-82810279-4';
     this.ANALYTICS_URL = "https://www.google-analytics.com/collect";
-    
-    this.clientIdPromise = Storage.getClientId();
   }
 
   getBaseParams_(clientId) {
@@ -27,9 +25,15 @@ class Analytics {
    * Reports the event to Google Analytics
    */
   sendRequest_(additionalParams) {
-    this.clientIdPromise.then(clientId => {
+    Promise.all([
+      Storage.isAnalyticsEnabled(),
+      Storage.getClientId()
+    ]).then(([analyticsEnabled, clientId]) => {
+      if (!analyticsEnabled) {
+        Logger.log("Blocked Analytics: " + additionalParams);
+        return;
+      }
       const params = this.getBaseParams_(clientId) + "&" + additionalParams;
-
       fetch(this.ANALYTICS_URL, {
         method: 'POST',
         headers: {

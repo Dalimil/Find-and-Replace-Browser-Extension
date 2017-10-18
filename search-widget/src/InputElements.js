@@ -4,7 +4,7 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 
 const Button = ({title, onClick, disabled, small, style}) => (
-  <div style={style ? style : {}}
+  <div style={style || {}}
     className={"button-standard" + (disabled ? " button-disabled":"") + (small ? " button-small":"")}
     onClick={onClick}>
     {title}
@@ -43,12 +43,15 @@ const Star = ({descrBefore, descrAfter, onClick, checked}) => {
   );
 };
 
-const Toggle = ({ checked, onChange }) => {
+const Toggle = ({ checked, onChange, style }) => {
   return (
-    <label class="switch">
-      <input type="checkbox" class="switch-input" checked={checked} onChange={onChange} />
-      <span class="switch-label" data-on="On" data-off="Off"></span>
-      <span class="switch-handle"></span>
+    <label className="switch" style={style || {}}>
+      <input type="checkbox"
+        className="switch-input"
+        checked={checked}
+        onChange={onChange} />
+      <span className="switch-label" data-on="On" data-off="Off"></span>
+      <span className="switch-handle"></span>
     </label>
   );
 };
