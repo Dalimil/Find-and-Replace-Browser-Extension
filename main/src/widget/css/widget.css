@@ -319,13 +319,23 @@ input, textarea {
   }
   .help-panel-icon {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .help-panel-footnote {
     font-size: 0.9em;
     color: var(--col-text-light);
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
+  }
+  .help-panel-footnote a {
+    color: var(--col-text-light);
+    text-decoration: none;
+    font-weight: bold;
+    padding-right: 5px;
+  }
+  .help-panel-footnote a:hover,
+  .help-panel-footnote a:active {
+    text-decoration: underline;
   }
 
 
