@@ -84,7 +84,8 @@ class Main extends React.Component {
     this.setState({
       [name]: value
     }, () => {
-      if (name != 'replaceTextInput') {
+      // Do not send search update if only replaceText changed (unless regex preview active) 
+      if (name != 'replaceTextInput' || this.state.useRegexInput) {
        this.sendSearchUpdate();
       }
       // Save the full state (async low priority)
