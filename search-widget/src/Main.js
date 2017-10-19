@@ -218,6 +218,7 @@ class Main extends React.Component {
     this.setState({
       addedToFavourites: !alreadyAdded
     });
+    Analytics.sendEvent("favourites", `favourite-${alreadyAdded ? "removed" : "added"}`);
   }
 
   getSearchStateForHistory() {

@@ -4,6 +4,7 @@ import FontAwesome from 'react-fontawesome';
 import Logger from '../Logger';
 import Storage from '../Storage';
 import ConnectionApi from '../ConnectionApi';
+import Analytics from '../Analytics';
 
 class TemplatesPanel extends React.Component {
   constructor(props) {
@@ -65,6 +66,9 @@ class TemplatesPanel extends React.Component {
     ConnectionApi.insertTemplate({
       text: templateText
     });
+    if (templateText) {
+      Analytics.sendEvent("templates", "template-pasted");
+    }
   }
 
   handleTemplateRemoved(templateId) {
@@ -103,6 +107,7 @@ class TemplatesPanel extends React.Component {
   handleCreateNewTemplate() {
     Storage.addToTemplates("(New Template) - Click the pencil icon to edit.",
       "This is the template text that will be pasted at your cursor location.");
+    Analytics.sendEvent("templates", "new-template-created");
   }
 
   render() {
