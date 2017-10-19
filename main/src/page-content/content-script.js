@@ -40,7 +40,8 @@ const CLASSES = {
   currentHighlight: 'hwt-highlight-current',
   textareaContainer: 'hwt-container',
   textareaContentMirror: 'hwt-highlights',
-  textareaInput: 'hwt-input'
+  textareaInput: 'hwt-input',
+  areaGlow: 'search-and-replace-area-glow'
 };
 const SELECTORS = {}; // '.' + 'className'
 Object.keys(CLASSES).forEach(classId => {
@@ -120,16 +121,12 @@ function replaceAll(resultText) {
   setOccurrenceIndex(0);
 }
 
-function setEditableAreaGlow($element) {
-  $element.css({
-    boxShadow: "inset 0 0 0.5em rgba(0, 90, 255, 0.9)"
-  });
+function setEditableAreaGlow($elements) {
+  $elements.addClass(CLASSES.areaGlow);
 }
 
-function clearEditableAreaGlow($element) {
-  $element.css({
-    boxShadow: ""
-  });
+function clearEditableAreaGlows() {
+  $(SELECTORS.areaGlow, Context.doc).removeClass(CLASSES.areaGlow);
 }
 
 /**
@@ -275,7 +272,7 @@ function highlightMatchesProcess(activeSelectionType, $activeElement, params) {
       // Textarea
       const $mirror = initTextareas($activeElement, /* refocus */ true);
       highlightHtml($mirror, params).then(resolve).catch(reject);
-      setEditableAreaGlow($activeElement);
+      setEditableAreaGlow($mirror.closest(SELECTORS.textareaContainer));
     } else if (activeSelectionType == TYPES.contenteditable) {
       // Contenteditable
       highlightHtml($activeElement, params).then(resolve).catch(reject);
@@ -283,10 +280,12 @@ function highlightMatchesProcess(activeSelectionType, $activeElement, params) {
     } else {
       // Both (all are inactive) - but possibly inside a selected iframe
       $mirrors = initTextareas($('textarea', Context.doc));
-      $elements = $('[contenteditable]', Context.doc).add($mirrors);
+      $cEditables = $('[contenteditable]', Context.doc);
+      $elements = $cEditables.add($mirrors);
       // $elements sorted in document order (jQuery add() spec)
       highlightHtml($elements, params).then(resolve).catch(reject);
-      setEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
+      setEditableAreaGlow($mirrors.closest(SELECTORS.textareaContainer));
+      setEditableAreaGlow($cEditables);
     }
   });
 }
@@ -420,10 +419,10 @@ function getApiResponseData(actionName, replaceText) {
 }
 
 function shutdown() {
+  clearEditableAreaGlows();
   $('textarea', Context.doc).highlightWithinTextarea('destroy');
   $('[contenteditable]', Context.doc).unmark();
   $(SELECTORS.textareaContentMirror, Context.doc).unmark();
-  clearEditableAreaGlow($('textarea, [contenteditable]', Context.doc));
 }
 
 

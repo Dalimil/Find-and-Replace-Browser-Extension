@@ -1,4 +1,10 @@
 /* CSS injected into the currently active tab */
+
+.search-and-replace-area-glow {
+  box-shadow: 0 0 5px rgba(0, 90, 255, 0.9) !important;
+  outline: 1px solid rgba(0, 90, 255, 0.9) !important;
+}
+
 .hwt-mark-highlight {
   border-radius: 1px;
   background-color: #70CEF9;

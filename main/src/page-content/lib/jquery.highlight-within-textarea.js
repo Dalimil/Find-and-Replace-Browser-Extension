@@ -448,8 +448,6 @@
 						default:
 							console.error('unrecognized method string');
 					}
-				} else {
-					console.error('plugin must be instantiated first');
 				}
 			} else {
 				if (plugin) {
