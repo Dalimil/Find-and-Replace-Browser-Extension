@@ -1,6 +1,10 @@
 # Find & Replace Extension for Text Editing
 RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
+![Find & Replace Browser Extension - Web Store Screenshot A](graphics/web-store/Search-and-Replace-Web-Store-A.jpg)
+
+![Find & Replace Browser Extension - Web Store Screenshot B](graphics/web-store/Search-and-Replace-Web-Store-B.jpg)
+
 ## Project Specification
 
 ### Principal Goal
@@ -367,5 +371,3 @@ I decided to go with an alternative solution - we store all submitted feedback m
 - Look at structure of previous dissertation projects
 - Find a good Markdown to Latex converter
 - Use we or I in text
-
-- Note that replacing all current occurrences may have generated new matches, but if someone click replace all, and gets many new (not replaced) matches afterward, it is confusing, replacing all recursively is confusing too
