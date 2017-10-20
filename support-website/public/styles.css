@@ -17,6 +17,7 @@ body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvet
 #presentation {
   order: 1;
   margin: 0 16px;
+  min-width: 430px;
 }
 #right-panel {
   order: 2;
@@ -29,6 +30,38 @@ body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvet
   margin: 0;
 }
 
+.slides {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  overflow: hidden;
+}
+.slides img {
+  display: block;
+  max-width: 100%;
+}
+.slides .present-icon {
+  max-width: 100px;
+}
+.slides .present-title {
+  display: block;
+  color: rgba(0,0,0,0.87);
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 140%;
+  margin: 10px 0 5px;
+}
+.slides .present-subtitle {
+  display: block;
+  color: rgba(0,0,0,0.6);
+  font-size: 20px;
+  line-height: 140%;
+  margin: 0 0 20px;
+  font-weight: normal;
+}
 
 textarea {
   box-sizing: border-box;
@@ -110,7 +143,7 @@ textarea {
   border-radius: 3px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   body, #message, #contact, #presentation, #main { margin-top: 0; background: white; box-shadow: none; }
   body { border-top: 16px solid #ffa100; }
   #presentation { display: none }

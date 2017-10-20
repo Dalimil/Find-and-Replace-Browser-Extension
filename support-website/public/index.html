@@ -12,11 +12,12 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Find &amp; Replace Extension for Text Editing" />
   <meta property="og:description" content="The Find and Replace browser extension is designed to save you time when editing text. The tool adds a search widget that allows you to search and replace text inside input areas on websites. Use it when composing long emails, blog articles, or forum posts. Available on Chrome and Firefox." />
-  <meta property="og:image" content="https://find-and-replace-f6588.firebaseapp.com/icon32.png" />
+  <meta property="og:image" content="https://find-and-replace-f6588.firebaseapp.com/Search-and-Replace-Small-Promo.jpg" />
 
   <title>Find &amp; Replace Extension for Text Editing</title>
   <link rel="icon" type="image/png" href="icon32.png" />
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 </head>
 
 <body>
@@ -32,7 +33,7 @@
         <a class="btn btn-green btn-space-right" href="https://chrome.google.com/webstore/detail/find-replace-for-text-edi/jajhdmnpiocpbpnlpejbgmpijgmoknnl">
           <i class="fa fa-chrome fa-fw space-right"></i> Chrome
         </a>
-        <a class="btn btn-green" href="https://chrome.google.com/webstore/category/extensions">
+        <a class="btn btn-green" href="https://addons.mozilla.org/en-US/firefox/addon/find-replace-for-text-editing/">
           <i class="fa fa-firefox fa-fw space-right"></i> Firefox
         </a>
       </div>
@@ -55,7 +56,12 @@
       </div>
     </div>
     <div id="presentation">
-      Here is my presentation
+      <div class="slides">
+        <img class="present-icon" src="icon128.png" />
+        <h1 class="present-title">Find &amp; Replace</h1>
+        <h2 class="present-subtitle">Browser Extension for Text Editing</h2>
+        <img class="present-screenshot" src="widget-screenshot.png" />
+      </div>
     </div>
   </div>
   <p id="load">Made with <i class="fa fa-heart-o"></i> by Dalimil Hajek. Thank you for your support!</p>
@@ -70,6 +76,13 @@
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://use.fontawesome.com/4012d82546.js"></script>
-
+  <script>
+    $(() => {
+      $('.present-icon').addClass("animated bounceIn");
+      $('.present-title').addClass("animated fadeInUp");
+      $('.present-subtitle').addClass("animated fadeInUp");
+      $('.present-screenshot').addClass("animated fadeInUp");
+    });
+  </script>
 </body>
 </html>
