@@ -516,6 +516,16 @@ const Utils = {
     parent.normalize();
   },
 
+  /**
+   * Removes all JavaScript event listeners by replacing a
+   * node with its duplicate
+   */
+  unbind(node){
+    const nodeCopy = node.cloneNode(/* deep */ true);
+    node.parentNode.replaceChild(nodeCopy, node);
+    return nodeCopy;
+  },
+
   getTextOffsetInParent(node) {
     let sibling = node.parentNode.firstChild;
     let textOffset = 0;
