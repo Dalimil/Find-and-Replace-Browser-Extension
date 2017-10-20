@@ -30,7 +30,7 @@ In addition to the software development work, it is expected that the student wi
 
 Search and replace would be extremely useful on these websites: WordPress, Gmail, Hotmail, Blogger, Facebook, any forums, online blogging platforms, and web email clients.
 
-You could always paste the content into your word processor, fix it and paste it back into the Chrome input field but that is a lengthy and time consuming process.
+You could always paste the content into your word processor, fix it and paste it back into the Chrome input field but that is a lengthy and time consuming process, and it will most likely lose all your formatting.
 
 With more advanced features, one could also see the history of previous find & replace operations, save favourite queries and also define paste-only templates (for instance various email templates).
 
@@ -288,6 +288,8 @@ When choosing the string that we want to search in, we need to only consider the
 
 ##### Highlighting in `contenteditable`
 Highlighting inside a `contenteditable` element should not be a problem - we can simply inject our own `span` element with our custom class into the element's DOM. Contenteditable elements are designed to contain any HTML nodes so no problem here.
+
+TODO: Explain Issues: - Facebook uses contenteditables and keeps the text content in JavaScript variables (separately). When I insert my markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). When I detach their JavaScript listeners by cloning the contenteditable DOM node, I'm able to highlight and replace text successfully and the user can continue editing, but when they click the post button, all changes made after the last search & replace operation are lost because the text that is posted is the content of their JavaScript variables, not the actual contenteditable content. Quora does the exact same thing. 
 
 For the highlighting, I'm going to use the [mark.js](https://markjs.io/) plugin. We could certainly implement the highlighting ourselves (wrapping each search occurrence in `<span>` elements with custom styling), but there are many tricky cases that we need to handle. For instance, HTML `<div>John <b>Smith</b></div>` matches the query `John S` but simply inserting a `<span>` at the start and end would violate HTML rules, and instead we'd need to create two pairs of `<span>` elements - for `John ` and another for `S` inside the `<b>` tags.
 
