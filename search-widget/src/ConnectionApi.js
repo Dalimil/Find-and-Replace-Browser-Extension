@@ -35,12 +35,13 @@ class ConnectionApi {
   }
 
   log(...args) {
+    /* // Debug
     this.executeOnPort(port => {
       port.postMessage({
         action: 'log',
         data: args
       });
-    });
+    });*/
   }
 
   updateSearch(searchParams) {

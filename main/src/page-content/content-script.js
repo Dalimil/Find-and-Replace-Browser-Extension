@@ -230,7 +230,7 @@ function groupMarks(terms) {
   if (Search.limitedToSelection) {
     markGroups = filterMarksInSelection(markGroups);
   }
-  console.log("Terms: ", terms, "Marks: ", $marks, "Result: ", markGroups);
+  // console.log("Terms: ", terms, "Marks: ", $marks, "Result: ", markGroups);
   return markGroups;
 }
 
@@ -305,7 +305,7 @@ function updateSearch(params) {
   Search.limitedToSelection = params.limitToSelection && uncollapsedSelection;
   const limitToSelectionError = params.limitToSelection && !uncollapsedSelection;
   // Debug info
-  console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
+  // console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
   
   // Highlighting operation
   const highlightMatchesPromise =
@@ -452,14 +452,14 @@ function setUpApi() {
   function handleApiCall(msg) {
     if (msg.action != 'log') {
       // Debug log
-      console.log("Content Script API: ", msg.action, " Data: ", msg.data);
+      // console.log("Content Script API: ", msg.action, " Data: ", msg.data);
     }
     switch (msg.action) {
       case 'shutdown':
         shutdown();
         break;
       case 'log':
-        console.log("Widget Log: ", ...msg.data);
+        // console.log("Widget Log: ", ...msg.data);
         break;
       case 'updateSearch':
         updateSearch(msg.data).then(errors => {
