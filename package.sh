@@ -1,9 +1,7 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd main
 
-echo $DIR
-
-zip -r main.zip "$DIR/main"
+zip -r ../main.zip *
 
 echo "Done"

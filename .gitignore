@@ -60,3 +60,5 @@ typings/
 # Extension packaging
 *.crx
 *.pem
+*.zip
+
