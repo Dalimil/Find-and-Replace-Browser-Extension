@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha content-script-test/"
+    "test": "yarn run test:search-widget && yarn run test:content-script",
+    "test:search-widget": "mocha search-widget-test/",
+    "test:content-script": "mocha content-script-test/"
   },
   "devDependencies": {
     "mocha": "^4.0.1"
