@@ -353,6 +353,23 @@ In addition to the basic user and page view tracking we would like to know how u
 
 
 ### Testing
+How can we test our extension? The Chrome Extension Guides contain a section on debugging (https://developer.chrome.com/extensions/tut_debugging) but do not mention any extension testing methods.
+
+For testing web applications in general we have several kinds of tests (Sources: https://medium.com/powtoon-engineering/a-complete-guide-to-testing-javascript-in-2017-a217b4cd5a2a): 
+  - Unit Tests - testing individual functions
+  - Integration Tests - testing several modules working together
+  - Functional Tests - testing a scenario on the whole product (in-browser interaction)
+
+#### Unit Tests
+Our content script contains a lot of individual functions that we can test separately. I'm going to use [Mocha.js](https://mochajs.org/) for unit testing of the content script.
+
+#### Integration Tests
+Our UI search widget is mostly focusing on keeping the state of UI consistent. Here we are more interested in the widget being rendered correctly as a whole, rather than looking at individual HTML elements. Because of the way we separated the search widget development (described earlier), we can simply mount our React root on a standard website and use Mocha again to test basic user interaction. There will be no content script for it to communicate with, but this is not the focus at this point.
+
+#### Functional Tests
+To implement functional tests, we would need to drive a browser that installs our extension and interacts with it. There is a tool called [PhantomJS](http://phantomjs.org/) which is commonly used for headless WebKit testing. Unfortunately, it is not based on Chromium, so we cannot load Chrome extensions (https://stackoverflow.com/a/23643111).
+
+To be able to install and test the extension as a whole in Chrome and Firefox, we are going to use [Selenium](http://www.seleniumhq.org/), which is a browser automation tool that can directly control a browser instance and allows us to install browser extensions (https://stackoverflow.com/questions/15005833/browser-plugin-testing-with-selenium/17117849).
 
 ### Distribution & Marketing
 Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
