@@ -23,6 +23,7 @@
 :root {
   --col-text-regular: rgba(0,0,0,0.85);
   --col-text-light: rgba(0,0,0,0.6);
+  --col-text-light-light: rgba(0,0,0,0.25);
   --col-orange: #ffa100;
   --col-blue: #1565C0;
   --col-blue-light: #2196F3;
@@ -531,6 +532,21 @@ input, textarea {
   }
   .checkbox input::-moz-focus-inner {
     border: 0;
+  }
+  .checkbox-after-content {
+    padding-left: 6px;
+  }
+  .checkbox-after-content a {
+    outline: 0;
+    text-decoration: none;
+  }
+  .checkbox-after-content a,
+  .checkbox-after-content a:visited {
+    color: var(--col-text-light-light);
+  }
+  .checkbox-after-content a:hover,
+  .checkbox-after-content a:active {
+    color: var(--col-text-light);
   }
 
 /* Star Checkbox */
