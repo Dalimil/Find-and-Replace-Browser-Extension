@@ -275,10 +275,18 @@ class Main extends React.Component {
   renderIndividualCheckboxes() {
     const invalidSelectionInput = (this.state.limitToSelectionInput &&
       this.state.contentScriptError.invalidSelection);
+    const regexHelpLink = "/help.html#s4-2";
     const checkboxes = {
       MatchCaseCheckbox: { id: "matchCaseInput", text: "Match Case" },
       WholeWordsCheckbox: { id: "wholeWordsInput", text: "Whole Words" },
-      UseRegexCheckbox: { id: "useRegexInput", text: "Use RegEx" },
+      UseRegexCheckbox: {
+        id: "useRegexInput",
+        text: "Use RegEx",
+        afterContent: <a href={regexHelpLink} onClick={e => {
+            e.preventDefault();
+            chrome.tabs.create({ url: regexHelpLink });
+        }}><FontAwesome name='info-circle' /></a>
+      },
       LimitToSelectionCheckbox: {
         id: "limitToSelectionInput",
         text: "In Text Selection",
@@ -286,6 +294,7 @@ class Main extends React.Component {
         error: invalidSelectionInput
       }
     };
+    // Initialize React components
     Object.keys(checkboxes).forEach(id => {
       const cbox = checkboxes[id];
       checkboxes[id] = (
@@ -295,7 +304,8 @@ class Main extends React.Component {
           onChange={this.handleSearchInputChange} 
           text={cbox.text}
           tooltip={cbox.tooltip}
-          error={cbox.error} />
+          error={cbox.error}
+          afterContent={cbox.afterContent} />
       );
     });
     return checkboxes;
