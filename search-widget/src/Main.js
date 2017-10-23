@@ -275,23 +275,31 @@ class Main extends React.Component {
   renderIndividualCheckboxes() {
     const invalidSelectionInput = (this.state.limitToSelectionInput &&
       this.state.contentScriptError.invalidSelection);
-    const regexHelpLink = "/help.html#s4-2";
+    const renderHelpLink = (sectionId) => {
+      const helpHref = `/help.html${sectionId || ""}`;
+      return (
+        <a href={helpHref} onClick={e => {
+            e.preventDefault();
+            chrome.tabs.create({ url: helpHref });
+          }}>
+          <FontAwesome name='question-circle' />
+        </a>
+      );
+    };
     const checkboxes = {
       MatchCaseCheckbox: { id: "matchCaseInput", text: "Match Case" },
       WholeWordsCheckbox: { id: "wholeWordsInput", text: "Whole Words" },
       UseRegexCheckbox: {
         id: "useRegexInput",
         text: "Use RegEx",
-        afterContent: <a href={regexHelpLink} onClick={e => {
-            e.preventDefault();
-            chrome.tabs.create({ url: regexHelpLink });
-        }}><FontAwesome name='info-circle' /></a>
+        afterContent: renderHelpLink("#s4-2")
       },
       LimitToSelectionCheckbox: {
         id: "limitToSelectionInput",
         text: "In Text Selection",
         tooltip: invalidSelectionInput ? "You must select editable text in the page first." : "",
-        error: invalidSelectionInput
+        error: invalidSelectionInput,
+        afterContent: invalidSelectionInput ? renderHelpLink("#s4-1") : null
       }
     };
     // Initialize React components
