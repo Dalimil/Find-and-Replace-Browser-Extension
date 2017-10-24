@@ -4,11 +4,17 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "yarn run test:search-widget && yarn run test:content-script",
+    "test": "yarn run test:search-widget && yarn run test:content-script && yarn run test:selenium",
     "test:search-widget": "mocha search-widget-test/",
-    "test:content-script": "mocha content-script-test/"
+    "test:content-script": "mocha content-script-test/",
+    "test:selenium": "wdio wdio.conf.js",
+    "selenium-standalone": "selenium-standalone start"
   },
   "devDependencies": {
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "wdio-firefox-profile-service": "^0.1.0",
+    "wdio-mocha-framework": "^0.5.11",
+    "wdio-spec-reporter": "^0.1.2",
+    "webdriverio": "^4.8.0"
   }
 }
