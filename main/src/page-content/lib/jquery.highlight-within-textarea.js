@@ -365,6 +365,10 @@
 
 		renderMarks: function(boundaries) {
 			let input = this.$el.val();
+			if (boundaries.length == 0) {
+				this.$highlights.text(input);
+				return;
+			}
 			boundaries.forEach(function(boundary, index) {
 				let markup;
 				if (boundary.type === 'start') {

@@ -86,8 +86,6 @@ function replaceCurrent(resultText) {
     .removeClass(CLASSES.currentHighlight)
     .removeClass(CLASSES.regularHighlight);
 
-  const originalLength = $nodes.text().length;
-  const originalOffset = Utils.getTextOffsetInParent($nodes.get(0));
   const $wrapper = $nodes.eq(0).closest(SELECTORS.textareaContainer);
   $nodes.each((index, el) => {
     if (index == 0) {
@@ -100,11 +98,9 @@ function replaceCurrent(resultText) {
 
   // Check if this is a textarea highlight, replace the mirrored text too if so
   if ($wrapper.length != 0) {
-    const textarea = $wrapper.find('textarea');
-    const originalText = textarea.val();
-    const replacedText = originalText.substr(0, originalOffset) + resultText +
-      originalText.substr(originalOffset + originalLength);
-    textarea.val(replacedText);
+    const $textarea = $wrapper.find(SELECTORS.textareaInput);
+    const $mirror = $wrapper.find(SELECTORS.textareaContentMirror);
+    $textarea.val($mirror.text());
   }
 
   // Delete term mark-group from our list
