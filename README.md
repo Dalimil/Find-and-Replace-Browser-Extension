@@ -375,6 +375,7 @@ We are going to install Selenium WebDriver to control Chrome and Firefox browser
 
 The Selenium project have their own JavaScript implementation for the client API, but after comparing it to alternatives, I decided to use [WebDriver.IO](http://webdriver.io/), which is another JavaScript implementation of the (Selenium 2.0) WebDriver API, but it has much simpler and more readable syntax (https://github.com/webdriverio/webdriverio#syntax-example).
 
+
 ### Distribution & Marketing
 Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
 
@@ -389,6 +390,10 @@ TODO: explain Firebase functions: https://firebase.google.com/docs/functions/wri
 There are various ways we could collect feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends an email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did user just uninstall the extension, or are they happy and simply want to propose new features?). 
 
 I decided to go with an alternative solution - we store all submitted feedback messages in a database. This database can be later queried and filters based on various criteria (time of submission, feedback type, ...).
+
+### Sites currently known to be broken
+- Facebook - highlighting and replace works but is reverted to original onClick
+- Quora - completely broken - inserting `<mark>` violates their `<span>` format and scatters original text (inserts newlines)
 
 ### More ideas/TODOs
 - Look at structure of previous dissertation projects
