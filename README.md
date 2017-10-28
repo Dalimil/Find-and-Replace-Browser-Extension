@@ -289,8 +289,6 @@ When choosing the string that we want to search in, we need to only consider the
 ##### Highlighting in `contenteditable`
 Highlighting inside a `contenteditable` element should not be a problem - we can simply inject our own `span` element with our custom class into the element's DOM. Contenteditable elements are designed to contain any HTML nodes so no problem here.
 
-TODO: Explain Issues: - Facebook uses contenteditables and keeps the text content in JavaScript variables (separately). When I insert my markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). When I detach their JavaScript listeners by cloning the contenteditable DOM node, I'm able to highlight and replace text successfully and the user can continue editing, but when they click the post button, all changes made after the last search & replace operation are lost because the text that is posted is the content of their JavaScript variables, not the actual contenteditable content. Quora does the exact same thing. 
-
 For the highlighting, I'm going to use the [mark.js](https://markjs.io/) plugin. We could certainly implement the highlighting ourselves (wrapping each search occurrence in `<span>` elements with custom styling), but there are many tricky cases that we need to handle. For instance, HTML `<div>John <b>Smith</b></div>` matches the query `John S` but simply inserting a `<span>` at the start and end would violate HTML rules, and instead we'd need to create two pairs of `<span>` elements - for `John ` and another for `S` inside the `<b>` tags.
 
 There are more tricky cases like this. Therefore, it's wiser not trying to reinvent the wheel and instead use a plugin that is actively maintained and used by many people.
@@ -388,6 +386,19 @@ The Selenium project have their own JavaScript implementation for the client API
 - Facebook - highlighting and replace works but is reverted to original onClick
 - Quora - completely broken - inserting `<mark>` violates their `<span>` format and scatters original text (inserts newlines)
 - LinkedIn
+
+#### Why is it broken
+TODO: Explain Issues: - Facebook uses contenteditables and keeps the text content in JavaScript variables (separately). When I insert my markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). When I detach their JavaScript listeners by cloning the contenteditable DOM node, I'm able to highlight and replace text successfully and the user can continue editing, but when they click the post button, all changes made after the last search & replace operation are lost because the text that is posted is the content of their JavaScript variables, not the actual contenteditable content.
+
+Quora does the exact same thing. 
+
+#### How to fix broken sites:
+There would need to be an alternative way of adding/changing the editable text (besides directly changing textContent/innerHTML/innerText). Sending keyboard events does not seem to work.
+
+1. Help sought on Stack Overflow: https://stackoverflow.com/questions/46981226/edit-text-in-facebook-messenger-contenteditable-div?noredirect=1#comment80915743_46981226
+2. Marked as off-topic - but someone commented with a possible hint in time
+	- Potential fix: *Focus the editor element and use document.execCommand in 'insertText' or 'insertHTML' mode.*
+3. TODO: investigate Document.execCommand https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
 
 ### Distribution & Marketing
 Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
