@@ -350,7 +350,7 @@ In addition to the basic user and page view tracking we would like to know how u
 - Added to/Removed from Favourites - We can get more insight by looking at how often users use the star button. If they've never used it, perhaps it's not intuitive enough.
 - New Template Created - Enables us to see how often users create new templates. If the numbers are very low, perhaps they don't know how to use this feature.
 - Template Successfully Pasted - Enables us to see how many users have successfully inserted a template into a web page and thus how many know how to use them.
-
+- Advanced Search enabled/disabled - We would like to know how often users use the advanced search functionality (regex search and in-selection search)
 
 ### Testing
 How can we test our extension? The Chrome Extension Guides contain a section on debugging (https://developer.chrome.com/extensions/tut_debugging) but do not mention any extension testing methods.

@@ -41,7 +41,7 @@ class ConnectionApi {
         action: 'log',
         data: args
       });
-    });*/
+    });//*/
   }
 
   updateSearch(searchParams) {
