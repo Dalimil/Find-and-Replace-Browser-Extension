@@ -400,10 +400,19 @@ There would need to be an alternative way of adding/changing the editable text (
 1. Help sought on Stack Overflow: https://stackoverflow.com/questions/46981226/edit-text-in-facebook-messenger-contenteditable-div?noredirect=1#comment80915743_46981226
 2. Marked as off-topic - but someone commented with a possible hint in time
 	- Potential fix: *Focus the editor element and use document.execCommand in 'insertText' or 'insertHTML' mode.*
-3. TODO: investigate Document.execCommand https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
+3. Discovered `document.execCommand()` API https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
+
+#### Product Development Iteration with `document.execCommand()`
+TODO: Explain the API, that it originated from IE, but now is part of W3C spec (+add link)
+
+After switching to `execCommand` for manipulating `contenteditable` suddenly things started working on Facebook:
+- It fixed template insertion in Facebook contenteditable
 
 ### Distribution & Marketing
-Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
+TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
+
+![Reddit Marketing](docs/reddit-marketing.png)
+
 
 ### Feedback & Iteration
 User interaction testing challenge: 1) Perform a find and replace 2nd and 3rd occurrence, but only match case 2) Page refresh and perform that again but this time replace all occurrences, knowing the extension has a history tab 3) Now send me feedback - must find link in extension's help panel (promise not to read feedback until later)
