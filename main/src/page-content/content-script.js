@@ -86,21 +86,31 @@ function replaceCurrent(resultText) {
     .removeClass(CLASSES.currentHighlight)
     .removeClass(CLASSES.regularHighlight);
 
+  // Check if this is a textarea highlight
   const $wrapper = $nodes.eq(0).closest(SELECTORS.textareaContainer);
-  $nodes.each((index, el) => {
-    if (index == 0) {
-      $(el).text(resultText);
-    } else {
-      $(el).text("");
-    }
-    Utils.flattenNode(el);
-  });
-
-  // Check if this is a textarea highlight, replace the mirrored text too if so
   if ($wrapper.length != 0) {
+    $nodes.each((index, el) => {
+      if (index == 0) {
+        $(el).text(resultText);
+      } else {
+        $(el).text("");
+      }
+      Utils.flattenNode(el);
+    });
+    // We must replace the mirrored text too
     const $textarea = $wrapper.find(SELECTORS.textareaInput);
     const $mirror = $wrapper.find(SELECTORS.textareaContentMirror);
     $textarea.val($mirror.text());
+  } else {
+    // Contenteditable - we should use document.execCommand()
+    $nodes.each((index, el) => {
+      if (index == 0) {
+        $(el).text(resultText);
+      } else {
+        $(el).text("");
+      }
+      Utils.flattenNode(el);
+    });
   }
 
   // Delete term mark-group from our list

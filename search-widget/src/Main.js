@@ -202,6 +202,7 @@ class Main extends React.Component {
     this.setState({
       advancedSearchExpanded: expanded
     });
+    Analytics.sendEvent("advanced-search", `advanced-search-${expanded ? "enabled" : "disabled"}`);
   }
 
   resetAdvancedSearchOptions() {
