@@ -382,7 +382,7 @@ The Selenium project have their own JavaScript implementation for the client API
 - Reddit
 - Stack Overflow
 - Google Groups
-- (broken) Facebook, Messenger, Quora, LinkedIn
+- (broken) Facebook (+Messenger), Quora, LinkedIn
 
 ### Sites currently known to be broken
 - Facebook - highlighting and replace works but is reverted to original onClick
@@ -405,8 +405,14 @@ There would need to be an alternative way of adding/changing the editable text (
 #### Product Development Iteration with `document.execCommand()`
 TODO: Explain the API, that it originated from IE, but now is part of W3C spec (+add link)
 
-After switching to `execCommand` for manipulating `contenteditable` suddenly things started working on Facebook:
+After switching to `execCommand` for manipulating `contenteditable` suddenly insertion started working on Facebook:
 - It fixed template insertion in Facebook contenteditable
+
+However, for replacement (where the original content must be deleted first) it proved very unreliable, because `execCommand` operates on the active cursor selection, which can be programmatically set by manipulating the `Selection` object, but since there's no way to tell it to select only the text content itself it ended up deleting whole DOM tags and even after a lot of testing it wasn't reliably able to replace parts of text in a post and pass through all the automatic DOM manipulation that Facebook implements. Therefore, we disable the extension on Facebook and Messenger for now.
+
+LinkedIn: All inserted content and tags are filtered so cannot insert `<mark>`s or `<span>`s. We check which tags are allowed - `<p>`, `<strong>`, `<em>`, `<u>`, so we can use the underline (`<u>`) instead of `<mark>`. Solved.
+
+Quora: It doesn't allow us to insert marks or any formatting as all inserted content is immediately filtered. The only tag which is not filtered out is `<div>` and Quora uses a complicated hierarchy with various class name swapping on new text insertion. This is very tricky if not impossible to fix. When users try to use the extension on Quora, simply let them know that it does not work there.
 
 ### Distribution & Marketing
 TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
