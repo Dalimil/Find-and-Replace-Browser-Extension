@@ -19,7 +19,7 @@ const Search = {
   lastSearchRegexp: /^$/,
   // Is the search limited to the (non-collapsed) user-specified text selection
   limitedToSelection: false,
-  // Save { start, end, element, type } (or null) for the current cursor selection
+  // Save { start, end, element, type, contentEditableRange } (or null) for the current cursor selection
   activeCursorSelection: null
 };
 
@@ -75,6 +75,27 @@ function getCurrentOccurrenceText() {
 }
 
 /**
+ * Replace the mark element contents with custom text.
+ * It uses the Document.execCommand('insertText') API so it can
+ * only be used for contenteditable elements
+ * Currently not used due to its unreliability
+ */
+function replaceContenteditableMarkElementWithText(element, text) {
+  const range = Context.doc.createRange();
+  range.selectNodeContents(element);
+  const sel = Context.win.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  Context.doc.execCommand('insertText', false, text);
+  sel.removeAllRanges();
+  if (Search.activeCursorSelection &&
+      Search.activeCursorSelection.contentEditableRange) {
+    // Restore previous selection
+    sel.addRange(Search.activeCursorSelection.contentEditableRange);
+  }
+}
+
+/**
  * Replaces the current (highlighted) occurrence
  *    performs the replacement in the first node if matched accross elements
  */
@@ -90,11 +111,7 @@ function replaceCurrent(resultText) {
   const $wrapper = $nodes.eq(0).closest(SELECTORS.textareaContainer);
   if ($wrapper.length != 0) {
     $nodes.each((index, el) => {
-      if (index == 0) {
-        $(el).text(resultText);
-      } else {
-        $(el).text("");
-      }
+      $(el).text(index == 0 ? resultText : "");
       Utils.flattenNode(el);
     });
     // We must replace the mirrored text too
@@ -104,11 +121,7 @@ function replaceCurrent(resultText) {
   } else {
     // Contenteditable - we should use document.execCommand()
     $nodes.each((index, el) => {
-      if (index == 0) {
-        $(el).text(resultText);
-      } else {
-        $(el).text("");
-      }
+      $(el).text(index == 0 ? resultText : "");
       Utils.flattenNode(el);
     });
   }
@@ -238,6 +251,18 @@ function groupMarks(terms) {
   return markGroups;
 }
 
+function getHighlightTagName() {
+  const hostname = window.location.hostname.toLowerCase();
+  if (hostname.includes('linkedin')) {
+    // underline
+    return 'u';
+  }
+  if (hostname.includes('facebook')) {
+    return 'span';
+  }
+  return 'mark';
+}
+
 function highlightHtml($elements, params) {
   return new Promise((resolve, reject) => {
     // First unmark all potential previous highlights
@@ -247,6 +272,7 @@ function highlightHtml($elements, params) {
         // For each mark we save the corresponding term (potentially longer)
         const terms = [];
         const options = {
+          element: getHighlightTagName(),
           className: CLASSES.regularHighlight,
           acrossElements: true,
           filter: (node, term, counter) => {
@@ -303,7 +329,8 @@ function updateSearch(params) {
     start: activeSelection.selection.start,
     end: activeSelection.selection.end,
     $element: activeSelection.$element,
-    type: activeSelection.type
+    type: activeSelection.type,
+    contentEditableRange: activeSelection.selection.range || null
   });
   const uncollapsedSelection = (activeSelection.selection && !activeSelection.selection.collapsed);
   Search.limitedToSelection = params.limitToSelection && uncollapsedSelection;
@@ -363,7 +390,7 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
       return {
         type: TYPES.contenteditable,
         $element: $(activeElement),
-        selection: { start, end, collapsed: start == end },
+        selection: { start, end, range, collapsed: start == end },
         documentContext,
         windowContext
       };
@@ -510,6 +537,9 @@ function setUpApi() {
 const Utils = {
   flattenNode(node) {
     const parent = node.parentNode;
+    if (!parent) {
+      return;
+    }
     if (node.firstChild == null) {
       parent.removeChild(node);
     } else {
