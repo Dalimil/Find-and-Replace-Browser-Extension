@@ -382,12 +382,12 @@ The Selenium project have their own JavaScript implementation for the client API
 - Reddit
 - Stack Overflow
 - Google Groups
-- (broken) Facebook (+Messenger), Quora, LinkedIn
+- LinkedIn (article editor)
+- (currently broken) Facebook (+Messenger), Quora
 
 ### Sites currently known to be broken
 - Facebook - highlighting and replace works but is reverted to original onClick
 - Quora - completely broken - inserting `<mark>` violates their `<span>` format and scatters original text (inserts newlines)
-- LinkedIn
 
 #### Why is it broken
 TODO: Explain Issues: - Facebook uses contenteditables and keeps the text content in JavaScript variables (separately). When I insert my markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). When I detach their JavaScript listeners by cloning the contenteditable DOM node, I'm able to highlight and replace text successfully and the user can continue editing, but when they click the post button, all changes made after the last search & replace operation are lost because the text that is posted is the content of their JavaScript variables, not the actual contenteditable content.
