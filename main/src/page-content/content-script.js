@@ -456,6 +456,34 @@ function shutdown() {
   $(SELECTORS.textareaContentMirror, Context.doc).unmark();
 }
 
+function spawnWarningMessage(text) {
+  const containerId = "ohsnap-notification";
+  if (!$(`#${containerId}`).length) {
+    const msgContainer = document.createElement('div');
+    msgContainer.id = containerId;
+    msgContainer.style.cssText = `
+      position: fixed;
+      bottom: 5px;
+      right: 5px;
+      margin-left: 5px;
+      z-index: 99999;
+    `;
+    document.body.appendChild(msgContainer);
+  }
+  window.ohSnap(text, { 'container-id': containerId });
+}
+
+function maybeDisallowOnThisSite() {
+  const hostname = window.location.hostname.toLowerCase();
+  if (hostname.includes('quora.com')) {
+    spawnWarningMessage('Extension does not yet work on Quora.');
+    return true;
+  } else if (hostname.includes('messenger.com') || hostname.includes('facebook.com')) {
+    spawnWarningMessage('Extension does not yet work on Facebook.')
+    return true;
+  }
+  return false;
+}
 
 function setUpApi() {
   let port = null;
@@ -481,6 +509,9 @@ function setUpApi() {
   };
 
   function handleApiCall(msg) {
+    if (maybeDisallowOnThisSite()) {
+      return;
+    }
     if (msg.action != 'log') {
       // Debug log
       // console.log("Content Script API: ", msg.action, " Data: ", msg.data);
