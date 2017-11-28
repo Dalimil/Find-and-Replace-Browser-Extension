@@ -1,6 +1,12 @@
 # Find & Replace Extension for Text Editing
 RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
+**Project Website: https://find-and-replace-f6588.firebaseapp.com/**
+
+**Chrome Web Store Link: https://chrome.google.com/webstore/detail/find-replace-for-text-edi/jajhdmnpiocpbpnlpejbgmpijgmoknnl**
+
+**Firefox Add-ons Store Link: https://addons.mozilla.org/en-US/firefox/addon/find-replace-for-text-editing/**
+
 ![Find & Replace Browser Extension - Web Store Screenshot A](graphics/web-store/Search-and-Replace-Web-Store-A.jpg)
 
 ![Find & Replace Browser Extension - Web Store Screenshot B](graphics/web-store/Search-and-Replace-Web-Store-B.jpg)
