@@ -358,6 +358,10 @@ In addition to the basic user and page view tracking we would like to know how u
 - Template Successfully Pasted - Enables us to see how many users have successfully inserted a template into a web page and thus how many know how to use them.
 - Advanced Search enabled/disabled - We would like to know how often users use the advanced search functionality (regex search and in-selection search)
 
+In the Google Analytics Dashboard we can plot how many of the total number of users triggered that given event in a given time period:
+
+![User Behaviour](docs/user-behavior.png)
+
 ### Testing
 How can we test our extension? The Chrome Extension Guides contain a section on debugging (https://developer.chrome.com/extensions/tut_debugging) but do not mention any extension testing methods.
 
