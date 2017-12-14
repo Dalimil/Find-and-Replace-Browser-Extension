@@ -55,8 +55,16 @@ Web browsers support standard search functionality for any text on a page but no
 There have been several attempts to implement this functionality via an extension. Most of them either don't work, are missing functionality (particularly regex), are limited to certain websites, or are unintuitive and hard to use in general. 
 
 ### Chrome
-- https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo?hl=en-GB (doesn't work in many places such as Blogger, Facebook, and has many other issues) 
-- https://chrome.google.com/webstore/detail/find-replace/cfjmfciolkikfodjfdmdpdmpfbjdofek?hl=en (requires copy-pasting your desired text)
+- https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo
+  - This is the dominant one with over 52 thousand users (as of Dec 2017)
+  - It has only 3.1/5 stars and many reviews are complaining it doesn't work or that it messes up other content of the current page
+  - It has usability issues (control checkboxes partially hidden) and it doesn't work in many places such as Blogger, Facebook,...
+  - This is clearly a very bad and simplistic solution that is mostly broken but benefits from a larger userbase because it came early (appeared in 2013)
+- https://chrome.google.com/webstore/detail/find-replace/cfjmfciolkikfodjfdmdpdmpfbjdofek
+  - This extension requires copy-pasting your desired text into the provided box (plain-text only, so formatting is lost).
+  - It has almost a thousand users (as of Dec 2017), but it has been around since 2013
+  - It is unable to perform the search and replace in browser
+  - This is no better than copy pasting text into a text editor and performing the operation there
 - https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc (replaces raw HTML - different, undesirable functionality, and requires excessive permissions)
 - https://chrome.google.com/webstore/detail/easy-replace/ojoeejfegihohnkjlfoonbnailkohkce (not working on most websites)
 
