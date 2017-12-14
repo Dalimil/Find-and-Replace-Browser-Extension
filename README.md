@@ -56,7 +56,7 @@ There have been several attempts to implement this functionality via an extensio
 
 ### Chrome
 - https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo
-  - This is the dominant one with over 52 000 users (as of Dec 2017)
+  - This is the dominant one with over 52,000 users (as of Dec 2017)
   - It has only 3.1/5 stars and many reviews are complaining it doesn't work or that it messes up other content of the current page
   - It has usability issues (control checkboxes partially hidden) and it doesn't work in many places such as Blogger, Facebook,...
   - This is clearly a very bad and simplistic solution that is mostly broken but benefits from a larger userbase because it came early (appeared in 2013)
@@ -74,8 +74,14 @@ There have been several attempts to implement this functionality via an extensio
   - Most of them report it doesn't work because it only focuses on plain-text textareas and completely ignores more advanced editable HTML elements that most sites use these days
 
 ### Firefox
-- https://addons.mozilla.org/en-US/firefox/addon/find-and-replace-for-firefox (not working for most users, and no regex)
-- https://addons.mozilla.org/en-US/firefox/addon/foxreplace/ (permanent webpage text substitution - different functionality)
+- https://addons.mozilla.org/en-US/firefox/addon/find-and-replace-for-firefox
+  - Old add-on, not compatible with the latest Firefox 57.
+  - It has almost 3000 users but only 3.5/5 stars
+  - It's not working for most users, has almost no options (no RegEx, no highlighting, etc.)
+  - It was last updated in 2012 and is not maintained
+- https://addons.mozilla.org/en-US/firefox/addon/foxreplace/
+  - This extension provides different functionality - it asks the user to predefine a list of substitutions and then it automatically applies them globally across the text in newly loaded web pages
+  - FoxReplace has over 7000 users (Dec 2017) but targets different audience
 
 ### Other browsers
 Approximate values for current market share for desktop are (https://en.wikipedia.org/wiki/Usage_share_of_web_browsers): Chrome 55%, Safari 15%, Firefox 10%, Edge < 5%
