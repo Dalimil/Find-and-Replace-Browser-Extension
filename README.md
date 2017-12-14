@@ -56,17 +56,22 @@ There have been several attempts to implement this functionality via an extensio
 
 ### Chrome
 - https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo
-  - This is the dominant one with over 52 thousand users (as of Dec 2017)
+  - This is the dominant one with over 52 000 users (as of Dec 2017)
   - It has only 3.1/5 stars and many reviews are complaining it doesn't work or that it messes up other content of the current page
   - It has usability issues (control checkboxes partially hidden) and it doesn't work in many places such as Blogger, Facebook,...
   - This is clearly a very bad and simplistic solution that is mostly broken but benefits from a larger userbase because it came early (appeared in 2013)
 - https://chrome.google.com/webstore/detail/find-replace/cfjmfciolkikfodjfdmdpdmpfbjdofek
   - This extension requires copy-pasting your desired text into the provided box (plain-text only, so formatting is lost).
-  - It has almost a thousand users (as of Dec 2017), but it has been around since 2013
+  - It has almost 1000 users (as of Dec 2017), but it has been around since 2013
   - It is unable to perform the search and replace in browser
   - This is no better than copy pasting text into a text editor and performing the operation there
-- https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc (replaces raw HTML - different, undesirable functionality, and requires excessive permissions)
-- https://chrome.google.com/webstore/detail/easy-replace/ojoeejfegihohnkjlfoonbnailkohkce (not working on most websites)
+- https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc
+  - It has almost 2000 users and 3.9/5 stars. It has been around since April 2016.
+  - This extension is used for replacing any HTML text in the page, rather than text in input fields - for this purpose it seems to work, but when one tries to use it only for text input fields, things break and the extension stops working (highlighting and match indicator both disappear and replace button stops working)
+  - It also requires permission to "Read and change all your data on the websites that you visit", which might be a privacy issue (the extension can read everything even when the user isn't using it)
+- https://chrome.google.com/webstore/detail/easy-replace/ojoeejfegihohnkjlfoonbnailkohkce
+  - It has over 3000 users but only 2.6/5 stars
+  - Most of them report it doesn't work because it only focuses on plain-text textareas and completely ignores more advanced editable HTML elements that most sites use these days
 
 ### Firefox
 - https://addons.mozilla.org/en-US/firefox/addon/find-and-replace-for-firefox (not working for most users, and no regex)
