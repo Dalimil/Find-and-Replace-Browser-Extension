@@ -444,6 +444,8 @@ LinkedIn: All inserted content and tags are filtered so we cannot insert `<mark>
 Quora: It doesn't allow us to insert marks or any formatting as all inserted content is immediately filtered. The only tag which is not filtered out is `<div>` and Quora uses a complicated hierarchy with various class name swapping on new text insertion. This is very tricky if not impossible to fix. When users try to use the extension on Quora, simply let them know that it does not work there.
 
 ### Distribution & Marketing
+Posted on Reddit, HackerNews, Quora.
+
 TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
 
 ![Reddit Marketing](docs/reddit-marketing.png)
@@ -453,6 +455,19 @@ TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {N
 
 ### Feedback & Iteration
 User interaction testing challenge: 1) Perform a find and replace 2nd and 3rd occurrence, but only match case 2) Page refresh and perform that again but this time replace all occurrences, knowing the extension has a history tab 3) Now send me feedback - must find link in extension's help panel (promise not to read feedback until later)
+
+### Changelog (releases)
+- v1.3.2 - 18th Dec - Fix undefined regexp groups substitution
+- v1.3.1 - 27th Nov - Add info notification for broken sites
+- v1.3.0 - 27th Nov - Implement dynamic mark tags based on site
+- v1.2.1 - 18th Nov - Add more events to GAnalytics
+- v1.2.0 - 18th Nov - Change templates to execCommand API
+- v1.1.3 - 25th Oct - Fix bugs in replace offsets
+- v1.1.2 - 23th Oct - Add help text links
+- v1.1.1 - 23th Oct - Add UI hints
+- v1.1 - 20th Oct - Disable all debug logs
+- v1.0 - 18th Oct - First prototype released
+- v0.1 - 13th Sep - Raw dev work started
 
 #### Support website
 TODO: explain Firebase hosting: https://firebase.google.com/docs/hosting/
