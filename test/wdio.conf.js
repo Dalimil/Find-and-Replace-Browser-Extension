@@ -1,5 +1,9 @@
-
-// var extensionData = fs.readFileSync('./ext.zip');
+/**
+ * Main wdio config file
+ * Defines which browsers to run and extensions to load
+ */
+const fs = require('fs');
+const extensionData = fs.readFileSync('../main.zip');
 
 exports.config = {
     // Specify Test Files
@@ -36,10 +40,10 @@ exports.config = {
         /*{
             browserName: 'firefox'
         },*/
-        {
+        /* myChromeInstance: { desiredCapabilities: */{
             browserName: 'chrome',
             chromeOptions: {
-                extensions: [] // extensionData.toString('base64')]
+                extensions: [extensionData.toString('base64')]
             }
         }
     ],
