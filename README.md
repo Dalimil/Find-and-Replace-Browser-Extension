@@ -405,6 +405,8 @@ We are going to install Selenium WebDriver to control Chrome and Firefox browser
 The Selenium project have their own JavaScript implementation for the client API, but after comparing it to alternatives, I decided to use [WebDriver.IO](http://webdriver.io/), which is another JavaScript implementation of the (Selenium 2.0) WebDriver API, but it has much simpler and more readable syntax (https://github.com/webdriverio/webdriverio#syntax-example).
 
 ##### Sites that need test coverage
+The following sites have been tested manually so far and it would be great if we could automate their testing.
+
 - Gmail
 - Blogger
 - WordPress
@@ -412,7 +414,13 @@ The Selenium project have their own JavaScript implementation for the client API
 - Stack Overflow
 - Google Groups
 - LinkedIn (article editor)
-- (currently broken) Facebook (+Messenger), Quora
+- (currently broken) Facebook (+Messenger) and Quora
+
+##### Setting up Selenium tests
+I successfully updated our configuration to install our extension once an automated browser instance is launched. It correctly opens a new tab with the Help text (our User guide). First functional test that I created tests that this actually happens (new tab opened on install with the extension user guide).
+
+https://github.com/webdriverio/webdriverio/issues/2108
+
 
 ### Sites currently known to be broken
 - Facebook - highlighting and replace works but is reverted to original onClick
