@@ -420,7 +420,7 @@ function getReplaceText(text) {
     // Replace starting from the largest number (replace $11 before $1)
     matches.slice().reverse().forEach((groupText, index) => {
       index = matches.length - 1 - index;
-      text = text.replace(new RegExp("\\$" + index, "g"), groupText);
+      text = text.replace(new RegExp("\\$" + index, "g"), groupText || "");
     });
     text = text.replace(new RegExp("\\$&", "g"), matches[0]);
   }
