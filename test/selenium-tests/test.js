@@ -1,5 +1,4 @@
-// Selenium Tests
-// TODO
+// Selenium Test
 
 var assert = require('assert');
 describe('Browser running Find & Replace extension', function() {
