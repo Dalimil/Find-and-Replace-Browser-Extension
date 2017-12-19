@@ -132,9 +132,10 @@ function replaceCurrent(resultText) {
   setOccurrenceIndex(Search.activeTermIndex);
 }
 
-function replaceAll(resultText) {
+function replaceAll(rawReplaceText) {
   while (Search.groupedMarks.length > 0) {
-    replaceCurrent(resultText);
+    // If regex groups are used, replace text will differ based on current term
+    replaceCurrent(getReplaceText(rawReplaceText));
   }
   // Clear indexes
   setOccurrenceIndex(0);
@@ -548,7 +549,7 @@ function setUpApi() {
         port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'replaceAll':
-        replaceAll(getReplaceText(msg.data.replaceText));
+        replaceAll(msg.data.replaceText);
         port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'insertTemplate':
