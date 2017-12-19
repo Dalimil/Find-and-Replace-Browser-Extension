@@ -419,8 +419,9 @@ The following sites have been tested manually so far and it would be great if we
 ##### Setting up Selenium tests
 I successfully updated our configuration to install our extension once an automated browser instance is launched. It correctly opens a new tab with the Help text (our User guide). First functional test that I created tests that this actually happens (new tab opened on install with the extension user guide).
 
-https://github.com/webdriverio/webdriverio/issues/2108
+Unfortunately the Selenium driver do not allow direct mouse interactions with the extension - there is no way to launch it from the toolbar (Mentioned here: https://releasematic.wordpress.com/2013/12/29/automation-testing-chrome-extensions/ and here: https://github.com/webdriverio/webdriverio/issues/2108). At the same time, I designed the extension with the minimal set of permission, and so the extension doesn't execute any code and doesn't inject anything into to page unless the user launches the widget first.
 
+The only thing we can do is open the extension page directly. So due to API limitations we won't be able to set up tests for the specific sites listed above. The only way we could test the highlighting for these sites would be to create a new extension that forces the injection of the content script code in every page the browser visits and also automatically starts sending the exact data payloads mocking the API coming from the (never running) search widget. Besides it being loads of work to implement, this would not actually be the full functional tests that we were aiming for - it would be testing the content script alone but none of the actual component interaction and communication with the search widget. We abandon this idea, because for the sole purpose of testing of the content script functionality we can find an easier and more efficient way to test things.
 
 ### Sites currently known to be broken
 - Facebook - highlighting and replace works but is reverted to original onClick
