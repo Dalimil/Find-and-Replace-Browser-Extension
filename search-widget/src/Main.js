@@ -61,17 +61,20 @@ class Main extends React.Component {
 
     Storage.previousSearchStatePromise.then(prevSearchState => {
       // Sometimes empty {} object - that's OK
-      this.updateStateFromSaved(prevSearchState);
+      this.updateStateFromSaved(prevSearchState, /* saveSearchState */ false);
     });
     Analytics.sendPageView("search");
   }
 
-  updateStateFromSaved(savedPartialState) {
+  updateStateFromSaved(savedPartialState, saveSearchState) {
     this.setState(savedPartialState, () => {
       if (savedPartialState.findTextInput) {
         this.findInputElement.select(); // select text at the start
       }
       this.sendSearchUpdate();
+      if (saveSearchState) {
+        Storage.saveSearchState(this.getSearchStateForStorage());
+      }
       this.checkIfStateInFavourites();
     });
   }
@@ -129,11 +132,11 @@ class Main extends React.Component {
   }
 
   onFavouriteSelectedInPanel(favourite) {
-    this.updateStateFromSaved(favourite);
+    this.updateStateFromSaved(favourite, /* saveSearchState */ true);
   }
 
   onHistorySelecedInPanel(history) {
-    this.updateStateFromSaved(history);
+    this.updateStateFromSaved(history, /* saveSearchState */ true);
   }
 
   onTemplateSelectedInPanel() {
