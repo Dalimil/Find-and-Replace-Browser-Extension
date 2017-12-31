@@ -464,9 +464,8 @@ TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {N
 
 
 ### Feedback & Iteration
-User interaction testing challenge: 1) Perform a find and replace 2nd and 3rd occurrence, but only match case 2) Page refresh and perform that again but this time replace all occurrences, knowing the extension has a history tab 3) Now send me feedback - must find link in extension's help panel (promise not to read feedback until later)
 
-### Changelog (releases)
+#### Changelog (releases)
 - v1.3.5 - 31st Dec - Add hostname to GA for domain analysis
 - v1.3.4 - 19th Dec - Fix 'Replace all' with regex groups
 - v1.3.3 - 19th Dec - Fix restored favorites not storing state
@@ -482,7 +481,16 @@ User interaction testing challenge: 1) Perform a find and replace 2nd and 3rd oc
 - v1.0 - 18th Oct - First prototype released
 - v0.1 - 13th Sep - Raw dev work started
 
-#### Support website
+#### Extending scope to include `<input>` elements
+Why? A lot of people are complaining about the extension not working for single-line text inputs. The argument for not implementing it for `<input>` elements was that these are only very short pieces of text (typically a few words but typically less than 100 characters).
+
+It turns out that the scenario that users face is this: Given a very large number of single line text inputs, search and replace a phrase across all of them at once.
+TODO: Add sites where this happens... WordPress?
+
+The input types that contain standard text and would therefore be a good target of our extension are the following: `<input>`, `<input type="text">`, `<input type="search">`, `<input type="url">`, `<input type="email">`. So we are going to find these using the following CSS selector: 
+`input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="email"]`
+
+### Support website
 TODO: explain Firebase hosting: https://firebase.google.com/docs/hosting/
 
 TODO: explain Firebase functions: https://firebase.google.com/docs/functions/write-firebase-functions
