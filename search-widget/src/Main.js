@@ -21,6 +21,7 @@ class Main extends React.Component {
       wholeWordsInput: false,
       useRegexInput: false,
       limitToSelectionInput: false,
+      includeOneLineFieldsInput: false,
       addedToFavourites: false,
       contentScriptSearch: {
         searchIndex: 0,
@@ -193,6 +194,7 @@ class Main extends React.Component {
       matchCase: this.state.matchCaseInput,
       wholeWords: this.state.wholeWordsInput,
       limitToSelection: this.state.limitToSelectionInput,
+      includeOneLineFields: this.state.includeOneLineFieldsInput,
       replaceText: this.state.replaceTextInput
     });
   }
@@ -209,6 +211,7 @@ class Main extends React.Component {
   }
 
   resetAdvancedSearchOptions() {
+    /* Intentionally does not reset includeOneLineFieldsInput */
     this.setState({
       useRegexInput: false,
       limitToSelectionInput: false
@@ -246,7 +249,8 @@ class Main extends React.Component {
       matchCaseInput: this.state.matchCaseInput,
       wholeWordsInput: this.state.wholeWordsInput,
       useRegexInput: this.state.useRegexInput,
-      limitToSelectionInput: this.state.limitToSelectionInput
+      limitToSelectionInput: this.state.limitToSelectionInput,
+      includeOneLineFieldsInput: this.state.includeOneLineFieldsInput
     };
   }
 
@@ -304,6 +308,10 @@ class Main extends React.Component {
         tooltip: invalidSelectionInput ? "You must select editable text in the page first." : "",
         error: invalidSelectionInput,
         afterContent: invalidSelectionInput ? renderHelpLink("#s4-1") : null
+      },
+      IncludeOneLineFieldsCheckbox: {
+        id: "includeOneLineFieldsInput",
+        text: "Include Single-Line Inputs"
       }
     };
     // Initialize React components
@@ -401,7 +409,7 @@ class Main extends React.Component {
             <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
               { checkboxes.MatchCaseCheckbox }
               { checkboxes.WholeWordsCheckbox }
-              { /* Advanced Search */}
+              { /* Advanced Search (left column) */}
               { this.state.advancedSearchExpanded && checkboxes.LimitToSelectionCheckbox }
               { this.state.advancedSearchExpanded && checkboxes.UseRegexCheckbox } 
             </div>
@@ -413,6 +421,8 @@ class Main extends React.Component {
               <Star checked={this.state.addedToFavourites}
                 onClick={this.toggleAddToFavourites}
                 descrBefore="Save to Favourites" descrAfter="Saved" />
+              { /* Advanced Search (right column) */}
+              { this.state.advancedSearchExpanded && checkboxes.IncludeOneLineFieldsCheckbox }
             </div>
           </div>
           { this.state.advancedSearchExpanded &&
