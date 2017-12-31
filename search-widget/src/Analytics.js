@@ -2,11 +2,24 @@
 
 import Storage from './Storage';
 import Logger from './Logger';
+import ConnectionApi from './ConnectionApi';
 
 class Analytics {
   constructor() {
     this.GA_TRACKING_ID = 'UA-82810279-4';
     this.ANALYTICS_URL = "https://www.google-analytics.com/collect";
+
+    ConnectionApi.addResponseHandler(msg => {
+      if (msg.analytics) {
+        let pageType = msg.analytics.domain || '';
+        if (msg.analytics.isExtensionPage) {
+          pageType = '(extension-page)-' + pageType;
+        } else if (msg.analytics.isLocalFilePage) {
+          pageType = '(local-file)';
+        }
+        this.sendEvent('domain', `domain-${pageType}`);
+      }
+    });
   }
 
   getBaseParams_(clientId) {

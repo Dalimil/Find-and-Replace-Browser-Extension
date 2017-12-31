@@ -488,6 +488,7 @@ function maybeDisallowOnThisSite() {
 
 function setUpApi() {
   let port = null;
+  let firstScriptAnalyticsReplySent = false; /* only used for GAnalytics */
   setUpMessageConnections();
 
   function setUpMessageConnections() {
@@ -532,6 +533,14 @@ function setUpApi() {
           };
           if (!errors.invalidRegex) {
             Object.assign(response.data, getApiResponseData(msg.action, msg.data.replaceText).data);
+          }
+          if (!firstScriptAnalyticsReplySent) {
+            response.analytics = {
+              domain: window.location.hostname,
+              isExtensionPage: Utils.locationIsExtensionPage(window.location),
+              isLocalFilePage: Utils.locationIsLocalFilePage(window.location)
+            };
+            firstScriptAnalyticsReplySent = true;
           }
           port.postMessage(response);
         });
@@ -641,6 +650,16 @@ const Utils = {
         Math.max(0, Math.round((currentBottom + currentTop - $window.height()) / 2))
       );
     }
+  },
+
+  locationIsExtensionPage(location) {
+    const origin = location.origin || "";
+    return origin.startsWith('chrome-extension:') || origin.startsWith('moz-extension:');
+  },
+
+  locationIsLocalFilePage(location) {
+    const href = location.href || "";
+    return href.startsWith('file:');
   }
 };
 

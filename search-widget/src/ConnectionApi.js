@@ -35,7 +35,7 @@ class ConnectionApi {
   }
 
   log(...args) {
-    /* // Debug
+    /*// Debug
     this.executeOnPort(port => {
       port.postMessage({
         action: 'log',
