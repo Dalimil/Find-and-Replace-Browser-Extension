@@ -4,7 +4,7 @@
   
   const activeElement = document.activeElement;
   const tagName = activeElement && activeElement.tagName.toLowerCase();
-  const isEditable = (tagName == 'textarea' || tagName == 'iframe' ||
+  const isEditable = (tagName == 'textarea' || tagName == 'input' || tagName == 'iframe' ||
       (activeElement && activeElement.hasAttribute('contenteditable')));
 
   const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
