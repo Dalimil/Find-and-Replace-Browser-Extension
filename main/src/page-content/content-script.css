@@ -33,6 +33,12 @@
     overflow-y: auto !important;
   }
 
+  /* <input type="text"> is vertically aligned */
+  .hwt-backdrop.hwt-singleline {
+    display: flex !important;
+    align-items: center !important;
+  }
+
   .hwt-highlights {
     width: auto !important;
     height: auto !important;
@@ -42,6 +48,11 @@
     word-wrap: break-word !important;
     color: transparent !important;
     overflow: hidden !important;
+  }
+
+  /* <input type="text"> is one line only */
+  .hwt-highlights.hwt-singleline {
+    white-space: nowrap !important;
   }
 
   .hwt-input {
