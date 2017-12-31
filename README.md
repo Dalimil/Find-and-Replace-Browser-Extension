@@ -467,6 +467,7 @@ TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {N
 User interaction testing challenge: 1) Perform a find and replace 2nd and 3rd occurrence, but only match case 2) Page refresh and perform that again but this time replace all occurrences, knowing the extension has a history tab 3) Now send me feedback - must find link in extension's help panel (promise not to read feedback until later)
 
 ### Changelog (releases)
+- v1.3.5 - 31st Dec - Add hostname to GA for domain analysis
 - v1.3.4 - 19th Dec - Fix 'Replace all' with regex groups
 - v1.3.3 - 19th Dec - Fix restored favorites not storing state
 - v1.3.2 - 18th Dec - Fix undefined regexp groups substitution
