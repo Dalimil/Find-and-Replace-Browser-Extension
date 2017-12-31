@@ -490,6 +490,8 @@ TODO: Add sites where this happens... WordPress?
 The input types that contain standard text and would therefore be a good target of our extension are the following: `<input>`, `<input type="text">`, `<input type="search">`, `<input type="url">`, `<input type="email">`. So we are going to find these using the following CSS selector: 
 `input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="email"]`
 
+The problem is that there might potentially be a large number of these input fields in a single webpage - websites have plenty of search bars or input fields scattered around, often away from the main content - so if this functionality is implemented it should only be added as a switchable option, most likely in the existing advanced options in the search widget.
+
 ### Support website
 TODO: explain Firebase hosting: https://firebase.google.com/docs/hosting/
 
