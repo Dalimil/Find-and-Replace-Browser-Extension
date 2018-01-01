@@ -34,7 +34,7 @@
   }
 
   /* <input type="text"> is vertically aligned */
-  .hwt-backdrop.hwt-singleline {
+  .hwt-container.hwt-singleline .hwt-backdrop {
     display: flex !important;
     align-items: center !important;
   }
@@ -51,7 +51,7 @@
   }
 
   /* <input type="text"> is one line only */
-  .hwt-highlights.hwt-singleline {
+  .hwt-container.hwt-singleline .hwt-highlights {
     white-space: nowrap !important;
   }
 

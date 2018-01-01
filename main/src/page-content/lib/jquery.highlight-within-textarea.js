@@ -133,6 +133,8 @@
 			const backdropDivCssFix = this.getBackdropDivCssFix(textareaStyle);
 			const containerDivCssFix = this.getContainerDivCssFix(textareaStyle);
 			const textareaCssFix = this.getTextareaCssFix(textareaStyle);
+			const singleLineInputClass = (this.highlight && this.highlight.isSingleLine) ?
+				(ID + '-singleline') : '';
 
 			this.$el
 				.addClass(ID + '-input ' + ID + '-content')
@@ -147,7 +149,7 @@
 				.css(backdropDivCssFix)
 				.append(this.$highlights);
 
-			this.$container = $('<div>', { class: ID + '-container' })
+			this.$container = $('<div>', { class: ID + '-container ' + singleLineInputClass })
 				.css(containerDivCssFix)
 				.insertAfter(this.$el)
 				.append(this.$backdrop, this.$el) // moves $el into $container

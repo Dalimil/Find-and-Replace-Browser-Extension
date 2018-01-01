@@ -332,7 +332,7 @@ function highlightMatchesProcess(activeSelectionType, $activeElement, params) {
       }
       const $cEditables = $(CONTENTEDITABLE_SELECTOR, Context.doc);
       const $elements = $cEditables.add($mirrors);
-      
+
       // $elements sorted in document order (jQuery add() spec)
       highlightHtml($elements, params).then(resolve).catch(reject);
       setEditableAreaGlow($mirrors.closest(SELECTORS.textareaContainer));
@@ -360,6 +360,9 @@ function updateSearch(params) {
   // console.log("Active element: ", activeSelection, " Document context: ", Context.doc);
   
   // Highlighting operation
+  if (!params.includeOneLineFields) {
+    shutdownSingleLineInputsOnly();
+  }
   const highlightMatchesPromise =
     highlightMatchesProcess(activeSelection.type, activeSelection.$element, params);
 
@@ -473,6 +476,10 @@ function getApiResponseData(actionName, replaceText) {
       }
     }
   };
+}
+
+function shutdownSingleLineInputsOnly() {
+  $(SINGLE_LINE_INPUT_SELECTOR, Context.doc).highlightWithinTextarea('destroy');
 }
 
 function shutdown() {
