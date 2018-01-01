@@ -30,7 +30,7 @@ const Context = {
 };
 
 const TYPES = {
-  textarea: 'textarea',
+  textarea: 'textarea', /* category also includes single-line input text */
   contenteditable: 'contenteditable',
   mix: 'mix'
 };
@@ -47,7 +47,11 @@ const SELECTORS = {}; // '.' + 'className'
 Object.keys(CLASSES).forEach(classId => {
   SELECTORS[classId] = `.${CLASSES[classId]}`;
 });
-
+const ALLOWED_SINGLE_LINE_INPUT_TYPES = ['text', 'search', 'url', 'email'];
+const SINGLE_LINE_INPUT_SELECTOR = 'input:not([type]), input[type="text"], ' +
+  'input[type="search"], input[type="url"], input[type="email"]';
+const CONTENTEDITABLE_SELECTOR = '[contenteditable]';
+const TEXTAREA_SELECTOR = 'textarea';
 // Main function that creates connections and inits API
 setUpApi();
 
@@ -186,13 +190,14 @@ function insertTemplate(templateText) {
  * Returns HTML overlay elements that can be highlighted
  *  instead of the actual textareas
  */
-function initTextareas($elements, refocus) {
+function initTextareas($elements, isSingleLine, refocus) {
   const skipSetup = ($elements.length == 1 && $elements.hasClass(CLASSES.textareaInput));
   // skipSetup check is needed for single textarea re-stealing focus from popup - only Firefox issue
   if (!skipSetup) {
     // Set up containers only
     $elements.highlightWithinTextarea({
-      highlight: ''
+      highlight: '',
+      isSingleLine
     });
     if (refocus && $elements.length == 1) {
       // only works for a single (previously focused) element
@@ -301,7 +306,11 @@ function highlightMatchesProcess(activeSelectionType, $activeElement, params) {
   return new Promise((resolve, reject) => {
     if (activeSelectionType == TYPES.textarea) {
       // Textarea
-      const $mirror = initTextareas($activeElement, /* refocus */ true);
+      const $mirror = initTextareas(
+        $activeElement,
+        /* isSingleLine */ false,
+        /* refocus */ true
+      );
       highlightHtml($mirror, params).then(resolve).catch(reject);
       setEditableAreaGlow($mirror.closest(SELECTORS.textareaContainer));
     } else if (activeSelectionType == TYPES.contenteditable) {
@@ -310,9 +319,20 @@ function highlightMatchesProcess(activeSelectionType, $activeElement, params) {
       setEditableAreaGlow($activeElement);
     } else {
       // Both (all are inactive) - but possibly inside a selected iframe
-      $mirrors = initTextareas($('textarea', Context.doc));
-      $cEditables = $('[contenteditable]', Context.doc);
-      $elements = $cEditables.add($mirrors);
+      let $mirrors = initTextareas(
+        $(TEXTAREA_SELECTOR, Context.doc),
+        /* isSingleLine */ false
+      );
+      if (params.includeOneLineFields) {
+        const $moreMirrors = initTextareas(
+          $(SINGLE_LINE_INPUT_SELECTOR, Context.doc),
+          /* isSingleLine */ true
+        );
+        $mirrors = $mirrors.add($moreMirrors);
+      }
+      const $cEditables = $(CONTENTEDITABLE_SELECTOR, Context.doc);
+      const $elements = $cEditables.add($mirrors);
+      
       // $elements sorted in document order (jQuery add() spec)
       highlightHtml($elements, params).then(resolve).catch(reject);
       setEditableAreaGlow($mirrors.closest(SELECTORS.textareaContainer));
@@ -343,8 +363,10 @@ function updateSearch(params) {
   const highlightMatchesPromise =
     highlightMatchesProcess(activeSelection.type, activeSelection.$element, params);
 
+  const everythingEditableCssSelector =
+    `${TEXTAREA_SELECTOR}, ${CONTENTEDITABLE_SELECTOR}, ${SINGLE_LINE_INPUT_SELECTOR}`;
   const noSearchTarget = ((activeSelection.type == TYPES.mix) &&
-    $('textarea, [contenteditable]', Context.doc).length == 0);
+    $(everythingEditableCssSelector, Context.doc).length == 0);
 
   return highlightMatchesPromise.then((groupedMarks) => {
     const oldCount = Search.groupedMarks.length;
@@ -373,6 +395,9 @@ function getActiveSelectionAndContext(documentContext, windowContext) {
   if (activeElement) {
     const tagName = activeElement.tagName.toLowerCase();
     if (tagName == 'textarea') {
+      // Single line input text fields would be identical code branch but we choose not
+      // to allow users to limit search to a single line input field, because that is not
+      // what they typically want (rather search & replace everywhere in such case)
       return {
         type: TYPES.textarea,
         $element: $(activeElement),
@@ -452,8 +477,9 @@ function getApiResponseData(actionName, replaceText) {
 
 function shutdown() {
   clearEditableAreaGlows();
-  $('textarea', Context.doc).highlightWithinTextarea('destroy');
-  $('[contenteditable]', Context.doc).unmark();
+  $(TEXTAREA_SELECTOR, Context.doc).highlightWithinTextarea('destroy');
+  $(SINGLE_LINE_INPUT_SELECTOR, Context.doc).highlightWithinTextarea('destroy');
+  $(CONTENTEDITABLE_SELECTOR, Context.doc).unmark();
   $(SELECTORS.textareaContentMirror, Context.doc).unmark();
 }
 
@@ -650,6 +676,18 @@ const Utils = {
         Math.max(0, Math.round((currentBottom + currentTop - $window.height()) / 2))
       );
     }
+  },
+
+  isEditableOneLineInput(node, allowedInputTypes) {
+    if (!node) {
+      return false;
+    }
+    const tagName = node.tagName.toLowerCase();
+    if (tagName != 'input') {
+      return false;
+    }
+    const inputType = node.getAttribute('type');
+    return !inputType || allowedInputTypes.includes(inputType);
   },
 
   locationIsExtensionPage(location) {
