@@ -86,8 +86,8 @@
     <h4 id="s1-1">1.1. Selecting Target Text Area (optional)</h4>
     <div class="para">
       Before you open the extension, you should select the input area where you want to perform the
-      search &amp; replace operation. This extension works with any kind of <em>multi-line input
-        area</em>.<br /><br />
+      search &amp; replace operation. By default, this extension works with any kind of <em>multi-line input
+        area</em> (see link on how to <a href="#s4-3">include single-line inputs</a> in search).<br /><br />
       By default, the extension will select all text areas at once and perform the search across
       all of them. If however, you want to limit the search to a single input area, simply click
       inside it, before moving on to the <a href="#s1-2">next step</a>. If you have been typing
@@ -178,6 +178,15 @@
       To replace each date matched with the above regular expression to the first date of the month,
       you would use the string <strong>$1/1/$2</strong>. The date 3/8/2015 would be replaced with 3/1/2015.
     </div>
+    <h4 id="s4-3">4.3. Enabling Single-Line Inputs</h4>
+    <div class="para">
+      By default, this extension works with any kind of input area that spans multiple lines. This was
+      an intentional design decision as having to search and replace text in single-line inputs is a quite
+      rare use case.<br /><br />
+
+      If you wish to do so, you can still include single-line inputs in your search by turning on the
+      <em>Include Single-Line Inputs</em> option in the advanced search options.
+    </div>
     <h3 id="s5">5. Using Favourites</h3>
     <div class="para">
       You can save search queries that you commonly perform to your Favourites list. When you have your
@@ -247,8 +256,11 @@
     <h3 id="s9">9. FAQ and Troubleshooting</h3>
       <h4 id="s9-1">9.1. My status text indicates <i>No Target</i></h4>
       <div class="para">
-        Make sure you followed all the steps in section <a href="#s1-1">1.1. Selecting Target Text Area</a>.
-        If your multi-line input area is still not recognized by the plugin, please submit feedback with
+        Make sure you have followed all the steps in section <a href="#s1-1">1.1. Selecting Target
+        Text Area</a>.<br />
+        If you are dealing with a single-line input area, refer to <a href="#s4-3">section 4.3.</a> to see
+        how to include single-line input areas in your search.
+        If your input area is still not recognized by the plugin, please submit feedback with
         a link to the web page that was causing the trouble.
       </div>
       <h4 id="s9-2">9.2. My <i>In Text Selection</i> option has a red cross</h4>
