@@ -6,7 +6,15 @@
   <style>
     body {
       font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-      padding: 1em;
+      padding: 0 1em 3em;
+    }
+    h1 {
+      font-size: 1.5em;
+      padding-top: 1em;
+    }
+    h2 {
+      font-size: 1.1em;
+      padding-top: 0.7em;
     }
     .simpleTextarea {
       min-width: 300px;
@@ -29,9 +37,13 @@
     #iframe-B {
       min-width: 400px;
     }
+    #iframe-D {
+      min-height: 100px;
+      min-width: 300px;
+    }
     #iframe-C {
       min-width: 400px;
-      min-height: 300px;
+      min-height: 400px;
     }
     .textarea-scroll {
       height: 200px;
@@ -45,6 +57,7 @@
 </head>
 
 <body>
+  <h1>Basic</h1>
   <h2>Textarea</h2>
   <p>Here is a simple textarea</p>
   <textarea class="simpleTextarea">OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?
@@ -56,6 +69,11 @@ OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
     <div>Lorem <div>ipsum</div> <span>dolor?</span>?</div>?
   </div>
 
+  <h2>Single-line input</h2>
+  <p>Here is a single line input text</p>
+  <input type="text" size="100" value="OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?" />
+
+  <h1>Multiple</h1>
   <h2>Multiple Textareas</h2>
   <p>Here is a couple of simple textareas</p>
   <div class="multipleTextareas">
@@ -64,16 +82,39 @@ OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
     <textarea>OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
   </div>
 
+  <h2>Multiple single-line inputs of different types</h2>
+  <div>
+    (type not specified):
+    <input size="100" value="OK and ok and Ok and oK and _k" /><br />
+    text:
+    <input type="text" size="100" value="OK and ok and Ok and oK and _k" /><br />
+    search:
+    <input type="search" size="100" value="OK and ok and Ok and oK and _k" /><br />
+    url:
+    <input type="url" size="100" value="OK and ok and Ok and oK and _k" /><br />
+    email:
+    <input type="email" size="100" value="OK and ok and Ok and oK and _k" /><br />
+    number: (should be ignored)
+    <input type="number" size="100" value="345252542345432" /><br />
+    tel: (should be ignored)
+    <input type="tel" size="100" value="OK and ok and Ok and oK and _k" /><br />
+    password: (should be ignored)
+    <input type="password" size="100" value="OK and ok and Ok and oK and _k" /><br />
+  </div>
+
+  <h1>Iframes</h1>
   <h2>Textareas in an iframe</h2>
   <p>Here is an iframe with a bunch of textareas </p>
-  <iframe id="iframe-A" srcdoc='
-    <body>
-      <textarea>OK and ok and Ok</textarea>
-      <textarea>and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
-      <textarea>OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
-    </body>'></iframe>
+  <iframe id="iframe-A" srcdoc=""></iframe>
+  <script>
+    document.querySelector('#iframe-A').srcdoc = `
+      <body>
+        <textarea>OK and ok and Ok</textarea>
+        <textarea>and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
+        <textarea>OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
+      </body>`;
+  </script>
 
-  
   <h2>Contenteditable in an iframe</h2>
   <p>Here is an iframe with a contenteditable body</p>  
   <iframe id="iframe-B" srcdoc="" ></iframe>
@@ -86,6 +127,21 @@ OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
       </body>`;
   </script>
 
+  <h2>Single-line inputs in an iframe</h2>
+  <p>Here is an iframe with a bunch of single line inputs </p>
+  <iframe id="iframe-D" srcdoc=""> </iframe>
+  <script>
+    document.querySelector('#iframe-D').srcdoc = `
+      <body>
+          (type not specified):
+          <input size="30" value="OK and ok and Ok" /><br />
+          text:
+          <input type="text" size="30" value="and oK and _k and o_ and OK" /><br />
+          search:
+          <input type="search" size="30" value="OK in Lorem ipsum dolor?" /><br />
+      </body>`;
+  </script>
+
   <h2>Mixed content in two nested iframes</h2>
   <p>Let's nest two iframes and put content inside</p>
   <iframe id="iframe-C" srcdoc="" ></iframe>
@@ -93,20 +149,23 @@ OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
     document.querySelector('#iframe-C').srcdoc = `
       <body>
         <p>Fixed text - Outer IFRAME</p>
-        <iframe srcdoc="
+        <iframe style="min-height: 200px" srcdoc="
           <body>
             <p>Fixed text - Inner IFRAME</p>
             <p contenteditable='true'>
               Contenteditable - OK and <strong>ok and</strong> Ok <strong>and <em>oK</em> and</strong> _k and o_
             </p>
+            <input size='30' value='Inner single-line input' />
             <textarea>Inner Textarea - OK and ok and Ok</textarea>
           </body>
         "></iframe>
         <textarea>Outer Textarea - OK and ok and Ok</textarea>
+        <input type="text" size="30" value="Single-line input OK ok?" />
       </body>`;
   </script>
   
-  <h2>Textare with scrollbar</h2>
+  <h1>Scrollbars</h1>
+  <h2>Textarea with scrollbar</h2>
   <p>Here is a simple textarea with a scrollbar</p>
   <textarea class="textarea-scroll">Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
     Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum<br />
@@ -124,6 +183,10 @@ OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
     OK and <strong>ok and</strong> Ok <strong>and <em>oK</em> and</strong> _k and o_ and OK in
     <div>Lorem <div>ipsum</div> <span>dolor?</span>?</div>?
   </div>
+
+  <h2>Single-line input with an implicit scroll</h2>
+  <p>Here is a single line input with a text overflow (scrollable horizontally)</p>
+  <input type="text" size="50" value="Lorem ipsum dolor sit amet Lorem ipsum lorem ipsum dolor sit amet Lorem ipsu" />
 
 </body>
 
