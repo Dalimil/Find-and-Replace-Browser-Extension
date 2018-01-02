@@ -466,6 +466,7 @@ TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {N
 ### Feedback & Iteration
 
 #### Changelog (releases)
+- v1.3.6 - 2nd Jan - Add support for single-line input fields
 - v1.3.5 - 31st Dec - Add hostname to GA for domain analysis
 - v1.3.4 - 19th Dec - Fix 'Replace all' with regex groups
 - v1.3.3 - 19th Dec - Fix restored favorites not storing state
