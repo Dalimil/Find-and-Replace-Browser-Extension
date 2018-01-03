@@ -441,6 +441,8 @@ There would need to be an alternative way of adding/changing the editable text (
 	- Potential fix: *Focus the editor element and use document.execCommand in 'insertText' or 'insertHTML' mode.*
 3. Discovered `document.execCommand()` API https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
 
+![stackoverflow question about contenteditables](docs/stack-overflow-question.png)
+
 #### Product Development Iteration with `document.execCommand()`
 TODO: Explain the API, that it originated from IE, but now is part of W3C spec (+add link)
 
