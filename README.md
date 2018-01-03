@@ -482,6 +482,16 @@ TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {N
 - v1.0 - 18th Oct - First prototype released
 - v0.1 - 13th Sep - Raw dev work started
 
+#### Thanks To
+- Boris Grot - for supervising the whole project, and making important feature suggestions leading up to the first official releases of the extension on the web store
+- Michael O'Boyle - for making suggestions, especially regarding Google Analytics
+- Christoph Metze - for finding several important bugs that subsequently led to releases `1.3.2`, `1.3.3`, and `1.3.4`
+- Daniel Tomberlin - for pointing out a use case when trying to search across multiple single-line inputs, and for updating his web store rating and review after I implemented it in `1.3.6`
+- @MarkRH - for finding a bug that was later fixed in `1.1.3`
+- User [wOxxOm](https://stackoverflow.com/users/3959875/woxxom) on Stack Overflow - for suggesting `Document.execCommand` API that I used to fix issues with templates in `1.2.0`
+
+And also thanks to all those people who submitted user feedback or reviews.
+
 #### Extending scope to include `<input>` elements
 Why? A lot of people are complaining about the extension not working for single-line text inputs. The argument for not implementing it for `<input>` elements was that these are only very short pieces of text (typically a few words but typically less than 100 characters).
 
