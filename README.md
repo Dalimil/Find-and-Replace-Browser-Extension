@@ -381,6 +381,13 @@ In the Google Analytics Dashboard we can plot how many of the total number of us
 
 ![User Behaviour](docs/user-behavior.png)
 
+###### Domain Tracking
+A lot of the feedback messages that are submitted after someone uninstalls the extension are not very useful and often look something like 'not working'. This is not very helpful as it doesn't tell me on which sites they tried to run it that didn't work for them. The analytics that I have been collecting so far give me insight into which features of the extension are more used than others but tell me nothing about the sites where the extension is actually used.
+
+To get a better idea of which sites are the most frequently used and which should therefore receive more attention (to make sure everything works as expected), we would like to anonymously collect domain names (not URLs, only host names, for privacy issues). This would allow us to construct a list of the top domain names where the extension is used most frequently, and this could also help us with user acquisition and targeted marketing in the future. We therefore add a Google Analytics event that reports the domain name whenever the extension is used. We can then combine unique events from each user to create the list.
+
+TODO: Add list graphics here
+
 ### Testing
 How can we test our extension? The Chrome Extension Guides contain a section on debugging (https://developer.chrome.com/extensions/tut_debugging) but do not mention any extension testing methods.
 
