@@ -386,7 +386,8 @@ A lot of the feedback messages that are submitted after someone uninstalls the e
 
 To get a better idea of which sites are the most frequently used and which should therefore receive more attention (to make sure everything works as expected), we would like to anonymously collect domain names (not URLs, only host names, for privacy issues). This would allow us to construct a list of the top domain names where the extension is used most frequently, and this could also help us with user acquisition and targeted marketing in the future. We therefore add a Google Analytics event that reports the domain name whenever the extension is used. We can then combine unique events from each user to create the list.
 
-TODO: Add list graphics here
+![Top Domains](docs/top-domains.png)
+*Top domains after 2 weeks of reports. 13th January 2018*
 
 ### Testing
 How can we test our extension? The Chrome Extension Guides contain a section on debugging (https://developer.chrome.com/extensions/tut_debugging) but do not mention any extension testing methods.
