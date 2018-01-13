@@ -513,7 +513,10 @@ function maybeDisallowOnThisSite() {
     spawnWarningMessage('Extension does not yet work on Quora.');
     return true;
   } else if (hostname.includes('messenger.com') || hostname.includes('facebook.com')) {
-    spawnWarningMessage('Extension does not yet work on Facebook.')
+    spawnWarningMessage('Extension does not yet work on Facebook.');
+    return true;
+  } else if (hostname.includes('docs.google.com')) {
+    spawnWarningMessage('Please use Google Docs\' own find and replace tool instead.');
     return true;
   }
   return false;
