@@ -422,7 +422,6 @@ The following sites have been tested manually so far and it would be great if we
 - Stack Overflow
 - Google Groups
 - LinkedIn (article editor)
-- (currently broken) Facebook (+Messenger) and Quora
 
 ##### Setting up Selenium tests
 I successfully updated our configuration to install our extension once an automated browser instance is launched. It correctly opens a new tab with the Help text (our User guide). First functional test that I created tests that this actually happens (new tab opened on install with the extension user guide).
@@ -462,6 +461,12 @@ However, for replacement (where the original content must be deleted first) it p
 LinkedIn: All inserted content and tags are filtered so we cannot insert `<mark>`s or `<span>`s. We check which tags are allowed - `<p>`, `<strong>`, `<em>`, `<u>`, so we can use the underline (`<u>`) instead of `<mark>`. Solved.
 
 Quora: It doesn't allow us to insert marks or any formatting as all inserted content is immediately filtered. The only tag which is not filtered out is `<div>` and Quora uses a complicated hierarchy with various class name swapping on new text insertion. This is very tricky if not impossible to fix. When users try to use the extension on Quora, simply let them know that it does not work there.
+
+#### How to fix CodeMirror (and thus Jupyter Notebook)
+CodeMirror is using hidden textareas for input from the user and then they are shadowing this in a formatted DOM that is displayed to the user. This is how CodeMirror 2 is implemented, the previous version was using contenteditable and Document design mode to display formatted text, but this turned out to be very inconsistent across browsers, and buggy in general (See http://codemirror.net/1/story.html and http://codemirror.net/doc/internals.html).
+
+If we had a single mirrored textarea, our extension would work just fine. However, CodeMirror has been around for several years and the current 5th version implements things differently. 
+
 
 ### Distribution & Marketing
 Posted on Reddit, HackerNews, Quora.
