@@ -176,7 +176,7 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contentedita
 #### `contenteditable` tag inside an `<iframe></iframe>`
 Blogger.com is an example of a site that isolates the main contenteditable area in an iframe. When performing find & replace we must consider the scenario where we're dealing with elements inside an `<iframe>` on the page. 
 
-TODO: Link http://w3c.github.io/html/editing.html#user-interaction-editing
+Also see: http://w3c.github.io/html/editing.html#user-interaction-editing
 
 #### Other DOM
 This extension isn't meant to modify (find & replace) the raw HTML text of the page's source. It is limited to finding occurrences in text areas that are modifiable by users.  
@@ -191,9 +191,9 @@ TODO: Explain that extensions use a pop-up widget with browserAction icon
 
 We split the UI layout to two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for regular users, there should be a way of switching the search UI to the 'advanced' state that would include regex options and helpful previews of matched regex groups etc.
 
-TODO: explain disabling buttons to draw attention to the active input field elements (when there are no results, or no search target)
+At the same time, we initially disable the action buttons when the user hasn't typed in anything into the search field yet. This is in order to draw attention to the active input field element, rather than overwhelming the user with options that cannot be used. Google Docs use the exact same design pattern.
 
-TODO: explain highlighting via inset box shadow the currently selected input area - (we always limit find & replace to current) - because user edits one textarea at a time - We want to draw focus to what text is going to be affected. If no textarea selected, select all available - for better usability (people might complain that the extension doesn't work otherwise). Or indicate that no valid input area present on the page.
+We add a box shadow highlight to the currently selected input area. If no single text area is selected, we higlight all text areas in the page. We do this to indicate which text is going to be affected by the search and replace operation and thus improve usability. Without the visual indicator people might complain that the extension doesn't work, while in fact they might just have a different text area selected. The search widget will also indicate if there are no editable text areas in the page.
 
 ##### Why not Material Design
 For the general look and feel, I decided not to use Google's increasingly popular [Material Design](https://material.io/) for several reasons. First, Material Design works well when there's a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed compononets.
@@ -436,9 +436,7 @@ The only thing we can do is open the extension page directly. So due to API limi
 - Sites using the CodeMirror plugin
 
 #### Why is it broken
-TODO: Explain Issues: - Facebook uses contenteditables and keeps the text content in JavaScript variables (separately). When I insert my markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). When I detach their JavaScript listeners by cloning the contenteditable DOM node, I'm able to highlight and replace text successfully and the user can continue editing, but when they click the post button, all changes made after the last search & replace operation are lost because the text that is posted is the content of their JavaScript variables, not the actual contenteditable content.
-
-Quora does the exact same thing. 
+Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When I insert my markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). When I detach their JavaScript listeners by cloning the contenteditable DOM node, I am able to highlight and replace text successfully and the user can continue editing, but when they click the post or submit button, all changes made after the last search & replace operation was made are lost. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
 
 #### How to fix broken sites:
 There would need to be an alternative way of adding/changing the editable text (besides directly changing textContent/innerHTML/innerText). Sending keyboard events does not seem to work.
@@ -471,8 +469,6 @@ This behaviour prevents our extension from working because there is no content i
 
 ### Distribution & Marketing
 Posted on Reddit, HackerNews, Quora.
-
-TODO: Video demo idea: Open GMail, insert a 'template' and search and replace {NAME} with an actual name
 
 ![Reddit Marketing](docs/reddit-marketing.png)
 
@@ -513,8 +509,7 @@ And also thanks to all those people who submitted user feedback or reviews.
 #### Extending scope to include `<input>` elements
 Why? A lot of people are complaining about the extension not working for single-line text inputs. The argument for not implementing it for `<input>` elements was that these are only very short pieces of text (typically a few words but typically less than 100 characters).
 
-It turns out that the scenario that users face is this: Given a very large number of single line text inputs, search and replace a phrase across all of them at once.
-TODO: Add sites where this happens... WordPress?
+It turns out that the scenario that users face is this: Given a very large number of single line text inputs in a single page, they need to search and replace a phrase across all of them at once.
 
 The input types that contain standard text and would therefore be a good target of our extension are the following: `<input>`, `<input type="text">`, `<input type="search">`, `<input type="url">`, `<input type="email">`. So we are going to find these using the following CSS selector: 
 `input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="email"]`
