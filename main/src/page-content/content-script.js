@@ -528,6 +528,12 @@ function setUpApi() {
   setUpMessageConnections();
 
   function setUpMessageConnections() {
+    if (!window.chrome || !window.chrome.runtime || !window.chrome.runtime.onMessage) {
+      console.warn("Not connected. Running in debug mode.");
+      window.FindAndReplaceExtension.exposeApiDebugMode = handleApiCall;
+      port = { postMessage(msgReply) { console.info(msgReply); }};
+      return;
+    }
     // Connect to search widget
     port = chrome.runtime.connect({
       name: "content-script-connection"
