@@ -29,7 +29,7 @@ class Main extends React.Component {
         currentMatch: null
       },
       contentScriptError: {
-        noSearchTarget: false,
+        noSearchTarget: true,
         invalidRegex: false,
         invalidSelection: false
       },
