@@ -495,6 +495,7 @@ Posted on Reddit, HackerNews, Quora.
 ### Feedback & Iteration
 
 #### Changelog (releases)
+- v1.3.9 - 14th Jan - Support local debug mode for testing
 - v1.3.8 - 14th Jan - Fix 'No Target' indicator
 - v1.3.7 - 13th Jan - Add Google Docs warning notification
 - v1.3.6 - 2nd Jan - Add support for single-line input fields
