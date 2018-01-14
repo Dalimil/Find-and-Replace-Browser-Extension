@@ -398,10 +398,20 @@ For testing web applications in general we have several kinds of tests (Sources:
   - Functional Tests - testing a scenario on the whole product (in-browser interaction)
 
 #### Unit Tests
-Our content script contains a lot of individual functions that we can test separately. I'm going to use [Mocha.js](https://mochajs.org/) for unit testing of the content script.
+Our content script contains a lot of individual functions that we can test separately. I'm going to use [Mocha.js](https://mochajs.org/) for unit testing of individual methods in the content script and search widget. The coverage will be very limited however, because most functions need to interact with the Document and Window objects, which are supplied by the web browser and will be undefined when running a command line test. We therefore shift our main focus to integration tests and functional tests.
 
 #### Integration Tests
+We would like to test if multiple modules or parts of our code can work well together. We split this into tests for the search widget, and tests for the content script. Testing the extension working as a whole will be addressed in the Functional Tests section.
+
+##### Search Widget Tests
 Our UI search widget is mostly focusing on keeping the state of UI consistent. Here we are more interested in the widget being rendered correctly as a whole, rather than looking at individual HTML elements. Because of the way we separated the search widget development (described earlier), we can simply mount our React root on a standard website and use Mocha again to test basic user interaction. There will be no content script for it to communicate with, but this is not the focus at this point.
+
+TODO: screenshot tests 
+
+##### Content Script Tests
+What we are interested here is, given a simple website, can the injected functions from our content script work together, so that when triggered by a mocked API call, they successfully perform the find operation and highlight occurrences.
+
+We do this by creating a simple HTML page that already includes all the code that the extension normally injects into a web page. In addition to that, we include one more script file that contains the actual test suite.
 
 #### Functional Tests
 To implement functional tests, we would need to drive a browser that installs our extension and interacts with it. There is a tool called [PhantomJS](http://phantomjs.org/) which is commonly used for headless WebKit testing. Unfortunately, it is not based on Chromium, so we cannot load Chrome extensions (https://stackoverflow.com/a/23643111).
@@ -428,12 +438,17 @@ I successfully updated our configuration to install our extension once an automa
 
 Unfortunately the Selenium driver do not allow direct mouse interactions with the extension - there is no way to launch it from the toolbar (Mentioned here: https://releasematic.wordpress.com/2013/12/29/automation-testing-chrome-extensions/ and here: https://github.com/webdriverio/webdriverio/issues/2108). At the same time, I designed the extension with the minimal set of permission, and so the extension doesn't execute any code and doesn't inject anything into to page unless the user launches the widget first.
 
-The only thing we can do is open the extension page directly. So due to API limitations we won't be able to set up tests for the specific sites listed above. The only way we could test the highlighting for these sites would be to create a new extension that forces the injection of the content script code in every page the browser visits and also automatically starts sending the exact data payloads mocking the API coming from the (never running) search widget. Besides it being loads of work to implement, this would not actually be the full functional tests that we were aiming for - it would be testing the content script alone but none of the actual component interaction and communication with the search widget. We abandon this idea, because for the sole purpose of testing of the content script functionality we can find an easier and more efficient way to test things.
+The only thing we can do is open the extension's HTML page directly. So due to API limitations we won't be able to set up tests for the specific sites listed above. The only way we could test the highlighting for these sites would be to create a new extension that forces the injection of the content script code in every page the browser visits and also automatically starts sending the exact data payloads mocking the API coming from the (never running) search widget. Besides it being loads of work to implement, this would not actually be the full functional tests that we were aiming for - it would be testing the content script alone but none of the actual component interaction and communication with the search widget. We abandon this idea, because for the sole purpose of testing of the content script functionality we can find an easier and more efficient way to test things. We addressed this in the Integration Tests section.
+
+#### Manual Tests
+Due to some of the limitations mentioned above and also to speed up initial development of the core functionality. I created a demo HTML page that contains all possible combinations of editable text areas - all types (plain textarea, contenteditable, and single-line inputs), all sorts of styling, various states such as with a scrollbar, or in a scrollable container, as well as text areas inside nested iframes, and various other combinations.
+
+It is very quick to open this HTML page in a browser and use the already installed extension to see if everything is working as expected. It also allows for efficient debugging, and focusing on a specific element category when things don't work.
 
 ### Sites currently known to be broken
 - Facebook - highlighting and replace works but is reverted to original onClick
 - Quora - completely broken - inserting `<mark>` violates their `<span>` format and scatters original text (inserts newlines)
-- Sites using the CodeMirror plugin
+- Sites using the CodeMirror plugin, including Jupyter Notebook on localhost
 
 #### Why is it broken
 Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When I insert my markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). When I detach their JavaScript listeners by cloning the contenteditable DOM node, I am able to highlight and replace text successfully and the user can continue editing, but when they click the post or submit button, all changes made after the last search & replace operation was made are lost. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
