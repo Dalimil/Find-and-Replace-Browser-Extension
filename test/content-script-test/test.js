@@ -63,6 +63,20 @@ async function runTests(apiCall) {
   });
   assertEqual($('.hwt-mark-highlight').length, 20);
   assertEqual($('.hwt-highlight-current').length, 1);
+  await apiCall({
+    action: 'findNext',
+    data: { replaceText: '#' }
+  });
+  await apiCall({
+    action: 'findNext',
+    data: { replaceText: '#' }
+  });
+  await apiCall({
+    action: 'findNext',
+    data: { replaceText: '#' }
+  });
+  assertEqual($('.hwt-mark-highlight').length, 20);
+  assertEqual($('.hwt-highlight-current').length, 1);
 
   await apiCall({
     action: 'updateSearch',
@@ -84,6 +98,25 @@ async function runTests(apiCall) {
     data: {
       query: 'o.',
       useRegex: true,
+      matchCase: true,
+      wholeWords: false,
+      limitToSelection: false,
+      includeOneLineFields: false,
+      replaceText: '_'
+    }
+  });
+  await apiCall({
+    action: 'findPrev',
+    data: { replaceText: '#' }
+  });
+  assertEqual($('.hwt-mark-highlight').length, 18);
+  assertEqual($('.hwt-highlight-current').length, 1);
+
+  await apiCall({
+    action: 'updateSearch',
+    data: {
+      query: 'o.',
+      useRegex: true,
       matchCase: false,
       wholeWords: false,
       limitToSelection: false,
@@ -94,18 +127,4 @@ async function runTests(apiCall) {
   assertEqual($('.hwt-mark-highlight').length, 36);
   assertEqual($('.hwt-highlight-current').length, 1);
 
-  await apiCall({
-    action: 'updateSearch',
-    data: {
-      query: 'o.',
-      useRegex: true,
-      matchCase: true,
-      wholeWords: false,
-      limitToSelection: false,
-      includeOneLineFields: false,
-      replaceText: '_'
-    }
-  });
-  assertEqual($('.hwt-mark-highlight').length, 18);
-  assertEqual($('.hwt-highlight-current').length, 1);
 }
