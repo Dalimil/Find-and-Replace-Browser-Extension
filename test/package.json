@@ -6,7 +6,7 @@
   "scripts": {
     "test": "yarn run test:search-widget && yarn run test:content-script && yarn run test:selenium",
     "test:search-widget": "mocha search-widget-test/",
-    "test:content-script": "mocha content-script-test/",
+    "test:content-script": "firefox content-script-test/test.html",
     "test:selenium": "wdio wdio.conf.js",
     "selenium-standalone": "selenium-standalone start"
   },

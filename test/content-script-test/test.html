@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- This is the standard extension css injection batch -->
+  <link rel="stylesheet" href="../../main/src/page-content/content-script.css" />
+  <!-- This is the standard extension code injection batch -->
+  <script src="../../main/src/page-content/lib/jquery-3.2.1.min.js"></script>
+  <script src="../../main/src/page-content/lib/jquery.highlight-within-textarea.js"></script>
+  <script src="../../main/src/page-content/lib/jquery.mark.min.js"></script>
+  <script src="../../main/src/page-content/content-script.js"></script>
+  <!-- Our testing code -->
+  <script src="./test.js"></script>
+</head>
+
+<body>
+  <!-- Simple website demo -->
+  <h2>Textarea</h2>
+  <textarea style="min-height: 150px" class="simpleTextarea">OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?
+  OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?</textarea>
+
+  <h2>Contenteditable</h2>
+  <div class="cEditable" contenteditable="true">OK and <strong>ok and</strong> Ok <strong>and <em>oK</em> and</strong> _k and o_ and OK in
+    <div>Lorem <div>ipsum</div> <span>dolor?</span>?</div>?
+  </div>
+
+  <h2>Single-line input</h2>
+  <input type="text" size="100" value="OK and ok and Ok and oK and _k and o_ and OK in Lorem ipsum dolor?" />  
+</body>
+</html>
