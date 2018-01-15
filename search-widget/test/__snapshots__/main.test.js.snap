@@ -1,0 +1,1370 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FavouritesPanel renders correctly 1`] = `
+<div
+  className="favourites-list"
+>
+  <div
+    className="panel-title"
+  >
+    <span
+      aria-hidden={true}
+      className="fa fa-star fa-fw"
+    />
+     Favourites
+  </div>
+  <div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          very long text specified as find input
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          very long replace input
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FavouritesPanel renders correctly 2`] = `
+<div
+  className="favourites-list"
+>
+  <div
+    className="panel-title"
+  >
+    <span
+      aria-hidden={true}
+      className="fa fa-star fa-fw"
+    />
+     Favourites
+  </div>
+  <div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          very long text specified as find input
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          very long replace input
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="favourites-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-times favourites-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`HelpPanel renders correctly 1`] = `
+<div
+  className="help-panel"
+>
+  <div
+    className="help-panel-title"
+  >
+    <span
+      aria-hidden={true}
+      className="fa fa-question-circle fa-fw"
+    />
+     Help
+  </div>
+  <img
+    className="help-panel-icon"
+    src="/images/icon48.png"
+  />
+  <div
+    style={
+      Object {
+        "fontWeight": "bold",
+      }
+    }
+  >
+    Find & Replace for Text Editing
+  </div>
+  <div
+    className="help-panel-links"
+  >
+    <a
+      href="https://find-and-replace-f6588.firebaseapp.com/feedback"
+      onClick={[Function]}
+    >
+      Feedback
+    </a>
+    <a
+      href="https://find-and-replace-f6588.firebaseapp.com/"
+      onClick={[Function]}
+    >
+      Website
+    </a>
+    <a
+      href="https://www.paypal.me/Dalimil/5USD"
+      onClick={[Function]}
+    >
+      Contribute
+    </a>
+    <a
+      href="/help.html"
+      onClick={[Function]}
+    >
+      Help
+    </a>
+  </div>
+  <div
+    className="help-panel-footnote"
+  >
+    Made with 
+    <span
+      aria-hidden={true}
+      className="fa fa-heart-o"
+    />
+     by Dalimil. Thank you for your support!
+  </div>
+  <div
+    className="help-panel-footnote"
+  >
+    <a
+      href="https://www.iubenda.com/privacy-policy/8243040"
+      onClick={[Function]}
+    >
+      Privacy Policy
+    </a>
+    Usage reporting:
+    <label
+      className="switch"
+      style={
+        Object {
+          "marginLeft": "-5px",
+          "marginTop": "-4px",
+          "transform": "scale(0.75)",
+        }
+      }
+    >
+      <input
+        checked={true}
+        className="switch-input"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <span
+        className="switch-label"
+        data-off="Off"
+        data-on="On"
+      />
+      <span
+        className="switch-handle"
+      />
+    </label>
+  </div>
+</div>
+`;
+
+exports[`HistoryPanel renders correctly 1`] = `
+<div
+  className="history-list"
+>
+  <div
+    className="panel-title"
+  >
+    <span
+      aria-hidden={true}
+      className="fa fa-history fa-fw"
+    />
+     History
+  </div>
+  <div>
+    <div
+      className="history-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+    </div>
+    <div
+      className="history-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abcd
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          efgh
+        </span>
+      </span>
+    </div>
+    <div
+      className="history-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          car
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          boat
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`HistoryPanel renders correctly 2`] = `
+<div
+  className="history-list"
+>
+  <div
+    className="panel-title"
+  >
+    <span
+      aria-hidden={true}
+      className="fa fa-history fa-fw"
+    />
+     History
+  </div>
+  <div>
+    <div
+      className="history-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abc
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          cdf
+        </span>
+      </span>
+    </div>
+    <div
+      className="history-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          abcd
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          efgh
+        </span>
+      </span>
+    </div>
+    <div
+      className="history-list-item"
+      onClick={[Function]}
+    >
+      <span>
+        <span>
+          car
+        </span>
+         
+        <span
+          aria-hidden={true}
+          className="fa fa-long-arrow-right"
+        />
+         
+        <span>
+          boat
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TemplatesPanel renders correctly 1`] = `
+<div
+  className="templates-list"
+>
+  <div
+    className="panel-title panel-title-extended"
+  >
+    <span>
+      <span
+        aria-hidden={true}
+        className="fa fa-file-text fa-fw"
+      />
+      <span
+        style={
+          Object {
+            "paddingRight": "10px",
+          }
+        }
+      >
+         Templates
+      </span>
+      <span
+        className="templates-panel-title-note-success"
+      >
+        (Click to paste)
+      </span>
+    </span>
+    <span
+      className="templates-create-new-button"
+      onClick={[Function]}
+    >
+      <span
+        aria-hidden={true}
+        className="fa fa-plus"
+        style={
+          Object {
+            "marginRight": "0.5em",
+          }
+        }
+      />
+      Create New
+    </span>
+  </div>
+  <div>
+    <div
+      className="templates-list-item"
+      onClick={[Function]}
+    >
+      <span
+        title="Template: \\"cdf\\""
+      >
+        abc
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-pencil templates-list-item-edit"
+          onClick={[Function]}
+        />
+        <span
+          aria-hidden={true}
+          className="fa fa-times templates-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="templates-list-item"
+      onClick={[Function]}
+    >
+      <span
+        title="Template: \\"This is a long text specified as template content, mouse hover tooltip should wrap the preview of this template.\\""
+      >
+        abc
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-pencil templates-list-item-edit"
+          onClick={[Function]}
+        />
+        <span
+          aria-hidden={true}
+          className="fa fa-times templates-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+    <div
+      className="templates-list-item"
+      onClick={[Function]}
+    >
+      <span
+        title="Template: \\"Dalimil Hajek\\""
+      >
+        signature
+      </span>
+      <span>
+        <span
+          aria-hidden={true}
+          className="fa fa-pencil templates-list-item-edit"
+          onClick={[Function]}
+        />
+        <span
+          aria-hidden={true}
+          className="fa fa-times templates-list-item-remove"
+          onClick={[Function]}
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Whole widget renders correctly 1`] = `
+<div
+  className=""
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <div
+    className="main-panel"
+  >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+        }
+      }
+    >
+      <input
+        className="text-input"
+        name="findTextInput"
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Find"
+        spellCheck="false"
+        title={null}
+        type="text"
+        value=""
+      />
+      <div
+        className="button-standard button-disabled button-small"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        <span
+          aria-hidden={true}
+          className="fa fa-chevron-up"
+        />
+      </div>
+      <div
+        className="button-standard button-disabled button-small"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        <span
+          aria-hidden={true}
+          className="fa fa-chevron-down"
+        />
+      </div>
+       
+      <div
+        className="search-status-text status-error"
+      >
+        No Target
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+        }
+      }
+    >
+      <input
+        className="text-input"
+        name="replaceTextInput"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Replace with"
+        spellCheck="false"
+        type="text"
+        value=""
+      />
+      <div
+        className="button-standard button-disabled"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Replace
+      </div>
+       
+      <div
+        className="button-standard button-disabled"
+        onClick={[Function]}
+        style={
+          Object {
+            "marginLeft": "0.5em",
+          }
+        }
+      >
+        Replace all
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "flexDirection": "column",
+            "width": "50%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+            }
+          }
+          title={null}
+        >
+          <label
+            htmlFor="checkbox-matchCaseInput"
+            style={
+              Object {
+                "cursor": "pointer",
+                "order": "1",
+              }
+            }
+          >
+             
+            Match Case
+          </label>
+          <div
+            className="checkbox"
+          >
+            <input
+              checked={false}
+              id="checkbox-matchCaseInput"
+              name="matchCaseInput"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <label
+              htmlFor="checkbox-matchCaseInput"
+            />
+          </div>
+          <span
+            className="checkbox-after-content"
+            style={
+              Object {
+                "order": "2",
+              }
+            }
+          />
+        </div>
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+            }
+          }
+          title={null}
+        >
+          <label
+            htmlFor="checkbox-wholeWordsInput"
+            style={
+              Object {
+                "cursor": "pointer",
+                "order": "1",
+              }
+            }
+          >
+             
+            Whole Words
+          </label>
+          <div
+            className="checkbox"
+          >
+            <input
+              checked={false}
+              id="checkbox-wholeWordsInput"
+              name="wholeWordsInput"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <label
+              htmlFor="checkbox-wholeWordsInput"
+            />
+          </div>
+          <span
+            className="checkbox-after-content"
+            style={
+              Object {
+                "order": "2",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "flexDirection": "column",
+            "width": "50%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+            }
+          }
+          title={null}
+        >
+          <label
+            htmlFor="checkbox-advancedSearchInput"
+            style={
+              Object {
+                "cursor": "pointer",
+                "order": "1",
+              }
+            }
+          >
+             
+            Advanced Options
+          </label>
+          <div
+            className="checkbox"
+          >
+            <input
+              checked={false}
+              id="checkbox-advancedSearchInput"
+              name="advancedSearchInput"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <label
+              htmlFor="checkbox-advancedSearchInput"
+            />
+          </div>
+          <span
+            className="checkbox-after-content"
+            style={
+              Object {
+                "order": "2",
+              }
+            }
+          />
+        </div>
+        <div
+          className="star-wrapper"
+        >
+          <span
+            className="star-label"
+            onClick={[Function]}
+          >
+             
+            Save to Favourites
+          </span>
+          <span
+            className="fa-stack fa-lg star-checkbox"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden={true}
+              className="fa fa-star fa-stack-1x"
+              style={
+                Object {
+                  "fontSize": "1.8em",
+                }
+              }
+            />
+            <span
+              aria-hidden={true}
+              className="fa fa-star-o fa-stack-2x"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="right-panel"
+  >
+    <div
+      className="right-panel-content"
+    />
+    <div
+      className="right-panel-buttons"
+      onClick={[Function]}
+    >
+      <div
+        className="menu-item"
+        onClick={[Function]}
+        title="Favourites"
+      >
+        <span
+          aria-hidden={true}
+          className="fa fa-star fa-2x fa-fw"
+        />
+      </div>
+      <div
+        className="menu-item"
+        onClick={[Function]}
+        title="History"
+      >
+        <span
+          aria-hidden={true}
+          className="fa fa-history fa-2x fa-fw"
+        />
+      </div>
+      <div
+        className="menu-item"
+        onClick={[Function]}
+        title="Templates"
+      >
+        <span
+          aria-hidden={true}
+          className="fa fa-book fa-2x fa-fw"
+        />
+      </div>
+      <div
+        className="menu-item"
+        onClick={[Function]}
+        title="Help"
+      >
+        <span
+          aria-hidden={true}
+          className="fa fa-question-circle fa-2x fa-fw"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

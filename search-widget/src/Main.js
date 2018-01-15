@@ -58,7 +58,9 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    this.findInputElement.select();
+    if(this.findInputElement) {
+      this.findInputElement.select();
+    }
 
     Storage.previousSearchStatePromise.then(prevSearchState => {
       // Sometimes empty {} object - that's OK

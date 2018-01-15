@@ -1,4 +1,5 @@
 // Testing suite for content-script.js
+// Doesn't use any external testing framework, only custom assert functions
 
 function assert(condition, message) {
   if (!condition) {
