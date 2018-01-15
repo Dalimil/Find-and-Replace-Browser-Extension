@@ -404,9 +404,11 @@ Our content script contains a lot of individual functions that we can test separ
 We would like to test if multiple modules or parts of our code can work well together. We split this into tests for the search widget, and tests for the content script. Testing the extension working as a whole will be addressed in the Functional Tests section.
 
 ##### Search Widget Tests
-Our UI search widget is mostly focusing on keeping the state of UI consistent. Here we are more interested in the widget being rendered correctly as a whole, rather than looking at individual HTML elements. Because of the way we separated the search widget development (described earlier), we can simply mount our React root on a standard website and use Mocha again to test basic user interaction. There will be no content script for it to communicate with, but this is not the focus at this point.
+Our UI search widget is mostly focusing on keeping the state of UI consistent. Here we are more interested in the widget being rendered correctly as a whole, and that the UI doesn't accidentally change in unexpected ways. Because of the way we separated the search widget development (described earlier), we could simply mount our React root on a standard website DOM and test basic user interaction. There will be no content script for it to communicate with, but this is not the focus at this point.
 
-TODO: screenshot tests 
+Because the search widget code is written using React, we can use React's testing tool called Jest, which makes it very easy to test React components. It is using a specifically designed test renderer that instead of spinning up an actual browser instance to render a visual component, it creates a snapshot of the resulting HTML and writes it into a file. These snapshots are regenerated on subsequent test runs and compared to the old versions. That way it can quickly discover and report any changes (and mark that particular test as failed in such case).
+
+Also see [Jest Snapshot Testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html)
 
 ##### Content Script Tests
 What we are interested here is, given a simple website, can the injected functions from our content script work together, so that when triggered by a mocked API call, they successfully perform the find operation and highlight occurrences.
