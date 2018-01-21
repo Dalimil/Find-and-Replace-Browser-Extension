@@ -417,7 +417,7 @@ We do this by creating a simple HTML page that already includes all the code tha
 
 Unfortunately, the content-script hides its scope in an isolated JavaScript sandbox, so simply including it in a local HTML page will not allow us to interact with it in any way, because the connection API that it uses is only made available to the script when it is injected via an extension. We therefore need to detect when the content script is running in the debug mode and not as a part of an installed extension (the state when the runtime connection API is undefined is a good indicator of that) and we expose the API message handling function when this is the case.
 
-[![Content Script Testing Demo](https://img.youtube.com/vi/_SzxjBO75mE/0.jpg)](https://www.youtube.com/watch?v=_SzxjBO75mE)
+[Content Script Testing Demo - YouTube link](https://www.youtube.com/watch?v=_SzxjBO75mE)
 
 #### Functional Tests
 To implement functional tests, we would need to drive a browser that installs our extension and interacts with it. There is a tool called [PhantomJS](http://phantomjs.org/) which is commonly used for headless WebKit testing. Unfortunately, it is not based on Chromium, so we cannot load Chrome extensions (https://stackoverflow.com/a/23643111).
@@ -557,5 +557,4 @@ I decided to go with an alternative solution - we store all submitted feedback m
 
 ### More ideas/TODOs
 - Look at structure of previous dissertation projects
-- Find a good Markdown to Latex converter
 - Use we or I in text
