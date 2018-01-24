@@ -554,7 +554,3 @@ There are various ways we could collect feedback. We could have a website that p
 
 I decided to go with an alternative solution - we store all submitted feedback messages in a database. This database can be later queried and filters based on various criteria (time of submission, feedback type, ...).
 
-
-### More ideas/TODOs
-- Look at structure of previous dissertation projects
-- Use we or I in text

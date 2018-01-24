@@ -1,0 +1,115 @@
+
+\documentclass[bsc,frontabs,twoside,singlespacing,parskip,deptreport]{infthesis}
+
+\begin{document}
+
+\title{RegEx Search \& Replace Extension for Chrome and Firefox}
+
+\author{Dalimil Hajek}
+
+\course{Computer Science}
+\project{BSc Hons Project Report}
+\date{\today}
+
+\abstract{
+The abstract should summarize your report and fit in the space on the 
+first page.
+}
+
+\maketitle
+
+\section*{Acknowledgements}
+Acknowledgements go here. 
+
+\tableofcontents
+
+\chapter{Introduction}
+% Introduction, Background, Design, Implementation, Evaluation and Conclusions
+
+%in which the project topic is described and set in the context of published literature, and the main results are briefly summarized (about five pages). 
+
+%This chapter should include a clear and concise summary of your contributions (examples: adapting a suite of existing code; interpreting a theoretical algorithm; coding; testing; conducting an experiment) preferably as a bulleted list.
+
+%The Introduction chapter should always provide a 'roadmap' to the report. Of course it should provide an introduction to the problem being considered, but it should also give some details of what you did - do not leave this to the conclusion. You should give forward references into the rest of the report - e.g., "In Chapter 2 how algorithms and heuristics are used to deal with approximate counting are discussed", "The design of the system is presented in Chapter 4", "In Chapter 3 the reasons for choosing to focus on the bounded-degree case of this problem are explained". 
+
+%Your report will be read by markers throughout the School of Informatics. Do not assume that your marker is an expert in your subfield. Give some basics as well as the details. Also, make sure you point out what was involved in solving certain problems; this can help a non-expert judge the work involved. For instance: "The interpolation algorithm was implemented in C directly, rather than using the routines in Matlab". "In order to develop a user interface appropriate for the educational system, 4 prototypes were tested on 50 students". 
+
+% Use passive voice: A and B were used. instead of I used A and B
+
+The document structure should include:
+\begin{itemize}
+\item
+The title page  in the format used above.
+\item
+An optional acknowledgements page.
+\item
+The table of contents.
+\item
+The report text divided into chapters as appropriate.
+\item
+The bibliography.
+\end{itemize}
+
+Commands for generating the title page appear in the skeleton file and
+are self explanatory.
+The file also includes commands to choose your report type (project
+report, thesis or dissertation) and degree.
+These will be placed in the appropriate place in the title page. 
+
+The default behaviour of the documentclass is to produce documents typeset in
+12 point.  Regardless of the formatting system you use, 
+it is recommended that you submit your thesis printed (or copied) 
+double sided.
+
+The report should be printed single-spaced.
+It should be 30 to 60 pages long, and preferably no shorter than 20 pages.
+Appendices are in addition to this and you should place detail
+here which may be too much or not strictly necessary when reading the relevant section.
+
+\section{Using Sections}
+
+Divide your chapters into sub-parts as appropriate.
+
+\section{Citations}
+
+Note that citations 
+(like \cite{P1} or \cite{P2})
+can be generated using {\tt BibTeX} or by using the
+{\tt thebibliography} environment. This makes sure that the
+table of contents includes an entry for the bibliography.
+Of course you may use any other method as well.
+
+\section{Options}
+
+There are various documentclass options, see the documentation.  Here we are
+using an option ({\tt bsc} or {\tt minf}) to choose the degree type, plus:
+\begin{itemize}
+\item {\tt frontabs} (recommended) to put the abstract on the front page;
+\item {\tt twoside} (recommended) to format for two-sided printing, with
+  each chapter starting on a right-hand page;
+\item {\tt singlespacing} (required) for single-spaced formating; and
+\item {\tt parskip} (a matter of taste) which alters the paragraph formatting so that
+paragraphs are separated by a vertical space, and there is no
+indentation at the start of each paragraph.
+\end{itemize}
+
+\chapter{The Real Thing}
+
+Of course
+you may want to use several chapters and much more text than here.
+
+%Discussion of the work undertaken, in which the various sub-problems, solutions and difficulties are examined. Discussion of any implementation should concentrate on overall principles and aspects of particular interest, rather than minute details.
+
+%You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 
+
+%If appropriate, a description of experiments undertaken, a presentation of the data gleaned from them, and an interpretation of that data. 
+
+\chapter{Conclusion}
+% in which the main achievements are reviewed, and unsolved problems and directions for further work are presented.
+
+% use the following and \cite{} as above if you use BibTeX
+% otherwise generate bibtem entries
+\bibliographystyle{plain}
+\bibliography{mybibfile}
+
+\end{document}
