@@ -33,7 +33,6 @@ Acknowledgements go here.
 \tableofcontents
 
 \chapter{Introduction}
-% Introduction, Background, Design, Implementation, Evaluation and Conclusions
 
 %in which the project topic is described and set in the context of published literature, and the main results are briefly summarized (about five pages). 
 
@@ -45,79 +44,23 @@ Acknowledgements go here.
 
 % Use passive voice: A and B were used. instead of I used A and B
 
-The document structure should include:
-\begin{itemize}
-\item
-The title page  in the format used above.
-\item
-An optional acknowledgements page.
-\item
-The table of contents.
-\item
-The report text divided into chapters as appropriate.
-\item
-The bibliography.
-\end{itemize}
-
-Commands for generating the title page appear in the skeleton file and
-are self explanatory.
-The file also includes commands to choose your report type (project
-report, thesis or dissertation) and degree.
-These will be placed in the appropriate place in the title page. 
-
-The default behaviour of the documentclass is to produce documents typeset in
-12 point.  Regardless of the formatting system you use, 
-it is recommended that you submit your thesis printed (or copied) 
-double sided.
-
-The report should be printed single-spaced.
-It should be 30 to 60 pages long, and preferably no shorter than 20 pages.
-Appendices are in addition to this and you should place detail
-here which may be too much or not strictly necessary when reading the relevant section.
-
 \section{Using Sections}
 
-Divide your chapters into sub-parts as appropriate.
+Divide your chapters into {\tt sub-parts} as appropriate.
 
-\section{Citations}
-
-Note that citations 
-(like \cite{P1} or \cite{P2})
-can be generated using {\tt BibTeX} or by using the
-{\tt thebibliography} environment. This makes sure that the
-table of contents includes an entry for the bibliography.
-Of course you may use any other method as well.
-
-\section{Options}
-
-There are various documentclass options, see the documentation.  Here we are
-using an option ({\tt bsc} or {\tt minf}) to choose the degree type, plus:
-\begin{itemize}
-\item {\tt frontabs} (recommended) to put the abstract on the front page;
-\item {\tt twoside} (recommended) to format for two-sided printing, with
-  each chapter starting on a right-hand page;
-\item {\tt singlespacing} (required) for single-spaced formating; and
-\item {\tt parskip} (a matter of taste) which alters the paragraph formatting so that
-paragraphs are separated by a vertical space, and there is no
-indentation at the start of each paragraph.
-\end{itemize}
-
-\chapter{The Real Thing}
-
-Of course
-you may want to use several chapters and much more text than here.
-
-%Discussion of the work undertaken, in which the various sub-problems, solutions and difficulties are examined. Discussion of any implementation should concentrate on overall principles and aspects of particular interest, rather than minute details.
+\chapter{Background}
+\chapter{Design}
+\chapter{Implementation}
+% overall principles and aspects of particular interest, rather than minute details.
 
 %You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 
 
-%If appropriate, a description of experiments undertaken, a presentation of the data gleaned from them, and an interpretation of that data. 
+\chapter{Evaluation}
 
-\chapter{Conclusion}
+\chapter{Conclusions}
 % in which the main achievements are reviewed, and unsolved problems and directions for further work are presented.
 
-% use the following and \cite{} as above if you use BibTeX
-% otherwise generate bibtem entries
+% Bibliography section --- use \cite{P1} with BibTeX
 \bibliographystyle{plain}
 \bibliography{mybibfile}
 
