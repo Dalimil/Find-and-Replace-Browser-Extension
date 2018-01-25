@@ -1,5 +1,13 @@
 
 \documentclass[bsc,frontabs,twoside,singlespacing,parskip,deptreport]{infthesis}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+			colorlinks=true,
+			linkcolor=black,
+			urlcolor=cyan,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}
 
 \begin{document}
 
@@ -22,17 +30,38 @@ The software followed an iterative development process, where user feedback was 
 
 After the initial release, about twenty updates have been subsequently released over the span of a few months. This iteration was further supported by automated tests of several kinds.
 
-The extension has received excellent reviews and at the time of writing is installed on over 2000 devices.
+The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined).
 }
 
 \maketitle
 
 \section*{Acknowledgements}
-Acknowledgements go here. 
+Thanks to
+\begin{itemize}
+\item
+  Boris Grot - for supervising the whole project, and making important feature suggestions leading up to the first official releases of the extension on the Chrome and Firefox web stores
+\item
+  Michael O'Boyle - for making suggestions, especially regarding Google Analytics
+\item
+  Christoph Metze - for finding several important bugs that subsequently led to releases \texttt{1.3.2}, \texttt{1.3.3}, and \texttt{1.3.4}
+\item
+  Daniel Tomberlin - for pointing out a use case when trying to search across multiple single-line inputs, and for updating his web store rating and review after I implemented it in \texttt{1.3.6}
+\item
+  GitHub user \href{https://github.com/MarkRH}{MarkRH} - for finding a bug that was later fixed in \texttt{1.1.3}
+\item
+  StackOverflow user \href{https://stackoverflow.com/users/3959875/woxxom}{wOxxOm} - for suggesting \texttt{Document.execCommand} API that I used to fix issues with templates in \texttt{1.2.0}
+\end{itemize}
+
+And also thanks to all those people who submitted user feedback or
+reviews.
+
+\standarddeclaration
 
 \tableofcontents
 
 \chapter{Introduction}
+
+%\thesiscaption[<lof-caption>]{<caption>}{<label>}
 
 %in which the project topic is described and set in the context of published literature, and the main results are briefly summarized (about five pages). 
 
