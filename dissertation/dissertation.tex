@@ -1,5 +1,6 @@
 
 \documentclass[bsc,frontabs,twoside,singlespacing,parskip,deptreport]{infthesis}
+\usepackage{eurosym}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
 			colorlinks=true,
@@ -61,6 +62,26 @@ reviews.
 
 \chapter{Introduction}
 
+\section{Motivation}
+Search and replace functionality can be extremely useful when composing long emails, writing posts on social media, online forums, or blogging platforms, as well as in any email web clients. 
+
+The most frequent use cases are:
+\begin{itemize}
+\item Fixing a typographical error -- A word or a phrase may have been used several times with the wrong spelling. This can reoccur several times in a forum post or an email, and it would be convenient to replace everything at once.
+
+This also includes fixing unreadable characters in blog entries such as {\it \^{A}\euro\r{?}}, due to a change in encoding or some unintended text handling.
+
+\item Normalizing incorrectly formatted text -- Regular expressions can be used to detect formatting errors such as multiple spaces before a period, missing upper-case letter, various metric unit formatting errors, and similar. Search and replace extension supporting regular expressions can quickly find and fix these.
+
+\item Renaming a phrase -- Often a word or a phrase that occurs several times throughout a text needs to be corrected or substituted (perhaps using a synonym or a wording that sounds better)
+\end{itemize}
+
+Without having a browser extension for search and replace, one could imagine a solution where all text is copied and pasted into an advanced text editor, fixed using the built-in search and replace function, and copied back into the web page input field.
+
+In addition to being a lengthy and time consuming process, this method would in many cases lose all text formatting, because more advanced editable text elements on the web may contain images, emojis, and text containing many formatting tags, which would not be preserved during the copy-pasting.
+
+Additional motivation behind the development of this project was to add search-and-replace related features that are missing even from the more advanced text editors. One of them is storing the search history, and also being able to save favorite search patterns, that can later be quickly accessed. Both of these would save time and increase user productivity.
+
 %\thesiscaption[<lof-caption>]{<caption>}{<label>}
 
 %in which the project topic is described and set in the context of published literature, and the main results are briefly summarized (about five pages). 
@@ -73,9 +94,6 @@ reviews.
 
 % Use passive voice: A and B were used. instead of I used A and B
 
-\section{Using Sections}
-
-Divide your chapters into {\tt sub-parts} as appropriate.
 
 \chapter{Background}
 \chapter{Design}
