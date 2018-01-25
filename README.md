@@ -1,17 +1,20 @@
 # Find & Replace Extension for Text Editing
 RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
-**Project Website: https://find-and-replace-f6588.firebaseapp.com/**
+**Project Website:** https://find-and-replace-f6588.firebaseapp.com/
 
-**Chrome Web Store Link: https://chrome.google.com/webstore/detail/find-replace-for-text-edi/jajhdmnpiocpbpnlpejbgmpijgmoknnl**
+**Chrome Web Store Link:** https://chrome.google.com/webstore/detail/find-replace-for-text-edi/jajhdmnpiocpbpnlpejbgmpijgmoknnl
 
-**Firefox Add-ons Store Link: https://addons.mozilla.org/en-US/firefox/addon/find-replace-for-text-editing/**
+**Firefox Add-ons Store Link:** https://addons.mozilla.org/en-US/firefox/addon/find-replace-for-text-editing/
+
+**Dissertation Report (Project Documentation):** [dissertation/dissertation.pdf](dissertation/dissertation.pdf)
 
 ![Find & Replace Browser Extension - Web Store Screenshot A](graphics/web-store/Search-and-Replace-Web-Store-A.jpg)
 
 ![Find & Replace Browser Extension - Web Store Screenshot B](graphics/web-store/Search-and-Replace-Web-Store-B.jpg)
 
-## Project Specification
+
+## Project Specification (TODO -> convert to dissertation report)
 
 ### Principal Goal
 
@@ -517,16 +520,6 @@ Posted on Reddit, HackerNews, Quora.
 - v1.1 - 20th Oct - Disable all debug logs
 - v1.0 - 18th Oct - First prototype released
 - v0.1 - 13th Sep - Raw dev work started
-
-#### Thanks To
-- Boris Grot - for supervising the whole project, and making important feature suggestions leading up to the first official releases of the extension on the web store
-- Michael O'Boyle - for making suggestions, especially regarding Google Analytics
-- Christoph Metze - for finding several important bugs that subsequently led to releases `1.3.2`, `1.3.3`, and `1.3.4`
-- Daniel Tomberlin - for pointing out a use case when trying to search across multiple single-line inputs, and for updating his web store rating and review after I implemented it in `1.3.6`
-- @MarkRH - for finding a bug that was later fixed in `1.1.3`
-- User [wOxxOm](https://stackoverflow.com/users/3959875/woxxom) on Stack Overflow - for suggesting `Document.execCommand` API that I used to fix issues with templates in `1.2.0`
-
-And also thanks to all those people who submitted user feedback or reviews.
 
 #### Extending scope to include `<input>` elements
 Why? A lot of people are complaining about the extension not working for single-line text inputs. The argument for not implementing it for `<input>` elements was that these are only very short pieces of text (typically a few words but typically less than 100 characters).
