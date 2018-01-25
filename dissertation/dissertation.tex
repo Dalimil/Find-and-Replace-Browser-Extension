@@ -204,6 +204,8 @@ Safari, although widely used by Mac users, has its own extension API and is in g
 \chapter{Background}
 %  A brief introduction to browser extensions would be a good addition to an early part of the thesis. 
 
+After installing a browser extension in Chrome or Firefox, a small icon representing the extension is added to the top toolbar. When users click this icon, the extension displays its pop-up widget. The standard way to present an interface to the user is via this widget. One could come up with alternative ways to present extension's UI but this design pattern using a pop-up is the preferred way and something that users expect by default. Since a pop-up widget works well in our scenario, we decided to go with that.
+
 \chapter{Design}
 
 \section{Naming and Search Engine Optimization}
@@ -304,6 +306,8 @@ To support all the functionality that we specified, the extension widget should 
     Help/Info/Feedback
   \end{itemize}
 \end{itemize}
+
+We split the user interface layout into two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for average users, there is a way of switching the search UI to the \textit{advanced} state that includes regex options and helpful previews of matched regex groups etc.
 
 \section{Why not Material Design}
 For the general look and feel, it was decided not to use Google's increasingly popular Material Design\footnote{\href{https://material.io/}{https://material.io/}} for several reasons. First, Material Design works well when there is a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed components.
