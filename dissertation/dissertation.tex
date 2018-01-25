@@ -104,6 +104,84 @@ Web browsers support standard search functionality for any text on a page but no
 
 There have been several attempts to implement this functionality via an extension. Most of them either don't work, are missing functionality (particularly support for regular expressions), are limited to certain websites, or are counter-intuitive and hard to use in general. 
 
+\subsection{Chrome}
+
+\begin{itemize}
+\item
+  {\bf Search and Replace}\footnote{\href{https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo}{https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo}}
+  
+  \begin{itemize}
+\item
+  This is the dominant one with over 52,000 users (as of Dec 2017)
+\item
+  It has only $3.1/5$ stars and many reviews are complaining it doesn't work or that it destroys other content of the current page
+\item
+  It has usability issues (control UI is partially hidden) and it doesn't work in many places such as Blogger or Facebook
+\item
+  This is a very bad and simplistic solution that is mostly broken but benefits from a larger user base because it appeared in the web store in 2013 \\
+  \end{itemize}
+  
+\item
+  {\bf Find Replace}\footnote{\href{https://chrome.google.com/webstore/detail/find-replace/cfjmfciolkikfodjfdmdpdmpfbjdofek}{https://chrome.google.com/webstore/detail/find-replace/cfjmfciolkikfodjfdmdpdmpfbjdofek}}
+  \begin{itemize}
+\item
+  This extension requires copy-pasting your desired text into the provided box (it is plain-text only, so formatting is lost).
+\item
+  It has almost 1000 users (as of Dec 2017), but it has been around since 2013
+\item
+  It is unable to perform the search and replace in browser. This is no better than copy pasting text into a text editor and performing the operation there \\
+  \end{itemize}
+\item
+  \textbf{FindR}\footnote{\href{https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc}{https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc}}
+  \begin{itemize}
+\item
+  It has almost 2000 users and $3.9/5$ stars. It has been around since April 2016.
+\item
+  This extension is used for replacing any HTML text in the page, rather than text in input fields -- for this purpose it seems to work, but when one tries to use it only for text input fields, things break and the extension stops working (highlighting and match indicator both disappear and replace button stops working)
+\item
+  It also requires permission to \textit{Read and change all your data on the websites that you visit}, which might be a privacy issue (the extension can read everything even when the user isn't using it)
+  \end{itemize}
+\item
+  \textbf{Easy Replace}\footnote{\href{https://chrome.google.com/webstore/detail/easy-replace/ojoeejfegihohnkjlfoonbnailkohkce}{https://chrome.google.com/webstore/detail/easy-replace/ojoeejfegihohnkjlfoonbnailkohkce}}
+  \begin{itemize}
+\item
+  It has over 3000 users but only $2.6/5$ stars
+\item
+  Most of them report it doesn't work because it only focuses on plain-text text areas and completely ignores more advanced editable HTML elements that most sites use these days
+  \end{itemize}
+\end{itemize}
+
+\subsection{Firefox}
+
+\begin{itemize}
+\item
+  \textbf{Find and Replace for Firefox}\footnote{\href{https://addons.mozilla.org/en-US/firefox/addon/find-and-replace-for-firefox}{https://addons.mozilla.org/en-US/firefox/addon/find-and-replace-for-firefox}}
+  \begin{itemize}
+\item
+  Old add-on, not compatible with the latest Firefox 57.
+\item
+  It has almost 3000 users but only $3.5/5$ stars
+\item
+  It's not working for most users, has almost no options (no RegEx, no highlighting, etc.)
+\item
+  It was last updated in 2012 and is not maintained
+  \end{itemize}
+\item
+  \textbf{FoxReplace}\footnote{\href{https://addons.mozilla.org/en-US/firefox/addon/foxreplace/}{https://addons.mozilla.org/en-US/firefox/addon/foxreplace/}}
+  \begin{itemize}
+\item
+  This extension provides different functionality -- it asks the user to predefine a list of substitutions and then it automatically applies them globally across the text in newly loaded web pages
+\item
+  FoxReplace has over 7000 users (Dec 2017) but targets a different audience
+  \end{itemize}
+\end{itemize}
+
+\subsection{Other Browsers}
+Supporting more browsers add extra work, so it only makes sense if these browsers represent a significant portion of the market. The usage share of browsers is measured by various methods and is often quite inaccurate.\footnote{\href{https://en.wikipedia.org/wiki/Usage\_share\_of\_web\_browsers}{https://en.wikipedia.org/wiki/Usage\_share\_of\_web\_browsers}} Approximate values for usage share for desktop browsers are:\footnote{\href{http://gs.statcounter.com/browser-market-share/desktop/worldwide/\#monthly-201712-201712-bar}{http://gs.statcounter.com/browser-market-share/desktop/worldwide/\#monthly-201712-201712-bar}} Chrome 65\%, Firefox 12\%, IE 8\%, Safari 6\%, Edge 4\%.
+
+This project focused on Chrome and Firefox, which together represent a large portion of the overall market, and which both mostly follow the same Extension API (there are only a few differences\footnote{\href{https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Chrome\_incompatibilities}{https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Chrome\_incompatibilities}} so we didn't need to have separate code-bases).
+
+Safari, although widely used by Mac users, has its own extension API and is in general much more involved as it requires dealing with Apple's developer libraries and licenses, so we decided not to develop an extension for this browser.
 
 %in which the project topic is described and set in the context of published literature, and the main results are briefly summarized (about five pages). 
 
