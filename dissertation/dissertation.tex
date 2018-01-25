@@ -62,7 +62,7 @@ reviews.
 \tableofcontents
 \listoffigures
 
-\chapter{Introduction}
+\chapter{Introduction} % should be about 5 pages
 Modern web browsers allow users to find text in a web page, but when it comes to editable text areas that are often used on blogging platforms, online forums, social media, and email web clients, as a form of user input, none of the existing browsers allow users to also replace the found occurrences.
  
 The aim of this project was to build an extension that adds this browser functionality. The tool allows users to find and replace text in editable text input fields of web pages, and includes a large set of features and search options, including regular expression support and occurrence highlighting.
@@ -183,7 +183,6 @@ This project focused on Chrome and Firefox, which together represent a large por
 
 Safari, although widely used by Mac users, has its own extension API and is in general much more involved as it requires dealing with Apple's developer libraries and licenses, so we decided not to develop an extension for this browser.
 
-%in which the project topic is described and set in the context of published literature, and the main results are briefly summarized (about five pages). 
 
 %This chapter should include a clear and concise summary of your contributions (examples: adapting a suite of existing code; interpreting a theoretical algorithm; coding; testing; conducting an experiment) preferably as a bulleted list.
 
@@ -197,8 +196,16 @@ Safari, although widely used by Mac users, has its own extension API and is in g
 \chapter{Background}
 %  A brief introduction to browser extensions would be a good addition to an early part of the thesis. 
 \chapter{Design}
-\section{User Interface}
+\section{Naming and Search Engine Optimization}
+Based on the competition research mentioned in the introduction chapter above, the following extension names already exist: \textit{Easy Replace}, \textit{Search and Replace}, \textit{FindR}, \textit{Find Replace}, \textit{FoxReplace}. Using any of these existing names would be bad for the SEO and discoverability, and would most likely lead to confusions.
 
+At the same time, we want to clearly indicate that the extension is used for input fields and editable content rather than HTML source code.
+
+People are likely to search for browser extensions by typing in the functionality that they need. In our case, that might look something like "find and replace in text input fields extension". Stating the extensions purpose in its title and description should help us do better in search results. Therefore, we avoided any newly-invented words and named it \textit{Find \& Replace for Text Editing}. We are not trying to trademark a new brand name, we are simply trying to match what people might search for, so that's why this name was chosen.
+
+The naming idea was largely successful. In January 2018 (a few months after the first release), the extension ranked .........todo....
+
+\section{User Interface}
 
 \chapter{Implementation}
 % overall principles and aspects of particular interest, rather than minute details.
@@ -206,6 +213,7 @@ Safari, although widely used by Mac users, has its own extension API and is in g
 %You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 
 
 \chapter{Evaluation}
+% user iteration
 
 \chapter{Conclusions}
 % in which the main achievements are reviewed, and unsolved problems and directions for further work are presented.
