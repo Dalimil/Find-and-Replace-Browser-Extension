@@ -18,50 +18,6 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 ## Development
 
-### Search and Replace UI Components
-- 'Find' input field
-- 'Replace' input field
-- **Action buttons** (see below)
-  - Replace (~ pressing ENTER in 'Replace' field)
-  - Replace All
-  - Find next (~ pressing ENTER in 'Find' field)
-  - Find previous
-  - Close widget
-  - Save to favourites
-- **Options** (see below)
-  - Match Case (Aa)
-  - Use Regex (.*)
-  - Whole Word (Ab|)
-  - In Text Selection
-- 'X of Y' or 'No Results' indicator
-- Regex groups indicator (for regex search only)
-- **Panel buttons** (see below)
-  - Favourites
-  - History
-  - Templates
-  - Help/Info/Feedback
-
-To some extent, we would like to follow the current standard of find & replace toolbars. Many of these can be seen in more advanced text editors:
-
-*Android Studio:*
-
-![Android Studio](docs/editor-find-and-replace/android-studio-find-and-replace.png)
-
-*Google Docs:*
-
-![Google Docs](docs/editor-find-and-replace/gdocs-find-and-replace.png)
-
-*Visual Studio Code:*
-
-![Visual Studio Code](docs/editor-find-and-replace/vscode-find-and-replace.png)
-
-*Sublime Text 3:*
-
-![Sublime Text 3](docs/editor-find-and-replace/sublime-find-and-replace.png)
-
-
-At the same time, we should not assume that regular users are familiar with regular expression or more advanced search functions. Therefore, the UI design of some of these editor widgets should only be used as an inspiration - regular users are not developers and the number of options in this extension must not feel overwhelming. 
-
 ### Accessibility
 
 #### Keyboard

@@ -10,6 +10,8 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \begin{document}
 
@@ -111,6 +113,7 @@ There have been several attempts to implement this functionality via an extensio
   {\bf Search and Replace}\footnote{\href{https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo}{https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo}}
   
   \begin{itemize}
+  \tightlist
 \item
   This is the dominant one with over 52,000 users (as of Dec 2017)
 \item
@@ -118,24 +121,26 @@ There have been several attempts to implement this functionality via an extensio
 \item
   It has usability issues (control UI is partially hidden) and it doesn't work in many places such as Blogger or Facebook
 \item
-  This is a very bad and simplistic solution that is mostly broken but benefits from a larger user base because it appeared in the web store in 2013 \\
+  This is a very bad and simplistic solution that is mostly broken but benefits from a larger user base because it appeared in the web store in 2013
   \end{itemize}
   
 \item
   {\bf Find Replace}\footnote{\href{https://chrome.google.com/webstore/detail/find-replace/cfjmfciolkikfodjfdmdpdmpfbjdofek}{https://chrome.google.com/webstore/detail/find-replace/cfjmfciolkikfodjfdmdpdmpfbjdofek}}
   \begin{itemize}
+  \tightlist
 \item
   This extension requires copy-pasting your desired text into the provided box (it is plain-text only, so formatting is lost).
 \item
   It has almost 1000 users (as of Dec 2017), but it has been around since 2013
 \item
-  It is unable to perform the search and replace in browser. This is no better than copy pasting text into a text editor and performing the operation there \\
+  It is unable to perform the search and replace in browser. This is no better than copy pasting text into a text editor and performing the operation there
   \end{itemize}
 \item
   \textbf{FindR}\footnote{\href{https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc}{https://chrome.google.com/webstore/detail/findr/bidnaaogcagbdidehabnjfedabckhdgc}}
   \begin{itemize}
+  \tightlist
 \item
-  It has almost 2000 users and $3.9/5$ stars. It has been around since April 2016.
+  It has almost 2000 users and $3.9/5$ stars. It has been in the web store since April 2016.
 \item
   This extension is used for replacing any HTML text in the page, rather than text in input fields -- for this purpose it seems to work, but when one tries to use it only for text input fields, things break and the extension stops working (highlighting and match indicator both disappear and replace button stops working)
 \item
@@ -144,6 +149,7 @@ There have been several attempts to implement this functionality via an extensio
 \item
   \textbf{Easy Replace}\footnote{\href{https://chrome.google.com/webstore/detail/easy-replace/ojoeejfegihohnkjlfoonbnailkohkce}{https://chrome.google.com/webstore/detail/easy-replace/ojoeejfegihohnkjlfoonbnailkohkce}}
   \begin{itemize}
+  \tightlist
 \item
   It has over 3000 users but only $2.6/5$ stars
 \item
@@ -157,6 +163,7 @@ There have been several attempts to implement this functionality via an extensio
 \item
   \textbf{Find and Replace for Firefox}\footnote{\href{https://addons.mozilla.org/en-US/firefox/addon/find-and-replace-for-firefox}{https://addons.mozilla.org/en-US/firefox/addon/find-and-replace-for-firefox}}
   \begin{itemize}
+  \tightlist
 \item
   Old add-on, not compatible with the latest Firefox 57.
 \item
@@ -169,6 +176,7 @@ There have been several attempts to implement this functionality via an extensio
 \item
   \textbf{FoxReplace}\footnote{\href{https://addons.mozilla.org/en-US/firefox/addon/foxreplace/}{https://addons.mozilla.org/en-US/firefox/addon/foxreplace/}}
   \begin{itemize}
+  \tightlist
 \item
   This extension provides different functionality -- it asks the user to predefine a list of substitutions and then it automatically applies them globally across the text in newly loaded web pages
 \item
@@ -195,7 +203,9 @@ Safari, although widely used by Mac users, has its own extension API and is in g
 
 \chapter{Background}
 %  A brief introduction to browser extensions would be a good addition to an early part of the thesis. 
+
 \chapter{Design}
+
 \section{Naming and Search Engine Optimization}
 Based on the competition research mentioned in the introduction chapter above, the following extension names already exist: \textit{Easy Replace}, \textit{Search and Replace}, \textit{FindR}, \textit{Find Replace}, \textit{FoxReplace}. Using any of these existing names would be bad for the SEO and discoverability, and would most likely lead to confusions.
 
@@ -203,9 +213,97 @@ At the same time, we want to clearly indicate that the extension is used for inp
 
 People are likely to search for browser extensions by typing in the functionality that they need. In our case, that might look something like "find and replace in text input fields extension". Stating the extensions purpose in its title and description should help us do better in search results. Therefore, we avoided any newly-invented words and named it \textit{Find \& Replace for Text Editing}. We are not trying to trademark a new brand name, we are simply trying to match what people might search for, so that's why this name was chosen.
 
-The naming idea was largely successful. In January 2018 (a few months after the first release), the extension ranked .........todo....
+The naming idea was largely successful. In January 2018 (a few months after the first release), the extension ranked 2nd in the Google search results for queries \textit{search and replace in chrome}, and \textit{search and replace browser}, 1st for the query \textit{search and replace in firefox}, 7th for the query \textit{find and replace text}, and 8th for the query \textit{search and replace text}.\footnote{Tested using incognito modes in both Firefox and Chrome, and searching via www.google.co.uk}
 
-\section{User Interface}
+\section{User Interface Inspiration}
+To some extent, we wanted to follow the current standard of find \& replace toolbars. Many of these can be seen in more advanced text editors. The user interfaces of some of the popular ones were examined and used as an inspiration.
+
+\begin{figure}[hp]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/editor-find-and-replace/android-studio-find-and-replace.png}
+\caption{Android Studio find and replace tool}
+\end{figure}
+
+\begin{figure}[hp]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/editor-find-and-replace/gdocs-find-and-replace.png}
+\caption{Google Docs find and replace tool}
+\end{figure}
+
+\begin{figure}[hp]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/editor-find-and-replace/vscode-find-and-replace.png}
+\caption{Visual Studio Code find and replace tool}
+\end{figure}
+
+\begin{figure}[hp]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/editor-find-and-replace/sublime-find-and-replace.png}
+\caption{Sublime Text 3 find and replace tool}
+\end{figure}
+
+We wanted our extension to follow some of the design patterns that the existing text editors use, so that users are presented with a user interface that they can easily understand and start using quickly.
+
+At the same time, it should not be assumed that average users are familiar with regular expression or more advanced search functions. Therefore, the UI design of some of these editor widgets should only be used as an inspiration - average users are not developers and the number of options in this extension must not feel overwhelming.
+
+\section{Components}
+To support all the functionality that we specified, the extension widget should have the following UI elements:
+\begin{itemize}
+\tightlist
+\item
+  \textit{Find} input field
+\item
+  \textit{Replace} input field
+\item
+  \textbf{Action buttons}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Replace
+  \item
+    Replace All
+  \item
+    Find next
+  \item
+    Find previous
+  \item
+    Save to favorites
+  \item
+  	Expand/Collapse advanced search options
+  \end{itemize}
+\item
+  \textbf{Options}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Match Case (Aa)
+  \item
+    Whole Word (Ab\textbar{})
+  \item
+    Use Regex (.*)
+  \item
+    Limit to Text Selection
+  \end{itemize}
+\item
+  \textit{X of Y} or \textit{No Results} indicator
+\item
+  Regex groups indicator (for regex search only)
+\item
+  \textbf{Panel tabs}
+
+  \begin{itemize}
+  \item
+    Favorites
+  \item
+    History
+  \item
+    Templates
+  \item
+    Help/Info/Feedback
+  \end{itemize}
+\end{itemize}
 
 \chapter{Implementation}
 % overall principles and aspects of particular interest, rather than minute details.
