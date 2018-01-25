@@ -18,18 +18,6 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 ## What already exists?
 
-Web browsers support standard search functionality for any text on a page but no browsers have the find & replace functionality (Google Chrome Help Forum post asking for the feature: https://productforums.google.com/forum/#!topic/chrome/Y4UORlpdYfo)
-
-*Google Chrome browser:*
-
-![chrome-find](docs/browser-find-toolbar/chrome-find.png)
-
-*Mozilla Firefox browser:*
-
-![firefox-find](docs/browser-find-toolbar/firefox-find.png)
-
-There have been several attempts to implement this functionality via an extension. Most of them either don't work, are missing functionality (particularly regex), are limited to certain websites, or are unintuitive and hard to use in general. 
-
 ### Chrome
 - https://chrome.google.com/webstore/detail/search-and-replace/bldchfkhmnkoimaciljpilanilmbnofo
   - This is the dominant one with over 52,000 users (as of Dec 2017)
