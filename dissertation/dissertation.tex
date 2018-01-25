@@ -305,6 +305,13 @@ To support all the functionality that we specified, the extension widget should 
   \end{itemize}
 \end{itemize}
 
+\section{Why not Material Design}
+For the general look and feel, it was decided not to use Google's increasingly popular Material Design\footnote{\href{https://material.io/}{https://material.io/}} for several reasons. First, Material Design works well when there is a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed components.
+
+Secondly, Material Design likes to add its \textit{ripple effect} to most interactions (such as clicking a button). This looks great for actions that have large impact (e.g. navigating to a new page, or submitting a form), but for our purposes we need something less flashy, as most buttons are going to be pressed very often (\textit{Find next} and \textit{Replace} buttons) and too many effects or animations would present too much distraction for the user.
+
+An extension (a pop-up widget) like ours should, to a large extent, feel like it is part of the browser by perhaps matching some of the user interface styles. We don't want to create an extension that gives users the feeling that it completely doesn't belong because of its wild user interface and flashy styles.
+
 \chapter{Implementation}
 % overall principles and aspects of particular interest, rather than minute details.
 

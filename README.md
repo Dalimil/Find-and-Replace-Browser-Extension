@@ -68,18 +68,11 @@ At this point, it seems reasonable to limit the implementation to only cover the
 #### UI Design
 TODO: Explain that extensions use a pop-up widget with browserAction icon
 
-We split the UI layout to two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for regular users, there should be a way of switching the search UI to the 'advanced' state that would include regex options and helpful previews of matched regex groups etc.
+We split the UI layout into two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for regular users, there should be a way of switching the search UI to the 'advanced' state that would include regex options and helpful previews of matched regex groups etc.
 
 At the same time, we initially disable the action buttons when the user hasn't typed in anything into the search field yet. This is in order to draw attention to the active input field element, rather than overwhelming the user with options that cannot be used. Google Docs use the exact same design pattern.
 
 We add a box shadow highlight to the currently selected input area. If no single text area is selected, we higlight all text areas in the page. We do this to indicate which text is going to be affected by the search and replace operation and thus improve usability. Without the visual indicator people might complain that the extension doesn't work, while in fact they might just have a different text area selected. The search widget will also indicate if there are no editable text areas in the page.
-
-##### Why not Material Design
-For the general look and feel, I decided not to use Google's increasingly popular [Material Design](https://material.io/) for several reasons. First, Material Design works well when there's a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed compononets.
-
-Secondly, Material Design likes to add its *ripple effect* to most interactions (such as clicking a button). I believe this looks great for actions that have large impact (e.g. navigating to a new page, or submitting a form), but for our purposes we need something less flashy, as most buttons are going to be pressed very often (Find prev/next, and Replace button) and too many effects or animations would cause too much distraction for the user.
-
-I believe that, to a large extent, an extension (the pop-up) should feel like it is part of the browser by perhaps matching some of the UI styles. We don't want to create an extension that gives users the feeling that it completely doesn't belong because of its wild user interface and styles.
 
 #### UI Implementation
 To implement the search UI widget, we could simply create DOM for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to have the search parameters state in one central place/datastore and have the UI inputs reflect this data. Therefore, we are going to use the React.js library to implement the search UI.
