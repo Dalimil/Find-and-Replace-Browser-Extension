@@ -18,32 +18,6 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 ## Development
 
-### Scope of Search
-
-#### `<input type="text">`
-For a short single line of text, HTML `<input>` element is often used. There are other types of input fields (many new were added with HTML5), such as date, email, number, tel, time, and similar, but text is the standard one. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
-
-However, due to the short length (20 characters by default), this is not the kind of input that needs the find & replace functionality. The primary use case of our extension are large multi-line text areas, so this short single-line input kind can be skipped.
-
-#### `<textarea></textarea>`
-Multi-line plain-text input space. This should be a common target for find & replace. It is used by many sites to allow users compose longer pieces of text, one of them is new post creation on Reddit.  
-https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea
-
-#### `<div contenteditable="true"></div>`
-Enabling rich text formatting by allowing HTML tags inside the text area, `contenteditable` elements are used in Gmail, Facebook posts, Facebook Messenger, GitHub editor, Twitter, and many other sites. Note that `contenteditable` is a global attribute and is therefore not limited to `div` tags.  
-https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable
-
-#### `contenteditable` tag inside an `<iframe></iframe>`
-Blogger.com is an example of a site that isolates the main contenteditable area in an iframe. When performing find & replace we must consider the scenario where we're dealing with elements inside an `<iframe>` on the page. 
-
-Also see: http://w3c.github.io/html/editing.html#user-interaction-editing
-
-#### Other DOM
-This extension isn't meant to modify (find & replace) the raw HTML text of the page's source. It is limited to finding occurrences in text areas that are modifiable by users.  
-There are certainly sites that might try to avoid all the options discussed above and implement their own text editor functionality. One noteable example is Google Docs, which is using static DOM but listen to user's keyboard events to modify it internally in JavaScript. Implementing your own online text editor from scratch without using contenteditable or textareas involves a lot of work, and such editor should probably include its own find & replace functionality, which is what Google Docs do.
-
-At this point, it seems reasonable to limit the implementation to only cover the choices discussed above and wait for the user feedback to see if there are any widely-used sites containing their own implementation of text input areas.
-
 ### User Interface for Search Widget Implementation
 To implement the search UI widget, we could simply create DOM for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to have the search parameters state in one central place/datastore and have the UI inputs reflect this data. Therefore, we are going to use the React.js library to implement the search UI.
 

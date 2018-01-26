@@ -253,7 +253,7 @@ We wanted our extension to follow some of the design patterns that the existing 
 
 At the same time, it should not be assumed that average users are familiar with regular expression or more advanced search functions. Therefore, the UI design of some of these editor widgets should only be used as an inspiration - average users are not developers and the number of options in this extension must not feel overwhelming.
 
-\section{Components}
+\section{UI Components}
 To support all the functionality that we specified, the extension widget should have the following UI elements:
 \begin{itemize}
 \tightlist
@@ -332,6 +332,46 @@ For the general look and feel, it was decided not to use Google's increasingly p
 Secondly, Material Design likes to add its \textit{ripple effect} to most interactions (such as clicking a button). This looks great for actions that have large impact (e.g. navigating to a new page, or submitting a form), but for our purposes we need something less flashy, as most buttons are going to be pressed very often (\textit{Find next} and \textit{Replace} buttons) and too many effects or animations would present too much distraction for the user.
 
 An extension (a pop-up widget) like ours should, to a large extent, feel like it is part of the browser by perhaps matching some of the user interface styles. We don't want to create an extension that gives users the feeling that it completely doesn't belong because of its wild user interface and flashy styles.
+
+\section{Scope of Search}
+Instead of searching in any visible text or simply the HTML source code, we want to limit our search only to elements that contain editable text. There are several ways to create an editable area on web. These are described in \cite{M1} and \cite{P1}.
+
+\subsection{\texttt{\textless{}input\ type="text"\textgreater{}}}
+
+For a short single line of text, HTML
+\texttt{\textless{}input\textgreater{}} element is often used. There are
+other types of input fields (many new were added with HTML5), such as
+date, email, number, tel, time, and similar, but text is the standard
+one.\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text}{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text}}
+
+However, due to the short length (20 characters by default), this is not the kind of input that needs the find \& replace functionality on its own. The primary use case of our extension are large multi-line text areas, but we also include the short single-line input kind to allow users to search and replace text in a page across many single-line inputs simultaneously.
+
+\subsection{\texttt{\textless{}textarea\textgreater{}\textless{}/textarea\textgreater{}}}
+
+Multi-line plain-text input space.\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea}{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea}} This should be a common target for find \& replace. It is used by many sites to allow users compose longer pieces of text, one of them is a new post creation process on Reddit.
+
+\subsection{\texttt{\textless{}div\ contenteditable="true"\textgreater{}\textless{}/div\textgreater{}}}
+
+Enabling rich text formatting by allowing HTML tags inside the text
+area, \texttt{contenteditable} elements are used in Gmail, Facebook
+posts, Facebook Messenger, GitHub editor, Twitter, and many other sites.
+
+Note that \texttt{contenteditable} is a global attribute and is
+therefore not limited to \texttt{div} tags.\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/HTML/Global\_attributes/contenteditable}{https://developer.mozilla.org/en-US/docs/Web/HTML/Global\_attributes/contenteditable}}
+
+\subsection{\texttt{contenteditable} tag inside 
+\texttt{\textless{}iframe\textgreater{}\textless{}/iframe\textgreater{}}}
+
+Blogger.com is an example of a site that isolates the main
+contenteditable area in an iframe. When performing find \& replace we
+must consider the scenario where we are dealing with elements inside an \texttt{\textless{}iframe\textgreater{}} on the page.
+
+\subsection{Other DOM}
+This extension is not meant to modify (find \& replace) the raw HTML text of the page's source. It is limited to finding occurrences in text areas that are modifiable by users.  
+
+There are certainly sites that might try to avoid all the options discussed above and implement their own text editor functionality. One notable example is Google Docs, which is using static DOM but listen to user's keyboard events to modify it internally in JavaScript. Implementing an online text editor from scratch without using contenteditable or textareas involves a lot of programming work, and such editor should probably include its own find \& replace functionality anyway, which is exactly what Google Docs do.
+
+At the time when the project was first designed, it seemed reasonable to exclude single-line inputs from the scope, as their small editable input space didn't seem suitable for our search and replace functionality. After receiving a lot of user feedback which revealed new use cases, single-line inputs were included in the search scope via an optional checkbox option in the search widget (to ensure backward compatibility and no unexpected behavior for existing users).
 
 %-------------\chapter{Implementation}
 % overall principles and aspects of particular interest, rather than minute details.
