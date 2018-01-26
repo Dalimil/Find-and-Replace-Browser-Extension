@@ -192,11 +192,9 @@ This project focused on Chrome and Firefox, which together represent a large por
 Safari, although widely used by Mac users, has its own extension API and is in general much more involved as it requires dealing with Apple's developer libraries and licenses, so we decided not to develop an extension for this browser.
 
 
-%This chapter should include a clear and concise summary of your contributions (examples: adapting a suite of existing code; interpreting a theoretical algorithm; coding; testing; conducting an experiment) preferably as a bulleted list.
-
 %The Introduction chapter should always provide a 'roadmap' to the report. Of course it should provide an introduction to the problem being considered, but it should also give some details of what you did - do not leave this to the conclusion. You should give forward references into the rest of the report - e.g., "In Chapter 2 how algorithms and heuristics are used to deal with approximate counting are discussed", "The design of the system is presented in Chapter 4", "In Chapter 3 the reasons for choosing to focus on the bounded-degree case of this problem are explained". 
 
-%Your report will be read by markers throughout the School of Informatics. Do not assume that your marker is an expert in your subfield. Give some basics as well as the details. Also, make sure you point out what was involved in solving certain problems; this can help a non-expert judge the work involved. For instance: "The interpolation algorithm was implemented in C directly, rather than using the routines in Matlab". "In order to develop a user interface appropriate for the educational system, 4 prototypes were tested on 50 students". 
+% make sure you point out what was involved in solving certain problems; this can help a non-expert judge the work involved. For instance: "The interpolation algorithm was implemented in C directly, rather than using the routines in Matlab". "In order to develop a user interface appropriate for the educational system, 4 prototypes were tested on 50 students". 
 
 % Use passive voice: A and B were used. instead of I used A and B
 
@@ -215,7 +213,14 @@ At the same time, we want to clearly indicate that the extension is used for inp
 
 People are likely to search for browser extensions by typing in the functionality that they need. In our case, that might look something like "find and replace in text input fields extension". Stating the extensions purpose in its title and description should help us do better in search results. Therefore, we avoided any newly-invented words and named it \textit{Find \& Replace for Text Editing}. We are not trying to trademark a new brand name, we are simply trying to match what people might search for, so that's why this name was chosen.
 
-The naming idea was largely successful. In January 2018 (a few months after the first release), the extension ranked 2nd in the Google search results for queries \textit{search and replace in chrome}, and \textit{search and replace browser}, 1st for the query \textit{search and replace in firefox}, 7th for the query \textit{find and replace text}, and 8th for the query \textit{search and replace text}.\footnote{Tested using incognito modes in both Firefox and Chrome, and searching via www.google.co.uk}
+The naming idea was largely successful. In January 2018 (a few months after the first release), the extension ranked 2nd in the Google search results for queries \textit{search and replace in chrome}, and \textit{search and replace browser}, 1st for the query \textit{search and replace in firefox}, 7th for the query \textit{find and replace text}, and 8th for the query \textit{search and replace text}.\footnote{Tested using incognito modes in both Firefox and Chrome, and searching via www.google.co.uk on 25th January 2018}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{../docs/search-results.png}
+\caption{Google Search Results Ranking}
+\end{figure}
 
 \section{User Interface Inspiration}
 To some extent, we wanted to follow the current standard of find \& replace toolbars. Many of these can be seen in more advanced text editors. The user interfaces of some of the popular ones were examined and used as an inspiration.
@@ -309,6 +314,18 @@ To support all the functionality that we specified, the extension widget should 
 
 We split the user interface layout into two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for average users, there is a way of switching the search UI to the \textit{advanced} state that includes regex options and helpful previews of matched regex groups etc.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{../graphics/search-widget-simple.png}
+\caption{Search widget UI -- simple view}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{../graphics/search-widget-advanced.png}
+\caption{Search widget UI -- advanced view}
+\end{figure}
+
 \section{Why not Material Design}
 For the general look and feel, it was decided not to use Google's increasingly popular Material Design\footnote{\href{https://material.io/}{https://material.io/}} for several reasons. First, Material Design works well when there is a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed components.
 
@@ -316,15 +333,15 @@ Secondly, Material Design likes to add its \textit{ripple effect} to most intera
 
 An extension (a pop-up widget) like ours should, to a large extent, feel like it is part of the browser by perhaps matching some of the user interface styles. We don't want to create an extension that gives users the feeling that it completely doesn't belong because of its wild user interface and flashy styles.
 
-\chapter{Implementation}
+%-------------\chapter{Implementation}
 % overall principles and aspects of particular interest, rather than minute details.
 
 %You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 
 
-\chapter{Evaluation}
+%--------------\chapter{Evaluation}
 % user iteration
 
-\chapter{Conclusions}
+%--------------\chapter{Conclusions}
 % in which the main achievements are reviewed, and unsolved problems and directions for further work are presented.
 
 % Bibliography section --- use \cite{P1} with BibTeX
