@@ -435,14 +435,29 @@ The website was deployed using Firebase Hosting \cite{A8}, which is Google's hos
 
 The database used to store the feedback comments is Firebase Realtime Database \cite{A9}, which is a NoSQL cloud database from the same family of Google products. This allowed us to have a secure place to store our data with minimal setup time. It also allowed us to have an optimized static website with only the required JavaScript SDKs without having to implement a complex back-end server.
 
+\section{Iteration}
+After the initial web store release we continued to collect feedback from the users, and subsequently kept releasing updates to the extension that were fixing found bugs and issues.
+
+% TODO: insert changelog here
+
 \chapter{Conclusions}
 The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined), $4.7/5$ stars (14 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
 
 \section{Further Work}
-\subsection{Sites Currently Broken}
-Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When we insert our highlighting markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). We could completely detach their JavaScript listeners, but that stops saving any futher changes to the text. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
+Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When we insert our highlighting markup, and replace text, their JavaScript immediately restores the previous state (switches back to the original text). We could completely detach their JavaScript listeners, but that stops saving any further changes to the text. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
 
+We sought help on StackOverflow,  ...........todo.........
 
+Google Docs, Jupyter Notebook, or websites using the CodeMirror plugin, are also currently broken. These web apps don't use textareas or contenteditable to store editable text. Instead they implement their own user input handling and then convert, store, and display everything as raw HTML.
+
+Fixing these sites would mean implementing the search \& replace functionality for any source HTML, which is something that we excluded from our scope from the very beginning and instead decided to limit our extension targets to the standard editable text elements.
+
+Google Docs implement their built-in find \& replace tool anyway. When users try to use the extension on one of the above-mentioned websites that are known to be broken, we spawn a small notification informing the user, and cancel the extension's operation.
+
+\section{Final Word}
+Overall, bugs and issues that were found were all fixed in subsequent web store releases of the extension. The issues with the sites mentioned above had no straightforward solutions and were either reaching limits of extension API capabilities or were completely out of scope.
+
+In summary, it makes one feel extremely positive, having developed a tool that is used by thousands of people, and which makes their work faster and more productive every day.
 
 % Bibliography section --- use \cite{P1} with BibTeX
 \bibliographystyle{plain}

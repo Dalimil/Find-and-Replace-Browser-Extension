@@ -298,13 +298,6 @@ After switching to `execCommand` for manipulating `contenteditable` suddenly ins
 
 However, for replacement (where the original content must be deleted first) it proved very unreliable, because `execCommand` operates on the active cursor selection, which can be programmatically set by manipulating the `Selection` object, but since there's no way to tell it to select only the text content itself it ended up deleting whole DOM tags and even after a lot of testing it wasn't reliably able to replace parts of text in a post and pass through all the automatic DOM manipulation that Facebook implements. Therefore, we disable the extension on Facebook and Messenger for now.
 
-#### How to fix CodeMirror (and thus Jupyter Notebook)
-CodeMirror is using hidden textareas for input from the user and then they are shadowing this in a formatted DOM that is displayed to the user. This is how CodeMirror 2 is implemented, the previous version was using contenteditable and Document design mode to display formatted text, but this turned out to be very inconsistent across browsers, and buggy in general (See http://codemirror.net/1/story.html and http://codemirror.net/doc/internals.html).
-
-If we had a single mirrored textarea, our extension would work just fine. However, CodeMirror has been around for several years and the current 5th version implements things differently (http://codemirror.net). After the plugin is initialized it waits for the user to click somewhere in the editable area, which is in fact non-editable DOM, that adds a virtual cursor animation to appear as one. It then spawns an empty textarea in that section of a line and waits for the user's keyboard input. This small textarea is immediately cleared and reset when the plugin area loses focus or when the user selects a different line (or in fact any mouse click), with the typed content being commited into the non-editable DOM to visually reflect changes.
-
-This behaviour prevents our extension from working because there is no content in the spawned textarea, and it doesn't have access to the non-editable DOM that is displayed (because we limit our extension to editable text areas, rather than consider any HTML). Therefore fixing CodeMirror (and thus all sites using it, including Jupyter Notebook) would mean implementing find & replace for any HTML - something that we decided not to do in the initial software specification.
-
 ### Feedback & Iteration
 
 #### Changelog (releases)
