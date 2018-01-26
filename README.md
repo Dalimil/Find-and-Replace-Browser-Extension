@@ -18,15 +18,6 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 ## Development
 
-### User Interface for Search Widget Implementation
-To implement the search UI widget, we could simply create DOM for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to have the search parameters state in one central place/datastore and have the UI inputs reflect this data. Therefore, we are going to use the React.js library to implement the search UI.
-
-React has become popular in recent years - one reason is that it enforces this pattern of always reflecting the current application state in the UI. Without it, we would have to manage all the inputs separately and this could create many UI inconsistencies - incorrect update of our internal data might create a state of the application where our search parameters are set to certain values internally but display different state externally via our UI. As we're dealing with a lot of different inputs (many search parameters as well as the simple and advanced modes of the search layout), using React seems to be a wise choice.
-
-TODO: explain React input handling (https://facebook.github.io/react/docs/forms.html) and technologies used (https://facebook.github.io/react/docs/installation.html) and my search-widget project setup + tech stack in general  
-TODO: mention [component separation for easier development](./search-widget/README.md)
-
-
 ### Accessibility
 (todo: look at https://developer.chrome.com/extensions/a11y)
 
@@ -83,15 +74,6 @@ In Content Script: Refs to all DOM textarea elements, Find-next number (because 
 In Background: Nothing - here we just set up events
 
 TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage and describe challenges faced when syncing state within the app - abstracting with Promises and chaining async operations once finished + observer pattern - subscribing to updates when another part of the app changes storage
-
-#### Favourites Panel
-TODO: explain hashing search state to check if the item is in favourites
-
-#### History Panel
-
-#### Templates Panel
-
-#### Help Panel
 
 #### User actions
 - Update search query or options

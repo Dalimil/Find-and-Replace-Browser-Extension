@@ -20,7 +20,7 @@
 \author{Dalimil Hajek}
 
 \course{Computer Science}
-\project{BSc Hons Project INTERIM Report}
+\project{BSc Hons Project Report}
 \date{\today}
 
 \abstract{
@@ -375,16 +375,35 @@ There are certainly sites that might try to avoid all the options discussed abov
 
 At the time when the project was first designed, it seemed reasonable to exclude single-line inputs from the scope, as their small editable input space didn't seem suitable for our search and replace functionality. After receiving a lot of user feedback which revealed new use cases, single-line inputs were included in the search scope via an optional checkbox option in the search widget (to ensure backward compatibility and no unexpected behavior for existing users).
 
-\chapter{Implementation, Evaluation, Conclusions}
-Chapters to be included in the final report.
-% overall principles and aspects of particular interest, rather than minute details.
+\chapter{Implementation}
+
+\section{Search Widget}
+To implement the search UI widget, we could simply create DOM elements for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to store the state of the search parameters in one central place/datastore and have the UI inputs reflect this data. Therefore, we used the React.js library to implement the user interface.
+
+The React library \cite{A3} has become very popular in recent years - one reason is that it enforces the pattern of always reflecting the current application state in the UI. React's internal state is the single source of truth (see React input handling \cite{A4}).
+
+Without it, we would have to manage all the inputs separately and this could create many UI inconsistencies - incorrect update of our internal data might create a state of the application where our search parameters are set to certain values internally but display different state externally via our UI. As we are dealing with a lot of different inputs (many search parameters as well as the simple and advanced modes of the search layout), using React seemed to be a wise choice.
+
+We set up the project so that we can test the UI widget components in isolation, without creating an actual browser extension and calling the relevant APIs. During development we simply mount our root UI component on a regular website. In production, the same component is mounted in the place of the pop-up widget, which also behaves as a web page.
+
+To also support React's JSX syntax (see \cite{A5}) and newest ECMAScripts language standards, we used Babel \cite{A6} for compiling our JavaScript sources. We used Webpack \cite{A7} to bundle all our source code into a single file, which is obfuscated and small in size. Both of these libraries are widely used and often used in conjunction with React.
+
+\section{Accessibility}
+
+\section{Favorites Panel}
+% TODO: explain hashing search state to check if the item is in favourites
+\section{History Panel}
+\section{Templates Panel}
+\section{Help Panel}
 
 %You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 
 
-%--------------\chapter{Evaluation}
+\chapter{Evaluation}
 % user iteration
+\section{Google Analytics}
 
-%--------------\chapter{Conclusions}
+
+\chapter{Conclusions}
 % in which the main achievements are reviewed, and unsolved problems and directions for further work are presented.
 
 % Bibliography section --- use \cite{P1} with BibTeX
