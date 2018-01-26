@@ -388,6 +388,7 @@ We set up the project so that we can test the UI widget components in isolation,
 
 To also support React's JSX syntax (see \cite{A5}) and newest ECMAScripts language standards, we used Babel \cite{A6} for compiling our JavaScript sources. We used Webpack \cite{A7} to bundle all our source code into a single file, which is obfuscated and small in size. Both of these libraries are widely used and often used in conjunction with React.
 
+
 \section{Accessibility}
 
 \section{Favorites Panel}
@@ -399,8 +400,21 @@ To also support React's JSX syntax (see \cite{A5}) and newest ECMAScripts langua
 %You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 
 
 \chapter{Evaluation}
-% user iteration
+\section{Distribution and Marketing}
+The extension was released on Chrome and Firefox web stores, where users can download it. It was then shared on HackerNews, Quora, Facebook, and several subreddits on Reddit. These sources constituted only a minority of the overall web store visits however, and the major acquisition source remained to be organic Google search (people who specifically search for this extension on Google rather than learning about it via social media or forum posts).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../docs/user-acquisition.png}
+\caption{Chrome web store page - user traffic sources}
+\end{figure}
+
 \section{Google Analytics}
+In order to collect statistics on how users use our extension and how they interact with different UI elements, we are going to implement Google Analytics into our extension.
+
+Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would me small, which turned out to be true.
+
+\section{Testing}
 
 
 \chapter{Conclusions}

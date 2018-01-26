@@ -168,9 +168,7 @@ TODO: explain recursive search for active element
 TODO: explain the concept of my Context object - performing all dom operations (in particular jQuery functions) with respect to a specific Window and Document objects (such as window.getActiveSelection, window.scroll etc.)
 
 ### Google Analytics
-In order to collect statistics on how users use our extension and how they interact with different UI elements, we are going to implement Google Analytics into our extension.
 
-Collecting this data will require additional manifest permissions and also requires us to provide a way for the users to be able to opt-out from collecting them. This might dissuade a small percentage of potential users from installing the extension in the first place, but I believe this will only be a small percentage.
 
 #### Implementing Google Analytics
 The standard way of implementing Google Analytics is by inserting a short script into a web page, which then pulls more JavaScript code from Analytics servers, to collect user data, as well provide a developer interface to send additional tracking events.
@@ -273,8 +271,9 @@ It is very quick to open this HTML page in a browser and use the already install
 
 ### Sites currently known to be broken
 - Facebook - highlighting and replace works but is reverted to original onClick
-- Quora - completely broken - inserting `<mark>` violates their `<span>` format and scatters original text (inserts newlines)
+- Quora - inserting `<mark>` violates their `<span>` format and scatters original text (inserts newlines)
 - Sites using the CodeMirror plugin, including Jupyter Notebook on localhost
+- Google Docs
 
 #### Why is it broken
 Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When I insert my markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). When I detach their JavaScript listeners by cloning the contenteditable DOM node, I am able to highlight and replace text successfully and the user can continue editing, but when they click the post or submit button, all changes made after the last search & replace operation was made are lost. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
@@ -299,22 +298,12 @@ However, for replacement (where the original content must be deleted first) it p
 
 LinkedIn: All inserted content and tags are filtered so we cannot insert `<mark>`s or `<span>`s. We check which tags are allowed - `<p>`, `<strong>`, `<em>`, `<u>`, so we can use the underline (`<u>`) instead of `<mark>`. Solved.
 
-Quora: It doesn't allow us to insert marks or any formatting as all inserted content is immediately filtered. The only tag which is not filtered out is `<div>` and Quora uses a complicated hierarchy with various class name swapping on new text insertion. This is very tricky if not impossible to fix. When users try to use the extension on Quora, simply let them know that it does not work there.
-
 #### How to fix CodeMirror (and thus Jupyter Notebook)
 CodeMirror is using hidden textareas for input from the user and then they are shadowing this in a formatted DOM that is displayed to the user. This is how CodeMirror 2 is implemented, the previous version was using contenteditable and Document design mode to display formatted text, but this turned out to be very inconsistent across browsers, and buggy in general (See http://codemirror.net/1/story.html and http://codemirror.net/doc/internals.html).
 
 If we had a single mirrored textarea, our extension would work just fine. However, CodeMirror has been around for several years and the current 5th version implements things differently (http://codemirror.net). After the plugin is initialized it waits for the user to click somewhere in the editable area, which is in fact non-editable DOM, that adds a virtual cursor animation to appear as one. It then spawns an empty textarea in that section of a line and waits for the user's keyboard input. This small textarea is immediately cleared and reset when the plugin area loses focus or when the user selects a different line (or in fact any mouse click), with the typed content being commited into the non-editable DOM to visually reflect changes.
 
 This behaviour prevents our extension from working because there is no content in the spawned textarea, and it doesn't have access to the non-editable DOM that is displayed (because we limit our extension to editable text areas, rather than consider any HTML). Therefore fixing CodeMirror (and thus all sites using it, including Jupyter Notebook) would mean implementing find & replace for any HTML - something that we decided not to do in the initial software specification.
-
-### Distribution & Marketing
-Posted on Reddit, HackerNews, Quora.
-
-![Reddit Marketing](docs/reddit-marketing.png)
-
-![Reddit Marketing 2](docs/reddit-marketing-2.png)
-
 
 ### Feedback & Iteration
 
