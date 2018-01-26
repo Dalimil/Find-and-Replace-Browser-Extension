@@ -276,28 +276,6 @@ Due to some of the limitations mentioned above and also to speed up initial deve
 
 It is very quick to open this HTML page in a browser and use the already installed extension to see if everything is working as expected. It also allows for efficient debugging, and focusing on a specific element category when things don't work.
 
-### Sites currently known to be broken
-- Sites using the CodeMirror plugin, including Jupyter Notebook on localhost
-- Google Docs
-
-#### How to fix broken sites:
-There would need to be an alternative way of adding/changing the editable text (besides directly changing textContent/innerHTML/innerText). Sending keyboard events does not seem to work.
-
-1. Help sought on Stack Overflow: https://stackoverflow.com/questions/46981226/edit-text-in-facebook-messenger-contenteditable-div?noredirect=1#comment80915743_46981226
-2. Marked as off-topic - but someone commented with a possible hint in time
-	- Potential fix: *Focus the editor element and use document.execCommand in 'insertText' or 'insertHTML' mode.*
-3. Discovered `document.execCommand()` API https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
-
-![stackoverflow question about contenteditables](docs/stack-overflow-question.png)
-
-#### Product Development Iteration with `document.execCommand()`
-TODO: Explain the API, that it originated from IE, but now is part of W3C spec (+add link)
-
-After switching to `execCommand` for manipulating `contenteditable` suddenly insertion started working on Facebook:
-- It fixed template insertion in Facebook contenteditable
-
-However, for replacement (where the original content must be deleted first) it proved very unreliable, because `execCommand` operates on the active cursor selection, which can be programmatically set by manipulating the `Selection` object, but since there's no way to tell it to select only the text content itself it ended up deleting whole DOM tags and even after a lot of testing it wasn't reliably able to replace parts of text in a post and pass through all the automatic DOM manipulation that Facebook implements. Therefore, we disable the extension on Facebook and Messenger for now.
-
 ### Feedback & Iteration
 
 #### Changelog (releases)

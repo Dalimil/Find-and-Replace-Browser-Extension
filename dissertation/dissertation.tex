@@ -446,7 +446,7 @@ The extension has received excellent reviews and at the time of writing has over
 \section{Further Work}
 Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When we insert our highlighting markup, and replace text, their JavaScript immediately restores the previous state (switches back to the original text). We could completely detach their JavaScript listeners, but that stops saving any further changes to the text. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
 
-We sought help on StackOverflow,  ...........todo.........
+We sought help on StackOverflow, but the only suggestion received was trying \texttt{Document.execCommand} API \cite{A10}, which is a mostly deprecated API that was meant to be replaced by contenteditable. It is currently implemented inconsistently across browsers, and using it to replace a piece of text involves manipulating the active cursor selection programmatically. Even after a lot of testing it proved very unreliable and even the W3C specification currently advises against using it.
 
 Google Docs, Jupyter Notebook, or websites using the CodeMirror plugin, are also currently broken. These web apps don't use textareas or contenteditable to store editable text. Instead they implement their own user input handling and then convert, store, and display everything as raw HTML.
 
