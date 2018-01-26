@@ -384,6 +384,8 @@ The React library \cite{A3} has become very popular in recent years - one reason
 
 Without it, we would have to manage all the inputs separately and this could create many UI inconsistencies - incorrect update of our internal data might create a state of the application where our search parameters are set to certain values internally but display different state externally via our UI. As we are dealing with a lot of different inputs (many search parameters as well as the simple and advanced modes of the search layout), using React seemed to be a wise choice.
 
+Note that React is only a JavaScript library that allows for a particular way of implementing UI code, but itself doesn't provide any predefined components or styling. The search widget UI was built from scratch without using any existing stylesheets or components.
+
 We set up the project so that we can test the UI widget components in isolation, without creating an actual browser extension and calling the relevant APIs. During development we simply mount our root UI component on a regular website. In production, the same component is mounted in the place of the pop-up widget, which also behaves as a web page.
 
 To also support React's JSX syntax (see \cite{A5}) and newest ECMAScripts language standards, we used Babel \cite{A6} for compiling our JavaScript sources. We used Webpack \cite{A7} to bundle all our source code into a single file, which is obfuscated and small in size. Both of these libraries are widely used and often used in conjunction with React.
@@ -437,6 +439,9 @@ The database used to store the feedback comments is Firebase Realtime Database \
 The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined), $4.7/5$ stars (14 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
 
 \section{Further Work}
+\subsection{Sites Currently Broken}
+Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When we insert our highlighting markup, and replace text, their JavaScript immediately restores the previous state (switches back to the orginal text). We could completely detach their JavaScript listeners, but that stops saving any futher changes to the text. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
+
 
 
 % Bibliography section --- use \cite{P1} with BibTeX
