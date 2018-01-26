@@ -20,7 +20,7 @@
 \author{Dalimil Hajek}
 
 \course{Computer Science}
-\project{BSc Hons Project Report}
+\project{BSc Hons Project INTERIM Report}
 \date{\today}
 
 \abstract{
@@ -200,7 +200,9 @@ Safari, although widely used by Mac users, has its own extension API and is in g
 
 
 \chapter{Background}
-%  A brief introduction to browser extensions would be a good addition to an early part of the thesis. 
+A browser extension is a bundled collection of files - HTML, CSS, JavaScript, images and other assets, that together add functionality to the browser. They have access to the standard DOM API (same as a regular website) but in addition to that they can access the WebExtensions API, which is provided by the browser. At the time of writing, the WebExtensions API is to a large extent (only with slight deviations in implementations) supported by Mozilla Firefox, Google Chrome, Microsoft Edge, and Opera browsers (see detailed explanation in \cite{C1}, \cite{C2}, \cite{M6} and \cite{M7}).
+
+A typical extension consists of a background page, which holds the main logic of the extension and has full access to the APIs, pop-up widget, which presents the extension's user interface, and one or more content scripts, which are pieces of JavaScript code that are injected into the current web page so that we can interact with its content.
 
 After installing a browser extension in Chrome or Firefox, a small icon representing the extension is added to the top toolbar. When users click this icon, the extension displays its pop-up widget. The standard way to present an interface to the user is via this widget. One could come up with alternative ways to present extension's UI but this design pattern using a pop-up is the preferred way and something that users expect by default. Since a pop-up widget works well in our scenario, we decided to go with that.
 
@@ -373,7 +375,8 @@ There are certainly sites that might try to avoid all the options discussed abov
 
 At the time when the project was first designed, it seemed reasonable to exclude single-line inputs from the scope, as their small editable input space didn't seem suitable for our search and replace functionality. After receiving a lot of user feedback which revealed new use cases, single-line inputs were included in the search scope via an optional checkbox option in the search widget (to ensure backward compatibility and no unexpected behavior for existing users).
 
-%-------------\chapter{Implementation}
+\chapter{Implementation, Evaluation, Conclusions}
+Chapters to be included in the final report.
 % overall principles and aspects of particular interest, rather than minute details.
 
 %You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 

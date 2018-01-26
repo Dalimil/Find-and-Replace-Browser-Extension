@@ -28,6 +28,7 @@ TODO: mention [component separation for easier development](./search-widget/READ
 
 
 ### Accessibility
+(todo: look at https://developer.chrome.com/extensions/a11y)
 
 #### Keyboard
 Launch the toolbar: `Ctrl+Shift+F` (`Command+Shift+F` on Mac)
@@ -55,11 +56,7 @@ We add a box shadow highlight to the currently selected input area. If no single
 ### API Design
 There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'find & replace'.
 
-TODO: Explain the reasoning behind this and how extensions work in general (https://developer.chrome.com/extensions). And also: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Anatomy_of_a_WebExtension#Options_pages
-
-TODO: Explain security scopes, Chrome API being available from the background page, page content being accessible only from content scripts. 
-
-TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation  (we are not requesting chrome.tabs permission)
+TODO: Explain security scopes, TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation  (we are not requesting chrome.tabs permission)
 
 Instead of searching for a one text occurrence at a time, we want to match the behaviour of modern text editors and show the user all matches at once using text highlighting. We therefore only perform the search once (meaning everytime search parameters change), because later actions (find next/prev, replace one/all) will simply work with the text occurrences we already found. 
 
@@ -75,7 +72,7 @@ Instead, to check if our content scripts have been injected, I came up with a di
 Once our main content scripts are injected, they broadcast a port connection - both the background page and UI widget are listening for this event. Background page needs to connect to the content script to see when the message port disconnects (user may have navigated to a different page and we thus lost the injected code). Search widget needs the content script connection for all its API actions - this is going to be the most frequent message passing channel.
 
 ##### Why is the lifecycle complicated
-We are managing three separate component - the search widget, the background page, and the context of the webpage itself (via content scripts). None of these components are permanent - The search widget can be destroyed/closed anytime. The content scripts in the page are lost whenever the user navigates to a different website. And finally the background page isn't persistent either - it simply sets up a bunch of event listeners that can wake it up in the future, and shuts itself down.
+We are managing three separate component - the search widget, the background page, and the context of the webpage itself (via content scripts). None of these components are permanent - The search widget can be destroyed/closed anytime. The content scripts in the page are lost whenever the user navigates to a different website. And finally the background page isn't persistent either - it simply sets up a bunch of event listeners that can wake it up in the future, and shuts itself down. (todo: https://developer.chrome.com/extensions/event_pages)
 
 Could we do everything in the content scripts? Content scripts run in the content of the webpage and for security reasons they don't have access to the Chrome APIs - for a large portion of the extension functionality, and for the search widget integration, we need the background page.
 
