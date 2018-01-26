@@ -185,9 +185,9 @@ There have been several attempts to implement this functionality via an extensio
 \end{itemize}
 
 \subsection{Other Browsers}
-Supporting more browsers add extra work, so it only makes sense if these browsers represent a significant portion of the market. The usage share of browsers is measured by various methods and is often quite inaccurate.\footnote{\href{https://en.wikipedia.org/wiki/Usage\_share\_of\_web\_browsers}{https://en.wikipedia.org/wiki/Usage\_share\_of\_web\_browsers}} Approximate values for usage share for desktop browsers are:\footnote{\href{http://gs.statcounter.com/browser-market-share/desktop/worldwide/\#monthly-201712-201712-bar}{http://gs.statcounter.com/browser-market-share/desktop/worldwide/\#monthly-201712-201712-bar}} Chrome 65\%, Firefox 12\%, IE 8\%, Safari 6\%, Edge 4\%.
+Supporting more browsers add extra work, so it only makes sense if these browsers represent a significant portion of the market. The usage share of browsers is measured by various methods and is often quite inaccurate (see \cite{W1}). Approximate values for usage share for desktop browsers are (taken from \cite{A1}): Chrome 65\%, Firefox 12\%, IE 8\%, Safari 6\%, Edge 4\%.
 
-This project focused on Chrome and Firefox, which together represent a large portion of the overall market, and which both mostly follow the same Extension API (there are only a few differences\footnote{\href{https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Chrome\_incompatibilities}{https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Chrome\_incompatibilities}} so we didn't need to have separate code-bases).
+This project focused on Chrome and Firefox, which together represent a large portion of the overall market, and which both mostly follow the same Extension API (there are only a few differences \cite{M5} so we didn't need to have separate code-bases).
 
 Safari, although widely used by Mac users, has its own extension API and is in general much more involved as it requires dealing with Apple's developer libraries and licenses, so we decided not to develop an extension for this browser.
 
@@ -327,7 +327,7 @@ We split the user interface layout into two types - simple and advanced. Because
 \end{figure}
 
 \section{Why not Material Design}
-For the general look and feel, it was decided not to use Google's increasingly popular Material Design\footnote{\href{https://material.io/}{https://material.io/}} for several reasons. First, Material Design works well when there is a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed components.
+For the general look and feel, it was decided not to use Google's increasingly popular Material Design \cite{A2} for several reasons. First, Material Design works well when there is a lot of space and all the elements can be spread out. Unfortunately, this extension's user interface is a small widget with very limited space and many condensed components.
 
 Secondly, Material Design likes to add its \textit{ripple effect} to most interactions (such as clicking a button). This looks great for actions that have large impact (e.g. navigating to a new page, or submitting a form), but for our purposes we need something less flashy, as most buttons are going to be pressed very often (\textit{Find next} and \textit{Replace} buttons) and too many effects or animations would present too much distraction for the user.
 
@@ -342,13 +342,13 @@ For a short single line of text, HTML
 \texttt{\textless{}input\textgreater{}} element is often used. There are
 other types of input fields (many new were added with HTML5), such as
 date, email, number, tel, time, and similar, but text is the standard
-one.\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text}{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text}}
+one (see \cite{M2}).
 
 However, due to the short length (20 characters by default), this is not the kind of input that needs the find \& replace functionality on its own. The primary use case of our extension are large multi-line text areas, but we also include the short single-line input kind to allow users to search and replace text in a page across many single-line inputs simultaneously.
 
 \subsection{\texttt{\textless{}textarea\textgreater{}\textless{}/textarea\textgreater{}}}
 
-Multi-line plain-text input space.\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea}{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea}} This should be a common target for find \& replace. It is used by many sites to allow users compose longer pieces of text, one of them is a new post creation process on Reddit.
+Multi-line plain-text input space (see \cite{M3}). This should be a common target for find \& replace. It is used by many sites to allow users compose longer pieces of text, one of them is a new post creation process on Reddit.
 
 \subsection{\texttt{\textless{}div\ contenteditable="true"\textgreater{}\textless{}/div\textgreater{}}}
 
@@ -357,7 +357,7 @@ area, \texttt{contenteditable} elements are used in Gmail, Facebook
 posts, Facebook Messenger, GitHub editor, Twitter, and many other sites.
 
 Note that \texttt{contenteditable} is a global attribute and is
-therefore not limited to \texttt{div} tags.\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/HTML/Global\_attributes/contenteditable}{https://developer.mozilla.org/en-US/docs/Web/HTML/Global\_attributes/contenteditable}}
+therefore not limited to \texttt{div} tags (see \cite{M4}).
 
 \subsection{\texttt{contenteditable} tag inside 
 \texttt{\textless{}iframe\textgreater{}\textless{}/iframe\textgreater{}}}
