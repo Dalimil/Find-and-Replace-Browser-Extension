@@ -410,15 +410,34 @@ The extension was released on Chrome and Firefox web stores, where users can dow
 \end{figure}
 
 \section{Google Analytics}
-In order to collect statistics on how users use our extension and how they interact with different UI elements, we are going to implement Google Analytics into our extension.
+In order to collect statistics on how users use our extension and how they interact with different UI elements, we implemented Google Analytics into our extension.
 
 Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would me small, which turned out to be true.
 
 \section{Testing}
 
+\section{Support Website}
+There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
+
+We decided to proceed with an alternative solution of creating a support website and storing all submitted feedback messages in a database. This database can later be queried and filtered based on various criteria (time of submission, feedback type - general feedback vs complaint after uninstalling, ...), which simplified feedback evaluation.
+
+We created a static landing page website that presents the extension with relevant links to the browser web stores, and also allows users to submit feedback via a simple form.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../graphics/landing-page.png}
+\caption{Support website landing page}
+\end{figure}
+
+The website was deployed using Firebase Hosting \cite{A8}, which is Google's hosting for deploying static content to its content-delivery network (CDN).
+
+The database used to store the feedback comments is Firebase Realtime Database \cite{A9}, which is a NoSQL cloud database from the same family of Google products. This allowed us to have a secure place to store our data with minimal setup time. It also allowed us to have an optimized static website with only the required JavaScript SDKs without having to implement a complex back-end server.
 
 \chapter{Conclusions}
-% in which the main achievements are reviewed, and unsolved problems and directions for further work are presented.
+The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined), $4.7/5$ stars (14 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
+
+\section{Further Work}
+
 
 % Bibliography section --- use \cite{P1} with BibTeX
 \bibliographystyle{plain}

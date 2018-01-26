@@ -343,13 +343,3 @@ We can reuse some of the code for mirroring and overlaying textareas, some of th
 The horizontal scroll itself is somewhat problematic - Firefox fires the scroll event for us and when user scrolls the input box, it preserves the scroll position after the element is defocused. We can therefore capture the scroll event and shift our overlay highlighting by the same scroll amount.
 
 Chrome on the other hand doesn't fire the scroll event for us, but since it automatically resets the scroll position to zero after the element is defocused the initial highlighting will always be correctly aligned. The only issue arises when the user tries to horizontally scroll the input box with the extension search widget open, because the highlights will not move. This can only be done with a touchpad however, as clicking into the page would dismiss the search widget. Since single line inputs with a large text overflow are quite uncommon in the first place, we ignore this specific case, as it presents only a slight visual flaw, that will most likely not occur.
-
-### Support website
-TODO: explain Firebase hosting: https://firebase.google.com/docs/hosting/
-
-TODO: explain Firebase functions: https://firebase.google.com/docs/functions/write-firebase-functions
-
-There are various ways we could collect feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends an email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did user just uninstall the extension, or are they happy and simply want to propose new features?). 
-
-I decided to go with an alternative solution - we store all submitted feedback messages in a database. This database can be later queried and filters based on various criteria (time of submission, feedback type, ...).
-
