@@ -444,7 +444,21 @@ Unfortunately, the content-script hides its scope in an isolated JavaScript sand
 We therefore needed to detect when the content script is running in the debug mode and not as a part of an installed extension (the state when the runtime connection API is undefined is a good indicator of that) and we exposed the API message handling function when this was the case, which allowed us to mock the API and perform our tests. We recorded a short preview video to show how these content-script tests run in browser (YouTube link): \url{https://www.youtube.com/watch?v=_SzxjBO75mE}
 
 \subsection{Functional Tests}
-...todo...
+To implement functional tests, we would need to drive a browser that installs our extension and interacts with it. There is a tool called PhantomJS \cite{A14} which is commonly used for headless WebKit testing. Unfortunately, it is not based on Chromium, so we cannot load Chrome extensions.\footnote{\url{https://stackoverflow.com/a/23643111}}
+
+To be able to install and test the extension as a whole in Chrome and Firefox, we used Selenium \cite{A15}, which is a browser automation tool that can directly control a browser instance and allows us to install browser extensions as a part of the testing process.\footnote{\url{https://stackoverflow.com/questions/15005833/browser-plugin-testing-with-selenium/17117849}}
+
+We installed Selenium WebDriver to control Chrome and Firefox browsers. The Selenium WebDriver accepts commands via a client API and sends them to the browser (see \cite{W2}). The client API has several implementations in various programming languages. We decided to use JavaScript to keep the whole code-base consistent. 
+
+The Selenium project have their own JavaScript implementation for the client API, but after comparing it to alternatives, we decided to use WebDriverIO \cite{A16} instead, which is another JavaScript implementation of the (Selenium 2.0) WebDriver API, but it has much simpler and more readable syntax.
+
+\subsubsection{Browser Automation Tests}
+We created a test that checks that after the WebDriver spins up a new browser instance (Chrome or Firefox) and installs our extension, a new tab is created with our help text (user guide), which is the default behavior our extension should follow immediately after being installed.
+
+Unfortunately the WebDriver does not allow direct mouse interactions with the extension - there is no way to launch it from the toolbar (mentioned in \cite{A17} and \cite{A18}). At the same time, we designed the extension with the minimal set of permission needed, so the extension does not execute any code or inject anything into the web page unless the user launches the extension widget first.
+
+The only way we could overcome this limitation would be to create a new extension that forces the injection of the content script code in every page the browser visits and also automatically starts sending the exact data payloads mocking the API calls coming from the (never running) search widget. Besides it being loads of work to implement, this would not actually be the full functional tests that we were aiming for - it would be testing the content script alone but none of the actual component interaction and communication with the search widget. We abandoned this idea, because we already have integration test for testing the content script functionality alone, so this approach would not increase our test coverage.
+
 \subsection{Manual Tests}
 Due to some of the limitations mentioned above and also to speed up initial development of the core functionality, at the early start of the development process a demo HTML page was created. This HTML page contains all possible combinations of editable text areas - all types (plain textarea, contenteditable, and single-line inputs), all sorts of styling, various states such as with a scrollbar, or in a scrollable container, as well as text areas inside nested iframes, and various other combinations.
 
