@@ -223,23 +223,6 @@ To get a better idea of which sites are the most frequently used and which shoul
 *Top domains after 2 weeks of reports. 13th January 2018*
 
 ### Testing
-#### Integration Tests
-
-##### Search Widget Tests
-Our UI search widget is mostly focusing on keeping the state of UI consistent. Here we are more interested in the widget being rendered correctly as a whole, and that the UI doesn't accidentally change in unexpected ways. Because of the way we separated the search widget development (described earlier), we could simply mount our React root on a standard website DOM and test basic user interaction. There will be no content script for it to communicate with, but this is not the focus at this point.
-
-Because the search widget code is written using React, we can use React's testing tool called Jest, which makes it very easy to test React components. It is using a specifically designed test renderer that instead of spinning up an actual browser instance to render a visual component, it creates a snapshot of the resulting HTML and writes it into a file. These snapshots are regenerated on subsequent test runs and compared to the old versions. That way it can quickly discover and report any changes (and mark that particular test as failed in such case).
-
-Also see [Jest Snapshot Testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html)
-
-##### Content Script Tests
-What we are interested here is, given a simple website, can the injected functions from our content script work together, so that when triggered by a mocked API call, they successfully perform the find operation and highlight occurrences.
-
-We do this by creating a simple HTML page that already includes all the code that the extension normally injects into a web page. In addition to that, we include one more script file that contains the actual test suite.
-
-Unfortunately, the content-script hides its scope in an isolated JavaScript sandbox, so simply including it in a local HTML page will not allow us to interact with it in any way, because the connection API that it uses is only made available to the script when it is injected via an extension. We therefore need to detect when the content script is running in the debug mode and not as a part of an installed extension (the state when the runtime connection API is undefined is a good indicator of that) and we expose the API message handling function when this is the case.
-
-[Content Script Testing Demo - YouTube link](https://www.youtube.com/watch?v=_SzxjBO75mE)
 
 #### Functional Tests
 To implement functional tests, we would need to drive a browser that installs our extension and interacts with it. There is a tool called [PhantomJS](http://phantomjs.org/) which is commonly used for headless WebKit testing. Unfortunately, it is not based on Chromium, so we cannot load Chrome extensions (https://stackoverflow.com/a/23643111).
@@ -249,9 +232,6 @@ To be able to install and test the extension as a whole in Chrome and Firefox, w
 We are going to install Selenium WebDriver to control Chrome and Firefox browsers. The Selenium WebDriver accepts commands via a client API and sends them to a browser (https://en.wikipedia.org/wiki/Selenium_(software)#Selenium_WebDriver). The client API has several implementations in various programming languages. I decided to use JavaScript to keep my whole codebase consistent. 
 
 The Selenium project have their own JavaScript implementation for the client API, but after comparing it to alternatives, I decided to use [WebDriver.IO](http://webdriver.io/), which is another JavaScript implementation of the (Selenium 2.0) WebDriver API, but it has much simpler and more readable syntax (https://github.com/webdriverio/webdriverio#syntax-example).
-
-##### Sites that need test coverage
-Websites have been tested manually so far and it would be great if we could automate their testing.
 
 ##### Setting up Selenium tests
 I successfully updated our configuration to install our extension once an automated browser instance is launched. It correctly opens a new tab with the Help text (our User guide). First functional test that I created tests that this actually happens (new tab opened on install with the extension user guide).

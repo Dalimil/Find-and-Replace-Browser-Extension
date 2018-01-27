@@ -427,6 +427,25 @@ Our content script contains a lot of individual functions that we can test separ
 \subsection{Integration Tests}
 We would like to test if multiple modules or parts of our code can work well together. We split this into tests for the search widget, and tests for the content script. Testing the extension working as a whole will be addressed in the Functional Tests section.
 
+\subsubsection{Search Widget Tests}
+Our UI search widget is mostly focusing on keeping the state of the UI consistent. Here we are more interested in the widget being rendered correctly as a whole, and that the UI doesn't accidentally change in unexpected ways.
+
+Because of the way we separated the search widget development (described earlier), we could simply mount our React root on a standard website's DOM node and test basic user interaction. There will be no content script for it to communicate with, but this is not the focus at this point.
+
+Because the search widget code is written using React, we used React's testing tool called Jest, which makes it very easy to test React components (see Jest Snapshot Testing \cite{A13}). It is using a specifically designed test-renderer that instead of spinning up an actual browser instance to render a visual component, it creates a snapshot of the resulting HTML and writes it into a file. These snapshots are regenerated on subsequent test runs and compared to the old versions. That way it can quickly discover and report any changes (and mark that particular test as failed in such case).
+
+\subsubsection{Content Script Tests}
+What we are interested here is, given a simple website, can the injected functions from our content script work together, so that when triggered by a mocked API call, they successfully perform the find operation and highlight occurrences.
+
+We achieved this by creating a simple HTML page that already includes all the code that the extension normally injects into a web page. In addition to that, we included one more script file that contains the actual test suite.
+
+Unfortunately, the content-script hides its scope in an isolated JavaScript sandbox, so simply including it in a local HTML page will not allow us to interact with it in any way, because the connection API that it uses is only made available to the script when it is injected via an extension.
+
+We therefore needed to detect when the content script is running in the debug mode and not as a part of an installed extension (the state when the runtime connection API is undefined is a good indicator of that) and we exposed the API message handling function when this was the case, which allowed us to mock the API and perform our tests. We recorded a short preview video to show how these content-script tests run in browser (YouTube link): \url{https://www.youtube.com/watch?v=_SzxjBO75mE}
+
+\subsection{Functional Tests}
+...todo...
+
 \section{Support Website}
 There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
 
