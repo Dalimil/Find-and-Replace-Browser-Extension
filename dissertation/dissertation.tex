@@ -401,20 +401,6 @@ To also support React's JSX syntax (see \cite{A5}) and newest ECMAScripts langua
 
 %You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 
 
-\chapter{Evaluation}
-\section{Distribution and Marketing}
-The extension was released on Chrome and Firefox web stores, where users can download it. It was then shared on HackerNews, Quora, Facebook, and several subreddits on Reddit. These sources constituted only a minority of the overall web store visits however, and the major acquisition source remained to be organic Google search (people who specifically search for this extension on Google rather than learning about it via social media or forum posts).
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.99\textwidth]{../docs/user-acquisition.png}
-\caption{Chrome web store page - user traffic sources}
-\end{figure}
-
-\section{Google Analytics}
-In order to collect statistics on how users use our extension and how they interact with different UI elements, we implemented Google Analytics into our extension.
-
-Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would me small, which turned out to be true.
 
 \section{Testing}
 The Chrome Extension Developer Guides contain a section on debugging \cite{C3} but any standardized extension testing approaches are nonexistent. Due to technology similarities, we can examine how we could test our extension if it was a standard web application.
@@ -465,6 +451,22 @@ Due to some of the limitations mentioned above and also to speed up initial deve
 It is very quick to open this HTML page in a browser and use the already installed extension to see if everything is working as expected. It also allows for efficient debugging, and troubleshooting a specific element category when things don't work.
 
 Besides using it to manually test that the overall product works, it was also a good test of the overall user experience, as the HTML page contained the various editable elements that users would normally encounter on the web.
+
+
+\chapter{Evaluation}
+\section{Distribution and Marketing}
+The extension was released on Chrome and Firefox web stores, where users can download it. It was then shared on HackerNews, Quora, Facebook, and several subreddits on Reddit. These sources constituted only a minority of the overall web store visits however, and the major acquisition source remained to be organic Google search (people who specifically search for this extension on Google rather than learning about it via social media or forum posts).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../docs/user-acquisition.png}
+\caption{Chrome web store page - user traffic sources}
+\end{figure}
+
+\section{Google Analytics}
+In order to collect statistics on how users use our extension and how they interact with different UI elements, we implemented Google Analytics into our extension.
+
+Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would me small, which turned out to be true.
 
 \section{Support Website}
 There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
