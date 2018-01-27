@@ -223,18 +223,7 @@ To get a better idea of which sites are the most frequently used and which shoul
 *Top domains after 2 weeks of reports. 13th January 2018*
 
 ### Testing
-How can we test our extension? The Chrome Extension Guides contain a section on debugging (https://developer.chrome.com/extensions/tut_debugging) but do not mention any extension testing methods.
-
-For testing web applications in general we have several kinds of tests (Sources: https://medium.com/powtoon-engineering/a-complete-guide-to-testing-javascript-in-2017-a217b4cd5a2a): 
-  - Unit Tests - testing individual functions
-  - Integration Tests - testing several modules working together
-  - Functional Tests - testing a scenario on the whole product (in-browser interaction)
-
-#### Unit Tests
-Our content script contains a lot of individual functions that we can test separately. I'm going to use [Mocha.js](https://mochajs.org/) for unit testing of individual methods in the content script and search widget. The coverage will be very limited however, because most functions need to interact with the Document and Window objects, which are supplied by the web browser and will be undefined when running a command line test. We therefore shift our main focus to integration tests and functional tests.
-
 #### Integration Tests
-We would like to test if multiple modules or parts of our code can work well together. We split this into tests for the search widget, and tests for the content script. Testing the extension working as a whole will be addressed in the Functional Tests section.
 
 ##### Search Widget Tests
 Our UI search widget is mostly focusing on keeping the state of UI consistent. Here we are more interested in the widget being rendered correctly as a whole, and that the UI doesn't accidentally change in unexpected ways. Because of the way we separated the search widget development (described earlier), we could simply mount our React root on a standard website DOM and test basic user interaction. There will be no content script for it to communicate with, but this is not the focus at this point.

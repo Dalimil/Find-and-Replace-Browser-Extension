@@ -417,6 +417,15 @@ In order to collect statistics on how users use our extension and how they inter
 Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would me small, which turned out to be true.
 
 \section{Testing}
+The Chrome Extension Developer Guides contain a section on debugging \cite{C3} but any standardized extension testing approaches are nonexistent. Due to technology similarities, we can examine how we could test our extension if it was a standard web application.
+
+In such case, we would have several kinds of tests (see \cite{A11}): unit tests testing individual functions, integration tests testing several modules working together, and functional tests testing scenarios using the whole product (in-browser interaction in our case).
+
+\subsection{Unit Tests}
+Our content script contains a lot of individual functions that we can test separately. We used \textit{Mocha.js} \cite{A12} for unit testing of individual methods in the content script and search widget. The coverage will be very limited however, because most functions need to interact with the \textit{Document} and \textit{Window} objects, which are supplied by the web browser and will be undefined when running a command line test. We therefore shift our main focus to integration tests and functional tests.
+
+\subsection{Integration Tests}
+We would like to test if multiple modules or parts of our code can work well together. We split this into tests for the search widget, and tests for the content script. Testing the extension working as a whole will be addressed in the Functional Tests section.
 
 \section{Support Website}
 There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
