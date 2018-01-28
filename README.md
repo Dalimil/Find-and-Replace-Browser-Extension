@@ -18,7 +18,7 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 ## Development
 
-### API Design
+### Component Overview
 There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'find & replace'.
 
 TODO: Explain security scopes, TODO: Explain permissions set in manifest and motivation behind the `activeTab` permission https://developer.chrome.com/extensions/activeTab#motivation  (we are not requesting chrome.tabs permission)
@@ -41,29 +41,18 @@ We are managing three separate component - the search widget, the background pag
 
 Could we do everything in the content scripts? Content scripts run in the content of the webpage and for security reasons they don't have access to the Chrome APIs - for a large portion of the extension functionality, and for the search widget integration, we need the background page.
 
-##### Storing State
-TODO:  
-In Widget - Search params, all inputs;  
-In Content Script: Refs to all DOM textarea elements, Find-next number (because it keeps dynamically changing and search widget should only receive it from content script messages passed to it)
-In Background: Nothing - here we just set up events
-
+##### Maintaining state across the extension components
 TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage and describe challenges faced when syncing state within the app - abstracting with Promises and chaining async operations once finished + observer pattern - subscribing to updates when another part of the app changes storage
 
-#### User actions
+#### Actions API
 - Update search query or options
   - 'Find' input field content changes
   - One of the search options is toggled
 - Find next/previous
 - Replace current/all
 - Close the widget
-- Click one of the panel buttons
-  - Show Favourites
-  - Show History
-  - Show Templates
-  - Show Help/Info
 
-#### Actions API
-User actions specified above directly translate to types of messages that need to be passed between our widget and the content scripts in the page. We define the following API, where each message has the prototype `{ action: string, data: Object }` where `data` is optional:
+User actions specified above directly translate to types of messages that need to be passed between our widget and the content scripts in the page. Local actions such as navigation between the tabs in our search widget are not sent. We define the following API, where each message has the prototype `{ action: string, data: Object }` where `data` is optional:
 
 **action: shutdown**
 - Clean up all active highlights when widget is closed
@@ -100,10 +89,15 @@ User actions specified above directly translate to types of messages that need t
 
 Object `currentMatch` is used to display advanced regex information about matched regex groups. It has the following structure: `{ groups: Array<string>, replace: string }`
 
-### RegEx Search
+### Content Script RegEx Search
 JavaScript contains native support for regular expressions (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query.
 
 When choosing the string that we want to search in, we need to only consider the text content in our HTML nodes - finding matches in `innerHTML` would be a mistake since we need to ignore the website's source markup and only consider the text that users see.  
+
+#### Handling iframes
+TODO: explain recursive search for active element
+
+TODO: explain the concept of my Context object - performing all dom operations (in particular jQuery functions) with respect to a specific Window and Document objects (such as window.getActiveSelection, window.scroll etc.)
 
 #### Highlighting Found Matches
 
@@ -151,11 +145,6 @@ In the replace input string, user can specify special symbols to refer to the fo
 - `$0` or `$&` - Inserts the matched substring.
 
 These are commonly used to extend find & replace functionality in advanced text editors. Inspiratio also taken from Mozilla's spec on MDN website: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
-
-### Handling iframes
-TODO: explain recursive search for active element
-
-TODO: explain the concept of my Context object - performing all dom operations (in particular jQuery functions) with respect to a specific Window and Document objects (such as window.getActiveSelection, window.scroll etc.)
 
 ### Feedback & Iteration
 
