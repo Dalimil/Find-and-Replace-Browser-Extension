@@ -483,6 +483,17 @@ It is very quick to open this HTML page in a browser and use the already install
 
 Besides using it to manually test that the overall product works, it was also a good test of the overall user experience, as the HTML page contained the various editable elements that users would normally encounter on the web.
 
+\section{Google Analytics}
+In order to collect statistics on how users use our extension and how they interact with different UI elements, we implemented Google Analytics into our extension.
+
+Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would me small, which turned out to be true.
+
+\subsection{Google Analytics Implementation}
+The standard way of implementing Google Analytics is by inserting a short script into a web page, which then pulls more JavaScript code from Analytics servers, to collect user data, as well provide a developer interface to send additional tracking events.
+
+This method does not work in Mozilla Firefox extensions due to their review policies (quoting from \cite{A20}): \textit{...The most popular way to do this is to inject the Google Analytics script into your codebase as if it were a web page. However, this is incompatible with our review policies. Injecting remote scripts into privileged code – or even content – is very dangerous and it’s not allowed.}
+
+As a workaround, we need to use Google Analytics' Measurement Protocol \cite{A21}, which is a simple API that accepts HTTP requests with Analytics data. It collects data (and aggregates it for displaying dashboards and statistics via the same Analytics web interface) without relying on the Google Analytics JavaScript library running on the client, so we essentially had to implement the library ourselves and only send requests in the appropriate format to this API.
 
 \chapter{Evaluation}
 \section{Distribution and Marketing}
@@ -495,9 +506,10 @@ The extension was released on Chrome and Firefox web stores, where users can dow
 \end{figure}
 
 \section{Google Analytics}
-In order to collect statistics on how users use our extension and how they interact with different UI elements, we implemented Google Analytics into our extension.
+We embedded the Google Analytics code into our extension's widget, so that we can track how many times users open the search widget, as well as how many unique users we have, and what kind of population they represent (along with additional user details).
 
-Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would me small, which turned out to be true.
+\subsection{Page View Tracking}
+..todo...
 
 \section{Support Website}
 There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
