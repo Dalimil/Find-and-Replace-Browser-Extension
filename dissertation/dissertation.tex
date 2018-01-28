@@ -393,10 +393,133 @@ We set up the project so that we can test the UI widget components in isolation,
 
 To also support React's JSX syntax (see \cite{A5}) and newest ECMAScripts language standards, we used Babel \cite{A6} for compiling our JavaScript sources. We used Webpack \cite{A7} to bundle all our source code into a single file, which is obfuscated and small in size. Both of these libraries are widely used and often used in conjunction with React.
 
-\section{User Actions API}
-Whenever user performs an action such as clicking the button \textit{Replace} or typing something into the \textit{Find} input field, a message is sent from the search widget to our content script running in the context of the page. We defined our custom API to specify what kind of messages can be exchanged and in particular what their payload should be.
+\section{User Actions API and Message Passing}
+Whenever user performs an action such as clicking the button \textit{Replace} or typing something into the \textit{Find} input field, we send a message from the search widget to our content script running in the context of the page. We defined our custom API to specify what kind of messages can be exchanged and in particular what their payload should be.
 
-% todo
+This was needed because the user receives information from the extension in two ways - either via visual feedback from the content script running in the web page (match highlighting) or via the widget pop-up (search interface). These two components are separate and can only communicate via the messaging API \cite{C5}.
+
+First we specified actions that users can perform using the search widget that also need to communicate with the page. The actions are the following. Note that actions that are local to the search widget and do not need to communicate with the page (such as tab navigation in the search widget) are intentionally omitted.
+
+\begin{itemize}
+\tightlist
+\item
+  Update search query or search options
+  \begin{itemize}
+  \tightlist
+  \item
+    Change the content of the \textit{Find} input field
+  \item
+    Toggle one of the search option checkboxes
+  \end{itemize}
+\item
+  Find next/previous
+\item
+  Replace current/all
+\item
+  Insert a template
+\item
+  Close the widget
+\end{itemize}
+
+User actions specified above directly translate to types of messages
+that need to be passed between our widget and the content scripts in the page. We define the following API, where each message has the prototype \texttt{\{action:\ string,\ data:\ Object\}} where \texttt{data} is for certain types of messages omitted:
+
+\begin{itemize}
+\tightlist
+
+\item\textbf{action: updateSearch}
+
+\begin{itemize}
+\tightlist
+\item
+  Uses the \texttt{data} object to obtain matching search results
+\item
+  Response object:
+  \texttt{\{invalidRegex:\ boolean, invalidSelection:\ boolean,\\ searchIndex:\ number, searchCount:\ number, currentMatch:\ object\}}
+\end{itemize}
+
+\item\textbf{action: findNext}
+
+\begin{itemize}
+\tightlist
+\item
+  Finds the next match
+\item
+  Returns:
+  \texttt{\{searchIndex:\ number, searchCount:\ number,\ currentMatch:\ object\}}
+\end{itemize}
+
+\item\textbf{action: findPrev}
+
+\begin{itemize}
+\tightlist
+\item
+  Finds the previous match
+\item
+  Response identical to the \textit{findNext} action
+\end{itemize}
+
+\item\textbf{action: replaceCurrent}
+
+\begin{itemize}
+\tightlist
+\item
+  Replaces the current match with \texttt{data} contents
+\item
+  Response identical to the \textit{findNext} action
+\end{itemize}
+
+\item\textbf{action: replaceAll}
+
+\begin{itemize}
+\tightlist
+\item
+  Replaces all matches with \texttt{data} contents
+\item
+  Response identical to the \textit{findNext} action
+\end{itemize}
+
+\item\textbf{action: insertTemplate}
+
+\begin{itemize}
+\tightlist
+\item
+  Inserts template text \texttt{data} at current cursor
+\item
+  Returns: \texttt{\{noCursorPosition:\ boolean\}}
+\end{itemize}
+
+\item\textbf{action: shutdown}
+
+\begin{itemize}
+\tightlist
+\item
+  Clean up all active highlights and reset search when widget is closed
+\end{itemize}
+
+\item\textbf{action: restart}
+
+\begin{itemize}
+\tightlist
+\item
+  Trigger port reconnect action, on widget re-open
+\end{itemize}
+
+\item\textbf{action: log}
+
+\begin{itemize}
+\tightlist
+\item
+  Logs \texttt{data} (we disable this in production environment) 
+\end{itemize}
+\end{itemize}
+
+Object \texttt{currentMatch} that is often returned as a part of the response message is used to display advanced regex information about matched regex groups. It has the following structure:
+\texttt{\{groups:\ Array\textless{}string\textgreater{},\ replace:\ string\}}
+
+We set up our messaging API this way because we want to minimize the amount of data that need to be exchanged between the extension's search widget and the page. The content script receives a search request from the search widget, performs the search, highlights matches, and returns status information back to the search widget. 
+
+The other API calls follow a similar pattern, where the content script is asked to perform a certain action in the web page and return new status information back to the search widget afterwards (i.e. the number of matches, the current match, etc.).
 
 \section{Accessibility}
 Having read the Chrome extension accessibility guidelines \cite{C4}, we implemented several usability improvements that benefit not only people with disabilities but also regular users who can get things done more quickly or can more easily use the extension. 
