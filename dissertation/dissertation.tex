@@ -378,7 +378,11 @@ At the time when the project was first designed, it seemed reasonable to exclude
 \chapter{Implementation}
 
 \section{Component Overview}
-% todo
+As mentioned before, our extension consists of three main components -- a pop-up widget presenting the search UI to the user, a few content scripts, which are pieces of JavaScript code that are injected into the current web page so that we can interact with its content (e.g. perform the search and highlighting), and finally a background page, which has full access to the privileged extension APIs (other extension components do not) and performs our content script injection whenever the user launches the extension's search widget.
+
+We designed our extension with privacy in mind, so that is why instead of giving the extension permission to access all browser tabs and being able to automatically run, it can only start operating in the current tab once the user launched the search widget, not before. This involved more work, as we had to implement the dynamic content script injection, set up the relevant event listeners, and add addition logic to prevent repeated script injection after switching between browser tabs back and forth.
+
+Despite having to write significantly more code, it allowed us to get rid of the extra permissions we would otherwise need to request in the extension manifest. These permissions are displayed to the user just before installation and requesting one that can \textit{Read and change all your data on the websites that you visit} is definitely one that we wanted to avoid, as it could discourage many users. This way we do not need any special permissions.
 
 \section{Search Widget}
 To implement the search UI widget, we could simply create DOM elements for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state -- a better approach would be to store the state of the search parameters in one central place/datastore and have the UI inputs reflect this data. Therefore, we used the React.js library to implement the user interface.
