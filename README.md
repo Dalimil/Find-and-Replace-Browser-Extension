@@ -157,17 +157,6 @@ TODO: explain recursive search for active element
 
 TODO: explain the concept of my Context object - performing all dom operations (in particular jQuery functions) with respect to a specific Window and Document objects (such as window.getActiveSelection, window.scroll etc.)
 
-### Google Analytics
-#### Event Tracking
-##### Events
-###### Domain Tracking
-A lot of the feedback messages that are submitted after someone uninstalls the extension are not very useful and often look something like 'not working'. This is not very helpful as it doesn't tell me on which sites they tried to run it that didn't work for them. The analytics that I have been collecting so far give me insight into which features of the extension are more used than others but tell me nothing about the sites where the extension is actually used.
-
-To get a better idea of which sites are the most frequently used and which should therefore receive more attention (to make sure everything works as expected), we would like to anonymously collect domain names (not URLs, only host names, for privacy issues). This would allow us to construct a list of the top domain names where the extension is used most frequently, and this could also help us with user acquisition and targeted marketing in the future. We therefore add a Google Analytics event that reports the domain name whenever the extension is used. We can then combine unique events from each user to create the list.
-
-![Top Domains](docs/top-domains.png)
-*Top domains after 2 weeks of reports. 13th January 2018*
-
 ### Feedback & Iteration
 
 #### Changelog (releases)
