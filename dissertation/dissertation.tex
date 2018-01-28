@@ -509,7 +509,38 @@ The extension was released on Chrome and Firefox web stores, where users can dow
 We embedded the Google Analytics code into our extension's widget, so that we can track how many times users open the search widget, as well as how many unique users we have, and what kind of population they represent (along with additional user details).
 
 \subsection{Page View Tracking}
-..todo...
+Our search widget is essentially a single page application, but we would like to track how many times users open different widget tabs (history, templates, etc.). Therefore we send a `pageview` event every time a user opens a tab, and set the pageview path to the name of the tab. That way we could look at opening tabs as an actual page navigation (inspiration to follow this approach taken from \cite{A22}).
+
+\subsection{Event Tracking}
+In addition to the basic user and page view tracking we wanted to know how users interact with our extension and in particular, if they use certain functionality significantly less or more. This might suggest potential ways we can improve our extension - for instance, if nobody ever uses the templates panel, perhaps we need to educate users on how to use it more effectively, or perhaps reconsider its overall usability.
+
+We decided to start collecting the following types of events:
+\begin{itemize}
+\tightlist
+\item
+  \textit{Analytics enabled/disabled clicked} -- If the user has allowed Analytics to be used for a week and then opts-out, we want to know they did it (rather than thinking they stopped using the extension)
+\item
+  \textit{Added to/Removed from Favourites} -- We can get more insight by looking at how often users use the star button. If they have never used it, perhaps it is not intuitive enough.
+\item
+  \textit{New Template Created} -- Enables us to see how often users create new templates. If the numbers are very low, perhaps they do not know how to use this feature.
+\item
+  \textit{Template Successfully Pasted} -- Enables us to see how many users have successfully inserted a template into a web page and thus how many know how to use them.
+\item
+  \textit{Advanced Search enabled/disabled} -- We would like to know how often users use the advanced search functionality (regex search and in-selection search)
+\end{itemize}
+
+In the Google Analytics Dashboard we can plot how many of the total number of users triggered that given event in a given time period (see figure).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{../docs/user-behavior.png}
+\caption{User behavior and feature usage}
+\end{figure}
+
+We can clearly see that a large portion of people use advanced search and the favorites panel. However, only a small portion use templates. This corresponds to the data that we obtained from tracking the page views (tab views), where a lot of people access the favorites and history tabs, but only a few visit the templates and help tabs.
+
+\subsection{Domain Tracking}
+...todo...
 
 \section{Support Website}
 There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
