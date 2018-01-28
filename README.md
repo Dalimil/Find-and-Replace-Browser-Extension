@@ -18,32 +18,6 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 ## Development
 
-### Accessibility
-(todo: look at https://developer.chrome.com/extensions/a11y)
-
-#### Keyboard
-Launch the toolbar: `Ctrl+Shift+F` (`Command+Shift+F` on Mac)
-Note that all `Ctrl+F`, `Ctrl+R`, and `Ctrl+Shift+R` are already predefined browser shortcuts, so we cannot use those.
-
-Once the search widget appears:
-  - Next match: `Enter` in *Find* input field
-  - Previous match: `Shift+Enter` in *Find* input field
-  - Replace: `Enter` in *Replace* input field
-  - Replace All: `Shift+Enter` in *Replace* input field
-
-When user jumps between occurrences we also want to keep the text in screen viewport and we therefore always check the current element position and scroll the window accordingly in case it is out of view.
-
-#### Context Menu
-User can select text on the page and, after right-clicking the selection, search for the text using the extension. This should open the extension search widget and/or replace the current 'Find' input field with the selected text.
-
-UPDATE: The background page cannot open the pop-up(https://stackoverflow.com/questions/5544256/chrome-extensionhow-to-pragmatically-open-the-popup-window-from-background-htm). It cannot be opened programmatically - the user must click on the browser action or press the keyboard shortcut to open it. But we can inject a content script that creates a floating div in the page with a hint text suggesting the user should press the keyboard shortcut to open the find & replace widget.
-
-#### Widget Design
-At the same time, we initially disable the action buttons when the user hasn't typed in anything into the search field yet. This is in order to draw attention to the active input field element, rather than overwhelming the user with options that cannot be used. Google Docs use the exact same design pattern.
-
-#### Content Script Target Glow Design
-We add a box shadow highlight to the currently selected input area. If no single text area is selected, we higlight all text areas in the page. We do this to indicate which text is going to be affected by the search and replace operation and thus improve usability. Without the visual indicator people might complain that the extension doesn't work, while in fact they might just have a different text area selected. The search widget will also indicate if there are no editable text areas in the page.
-
 ### API Design
 There should be an extension background page with a content script that is programmatically injected into the page whenever the user triggers 'find & replace'.
 

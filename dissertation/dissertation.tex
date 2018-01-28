@@ -43,17 +43,17 @@ The extension has received excellent reviews and at the time of writing has over
 Thanks to
 \begin{itemize}
 \item
-  Boris Grot - for supervising the whole project, and making important feature suggestions leading up to the first official releases of the extension on the Chrome and Firefox web stores
+  Boris Grot -- for supervising the whole project, and making important feature suggestions leading up to the first official releases of the extension on the Chrome and Firefox web stores
 \item
-  Michael O'Boyle - for making suggestions, especially regarding Google Analytics
+  Michael O'Boyle -- for making suggestions, especially regarding Google Analytics
 \item
-  Christoph Metze - for finding several important bugs that subsequently led to releases \texttt{1.3.2}, \texttt{1.3.3}, and \texttt{1.3.4}
+  Christoph Metze -- for finding several important bugs that subsequently led to releases \texttt{1.3.2}, \texttt{1.3.3}, and \texttt{1.3.4}
 \item
-  Daniel Tomberlin - for pointing out a use case when trying to search across multiple single-line inputs, and for updating his web store rating and review after I implemented it in \texttt{1.3.6}
+  Daniel Tomberlin -- for pointing out a use case when trying to search across multiple single-line inputs, and for updating his web store rating and review after I implemented it in \texttt{1.3.6}
 \item
-  GitHub user \href{https://github.com/MarkRH}{MarkRH} - for finding a bug that was later fixed in \texttt{1.1.3}
+  GitHub user \href{https://github.com/MarkRH}{MarkRH} -- for finding a bug that was later fixed in \texttt{1.1.3}
 \item
-  StackOverflow user \href{https://stackoverflow.com/users/3959875/woxxom}{wOxxOm} - for suggesting \texttt{Document.execCommand} API that I used to fix issues with templates in \texttt{1.2.0}
+  StackOverflow user \href{https://stackoverflow.com/users/3959875/woxxom}{wOxxOm} -- for suggesting \texttt{Document.execCommand} API that I used to fix issues with templates in \texttt{1.2.0}
 \end{itemize}
 
 And also thanks to all those people who submitted user feedback or
@@ -192,7 +192,7 @@ This project focused on Chrome and Firefox, which together represent a large por
 Safari, although widely used by Mac users, has its own extension API and is in general much more involved as it requires dealing with Apple's developer libraries and licenses, so we decided not to develop an extension for this browser.
 
 
-%The Introduction chapter should always provide a 'roadmap' to the report. Of course it should provide an introduction to the problem being considered, but it should also give some details of what you did - do not leave this to the conclusion. You should give forward references into the rest of the report - e.g., "In Chapter 2 how algorithms and heuristics are used to deal with approximate counting are discussed", "The design of the system is presented in Chapter 4", "In Chapter 3 the reasons for choosing to focus on the bounded-degree case of this problem are explained". 
+%The Introduction chapter should always provide a 'roadmap' to the report. Of course it should provide an introduction to the problem being considered, but it should also give some details of what you did -- do not leave this to the conclusion. You should give forward references into the rest of the report -- e.g., "In Chapter 2 how algorithms and heuristics are used to deal with approximate counting are discussed", "The design of the system is presented in Chapter 4", "In Chapter 3 the reasons for choosing to focus on the bounded-degree case of this problem are explained". 
 
 % make sure you point out what was involved in solving certain problems; this can help a non-expert judge the work involved. For instance: "The interpolation algorithm was implemented in C directly, rather than using the routines in Matlab". "In order to develop a user interface appropriate for the educational system, 4 prototypes were tested on 50 students". 
 
@@ -200,7 +200,7 @@ Safari, although widely used by Mac users, has its own extension API and is in g
 
 
 \chapter{Background}
-A browser extension is a bundled collection of files - HTML, CSS, JavaScript, images and other assets, that together add functionality to the browser. They have access to the standard DOM API (same as a regular website) but in addition to that they can access the WebExtensions API, which is provided by the browser. At the time of writing, the WebExtensions API is to a large extent (only with slight deviations in implementations) supported by Mozilla Firefox, Google Chrome, Microsoft Edge, and Opera browsers (see detailed explanation in \cite{C1}, \cite{C2}, \cite{M6} and \cite{M7}).
+A browser extension is a bundled collection of files -- HTML, CSS, JavaScript, images and other assets, that together add functionality to the browser. They have access to the standard DOM API (same as a regular website) but in addition to that they can access the WebExtensions API, which is provided by the browser. At the time of writing, the WebExtensions API is to a large extent (only with slight deviations in implementations) supported by Mozilla Firefox, Google Chrome, Microsoft Edge, and Opera browsers (see detailed explanation in \cite{C1}, \cite{C2}, \cite{M6} and \cite{M7}).
 
 A typical extension consists of a background page, which holds the main logic of the extension and has full access to the APIs, pop-up widget, which presents the extension's user interface, and one or more content scripts, which are pieces of JavaScript code that are injected into the current web page so that we can interact with its content.
 
@@ -253,7 +253,7 @@ To some extent, we wanted to follow the current standard of find \& replace tool
 
 We wanted our extension to follow some of the design patterns that the existing text editors use, so that users are presented with a user interface that they can easily understand and start using quickly.
 
-At the same time, it should not be assumed that average users are familiar with regular expression or more advanced search functions. Therefore, the UI design of some of these editor widgets should only be used as an inspiration - average users are not developers and the number of options in this extension must not feel overwhelming.
+At the same time, it should not be assumed that average users are familiar with regular expression or more advanced search functions. Therefore, the UI design of some of these editor widgets should only be used as an inspiration -- average users are not developers and the number of options in this extension must not feel overwhelming.
 
 \section{UI Components}
 To support all the functionality that we specified, the extension widget should have the following UI elements:
@@ -314,7 +314,7 @@ To support all the functionality that we specified, the extension widget should 
   \end{itemize}
 \end{itemize}
 
-We split the user interface layout into two types - simple and advanced. Because displaying all search options in one widget might feel overwhelming for average users, there is a way of switching the search UI to the \textit{advanced} state that includes regex options and helpful previews of matched regex groups etc.
+We split the user interface layout into two types -- simple and advanced. Because displaying all search options in one widget might feel overwhelming for average users, there is a way of switching the search UI to the \textit{advanced} state that includes regex options and helpful previews of matched regex groups etc.
 
 \begin{figure}[h]
 \centering
@@ -378,11 +378,11 @@ At the time when the project was first designed, it seemed reasonable to exclude
 \chapter{Implementation}
 
 \section{Search Widget}
-To implement the search UI widget, we could simply create DOM elements for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state - a better approach would be to store the state of the search parameters in one central place/datastore and have the UI inputs reflect this data. Therefore, we used the React.js library to implement the user interface.
+To implement the search UI widget, we could simply create DOM elements for all the input components and listen to any changes as the user interacts with the UI. Unfortunately, all input components manage their own state -- a better approach would be to store the state of the search parameters in one central place/datastore and have the UI inputs reflect this data. Therefore, we used the React.js library to implement the user interface.
 
-The React library \cite{A3} has become very popular in recent years - one reason is that it enforces the pattern of always reflecting the current application state in the UI. React's internal state is the single source of truth (see React input handling \cite{A4}).
+The React library \cite{A3} has become very popular in recent years -- one reason is that it enforces the pattern of always reflecting the current application state in the UI. React's internal state is the single source of truth (see React input handling \cite{A4}).
 
-Without it, we would have to manage all the inputs separately and this could create many UI inconsistencies - incorrect update of our internal data might create a state of the application where our search parameters are set to certain values internally but display different state externally via our UI. As we are dealing with a lot of different inputs (many search parameters as well as the simple and advanced modes of the search layout), using React seemed to be a wise choice.
+Without it, we would have to manage all the inputs separately and this could create many UI inconsistencies -- incorrect update of our internal data might create a state of the application where our search parameters are set to certain values internally but display different state externally via our UI. As we are dealing with a lot of different inputs (many search parameters as well as the simple and advanced modes of the search layout), using React seemed to be a wise choice.
 
 Note that React is only a JavaScript library that allows for a particular way of implementing UI code, but itself doesn't provide any predefined components or styling. The search widget UI was built from scratch without using any existing stylesheets or components.
 
@@ -392,6 +392,37 @@ To also support React's JSX syntax (see \cite{A5}) and newest ECMAScripts langua
 
 
 \section{Accessibility}
+Having read the Chrome extension accessibility guidelines \cite{C4}, we implemented several usability improvements that benefit not only people with disabilities but also regular users who can get things done more quickly or can more easily use the extension. 
+
+\subsection{Keyboard}
+We implemented keyboard shortcuts that can be used to control the extension more efficiently. One can launch the search widget with \texttt{Ctrl+Shift+F} (\texttt{Command+Shift+F} on
+Mac). Note that all \texttt{Ctrl+F}, \texttt{Ctrl+R}, and
+\texttt{Ctrl+Shift+R} were already predefined browser shortcuts, so we could not use those.
+
+Once the search widget appears, the following operations can performed using the keyboard:
+\begin{itemize}
+\tightlist
+\item
+  Next match: Pressing \texttt{Enter} when focused in \emph{Find} input field
+\item
+  Previous match: Pressing \texttt{Shift+Enter} when focused in \emph{Find} input field
+\item
+  Replace: Pressing \texttt{Enter} when focused in \emph{Replace} input field
+\item
+  Replace All: Pressing \texttt{Shift+Enter} when focused in \emph{Replace} input field
+\end{itemize}
+
+\subsection{Browser Context Menu}
+We added a new item to the browser's text-selection context menu. Users can select text on the page and, after right-clicking the selection, search for the text using the extension. This would ideally open the extension's search widget and substitute the selected text in the \textit{Find} input field. 
+
+Unfortunately the extension API currently does not support opening the pop-up programmatically \cite{A19} -- the user must click the extension icon or press the keyboard shortcut to open it. Until the extension API is updated we can at least inject a script into the current page that creates a floating div notifying the user that they should press the keyboard shortcut to open the search widget. We can substitute the selected text in the \textit{Find} field in the background, so the users will immediately see the search results for their selected text once they open the widget.
+
+\subsection{Search Widget Accessibility}
+To improve the usability of our search widget, we initially disable the action buttons when the user hasn't typed in anything into the search field yet. This is in order to draw attention to the active input field element, rather than overwhelming the user with options that cannot be used (e.g. clicking \textit{Find next} when there is nothing to find). Google Docs use the exact same design pattern. 
+
+To better indicate the target elements of our extension in the page, we add a box shadow highlight to the currently selected input area. If no single text area is selected, we highlight all text areas in the page (because the default is to search across all the editable areas in the page). We do this to indicate which text is going to be affected by the search and replace operation and thus improve usability. Without the visual indicator people might complain that the extension does not work, while in fact they might just have a different text area selected. The search widget will also indicate if there are no editable text areas present in the page.
+
+Another improvement that we implemented was that when users jump between occurrences (using \textit{Find next/prev} we need to keep the currently highlighted text in screen viewport -- the web page can have a scrollbar and all highlighted matches might not fit on one screen at the same time. We therefore always check the current element's position and scroll the window accordingly in case it is out of view.
 
 \section{Favorites Panel}
 % TODO: explain hashing search state to check if the item is in favourites
@@ -441,12 +472,12 @@ The Selenium project have their own JavaScript implementation for the client API
 \subsubsection{Browser Automation Tests}
 We created a test that checks that after the WebDriver spins up a new browser instance (Chrome or Firefox) and installs our extension, a new tab is created with our help text (user guide), which is the default behavior our extension should follow immediately after being installed.
 
-Unfortunately the WebDriver does not allow direct mouse interactions with the extension - there is no way to launch it from the toolbar (mentioned in \cite{A17} and \cite{A18}). At the same time, we designed the extension with the minimal set of permission needed, so the extension does not execute any code or inject anything into the web page unless the user launches the extension widget first.
+Unfortunately the WebDriver does not allow direct mouse interactions with the extension -- there is no way to launch it from the toolbar (mentioned in \cite{A17} and \cite{A18}). At the same time, we designed the extension with the minimal set of permission needed, so the extension does not execute any code or inject anything into the web page unless the user launches the extension widget first.
 
-The only way we could overcome this limitation would be to create a new extension that forces the injection of the content script code in every page the browser visits and also automatically starts sending the exact data payloads mocking the API calls coming from the (never running) search widget. Besides it being loads of work to implement, this would not actually be the full functional tests that we were aiming for - it would be testing the content script alone but none of the actual component interaction and communication with the search widget. We abandoned this idea, because we already have integration test for testing the content script functionality alone, so this approach would not increase our test coverage.
+The only way we could overcome this limitation would be to create a new extension that forces the injection of the content script code in every page the browser visits and also automatically starts sending the exact data payloads mocking the API calls coming from the (never running) search widget. Besides it being loads of work to implement, this would not actually be the full functional tests that we were aiming for -- it would be testing the content script alone but none of the actual component interaction and communication with the search widget. We abandoned this idea, because we already have integration test for testing the content script functionality alone, so this approach would not increase our test coverage.
 
 \subsection{Manual Tests}
-Due to some of the limitations mentioned above and also to speed up initial development of the core functionality, at the early start of the development process a demo HTML page was created. This HTML page contains all possible combinations of editable text areas - all types (plain textarea, contenteditable, and single-line inputs), all sorts of styling, various states such as with a scrollbar, or in a scrollable container, as well as text areas inside nested iframes, and various other combinations.
+Due to some of the limitations mentioned above and also to speed up initial development of the core functionality, at the early start of the development process a demo HTML page was created. This HTML page contains all possible combinations of editable text areas -- all types (plain textarea, contenteditable, and single-line inputs), all sorts of styling, various states such as with a scrollbar, or in a scrollable container, as well as text areas inside nested iframes, and various other combinations.
 
 It is very quick to open this HTML page in a browser and use the already installed extension to see if everything is working as expected. It also allows for efficient debugging, and troubleshooting a specific element category when things don't work.
 
@@ -460,7 +491,7 @@ The extension was released on Chrome and Firefox web stores, where users can dow
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../docs/user-acquisition.png}
-\caption{Chrome web store page - user traffic sources}
+\caption{Chrome web store page -- user traffic sources}
 \end{figure}
 
 \section{Google Analytics}
@@ -471,7 +502,7 @@ Collecting this data requires us to inform users of the data collection and prov
 \section{Support Website}
 There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
 
-We decided to proceed with an alternative solution of creating a support website and storing all submitted feedback messages in a database. This database can later be queried and filtered based on various criteria (time of submission, feedback type - general feedback vs complaint after uninstalling, ...), which simplified feedback evaluation.
+We decided to proceed with an alternative solution of creating a support website and storing all submitted feedback messages in a database. This database can later be queried and filtered based on various criteria (time of submission, feedback type -- general feedback vs complaint after uninstalling, ...), which simplified feedback evaluation.
 
 We created a static landing page website that presents the extension with relevant links to the browser web stores, and also allows users to submit feedback via a simple form.
 
