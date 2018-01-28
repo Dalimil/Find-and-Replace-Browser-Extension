@@ -15,25 +15,9 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 
 ## Project Specification (TODO -> convert to dissertation report)
-
-### Component Overview
-
-##### Maintaining state across the extension components
-TODO: Explain chrome.storage https://developer.chrome.com/extensions/storage and describe challenges faced when syncing state within the app - abstracting with Promises and chaining async operations once finished + observer pattern - subscribing to updates when another part of the app changes storage
-
 ### Content Script RegEx Search
-JavaScript contains native support for regular expressions (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query.
 
-When choosing the string that we want to search in, we need to only consider the text content in our HTML nodes - finding matches in `innerHTML` would be a mistake since we need to ignore the website's source markup and only consider the text that users see.  
-
-Instead of searching for a one text occurrence at a time, we want to match the behaviour of modern text editors and show the user all matches at once using text highlighting. We therefore only perform the search once (meaning everytime search parameters change), because later actions (find next/prev, replace one/all) will simply work with the text occurrences we already found. 
-
-#### Handling iframes
-TODO: explain recursive search for active element
-
-TODO: explain the concept of my Context object - performing all dom operations (in particular jQuery functions) with respect to a specific Window and Document objects (such as window.getActiveSelection, window.scroll etc.)
-
-#### Highlighting Found Matches
+#### Highlighting
 
 ##### Highlighting in `contenteditable`
 Highlighting inside a `contenteditable` element should not be a problem - we can simply inject our own `span` element with our custom class into the element's DOM. Contenteditable elements are designed to contain any HTML nodes so no problem here.
@@ -79,6 +63,11 @@ In the replace input string, user can specify special symbols to refer to the fo
 - `$0` or `$&` - Inserts the matched substring.
 
 These are commonly used to extend find & replace functionality in advanced text editors. Inspiratio also taken from Mozilla's spec on MDN website: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+
+#### Handling iframes
+TODO: explain recursive search for active element
+
+TODO: explain the concept of my Context object - performing all dom operations (in particular jQuery functions) with respect to a specific Window and Document objects (such as window.getActiveSelection, window.scroll etc.)
 
 ### Feedback & Iteration
 
