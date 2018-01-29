@@ -578,7 +578,13 @@ function setUpApi() {
   setUpMessageConnections();
 
   function setUpMessageConnections() {
-    if (!window.chrome || !window.chrome.runtime || !window.chrome.runtime.onMessage) {
+    let apiUnavailable = false;
+    try {
+      apiUnavailable = !chrome || !chrome.runtime || !chrome.runtime.onMessage;
+    } catch (e) { // chrome is not undefined error
+      apiUnavailable = true;
+    }
+    if (apiUnavailable) {
       console.warn("Not connected. Running in debug mode.");
       window.FindAndReplaceExtension.exposeApiDebugMode = handleApiCall;
       port = { postMessage(msgReply) { console.info(msgReply); }};
