@@ -188,7 +188,8 @@ class TemplatesPanel extends React.Component {
         <div>
           {!this.state.contentScript.noCursorRange && ChangeTextCaseTemplates.ToUpperCaseTemplate}
           {!this.state.contentScript.noCursorRange && ChangeTextCaseTemplates.ToLowerCaseTemplate}
-          {this.state.templates.length == 0 && noSavedTemplatesMessage}
+          {this.state.contentScript.noCursorRange && this.state.templates.length == 0 &&
+            noSavedTemplatesMessage}
           {this.state.templates.map(({ title, text, id, isBeingEdited }) => {
             if (isBeingEdited) {
               return (

@@ -218,11 +218,18 @@ function templateTransformTextCase(toUpperNotLower) {
     $textarea.val(replacedText);
     // Make sure mirror is updated too
     $textarea.change();
+    // Restore selection
+    $textarea.prop('selectionStart', Search.activeCursorSelection.start);
+    $textarea.prop('selectionEnd', Search.activeCursorSelection.end);
   } else { // contenteditable
     const anchorNode = Context.win.getSelection().anchorNode;
     const selectedText = Context.win.getSelection().toString();
+    // insertText replaces currently selected text with new text
     Context.doc.execCommand('insertText', false,
       toUpperNotLower ? selectedText.toUpperCase() : selectedText.toLowerCase());
+    const sel = Context.win.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(Search.activeCursorSelection.contentEditableRange);
     if (anchorNode && anchorNode.parentElement) {
       anchorNode.parentElement.normalize();
     }
@@ -650,7 +657,7 @@ function setUpApi() {
         const { noCursorPosition, noCursorRange } = checkTemplatesInsertable();
         if (!noCursorRange && msg.data.lowerCaseTransform) {
           templateTransformTextCase(/* toUpperNotLower */ false);
-        } else if (!noCursorRange && msg.data.upperCaseTranform) {
+        } else if (!noCursorRange && msg.data.upperCaseTransform) {
           templateTransformTextCase(/* toUpperNotLower */ true);
         } else if (!noCursorPosition) {
           insertTemplate(msg.data.text);
