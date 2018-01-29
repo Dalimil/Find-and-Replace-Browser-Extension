@@ -72,6 +72,7 @@ TODO: explain the concept of my Context object - performing all dom operations (
 ### Feedback & Iteration
 
 #### Changelog (releases)
+- v1.3.11 - 29th Jan - Fix Firefox extension chrome object
 - v1.3.10 - 29th Jan - Add text case transform templates
 - v1.3.9 - 14th Jan - Support local debug mode for testing
 - v1.3.8 - 14th Jan - Fix 'No Target' indicator
