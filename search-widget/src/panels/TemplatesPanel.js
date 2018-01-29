@@ -13,7 +13,8 @@ class TemplatesPanel extends React.Component {
     this.state = {
       templates: [],
       contentScript: {
-        noCursorPosition: false
+        noCursorPosition: false,
+        noCursorRange: true
       }
     }
 
@@ -30,7 +31,10 @@ class TemplatesPanel extends React.Component {
     ConnectionApi.addResponseHandler(msg => {
       if (msg.reply == 'insertTemplate') {
         this.setState({
-          contentScript: { noCursorPosition: msg.data.noCursorPosition }
+          contentScript: {
+            noCursorPosition: msg.data.noCursorPosition,
+            noCursorRange: msg.data.noCursorRange
+          }
         });
         if (!msg.data.noCursorPosition) {
           // No error, signal template insertion success
@@ -110,10 +114,60 @@ class TemplatesPanel extends React.Component {
     Analytics.sendEvent("templates", "new-template-created");
   }
 
+  changeTextToLowerCase() {
+    if (this.state.contentScript.noCursorRange) return;
+    Logger.log(`Applying lower case transform template`);
+    ConnectionApi.insertTemplate({
+      text: "",
+      lowerCaseTransform: true
+    });
+    Analytics.sendEvent("templates", "template-lower-case-applied");
+  }
+
+  changeTextToUpperCase() {
+    if (this.state.contentScript.noCursorRange) return;
+    Logger.log(`Applying upper case transform template`);
+    ConnectionApi.insertTemplate({
+      text: "",
+      upperCaseTransform: true
+    });
+    Analytics.sendEvent("templates", "template-upper-case-applied");
+  }
+
+  renderTextCaseTransformationTemplates() {
+    const ToUpperCaseTemplate = (
+      <div className="templates-list-item" onClick={() => this.changeTextToUpperCase()}>
+        <span title={`Transforms selected text to upper case`}>
+          To UPPER case (transforms selected text)
+        </span>
+        <span>
+          <FontAwesome className="templates-list-item-lock" name='lock'
+            title="This is a pre-defined non-removable item" />
+        </span>
+      </div>
+    );
+    const ToLowerCaseTemplate = (
+      <div className="templates-list-item" onClick={() => this.changeTextToLowerCase()}>
+        <span title={`Transforms selected text to lower case`}>
+          To LOWER case (transforms selected text)
+        </span>
+        <span>
+          <FontAwesome className="templates-list-item-lock" name='lock'
+            title="This is a pre-defined non-removable item" />
+        </span>
+      </div>
+    );
+    return {
+      ToUpperCaseTemplate,
+      ToLowerCaseTemplate
+    };
+  }
+
   render() {
     const noSavedTemplatesMessage = <div style={{ padding: '1em' }}>
         Currently you have no saved templates.</div>;
 
+    const ChangeTextCaseTemplates = this.renderTextCaseTransformationTemplates();
     return (
       <div className="templates-list">
         <div className="panel-title panel-title-extended">
@@ -122,7 +176,7 @@ class TemplatesPanel extends React.Component {
             <span style={{ paddingRight: '10px' }}> Templates</span>
             {this.state.contentScript.noCursorPosition ?
               <span className="templates-panel-title-note-error">
-                (Disabled - click inside editable text area first)</span> :
+                (Disabled - click inside editable text area)</span> :
               <span className="templates-panel-title-note-success">(Click to paste)</span>
             }
           </span>
@@ -132,6 +186,8 @@ class TemplatesPanel extends React.Component {
           </span>
         </div>
         <div>
+          {!this.state.contentScript.noCursorRange && ChangeTextCaseTemplates.ToUpperCaseTemplate}
+          {!this.state.contentScript.noCursorRange && ChangeTextCaseTemplates.ToLowerCaseTemplate}
           {this.state.templates.length == 0 && noSavedTemplatesMessage}
           {this.state.templates.map(({ title, text, id, isBeingEdited }) => {
             if (isBeingEdited) {

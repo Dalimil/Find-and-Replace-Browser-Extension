@@ -154,16 +154,30 @@ function clearEditableAreaGlows() {
 }
 
 /**
+ * Checks if we currently have a cursor selection so that a template can
+ * be inserted or a text case transformation performed
+ */
+function checkTemplatesInsertable() {
+  if (Search.activeCursorSelection == null) {
+    return {
+      noCursorPosition: true,
+      noCursorRange: true
+    };
+  }
+  const isCollapsed = Search.activeCursorSelection.start == Search.activeCursorSelection.end;
+  return {
+    noCursorPosition: false,
+    noCursorRange: isCollapsed
+  };
+}
+
+/**
  * Inserts templateText at current cursor position
- * Returns success boolean value
  */
 function insertTemplate(templateText) {
-  if (Search.activeCursorSelection == null) {
-    return false;
-  }
   if (!templateText) {
     // Empty template text => nothing to do => done
-    return true;
+    return;
   }
   // Active cursor is in a textarea or in a contenteditable element
   if (Search.activeCursorSelection.type == TYPES.textarea) {
@@ -183,7 +197,36 @@ function insertTemplate(templateText) {
       anchorNode.parentElement.normalize();
     }
   }
-  return true;
+}
+
+/**
+ * Transforms the current cursor-selected text to upper or lower case
+ */
+function templateTransformTextCase(toUpperNotLower) {
+  if (Search.activeCursorSelection == null) return;
+
+  // Active selection is in a textarea or in a contenteditable
+  if (Search.activeCursorSelection.type == TYPES.textarea) {
+    // transform in textarea
+    const $textarea = Search.activeCursorSelection.$element;
+    const originalText = $textarea.val();
+    const selectedText = originalText.substring(Search.activeCursorSelection.start,
+      Search.activeCursorSelection.end);
+    const replacedText = originalText.substr(0, Search.activeCursorSelection.start) +
+      (toUpperNotLower ? selectedText.toUpperCase() : selectedText.toLowerCase()) +
+      originalText.substr(Search.activeCursorSelection.end);
+    $textarea.val(replacedText);
+    // Make sure mirror is updated too
+    $textarea.change();
+  } else { // contenteditable
+    const anchorNode = Context.win.getSelection().anchorNode;
+    const selectedText = Context.win.getSelection().toString();
+    Context.doc.execCommand('insertText', false,
+      toUpperNotLower ? selectedText.toUpperCase() : selectedText.toLowerCase());
+    if (anchorNode && anchorNode.parentElement) {
+      anchorNode.parentElement.normalize();
+    }
+  }
 }
 
 /**
@@ -604,10 +647,17 @@ function setUpApi() {
         port.postMessage(getApiResponseData(msg.action, msg.data.replaceText));
         break;
       case 'insertTemplate':
-        const success = insertTemplate(msg.data.text);
+        const { noCursorPosition, noCursorRange } = checkTemplatesInsertable();
+        if (!noCursorRange && msg.data.lowerCaseTransform) {
+          templateTransformTextCase(/* toUpperNotLower */ false);
+        } else if (!noCursorRange && msg.data.upperCaseTranform) {
+          templateTransformTextCase(/* toUpperNotLower */ true);
+        } else if (!noCursorPosition) {
+          insertTemplate(msg.data.text);
+        }
         port.postMessage({
           reply: msg.action,
-          data: { noCursorPosition: !success }
+          data: { noCursorPosition, noCursorRange }
         });
         break;
       default:

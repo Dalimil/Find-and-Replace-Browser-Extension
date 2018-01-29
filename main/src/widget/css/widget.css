@@ -232,12 +232,16 @@ input, textarea {
   .favourites-list-item-remove,
   .templates-list-item-remove,
   .templates-list-item-edit,
+  .templates-list-item-lock,
   .templates-editable-item-save,
   .templates-editable-item-cancel {
     display: none;
     cursor: pointer;
     color: var(--col-text-light);
     font-size: 1.3em;
+  }
+  .templates-list-item-lock {
+    cursor: default;
   }
   .templates-editable-item-save,
   .templates-editable-item-cancel {
@@ -252,7 +256,8 @@ input, textarea {
   }
   .favourites-list-item:hover .favourites-list-item-remove,
   .templates-list-item:hover .templates-list-item-remove,
-  .templates-list-item:hover .templates-list-item-edit {
+  .templates-list-item:hover .templates-list-item-edit,
+  .templates-list-item:hover .templates-list-item-lock {
     display: inline-block;
   }
   .favourites-list-item-remove:hover,
