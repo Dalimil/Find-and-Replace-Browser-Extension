@@ -559,7 +559,13 @@ These patterns are commonly used to extend find \& replace functionality in adva
 We search for these symbols in the \textit{replace string}, and when the user clicks the \textit{Replace} button we substitute the appropriate subgroups (if they are found) for the current replacement in the page.
 
 \subsection{Choosing Target Area Element}
-%...todo... explain we don't search everywhere ... explain iframes...
+By default the extension uses all available text areas in the page as the target of the search and replace operation. However, it is often the case that the user only wants to search in the text area that they are currently editing. We therefore implemented two modes of operation, either the user has no active area selected and the search is executed across all text areas in the page, or they place their active cursor in a specific text area, which is then chosen as the one and only target of the search operation.
+
+To find the currently active element we used browser Document object's \texttt{activeElement} property (see \cite{M10}). This can be an \texttt{iframe} however, which is a different Document and Window context. So we had to first implement recursive search for our active element (iframes can be nested) to determine the correct Window and Document objects that should be used for all DOM operations (such as highlighting and finding matches in the page).
+
+Identifying the right scope was also important for the cursor text selection, as one can have multiple text selections active at the same time (inside different simultaneously displayed iframes).
+
+Even though nested iframes should not be too common in web page design, we had to handle the possibility to ensure correctness, rather than assume that there can only be at most one iframe at a time. We also created a test case to cover the nested iframes scenario.
 
 \section{Accessibility}
 Having read the Chrome extension accessibility guidelines \cite{C4}, we implemented several usability improvements that benefit not only people with disabilities but also regular users who can get things done more quickly or can more easily use the extension. 
