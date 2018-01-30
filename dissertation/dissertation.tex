@@ -575,6 +575,11 @@ We kept maintaining the updated forked version, which should hopefully help othe
 \subsubsection{Highlighting in \texttt{\textless{}input\textgreater{}}}
 We initially excluded single-line input fields from the search as these are only very short pieces of text (typically only a few words), but after receiving user feedback it turned out that there are scenarios when there is a large number of single line text inputs in a single page and someone needs to search and replace a phrase across all of them at once.
 
+The problem was that including single-line inputs by default could degrade the user experience because websites have plenty of search bars or input fields scattered around, often away from the main content. Therefore we added the choice to include single-line inputs in search as a switchable option.
+
+Single-line input elements, similar to HTML textareas, only display plain-text, so for the highlighting we reused some of the code we already had for mirroring and overlaying textareas. The majority of changes were related to the overlay styling, because the input is vertically centered by default and instead of the text wrapping to the next line, it continues as a single line.
+
+Handling the horizontal scroll was problematic however. Firefox correctly fires the scroll event that we were able capture to shift our overlay highlighting by the same scroll amount, but Chrome, on the other hand, does not fire the scroll event at all. It instead automatically resets the scroll position to zero after the element is defocused. So while the initial highlighting will always be correctly aligned, horizontally scrolling the input box with the search widget open will not move the highlights. Since single-line inputs with a large text overflow are quite uncommon in the first place, we ignore this specific case as it presents only a slight visual flaw that will most likely not occur.
 
 \subsection{RegExp Replace}
 To make regular expression search with matched groups useful, we allow the user to refer to matched subgroups in the \textit{Replace} input string via the following special symbols.

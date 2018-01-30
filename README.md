@@ -13,24 +13,7 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 
 ![Find & Replace Browser Extension - Web Store Screenshot B](graphics/web-store/Search-and-Replace-Web-Store-B.jpg)
 
-
-## Project Specification (TODO -> convert to dissertation report)
-### Content Script RegEx Search
-
-#### Highlighting
-
-##### Extending scope to include `<input>` elements
-The problem is that there might potentially be a large number of these input fields in a single webpage - websites have plenty of search bars or input fields scattered around, often away from the main content - so if this functionality is implemented it should only be added as a switchable option, most likely in the existing advanced options in the search widget.
-
-To implement this whole thing, we can reuse some of the code for mirroring and overlaying textareas, some of the styling will be different, because the input is vertically centered by default, and instead of the text wrapping to the next line, it instead continues as a single line.
-
-The horizontal scroll itself is somewhat problematic - Firefox fires the scroll event for us and when user scrolls the input box, it preserves the scroll position after the element is defocused. We can therefore capture the scroll event and shift our overlay highlighting by the same scroll amount.
-
-Chrome on the other hand doesn't fire the scroll event for us, but since it automatically resets the scroll position to zero after the element is defocused the initial highlighting will always be correctly aligned. The only issue arises when the user tries to horizontally scroll the input box with the extension search widget open, because the highlights will not move. This can only be done with a touchpad however, as clicking into the page would dismiss the search widget. Since single line inputs with a large text overflow are quite uncommon in the first place, we ignore this specific case, as it presents only a slight visual flaw, that will most likely not occur.
-
-### Feedback & Iteration
-
-#### Changelog (releases)
+## Changelog (releases)
 - v1.3.11 - 29th Jan - Fix Firefox extension chrome object
 - v1.3.10 - 29th Jan - Add text case transform templates
 - v1.3.9 - 14th Jan - Support local debug mode for testing
