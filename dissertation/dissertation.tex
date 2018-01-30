@@ -539,7 +539,14 @@ The other API calls follow a similar pattern, where the content script is asked 
 JavaScript contains native support for regular expressions (see \cite{M8}). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query. As long as we limit our search to visible text in editable text areas (rather than raw HTML source), finding occurrences is not a problem. The real challenge comes with visually highlighting the found matches in the page. Ideally, we would like to match the behavior of modern text editors and show to the user all found matches at once using text highlighting.
 
 \subsection{Highlighting}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{../main/images/help/highlighting.png}
+\caption{Match highlighting}
+\end{figure}
+
 \subsubsection{Highlighting in \texttt{contenteditable}}
+
 \subsubsection{Highlighting in \texttt{\textless{}textarea\textgreater{}}}
 \subsubsection{Highlighting in \texttt{\textless{}input\textgreater{}}}
 
@@ -602,12 +609,32 @@ Another improvement that we implemented was that when users jump between occurre
 
 \section{Favorites Panel}
 % TODO: explain hashing search state to check if the item is in favourites
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../main/images/help/fav-step-3.png}
+\caption{Favorites Panel Tab}
+\end{figure}
+
 \section{History Panel}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../main/images/help/history.png}
+\caption{History Panel Tab}
+\end{figure}
+
 \section{Templates Panel}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../main/images/help/templates.png}
+\caption{Templates Panel Tab}
+\end{figure}
+
 \section{Help Panel}
-
-%You should always make it clear what was completed, and what was left as future work. If in doubt spell it out: tell us which bits of code you could find already written, which bits you had to do from scratch, which bits were routine, which bits were challenging (and why). 
-
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../main/images/help/help-panel.png}
+\caption{Help Panel Tab}
+\end{figure}
 
 \section{Testing}
 The Chrome Extension Developer Guides contain a section on debugging \cite{C3} but any standardized extension testing approaches are nonexistent. Due to technology similarities, we can examine how we could test our extension if it was a standard web application.
