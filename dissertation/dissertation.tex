@@ -560,10 +560,21 @@ reinventing the wheel, it was wiser to use a plugin that is actively
 maintained and can handle these cases for us.
 
 \subsubsection{Highlighting in \texttt{\textless{}textarea\textgreater{}}}
+Highlighting text in \texttt{\textless{}textarea\textgreater{}} was more tricky because this HTML element only allows plain text to be displayed inside it. Any styled markup will not render as expected. To overcome this, one must create an overlay with invisible text that exactly matches the textarea element and then highlight text in this new element. Further, there are many browser-specific quirks and one must also take care of synchronizing scrolling and handling textareas that are resizable by the user (the fact that it is a lot of work is discussed in \cite{A24}).
 
+Fortunately, there have previously been a few attempts to implement this. The most successful version we found was a Will Boyd's jQuery plugin\footnote{\url{https://github.com/lonekorean/highlight-within-textarea/}}, because to some extent it also supported resizable textareas (other plugins we found did not).
 
+Even though this plugin did better than all the other plugins, it still had many issues, particularly when it came to transferring all necessary CSS styles from the source textarea to the overlay element. During testing, it failed to properly align text for multiple textareas with various styling.
+
+Therefore, we contributed to the development of this open-source plugin by fixing all the bugs we found and creating a pull-request on GitHub (with 10 new commits fixing various issues).\footnote{\url{https://github.com/lonekorean/highlight-within-textarea/pull/19}}
+
+After two code reviews done by the author of the original plugin, this remains unmerged (at the time of writing). This is because the author had conflicting views on the design and purpose of the plugin (we are dynamically injecting the plugin code, which is a somewhat different use case) and he was also worried about backward-compatibility. 
+
+We kept maintaining the updated forked version, which should hopefully help other people developing textarea highlighting. It has already been referred to in one other GitHub issue created by a different user.\footnote{\url{https://github.com/lonekorean/highlight-within-textarea/issues/21\#issuecomment-345318936}}
 
 \subsubsection{Highlighting in \texttt{\textless{}input\textgreater{}}}
+We initially excluded single-line input fields from the search as these are only very short pieces of text (typically only a few words), but after receiving user feedback it turned out that there are scenarios when there is a large number of single line text inputs in a single page and someone needs to search and replace a phrase across all of them at once.
+
 
 \subsection{RegExp Replace}
 To make regular expression search with matched groups useful, we allow the user to refer to matched subgroups in the \textit{Replace} input string via the following special symbols.
