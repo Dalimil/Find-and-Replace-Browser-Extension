@@ -546,8 +546,23 @@ JavaScript contains native support for regular expressions (see \cite{M8}). With
 \end{figure}
 
 \subsubsection{Highlighting in \texttt{contenteditable}}
+We can highlight a piece of text inside a \texttt{contenteditable}
+element by simply injecting our own \texttt{span} element with our
+custom class into the element's DOM. Contenteditable elements are
+designed to contain any HTML nodes so we are allowed to do this.
+
+We ended up using the \textit{mark.js} \cite{A23} open-source plugin for the highlighting operation. We could certainly implement the highlighting ourselves (wrapping each search occurrence in \texttt{\textless{}span\textgreater{}} elements with custom styling),
+but there are many tricky cases that we would need to handle. For
+instance, HTML \texttt{\textless{}div\textgreater{}John\ \textless{}b\textgreater{}Smith\textless{}/b\textgreater{}\textless{}/div\textgreater{}} matches the query \texttt{John\ S} but simply inserting a \texttt{\textless{}span\textgreater{}} at the start and end would violate HTML rules, and instead we would need to create two pairs of \texttt{\textless{}span\textgreater{}} elements -- for \texttt{John} and another for \texttt{S} inside the \texttt{\textless{}b\textgreater{}} tags.
+
+There are more tricky cases like this. Therefore, rather than
+reinventing the wheel, it was wiser to use a plugin that is actively
+maintained and can handle these cases for us.
 
 \subsubsection{Highlighting in \texttt{\textless{}textarea\textgreater{}}}
+
+
+
 \subsubsection{Highlighting in \texttt{\textless{}input\textgreater{}}}
 
 \subsection{RegExp Replace}
