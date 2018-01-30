@@ -544,6 +544,19 @@ JavaScript contains native support for regular expressions (see \cite{M8}). With
 \subsubsection{Highlighting in \texttt{\textless{}input\textgreater{}}}
 
 \subsection{RegExp Replace}
+To make regular expression search with matched groups useful, we allow the user to refer to matched subgroups in the \textit{Replace} input string via the following special symbols.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\$n}, where \textit{n} is a positive integer, inserts the n-th parenthesized submatch string.
+\item
+  \texttt{\$0} or \texttt{\$\&} both insert the full matched substring.
+\end{itemize}
+
+These patterns are commonly used to extend find \& replace functionality in advanced text editors. Inspiration to implement these symbols was also taken from Mozilla's spec on MDN website \cite{M9}.
+
+We search for these symbols in the \textit{replace string}, and when the user clicks the \textit{Replace} button we substitute the appropriate subgroups (if they are found) for the current replacement in the page.
 
 \subsection{Choosing Target Area Element}
 %...todo... explain we don't search everywhere ... explain iframes...

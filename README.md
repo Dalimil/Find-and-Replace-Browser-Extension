@@ -56,14 +56,6 @@ The horizontal scroll itself is somewhat problematic - Firefox fires the scroll 
 
 Chrome on the other hand doesn't fire the scroll event for us, but since it automatically resets the scroll position to zero after the element is defocused the initial highlighting will always be correctly aligned. The only issue arises when the user tries to horizontally scroll the input box with the extension search widget open, because the highlights will not move. This can only be done with a touchpad however, as clicking into the page would dismiss the search widget. Since single line inputs with a large text overflow are quite uncommon in the first place, we ignore this specific case, as it presents only a slight visual flaw, that will most likely not occur.
 
-#### RegExp Replace
-In the replace input string, user can specify special symbols to refer to the found occurrence.
-
-- `$n` - Where n is a positive integer, inserts the n-th parenthesized submatch string.
-- `$0` or `$&` - Inserts the matched substring.
-
-These are commonly used to extend find & replace functionality in advanced text editors. Inspiratio also taken from Mozilla's spec on MDN website: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
-
 #### Handling iframes
 TODO: explain recursive search for active element
 
