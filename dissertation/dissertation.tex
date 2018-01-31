@@ -659,11 +659,17 @@ The history panel has a similar user interface and functionality as the favorite
 \end{figure}
 
 \section{Templates Panel}
+Templates allow users to define a piece of text which can later be pasted into the active input area. This could be a signature, a commonly used email response, or any other piece of text that the user is planning to reuse often.
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../main/images/help/templates.png}
 \caption{Templates Panel Tab}
 \end{figure}
+
+Later we also implemented text transformation commands that appear in this tab whenever there is an active text selection present in the page. This allows users to transform a piece of text to either lower case or upper case with a single click. This is useful because changing text case is in general not an operation easily performed by using regular expressions.
+
+The operations that can be performed using the templates panel are designed for more advanced users, and that is why we decided to move this functionality to this separate panel, rather than trying to include everything in the main search UI.
 
 \section{Help Panel}
 \begin{figure}[h]
