@@ -639,7 +639,10 @@ To better indicate the target elements of our extension in the page, we add a bo
 Another improvement that we implemented was that when users jump between occurrences (using \textit{Find next/prev} we need to keep the currently highlighted text in screen viewport -- the web page can have a scrollbar and all highlighted matches might not fit on one screen at the same time. We therefore always check the current element's position and scroll the window accordingly in case it is out of view.
 
 \section{Favorites Panel}
-% TODO: explain hashing search state to check if the item is in favourites
+We added an option for users to save their frequent search queries to the list of favorites. This stores their current search options together with the content of the \textit{Find} and \textit{Replace} fields. The UI state can be later restored by clicking the saved item in the list of favorites.
+
+The search UI dynamically switches between the \textit{Save to Favorites} and \textit{Remove from Favorites} star icon to indicate if the current state of the UI (all the search parameters) are already saved in the list or not. To implement this, we store the hash of the search parameters for each item in the list of favorites. Later when the user changes the state of the UI and starts searching for something else, we hash the parameters again and check if the hash is stored in our hashtable (containing all the hashes of the stored favorite items), thus determining if the current UI state is saved in the list of favorites or not (and changing the star icon indicator appropriately).
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../main/images/help/fav-step-3.png}
@@ -647,6 +650,8 @@ Another improvement that we implemented was that when users jump between occurre
 \end{figure}
 
 \section{History Panel}
+The history panel has a similar user interface and functionality as the favorites panel, but instead of leaving the decision to store the given search state up to the user, we add items automatically. We also make sure that we only add meaningful items that resulted in a successful search and replace operation, rather than storing every single change of the search UI.
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../main/images/help/history.png}
