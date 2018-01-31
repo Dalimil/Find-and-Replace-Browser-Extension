@@ -6,9 +6,9 @@ function submitFeedback($textarea, $button, urlEndpoint) {
     e.preventDefault();
 
     const feedback = $textarea.val();
-    if (feedback.length < 20) {
+    if (feedback.length < 30) {
       // Feedback is too short - probably not useful
-      spawnWarningMessage('Could you please be more specific?');
+      spawnWarningMessage('Please tell us which sites did not work so that we can fix them.');
       return false;
     }
     if (submissionInProgress) {
