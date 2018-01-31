@@ -829,9 +829,53 @@ The website was deployed using Firebase Hosting \cite{A8}, which is Google's hos
 The database used to store the feedback comments is Firebase Realtime Database \cite{A9}, which is a NoSQL cloud database from the same family of Google products. This allowed us to have a secure place to store our data with minimal setup time. It also allowed us to have an optimized static website with only the required JavaScript SDKs without having to implement a complex back-end server.
 
 \section{Iteration}
-After the initial web store release we continued to collect feedback from users, and subsequently kept releasing updates to the extension that were fixing bugs and issues that we found.
+After the initial web store release we continued to collect feedback from users, and subsequently kept releasing updates to the extension that were fixing bugs and issues that we found, or were adding features to the extension. The full changelog for specific releases can be found below.
 
-% TODO: insert changelog here
+About eight releases were a direct response to written user feedback that I received, submitted either via feedback forms or (in about four cases) via a direct email message. Further, about five releases were linked to discussions with the project supervisor, about two were a reaction to data received through Google Analytics, and the rest of the releases was own ideation or simply work that had to be done on the extension.
+
+\begin{itemize}
+\tightlist
+\item
+\texttt{v1.3.11} -- 29th Jan -- Fix Firefox extension chrome object
+\item
+\texttt{v1.3.10} -- 29th Jan -- Add text case transform templates
+\item
+\texttt{v1.3.9} -- 14th Jan -- Support local debug mode for testing
+\item
+\texttt{v1.3.8} -- 14th Jan -- Fix \textit{No Target} indicator
+\item
+\texttt{v1.3.7} -- 13th Jan -- Add Google Docs warning notification
+\item
+\texttt{v1.3.6} -- 2nd Jan -- Add support for single-line input fields
+\item
+\texttt{v1.3.5} -- 31st Dec -- Add hostname to GA for domain analysis
+\item
+\texttt{v1.3.4} -- 19th Dec -- Fix \textit{Replace all} with regex groups
+\item
+\texttt{v1.3.3} -- 19th Dec -- Fix restored favorites not storing state
+\item
+\texttt{v1.3.2} -- 18th Dec -- Fix undefined regexp groups substitution
+\item
+\texttt{v1.3.1} -- 27th Nov -- Add info notification for broken sites
+\item
+\texttt{v1.3.0} -- 27th Nov -- Implement dynamic mark tags based on site
+\item
+\texttt{v1.2.1} -- 18th Nov -- Add more events to GAnalytics
+\item
+\texttt{v1.2.0} -- 18th Nov -- Change templates to \texttt{execCommand} API
+\item
+\texttt{v1.1.3} -- 25th Oct -- Fix bugs in replace offsets
+\item
+\texttt{v1.1.2} -- 23th Oct -- Add help text links
+\item
+\texttt{v1.1.1} -- 23th Oct -- Add UI hints
+\item
+\texttt{v1.1} -- 20th Oct -- Disable all debug logs
+\item
+\texttt{v1.0} -- 18th Oct -- First prototype released
+\item
+\texttt{v0.1} -- 13th Sep -- Raw dev work started
+\end{itemize}
 
 \chapter{Conclusions}
 The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined), $4.7/5$ stars (14 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
