@@ -672,10 +672,22 @@ Later we also implemented text transformation commands that appear in this tab w
 The operations that can be performed using the templates panel are designed for more advanced users, and that is why we decided to move this functionality to this separate panel, rather than trying to include everything in the main search UI.
 
 \section{Help Panel}
+The help panel contains links to the official website, feedback forms, as well as a link to the official help text. It also allows users to read through the privacy policy. Since all the data collected is based around usage statistics via Google Analytics, we were able to use a third-party tool \textit{iubenda} \cite{A25} to have the privacy policy text generated for us.
+
+At the same time, this tab gives users an option to opt-out of all Google Analytics reporting via a simple switch button. This was an important privacy requirement that had to be implemented.
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../main/images/help/help-panel.png}
 \caption{Help Panel Tab}
+\end{figure}
+
+We also designed a user help guide that explains how to use the extension covering everything from the very basic search functionality all the way to the most advanced use cases (see figure for preview). We open this help text in a new tab right after the extension is installed.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../docs/help-text-screenshot.png}
+\caption{User Guide Page Preview}
 \end{figure}
 
 \section{Testing}
@@ -817,7 +829,7 @@ The website was deployed using Firebase Hosting \cite{A8}, which is Google's hos
 The database used to store the feedback comments is Firebase Realtime Database \cite{A9}, which is a NoSQL cloud database from the same family of Google products. This allowed us to have a secure place to store our data with minimal setup time. It also allowed us to have an optimized static website with only the required JavaScript SDKs without having to implement a complex back-end server.
 
 \section{Iteration}
-After the initial web store release we continued to collect feedback from the users, and subsequently kept releasing updates to the extension that were fixing found bugs and issues.
+After the initial web store release we continued to collect feedback from users, and subsequently kept releasing updates to the extension that were fixing bugs and issues that we found.
 
 % TODO: insert changelog here
 
