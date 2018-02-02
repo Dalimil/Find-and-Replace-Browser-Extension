@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find &amp; Replace Extension</title>
+  <link rel="icon" type="image/png" href="icon32.png" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div id="message" style="max-width: 80%">
+    <h2>Welcome to the Find &amp; Replace Extension Challenge</h2>
+    <h1>Task 0</h1>
+    <p>First make sure you have downloaded the extension</p>
+    <a class="btn btn-green btn-space-right" href="https://chrome.google.com/webstore/detail/find-replace-for-text-edi/jajhdmnpiocpbpnlpejbgmpijgmoknnl">
+      <i class="fa fa-chrome fa-fw space-right"></i> Chrome
+    </a>
+    <a class="btn btn-green" href="https://addons.mozilla.org/en-US/firefox/addon/find-replace-for-text-editing/">
+      <i class="fa fa-firefox fa-fw space-right"></i> Firefox
+    </a>
+    <br /><br /><br />
+    <h1>Task 1</h1>
+    <p>Use the extension to change 2nd and 3rd occurrence of the phrase "informatics" to "Informatics Forum" in the following text area.</p>
+    <textarea>Calling all final year informatics students! Welcome to the final year, and hearty greetings from informatics.
+    Soon, you are going to start receiving email reminders to fill in the National Student Survey in informatics. You should already have had one from the Senior Vice Principal Charlie Jeffery, and this will be followed up by Ipsos Mori who conduct the informatics survey itself.</textarea>
+    <br /><br /><br />
+
+    <h1>Task 2</h1>
+    <p>Use the extension to change all occurences of "JQuery" to "Query", but leave occurences of "jQuery" unchanged.</p>
+    <textarea>Introducing jQuery informatics. Yes, JQuery the most widely deployed JS library by a large margin (any jQuery challengers here?).
+      jQuery's syntax is designed to make it easier to navigate an informatics JQuery document, select DOM elements, create animations, handle events, and develop Ajax applications for JQuery. But jQuery also provides capabilities for developers</textarea>
+    <br /><br /><br />
+
+    <h1>Task 3</h1>
+    <p>Perform Task 1 without using your keyboard, knowing that the extension has a history tab.</p>
+    <textarea>Calling all final year informatics students! Welcome to the final year, and hearty greetings from informatics.
+      Soon, you are going to start receiving email reminders to fill in the National Student Survey in informatics. You should already have had one from the Senior Vice Principal Charlie Jeffery, and this will be followed up by Ipsos Mori who conduct the informatics survey itself.</textarea>
+    <br /><br /><br />
+    
+    <h1>Task 4</h1>
+    <p>Select the following paragraph and using the template panel, change it to UPPER case, and then define a new template called "Challenge Draft" containing this UPPER-cased text.</p>
+    <textarea>Hello ${NAME}, hope this email finds you, ${NAME}, in a good shape. This email was addressed specifically to you ${NAME}, so read it in full. Have a great day ${NAME}.</textarea>
+    <br /><br /><br />
+
+    <h1>Task 5</h1>
+    <p>Go to your Gmail, compose a new email, addressed to dalimilme@gmail.com, with subject 'Challenge Done', and insert template "Challenge Draft" as the content. Now replace ${NAME} with "Bob" and send.</p>
+    <br /><br /><br />
+
+    <a href="#" class="default-a" style="cursor: not-allowed; background: gray;" onclick="return false;">Done with the challenge</a>
+  </div>
+  <p id="load">Thanks for participating in the challenge.</p>
+
+  <script src="https://use.fontawesome.com/4012d82546.js"></script>
+</body>
+</html>
