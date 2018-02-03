@@ -57,7 +57,7 @@ Thanks to
 \end{itemize}
 
 And also thanks to all those people who submitted user feedback or
-reviews.
+reviews, and people who participated in the user study.
 
 \standarddeclaration
 
@@ -886,8 +886,21 @@ Instead of letting people play with the extension on their own (and conducting i
 
 This user session was run with multiple individuals from the School of Informatics at the University of Edinburgh. These users could be described as slightly more advanced as they had working knowledge of regular expressions, yet it was their first time using this extension.
 
-The results after observing the users and talking to them afterwards clearly showed that 
-%...todo search straightforward but templates confusing... 
+The results after observing the users and talking to them afterwards clearly showed that even though first-time users have no difficulty using the search \& replace user-interface including more advanced functionality, most of them struggled to use the templates panel correctly when they first used it. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{../graphics/template-edit-mode.png}
+\caption{Template panel editing mode}
+\end{figure}
+
+The issue was that when users starts editing a template, they must click either the \textit{Save} or \textit{Cancel} icon before they exit (see figure). Many people closed the extension by clicking into the page (the browser closes the pop-up widget in such case -- this cannot be overridden), and thus lost their changes.
+
+We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with the saving status indicator similar to the one used in Gmail.
+
+This prevented users from losing their template changes, while still allowing them to revert their edits using the \texttt{Ctrl+Z} keyboard shortcut.
+
+% todo add new panel screenshot %
 
 \chapter{Conclusions}
 The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined), $4.7/5$ stars (14 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
@@ -895,7 +908,7 @@ The extension has received excellent reviews and at the time of writing has over
 \section{Further Work}
 Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When we insert our highlighting markup, and replace text, their JavaScript immediately restores the previous state (switches back to the original text). We could completely detach their JavaScript listeners, but that stops saving any further changes to the text. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
 
-We sought help on StackOverflow, but the only suggestion received was trying \texttt{Document.execCommand} API \cite{A10}, which is a mostly deprecated API that was meant to be replaced by contenteditable. It is currently implemented inconsistently across browsers, and using it to replace a piece of text involves manipulating the active cursor selection programmatically. Even after a lot of testing it proved very unreliable and even the W3C specification currently advises against using it.
+We sought help on StackOverflow, but the only suggestion that received was to try the \texttt{Document.execCommand} API \cite{A10}, which is a mostly deprecated API that was meant to be replaced by contenteditable. It is currently implemented inconsistently across browsers, and using it to replace a piece of text involves manipulating the active cursor selection programmatically. Even after a lot of testing it proved very unreliable and even the W3C specification currently advises against using it.
 
 Google Docs, Jupyter Notebook, or websites using the CodeMirror plugin, are also currently broken. These web apps don't use textareas or contenteditable to store editable text. Instead they implement their own user input handling and then convert, store, and display everything as raw HTML.
 
