@@ -833,10 +833,13 @@ At the time of writing, we have received 274 uninstall feedback comments (submit
 \section{Iteration}
 After the initial web store release we continued to collect feedback from users, and subsequently kept releasing updates to the extension that were fixing bugs and issues that we found, or were adding features to the extension. The full changelog for specific releases can be found below.
 
-About eight releases were a direct response to written user feedback that I received, submitted either via feedback forms or (in about four cases) via a direct email message. Further, about five releases were linked to discussions with the project supervisor, about two were a reaction to data received through Google Analytics, and the rest of the releases was own ideation or simply work that had to be done on the extension.
+About eight releases were a direct response to written user feedback that I received, submitted either via feedback forms or (in about four cases) via a direct email message. Further, about five releases were linked to discussions with the project supervisor, about two were a reaction to data received through Google Analytics, one was addressing the results of our user study, and the rest of the releases were results of own ideation or simply work that had to be done on the extension.
 
+\paragraph*{Changelog}
 \begin{itemize}
 \tightlist
+\item
+\texttt{v1.3.12} -- 3rd Feb -- Implement auto-save in templates panel
 \item
 \texttt{v1.3.11} -- 29th Jan -- Fix Firefox extension chrome object
 \item
@@ -891,7 +894,7 @@ The results after observing the users and talking to them afterwards clearly sho
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\textwidth]{../graphics/template-edit-mode.png}
-\caption{Template panel editing mode}
+\caption{Template panel -- old editing mode}
 \end{figure}
 
 The issue was that when users starts editing a template, they must click either the \textit{Save} or \textit{Cancel} icon before they exit (see figure). Many people closed the extension by clicking into the page (the browser closes the pop-up widget in such case -- this cannot be overridden), and thus lost their changes.
