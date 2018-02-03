@@ -215,10 +215,10 @@ class TemplatesPanel extends React.Component {
           {!this.state.contentScript.noCursorRange && ChangeTextCaseTemplates.ToLowerCaseTemplate}
           {this.state.contentScript.noCursorRange && this.state.templates.length == 0 &&
             noSavedTemplatesMessage}
-          {this.state.templates.map(template => {
+          {this.state.templates.map((template, index) => {
             if (template.isBeingEdited) {
               return (
-                <div className="templates-list-editable-item" key={template.id}>
+                <div className="templates-list-editable-item" key={index}>
                   <div className="templates-editable-header">
                     <input className="text-input templates-editable-title-input"
                       type="text"
@@ -248,7 +248,7 @@ class TemplatesPanel extends React.Component {
               );
             } else {
               return (
-                <div className="templates-list-item" key={template.id}
+                <div className="templates-list-item" key={index}
                     onClick={() => {
                       if (!this.state.contentScript.noCursorPosition) {
                         this.handleTemplateSelected(template.text);
