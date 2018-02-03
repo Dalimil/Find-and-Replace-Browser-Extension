@@ -893,17 +893,23 @@ The results after observing the users and talking to them afterwards clearly sho
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.9\textwidth]{../graphics/template-edit-mode.png}
-\caption{Template panel -- old editing mode}
+\includegraphics[width=0.9\textwidth]{../docs/template-edit-mode-old.png}
+\caption{Template panel -- Old editing mode}
 \end{figure}
 
 The issue was that when users starts editing a template, they must click either the \textit{Save} or \textit{Cancel} icon before they exit (see figure). Many people closed the extension by clicking into the page (the browser closes the pop-up widget in such case -- this cannot be overridden), and thus lost their changes.
 
-We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with the saving status indicator similar to the one used in Gmail.
+We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with the saving status indicator similar to the one used in Gmail. The indicator switches between the \textit{Saved} and \textit{Saving...} states as saving to storage takes place in the background. 
 
 This prevented users from losing their template changes, while still allowing them to revert their edits using the \texttt{Ctrl+Z} keyboard shortcut.
 
-% todo add new panel screenshot %
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/template-edit-mode.png}
+\caption{Template panel -- New editing mode}
+\end{figure}
+
+To make things slightly more efficient we implemented a debounce function \cite{A28} for our template editing mode. This means that instead of attempting to start saving changes immediately we wait a few milliseconds to see if the user is going to continue typing or is taking a break. In the former case, we delay our saving operation. Our implementation turned out to be slightly more challenging since we allow for multiple templates to be edited at the same time, which means we had to make sure we scope each debounce function to the right component.
 
 \chapter{Conclusions}
 The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined), $4.7/5$ stars (14 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
