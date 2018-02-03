@@ -250,6 +250,10 @@ input, textarea {
   .templates-editable-item-save {
     margin-right: 10px;
   }
+  .templates-editable-item-save-status {
+    color: var(--col-text-light);
+    margin-right: 15px;
+  }
   .templates-list-item-edit {
     font-size: 1.2em;
     margin-right: 10px;

@@ -191,6 +191,27 @@ class Storage {
     return this.templatesPromise;
   }
 
+  /**
+   * Updates existing template, but doesn't trigger observers' notify call
+   * Returns the new templateId
+   */
+  updateTemplate(templateIdOld, titleNew, textNew) {
+    if (this.dummy) return;
+
+    const templateHash = this.hashTemplate_(titleNew, textNew);
+    this.templatesPromise = this.templatesPromise.then(templates => {
+      delete templates[templateIdOld];
+      templates[templateHash] = { title: titleNew, text: textNew };
+      // Sync storage
+      chrome.storage.local.set({
+        [this.templatesKey]: templates
+      });
+      // Keep new object in memory
+      return templates;
+    });
+    return templateHash;
+  }
+
   notifyHistoryChanged_(history) {
     this.historyObservers.forEach(observer => observer(history));
   }
