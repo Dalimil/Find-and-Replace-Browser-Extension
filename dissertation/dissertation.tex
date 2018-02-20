@@ -34,7 +34,7 @@ The software followed an iterative development process, where user feedback was 
 
 After the initial release, about twenty updates have been subsequently released over the span of a few months. This iteration was further supported by automated tests of several kinds.
 
-The extension has received excellent reviews and at the time of writing has over 4000 weekly users (users from both browsers combined).
+The extension has received excellent reviews, has been mentioned in a Medium article, and at the time of writing has over 4000 weekly users (users from both browsers combined).
 }
 
 \maketitle
@@ -913,6 +913,8 @@ To make things slightly more efficient we implemented a debounce function \cite{
 
 \chapter{Conclusions}
 The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined), $4.7/5$ stars (14 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
+
+In February it was featured in a Medium article\footnote{\url{https://medium.com/@joisig/startupresources-io-issue-97-36a52e6e8478}} as well as on the \textit{StartupResources.io} page as the Tool of the week.\footnote{\url{http://issues.startupresources.io/archive/93526}}
 
 \section{Further Work}
 Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When we insert our highlighting markup, and replace text, their JavaScript immediately restores the previous state (switches back to the original text). We could completely detach their JavaScript listeners, but that stops saving any further changes to the text. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
