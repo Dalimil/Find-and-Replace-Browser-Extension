@@ -177,6 +177,9 @@ input, textarea {
     height: 1.3em;
     padding: 5px 1em;
   }
+  .templates-list-item-themed {
+    background-color: rgba(87, 189, 53, 0.2);
+  }
   .templates-list-editable-item {
     position: relative;
     background-color: rgba(0, 0, 0, 0.01);
@@ -241,7 +244,7 @@ input, textarea {
     font-size: 1.3em;
   }
   .templates-list-item-lock {
-    cursor: default;
+    font-size: 1.2em;
   }
   .templates-editable-item-save,
   .templates-editable-item-cancel {

@@ -160,25 +160,38 @@ class TemplatesPanel extends React.Component {
   }
 
   renderTextCaseTransformationTemplates() {
+    const RevertToOriginalTextButton = (
+      <FontAwesome className="templates-list-item-lock" name='lock'
+        title="Revert to original text"
+        onClick={() => {
+          console.log('reverting... todo');
+        }}
+      />
+    );
+
     const ToUpperCaseTemplate = (
-      <div className="templates-list-item" onClick={() => this.changeTextToUpperCase()}>
+      <div
+        className="templates-list-item templates-list-item-themed"
+        onClick={() => this.changeTextToUpperCase()}
+      >
         <span title={`Transforms selected text to upper case`}>
           To UPPER case (transforms selected text)
         </span>
         <span>
-          <FontAwesome className="templates-list-item-lock" name='lock'
-            title="This is a pre-defined non-removable item" />
+          { RevertToOriginalTextButton }
         </span>
       </div>
     );
     const ToLowerCaseTemplate = (
-      <div className="templates-list-item" onClick={() => this.changeTextToLowerCase()}>
+      <div
+        className="templates-list-item templates-list-item-themed"
+        onClick={() => this.changeTextToLowerCase()}
+      >
         <span title={`Transforms selected text to lower case`}>
           To LOWER case (transforms selected text)
         </span>
         <span>
-          <FontAwesome className="templates-list-item-lock" name='lock'
-            title="This is a pre-defined non-removable item" />
+          { RevertToOriginalTextButton }
         </span>
       </div>
     );
@@ -202,7 +215,7 @@ class TemplatesPanel extends React.Component {
             {this.state.contentScript.noCursorPosition ?
               <span className="templates-panel-title-note-error">
                 (Disabled - click inside editable text area)</span> :
-              <span className="templates-panel-title-note-success">(Click to paste)</span>
+              <span className="templates-panel-title-note-success">(Click to activate)</span>
             }
           </span>
           <span className="templates-create-new-button"
