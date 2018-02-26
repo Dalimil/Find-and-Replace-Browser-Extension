@@ -833,11 +833,15 @@ At the time of writing, we have received 274 uninstall feedback comments (submit
 \section{Iteration}
 After the initial web store release we continued to collect feedback from users, and subsequently kept releasing updates to the extension that were fixing bugs and issues that we found, or were adding features to the extension. The full changelog for specific releases can be found below.
 
-About eight releases were a direct response to written user feedback that I received, submitted either via feedback forms or (in about four cases) via a direct email message. Further, about five releases were linked to discussions with the project supervisor, about two were a reaction to data received through Google Analytics, one was addressing the results of our user study, and the rest of the releases were results of own ideation or simply work that had to be done on the extension.
+About eight releases were a direct response to written user feedback that I received, submitted either via feedback forms or (in about four cases) via a direct email message. Further, about six releases were linked to discussions with the project supervisor, about two were a reaction to data received through Google Analytics, two were addressing the results of our user study, and the rest of the releases were results of own ideation or simply work that had to be done on the extension.
 
 \paragraph*{Changelog}
 \begin{itemize}
 \tightlist
+\item
+\texttt{v1.3.14} -- 26th Feb -- Add undo action for text-case transform
+\item
+\texttt{v1.3.13} -- 26th Feb -- Fix text-transform templates usability
 \item
 \texttt{v1.3.12} -- 3rd Feb -- Implement auto-save in templates panel
 \item
@@ -912,7 +916,7 @@ This prevented users from losing their template changes, while still allowing th
 To make things slightly more efficient we implemented a debounce function \cite{A28} for our template editing mode. This means that instead of attempting to start saving changes immediately we wait a few milliseconds to see if the user is going to continue typing or is taking a break. In the former case, we delay our saving operation. Our implementation turned out to be slightly more challenging since we allow for multiple templates to be edited at the same time, which means we had to make sure we scope each debounce function to the right component.
 
 \chapter{Conclusions}
-The extension has received excellent reviews and at the time of writing has over 3000 weekly users (users from both browsers combined), $4.7/5$ stars (14 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
+The extension has received excellent reviews and at the time of writing has over 4000 weekly users (users from both browsers combined), $4.7/5$ stars (19 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
 
 In February it was featured in a Medium article\footnote{\url{https://medium.com/@joisig/startupresources-io-issue-97-36a52e6e8478}} as well as on the \textit{StartupResources.io} page as the Tool of the week.\footnote{\url{http://issues.startupresources.io/archive/93526}}
 
