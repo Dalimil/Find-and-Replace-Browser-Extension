@@ -218,6 +218,9 @@ input, textarea {
     background-color: var(--col-bg-d);
     /* background: linear-gradient(180deg, var(--col-bg-b), var(--col-bg-c)); */
   }
+  .templates-list-item-themed:hover {
+    background-color: rgba(87, 189, 53, 0.4);
+  }
   .favourites-list-item:hover::before,
   .history-list-item:hover::before,
   .templates-list-item:hover::before,
