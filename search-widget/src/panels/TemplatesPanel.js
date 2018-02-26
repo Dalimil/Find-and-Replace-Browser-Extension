@@ -15,7 +15,8 @@ class TemplatesPanel extends React.Component {
       contentScript: {
         noCursorPosition: false,
         noCursorRange: true
-      }
+      },
+      originalTextTransformedText: null,
     }
 
     // Used to debounce template edit mode operations mapped by template id
@@ -34,7 +35,8 @@ class TemplatesPanel extends React.Component {
           contentScript: {
             noCursorPosition: msg.data.noCursorPosition,
             noCursorRange: msg.data.noCursorRange
-          }
+          },
+          originalTextTransformedText: msg.data.originalText
         });
         if (!msg.data.noCursorPosition) {
           // No error, signal template insertion success
@@ -159,12 +161,25 @@ class TemplatesPanel extends React.Component {
     Analytics.sendEvent("templates", "template-upper-case-applied");
   }
 
+  revertToOriginalTextTransformedText() {
+    if (!this.state.originalTextTransformedText) {
+      return;
+    }
+    const templateText = this.state.originalTextTransformedText;
+    Logger.log(`Reverting text transform template: "${templateText}"`);
+    ConnectionApi.insertTemplate({
+      text: templateText
+    });
+    Analytics.sendEvent("templates", "template-case-reversed");
+  }
+
   renderTextCaseTransformationTemplates() {
-    const RevertToOriginalTextButton = (
-      <FontAwesome className="templates-list-item-lock" name='lock'
+    const RevertToOriginalTextButton = this.state.originalTextTransformedText && (
+      <FontAwesome className="templates-list-item-lock" name='undo'
         title="Revert to original text"
-        onClick={() => {
-          console.log('reverting... todo');
+        onClick={(e) => {
+          e.stopPropagation();
+          this.revertToOriginalTextTransformedText();
         }}
       />
     );

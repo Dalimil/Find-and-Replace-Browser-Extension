@@ -184,15 +184,29 @@ function insertTemplate(templateText) {
     // insert in textarea
     const $textarea = Search.activeCursorSelection.$element;
     const originalText = $textarea.val();
-    const replacedText = originalText.substr(0, Search.activeCursorSelection.end) +
+    const replacedText = originalText.substr(0, Search.activeCursorSelection.start) +
       templateText + originalText.substr(Search.activeCursorSelection.end);
     $textarea.val(replacedText);
     // Make sure mirror is updated too
     $textarea.change();
+    // Restore selection only if template was same character length
+    const selectionLength = Search.activeCursorSelection.end - Search.activeCursorSelection.start;
+    if (selectionLength == templateText.length) {
+      $textarea.prop('selectionStart', Search.activeCursorSelection.start);
+      $textarea.prop('selectionEnd', Search.activeCursorSelection.end);
+    }
   } else { // contenteditable
     // Inserts a new text node at the end of the current selection
     const anchorNode = Context.win.getSelection().anchorNode;
+    const selectedTextLength = Context.win.getSelection().toString().length;
     Context.doc.execCommand('insertText', false, templateText);
+    
+    // Restore selection only if template was same character length
+    if (selectedTextLength == templateText.length) {
+      const sel = Context.win.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(Search.activeCursorSelection.contentEditableRange);
+    }
     if (anchorNode && anchorNode.parentElement) {
       anchorNode.parentElement.normalize();
     }
@@ -221,6 +235,7 @@ function templateTransformTextCase(toUpperNotLower) {
     // Restore selection
     $textarea.prop('selectionStart', Search.activeCursorSelection.start);
     $textarea.prop('selectionEnd', Search.activeCursorSelection.end);
+    return selectedText;
   } else { // contenteditable
     const anchorNode = Context.win.getSelection().anchorNode;
     const selectedText = Context.win.getSelection().toString();
@@ -233,6 +248,7 @@ function templateTransformTextCase(toUpperNotLower) {
     if (anchorNode && anchorNode.parentElement) {
       anchorNode.parentElement.normalize();
     }
+    return selectedText;
   }
 }
 
@@ -661,16 +677,17 @@ function setUpApi() {
         break;
       case 'insertTemplate':
         const { noCursorPosition, noCursorRange } = checkTemplatesInsertable();
+        let originalText = null;
         if (!noCursorRange && msg.data.lowerCaseTransform) {
-          templateTransformTextCase(/* toUpperNotLower */ false);
+          originalText = templateTransformTextCase(/* toUpperNotLower */ false);
         } else if (!noCursorRange && msg.data.upperCaseTransform) {
-          templateTransformTextCase(/* toUpperNotLower */ true);
+          originalText = templateTransformTextCase(/* toUpperNotLower */ true);
         } else if (!noCursorPosition) {
           insertTemplate(msg.data.text);
         }
         port.postMessage({
           reply: msg.action,
-          data: { noCursorPosition, noCursorRange }
+          data: { noCursorPosition, noCursorRange, originalText }
         });
         break;
       default:
