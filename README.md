@@ -14,6 +14,7 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 ![Find & Replace Browser Extension - Web Store Screenshot B](graphics/web-store/Search-and-Replace-Web-Store-B.jpg)
 
 ## Changelog (releases)
+- v1.3.15 - 12th Mar - Fix newline pattern in regex replace
 - v1.3.14 - 26th Feb - Add undo action for text-case transform
 - v1.3.13 - 26th Feb - Fix text-transform templates usability
 - v1.3.12 - 3rd Feb - Implement auto-save in templates panel
