@@ -107,6 +107,7 @@ function replaceCurrent(resultText) {
   if (Search.groupedMarks.length == 0) {
     return;
   }
+  resultText = resultText.replace(/\\n/g, '\n'); // allow newline characters
   const $nodes = $(SELECTORS.currentHighlight, Context.doc)
     .removeClass(CLASSES.currentHighlight)
     .removeClass(CLASSES.regularHighlight);
