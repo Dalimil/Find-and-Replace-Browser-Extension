@@ -799,8 +799,6 @@ We decided to start collecting the following types of events:
 \begin{itemize}
 \tightlist
 \item
-  \textit{Analytics enabled/disabled clicked} -- If the user has allowed Analytics to be used for a week and then opts-out, we want to know they did it (rather than thinking they stopped using the extension)
-\item
   \textit{Added to/Removed from Favourites} -- We can get more insight by looking at how often users use the star button. If they have never used it, perhaps it is not intuitive enough.
 \item
   \textit{New Template Created} -- Enables us to see how often users create new templates. If the numbers are very low, perhaps they do not know how to use this feature.
@@ -808,17 +806,22 @@ We decided to start collecting the following types of events:
   \textit{Template Successfully Pasted} -- Enables us to see how many users have successfully inserted a template into a web page and thus how many know how to use them.
 \item
   \textit{Advanced Search enabled/disabled} -- We would like to know how often users use the advanced search functionality (regex search and in-selection search)
+\item
+  \textit{Analytics enabled/disabled clicked} -- If the user has allowed Analytics to be used for a week and then opts-out, we want to know they did it (rather than thinking they stopped using the extension)
 \end{itemize}
 
-In the Google Analytics Dashboard we can plot how many of the total number of users triggered that given event in a given time period (see figure).
+In the Google Analytics Dashboard we can plot how many of the total number of users triggered that given event in a given time period.
+
+We could clearly see that a large portion of people use advanced search and the favourites panel. However, only a small portion use templates. This corresponds to the data that we obtained from tracking the page/tab views, where a lot of people accessed the favourites and history tabs, but only a few visited the templates and help tabs.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth]{../docs/user-behavior.png}
+\includegraphics[width=1\textwidth]{../docs/user-feature-usage.png}
 \caption{User behaviour and feature usage}
 \end{figure}
 
-We can clearly see that a large portion of people use advanced search and the favourites panel. However, only a small portion use templates. This corresponds to the data that we obtained from tracking the page views (tab views), where a lot of people access the favourites and history tabs, but only a few visit the templates and help tabs.
+We suspect that the data obtained in the figure above will not be very accurate however, because many users will most likely simply experiment with some of the features (especially the advanced search options) at some point, and there is no easy way to separate that data or tell when exactly that is the case.
+
 
 \subsection{Domain Tracking}
 A lot of the feedback messages that were submitted after someone uninstalled the extension were not very useful and often looked something like \textit{not working}. This is not very helpful as it does not tell us on which sites they tried to run it that didn't work for them. The analytics that we have been collecting gave us insight into which features of the extension were more used than others but told us nothing about the sites where the extension was actually used.
