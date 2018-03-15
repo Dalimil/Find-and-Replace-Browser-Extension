@@ -210,14 +210,15 @@ After installing a browser extension in Chrome or Firefox, a small icon represen
 \chapter{Design}
 
 \section{Naming and Search Engine Optimization}
-Based on the competition research mentioned in the introduction chapter above, the following extension names already exist: \textit{Easy Replace}, \textit{Search and Replace}, \textit{FindR}, \textit{Find Replace}, \textit{FoxReplace}. Using any of these existing names would be bad for the SEO and discoverability, and would most likely lead to confusions.
+Based on the competition research mentioned in the introduction chapter above, the following extension names already existed: \textit{Easy Replace}, \textit{Search and Replace}, \textit{FindR}, \textit{Find Replace}, \textit{FoxReplace}. Using any of these existing names would be bad for the SEO and discoverability, and would most likely lead to confusions.
 
-At the same time, we want to clearly indicate that the extension is used for input fields and editable content rather than HTML source code.
+At the same time, we wanted to clearly indicate that the extension is used for input fields and editable content rather than HTML source code.
 
-People are likely to search for browser extensions by typing in the functionality that they need. In our case, that might look something like "find and replace in text input fields extension". Stating the extensions purpose in its title and description should help us do better in search results. Therefore, we avoided any newly-invented words and named it \textit{Find \& Replace for Text Editing}. We are not trying to trademark a new brand name, we are simply trying to match what people might search for, so that's why this name was chosen.
+People are likely to search for browser extensions by typing in the functionality that they need. In our case, that might look something like "find and replace in text input fields extension". We predicted that stating the extension's purpose in its title and description could help us do better in search results. Therefore, we avoided any newly-invented words and named it \textit{Find \& Replace for Text Editing}. We are not trying to trademark a new brand name, we are simply trying to match what people might search for, so that is why this name was chosen.
 
-The naming idea was largely successful. In January 2018 (a few months after the first release), the extension ranked 2nd in the Google search results for queries \textit{search and replace in chrome}, and \textit{search and replace browser}, 1st for the query \textit{search and replace in firefox}, 7th for the query \textit{find and replace text}, and 8th for the query \textit{search and replace text}.\footnote{Tested using incognito modes in both Firefox and Chrome, and searching via www.google.co.uk on 25th January 2018}
+The naming idea was largely successful. In March 2018 (a few months after the first release), the extension ranked 2nd in the Google search results for queries \textit{search and replace in firefox}, and \textit{search and replace browser}, and ranked 1st for the queries \textit{search and replace in chrome}, and \textit{find and replace in browser}.\footnote{Tested using incognito modes in both Firefox and Chrome, and searching via www.google.co.uk on 15th March 2018}
 
+At the time of writing, organic Google Search remains to be the primary user acquisition source. Almost 80\% of all downloads of the extension in the Chrome Web Store are users who came there from Google Search results. This evaluation is further discussed in \autoref{chapter:evaluation}.
 
 \begin{figure}[h]
 \centering
@@ -754,16 +755,31 @@ This method does not work in Mozilla Firefox extensions due to their review poli
 As a workaround, we need to use Google Analytics' Measurement Protocol \cite{A21}, which is a simple API that accepts HTTP requests with Analytics data. It collects data (and aggregates it for displaying dashboards and statistics via the same Analytics web interface) without relying on the Google Analytics JavaScript library running on the client, so we essentially had to implement the library ourselves and only send requests in the appropriate format to this API.
 
 \chapter{Evaluation}
-\section{Distribution and Marketing}
-The extension was released on Chrome\footnote{\url{https://chrome.google.com/webstore/detail/find-replace-for-text-edi/jajhdmnpiocpbpnlpejbgmpijgmoknnl}} and Firefox\footnote{\url{https://addons.mozilla.org/en-GB/firefox/addon/find-replace-for-text-editing/}} web stores, where users can download it. It was then shared on HackerNews, Quora, Facebook, and several subreddits on Reddit. These sources constituted only a minority of the overall web store visits however, and the major acquisition source remained to be organic Google search (people who specifically search for this extension on Google rather than learning about it via social media or forum posts).
+\label{chapter:evaluation}
 
-We also looked at Google users who left negative reviews on the web store for some of the older extensions that tried to implement search \& replace. The users are linked to the reviews only via their (automatically created) Google+ profiles rather than Gmail addresses. Since the Google+ ids are linked to Google Hangouts ids, we managed to send chat invitations to these users, informing them that a new and working search \& replace extension has been released and encouraged them to give it a try. This resulted in numerous five star reviews and overall very positive feedback.
+\section{Distribution and Marketing}
+The extension was released on Chrome\footnote{\url{https://chrome.google.com/webstore/detail/find-replace-for-text-edi/jajhdmnpiocpbpnlpejbgmpijgmoknnl}} and Firefox\footnote{\url{https://addons.mozilla.org/en-GB/firefox/addon/find-replace-for-text-editing/}} web stores, which is the official place where users can download browser extension. It was then shared on HackerNews, Quora, Facebook, and several subreddits on Reddit.
+
+These sources constituted only a minority of the overall web store visits however, and the major acquisition source remained to be organic Google Search (people who specifically search for this extension on Google rather than learning about it via social media or forum posts). Almost 80\% of all downloads of the extension in the Chrome Web Store are users who came there from Google Search results.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../docs/user-acquisition.png}
-\caption{Chrome web store page -- user traffic sources}
+\caption{Chrome web store page -- user traffic}
 \end{figure}
+
+The figure above clearly shows a few initial attempts to market the extension on social media and the users who came to the web store page from social links. After that, the graph follows a more regular pattern where the organic Google Search distinctly dominates.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../docs/user-acquisition-sources.png}
+\caption{Chrome web store page -- acquisition sources}
+\end{figure}
+
+Since Chrome Web Store allows us to measure Analytics for our web store listing page, we were able to analyze all our main user acquisition sources and obtain the shown graphs. Besides revealing that the most visitors are coming from Google Search results it also showed that these visitors are more likely to install the extension and less likely to immediately leave the web store page (Bounce Rate statistics).
+
+\subsubsection*{Users of Older Extensions}
+We also looked at Google users who left negative reviews on the web store for some of the older extensions that tried to implement search \& replace. The users are linked to the reviews only via their (automatically created) Google+ profiles rather than Gmail addresses. Since the Google+ ids are linked to Google Hangouts ids, we managed to send chat invitations to these users, informing them that a new and working search \& replace extension has been released and encouraged them to give it a try. This resulted in numerous five star reviews and overall very positive feedback.
 
 \section{Google Analytics}
 We embedded the Google Analytics code into our extension's widget, so that we can track how many times users open the search widget, as well as how many unique users we have, and what kind of population they represent (along with additional user details).
