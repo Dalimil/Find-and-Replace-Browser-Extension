@@ -29,7 +29,7 @@ The aim of this project was to build a browser extension that allows users to se
 
 After evaluating existing extensions that were unsuccessfully attempting to implement this functionality, the new extension has been carefully designed, developed, and finally successfully released for Chrome\footnote{\url{https://chrome.google.com/webstore/detail/find-replace-for-text-edi/jajhdmnpiocpbpnlpejbgmpijgmoknnl}} and Firefox\footnote{\url{https://addons.mozilla.org/en-GB/firefox/addon/find-replace-for-text-editing/}} browsers.
 
-In addition to the future-rich search and replace function, this plugin also adds the ability to save favorite patterns, store search history, or predefine text templates that can be inserted into the editable area of a page.
+In addition to the future-rich search and replace function, this plugin also adds the ability to save favourite patterns, store search history, or predefine text templates that can be inserted into the editable area of a page.
 
 The software followed an iterative development process, where user feedback was collected via several means, including Google Analytics, which was used to track user interaction, and a support website used to collect user feedback comments.
 
@@ -88,7 +88,7 @@ Without having a browser extension for search and replace, one could imagine a s
 
 In addition to being a lengthy and time consuming process, this method would in many cases lose all text formatting, because more advanced editable text elements on the web may contain images, emojis, and text containing many formatting tags, which would not be preserved during the copy-pasting.
 
-Additional motivation behind the development of this project was to add search-and-replace related features that are missing even from the more advanced text editors. One of them is storing the search history, and also being able to save favorite search patterns, that can later be quickly accessed. Both of these would save time and increase user's productivity.
+Additional motivation behind the development of this project was to add search-and-replace related features that are missing even from the more advanced text editors. One of them is storing the search history, and also being able to save favourite search patterns, that can later be quickly accessed. Both of these would save time and increase user's productivity.
 
 \section{Existing Extensions}
 Web browsers support standard search functionality for any text on a page but no browsers have the find \& replace functionality. Users have asked for this feature on Google Chrome forums\footnote{Google Chrome Forum link: \href{https://productforums.google.com/forum/\#!topic/chrome/Y4UORlpdYfo}{https://productforums.google.com/forum/\#!topic/chrome/Y4UORlpdYfo}}, but the decision of browser developers was to leave the implementation of this functionality to potential text-processing web applications, rather than implementing it as a part of the browser.
@@ -272,7 +272,7 @@ To support all the functionality that we specified, the extension widget should 
   \item
     Find previous
   \item
-    Save to favorites
+    Save to favourites
   \item
   	Expand/Collapse advanced search options
   \end{itemize}
@@ -299,7 +299,7 @@ To support all the functionality that we specified, the extension widget should 
 
   \begin{itemize}
   \item
-    Favorites
+    Favourites
   \item
     History
   \item
@@ -368,7 +368,7 @@ This extension is not meant to modify (find \& replace) the raw HTML text of the
 
 There are certainly sites that might try to avoid all the options discussed above and implement their own text editor functionality. One notable example is Google Docs, which is using static DOM elements, and listen to user's keyboard events to modify it internally in JavaScript. Implementing an online text editor from scratch without using contenteditable or textareas involves a lot of programming work, and such editor should probably include its own find \& replace functionality anyway, which is exactly what Google Docs do. \\
 
-At the time when the project was first designed, it seemed reasonable to exclude single-line inputs from the scope, as their small editable input space didn't seem suitable for our search and replace functionality. After receiving a lot of user feedback which revealed new use cases, single-line inputs were included in the search scope via an optional checkbox option in the search widget (to ensure backward compatibility and no unexpected behavior for existing users).
+At the time when the project was first designed, it seemed reasonable to exclude single-line inputs from the scope, as their small editable input space didn't seem suitable for our search and replace functionality. After receiving a lot of user feedback which revealed new use cases, single-line inputs were included in the search scope via an optional checkbox option in the search widget (to ensure backward compatibility and no unexpected behaviour for existing users).
 
 \chapter{Implementation}
 
@@ -404,7 +404,7 @@ To also support React's JSX syntax (see \cite{A5}) and the newest ECMAScript lan
 \section{User Actions API and Message Passing}
 Whenever user performs an action such as clicking the \textit{Replace} button or typing something into the \textit{Find} input field, we send a message from the search widget to our content script running in the context of the page. We defined our custom API to specify what kind of messages can be exchanged and in particular what their payload should be.
 
-This was needed because the user receives information from the extension in two ways - either via visual feedback from the content script running in the web page (match highlighting) or via the widget pop-up (search interface). These two components are separate and can only communicate via the messaging API \cite{C5}.
+This was needed because the user receives information from the extension in two ways -- either via visual feedback from the content script running in the web page (match highlighting) or via the widget pop-up (search interface). These two components are separate and can only communicate via the messaging API \cite{C5}.
 
 First we specified actions that users can perform using the search widget that also need to communicate with the page. The actions are the following. Note that actions that are local to the search widget and do not need to communicate with the page (such as tab navigation in the search widget) are intentionally omitted.
 
@@ -533,7 +533,7 @@ The other API calls follow a similar pattern, where the content script is asked 
 
 \section{Content Scripts}
 \subsection{RegExp Search}
-JavaScript contains native support for regular expressions (see \cite{M8}). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query. As long as we limit our search to visible text in editable text areas (rather than raw HTML source), finding occurrences is not a problem. The real challenge comes with visually highlighting the found matches in the page. Ideally, we would like to match the behavior of modern text editors and show to the user all found matches at once using text highlighting.
+JavaScript contains native support for regular expressions (see \cite{M8}). Without using any additional libraries, we can simply create new RegExp objects and execute search methods on regular strings to find matches for the given regular expression query. As long as we limit our search to visible text in editable text areas (rather than raw HTML source), finding occurrences is not a problem. The real challenge comes with visually highlighting the found matches in the page. Ideally, we would like to match the behaviour of modern text editors and show to the user all found matches at once using text highlighting.
 
 \subsection{Highlighting}
 \begin{figure}[h]
@@ -637,19 +637,19 @@ To better indicate the target elements of our extension in the page, we add a bo
 
 Another improvement that we implemented was keeping the currently highlighted text in the screen viewport when users jump between occurrences (using \textit{Find next/prev}), because the web page can have a scrollbar and all highlighted matches might not fit on one screen at the same time. We therefore always check the current element's position and scroll the window accordingly in case it is out of view.
 
-\section{Favorites Panel}
-We added an option for users to save their frequent search queries to the list of favorites. This stores their current search options together with the content of the \textit{Find} and \textit{Replace} fields. The UI state can be later restored by clicking the saved item in the list of favorites.
+\section{Favourites Panel}
+We added an option for users to save their frequent search queries to the list of favourites. This stores their current search options together with the content of the \textit{Find} and \textit{Replace} fields. The UI state can be later restored by clicking the saved item in the list of favourites.
 
-The search UI dynamically switches between the \textit{Save to Favorites} and \textit{Remove from Favorites} star icon to indicate if the current state of the UI (all the search parameters) are already saved in the list or not. To implement this, we store the hash of the search parameters for each item in the list of favorites. Later when the user changes the state of the UI and starts searching for something else, we hash the parameters again and check if the hash is stored in our hashtable (containing all the hashes of the stored favorite items), thus determining if the current UI state is saved in the list of favorites or not (and changing the star icon indicator accordingly).
+The search UI dynamically switches between the \textit{Save to Favourites} and \textit{Remove from Favourites} star icon to indicate if the current state of the UI (all the search parameters) are already saved in the list or not. To implement this, we store the hash of the search parameters for each item in the list of favourites. Later when the user changes the state of the UI and starts searching for something else, we hash the parameters again and check if the hash is stored in our hashtable (containing all the hashes of the stored favourite items), thus determining if the current UI state is saved in the list of favourites or not (and changing the star icon indicator accordingly).
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../main/images/help/fav-step-3.png}
-\caption{Favorites Panel Tab}
+\caption{Favourites Panel Tab}
 \end{figure}
 
 \section{History Panel}
-The history panel has a similar user interface and functionality as the favorites panel, but instead of leaving the decision to store the given search state up to the user, we add items automatically. We also make sure that we only add meaningful items that resulted in a successful search and replace operation, rather than storing every single change of the search UI.
+The history panel has a similar user interface and functionality as the favourites panel, but instead of leaving the decision to store the given search state up to the user, we add items automatically. We also make sure that we only add meaningful items that resulted in a successful search and replace operation, rather than storing every single change of the search UI.
 
 \begin{figure}[h]
 \centering
@@ -726,7 +726,7 @@ We installed Selenium WebDriver to control Chrome and Firefox browsers. The Sele
 The Selenium project have their own JavaScript implementation for the client API, but after comparing it to alternatives, we decided to use WebDriverIO \cite{A16} instead, which is another JavaScript implementation of the (Selenium 2.0) WebDriver API, but it has much simpler and more readable syntax.
 
 \subsubsection{Browser Automation Tests}
-We created a test that checks that after the WebDriver spins up a new browser instance (Chrome or Firefox) and installs our extension, a new tab is created with our help text (user guide), which is the default behavior our extension should follow immediately after being installed.
+We created a test that checks that after the WebDriver spins up a new browser instance (Chrome or Firefox) and installs our extension, a new tab is created with our help text (user guide), which is the default behaviour our extension should follow immediately after being installed.
 
 Unfortunately, the WebDriver does not allow direct mouse interactions with the extension -- there is no way to launch it from the toolbar (mentioned in \cite{A17} and \cite{A18}). At the same time, we designed the extension with the minimal set of permission needed, so the extension does not execute any code or inject anything into the web page unless the user launches the extension widget first.
 
@@ -770,7 +770,7 @@ The figure above clearly shows our few initial attempts to market the extension 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../docs/user-acquisition-sources.png}
-\caption{Chrome web store page -- acquisition sources (Nov 2017 - Mar 2018)}
+\caption{Chrome web store page -- acquisition sources (Nov 2017 -- Mar 2018)}
 \end{figure}
 
 Since Chrome Web Store allows us to measure Analytics for our web store listing page, we were able to analyze all our main user acquisition sources and obtain the shown graphs. Besides revealing that the most visitors are coming from Google Search results, it also showed that these visitors are more likely to install the extension and less likely to immediately leave the web store page (Bounce Rate statistics).
@@ -782,10 +782,18 @@ We also looked at Google users who left negative reviews on the web store for so
 We embedded the Google Analytics code into our extension's widget, so that we could track how many times users open the search widget, as well as how many unique users we have, and what kind of population they represent (along with additional user details).
 
 \subsection{Page View Tracking}
-Our search widget is essentially a single page application, but we would like to track how many times users open different widget tabs (history, templates, etc.). Therefore we send a `pageview` event every time a user opens a tab, and set the pageview path to the name of the tab. That way we could look at opening tabs as an actual page navigation (inspiration to follow this approach taken from \cite{A22}).
+Our search widget is essentially a single page application, but we would like to track how many times users open different widget tabs (history, templates, etc.). Therefore we send a `pageview` event every time a user opens a tab, and set the pageview path to the name of the tab. That way we can look at opening tabs as an actual page navigation (inspiration to follow this approach taken from \cite{A22}).
+
+In the figure below, \texttt{/search} indicates the main search UI -- the view that is opened first when the extension is launched (the index). We can clearly see that while there is not that many people accessing the help tab or using the templates, a good number of people are utilizing the search history and are saving favourite search queries for later reuse. In fact, several web store reviews even mentioned that they find the Favourites functionality particularly useful.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{../docs/tab-visits-feb-2018.png}
+\caption{Tab Views in February 2018}
+\end{figure}
 
 \subsection{Event Tracking}
-In addition to the basic user and page view tracking we wanted to know how users interact with our extension and in particular, if they use certain functionality significantly less or more. This might suggest potential ways we can improve our extension - for instance, if nobody ever uses the templates panel, perhaps we need to educate users on how to use it more effectively, or perhaps reconsider its overall usability.
+In addition to the basic user and page view tracking we wanted to know how users interact with our extension and in particular, if they use certain functionality significantly less or more. This may suggest potential ways we can improve our extension -- for instance, if nobody ever uses the templates panel, perhaps we need to educate users on how to use it more effectively, or perhaps reconsider its overall usability.
 
 We decided to start collecting the following types of events:
 \begin{itemize}
@@ -807,10 +815,10 @@ In the Google Analytics Dashboard we can plot how many of the total number of us
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{../docs/user-behavior.png}
-\caption{User behavior and feature usage}
+\caption{User behaviour and feature usage}
 \end{figure}
 
-We can clearly see that a large portion of people use advanced search and the favorites panel. However, only a small portion use templates. This corresponds to the data that we obtained from tracking the page views (tab views), where a lot of people access the favorites and history tabs, but only a few visit the templates and help tabs.
+We can clearly see that a large portion of people use advanced search and the favourites panel. However, only a small portion use templates. This corresponds to the data that we obtained from tracking the page views (tab views), where a lot of people access the favourites and history tabs, but only a few visit the templates and help tabs.
 
 \subsection{Domain Tracking}
 A lot of the feedback messages that were submitted after someone uninstalled the extension were not very useful and often looked something like \textit{not working}. This is not very helpful as it does not tell us on which sites they tried to run it that didn't work for them. The analytics that we have been collecting gave us insight into which features of the extension were more used than others but told us nothing about the sites where the extension was actually used.
@@ -877,7 +885,7 @@ About eight releases were a direct response to written user feedback that I rece
 \item
 \texttt{v1.3.4} -- 19th Dec -- Fix \textit{Replace all} with regex groups
 \item
-\texttt{v1.3.3} -- 19th Dec -- Fix restored favorites not storing state
+\texttt{v1.3.3} -- 19th Dec -- Fix restored favourites not storing state
 \item
 \texttt{v1.3.2} -- 18th Dec -- Fix undefined regexp groups substitution
 \item
@@ -905,7 +913,7 @@ About eight releases were a direct response to written user feedback that I rece
 \section{User Study}
 To learn how first-time users try to use the extension, we created an online challenge\footnote{\url{https://find-and-replace-f6588.firebaseapp.com/challenge.html}} consisting of five tasks, each involving usage of different parts of the extension functionality. The first two tasks were focusing on the pure search \& replace operation. The remaining were testing additional features in extension's tabs (history, templates, etc.). For instance, to complete the final task one had to transform given paragraph to upper case, save it as a template, and subsequently use the template in their Gmail web app.
 
-Instead of letting people play with the extension on their own (and conducting interviews afterwards), we decided to ask participants to complete our set of tasks and observe their behavior. The extension targets a specific group of people who frequently edit text, so physically meeting a large number of real users in a short period of time would have been problematic. The reasoning behind our challenge was to force participants to work on tasks that real users very frequently tackle, and thus get them into the right mindset when they are testing our extension, no matter their background.
+Instead of letting people play with the extension on their own (and conducting interviews afterwards), we decided to ask participants to complete our set of tasks and observe their behaviour. The extension targets a specific group of people who frequently edit text, so physically meeting a large number of real users in a short period of time would have been problematic. The reasoning behind our challenge was to force participants to work on tasks that real users very frequently tackle, and thus get them into the right mindset when they are testing our extension, no matter their background.
 
 This user session was run with multiple individuals from the School of Informatics at the University of Edinburgh. These users could be described as slightly more advanced as they had working knowledge of regular expressions, yet it was their first time using this extension.
 
