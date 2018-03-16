@@ -33,7 +33,7 @@ In addition to the future-rich search and replace function, this plugin also add
 
 The software followed an iterative development process, where user feedback was collected via several means, including Google Analytics, which was used to track user interaction, and a support website used to collect user feedback comments.
 
-After the initial release, about twenty updates have been subsequently released over the span of a few months. This iteration was further supported by automated tests of several kinds.
+After the initial release, more than twenty updates have been subsequently released over the span of a few months. This iteration was further supported by automated tests of several kinds.
 
 The extension has received excellent reviews, has been mentioned in a Medium article, and at the time of writing is installed on over 6000 devices (users from both browsers combined).
 }
@@ -824,22 +824,26 @@ We suspect that the data obtained in the figure above will not be very accurate 
 
 
 \subsection{Domain Tracking}
-A lot of the feedback messages that were submitted after someone uninstalled the extension were not very useful and often looked something like \textit{not working}. This is not very helpful as it does not tell us on which sites they tried to run it that didn't work for them. The analytics that we have been collecting gave us insight into which features of the extension were more used than others but told us nothing about the sites where the extension was actually used.
+A lot of the feedback messages that were submitted after someone uninstalled the extension were not very useful and often looked something like \textit{"not working"}. This was not very helpful as it does not tell us which were the broken sites that they tried to run the extension on. The analytics that we have been collecting gave us insight into which features of the extension were more used than others but told us nothing about the sites where the extension was actually used.
 
-To get a better idea of which sites are the most frequently used and which should therefore receive more attention (to make sure everything works as expected), we decided to anonymously collect domain names (not URLs, only host names, for privacy issues). This allowed us to construct a list of the top domain names where the extension is used most frequently. We therefore added a Google Analytics event that reports the domain name whenever the extension is used. We then combined unique events from each user to create the list.
+To get a better idea of which sites are the most frequently used and which should therefore receive more attention (to make sure everything works as expected), we decided to anonymously collect domain names (not URLs, only host names, for privacy reasons). This allowed us to construct a list of the top domain names where the extension is used most frequently.
+
+We added a Google Analytics event that reports the domain name whenever the extension is used. We then combined unique events from each user to create the list.
+
+We used this list to better understand our users. For instance, it led to the discovery of people who were trying to use the extension in Google Docs, and also on localhost for Jupyter Notebook. These two specific domains and their handling in code is discussed in later chapters.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth]{../docs/top-domains.png}
-\caption{Top domains after 2 weeks of reports. 13th January 2018}
+\includegraphics[width=0.9\textwidth]{../docs/top-domains.png}
+\caption{Top domains (1st Jan 2018 -- 15th Mar 2018)}
 \end{figure}
 
-We used this list to better understand our users. For instance, it led to discovery of people who were trying to use the extension in Google Docs, and also on localhost for Jupyter Notebook. These two specific domains and their handling in code is discussed in later chapters.
+Overall, we had predicted a good number of the domains that emerged on top: Blogger, Google Sites, Reddit, and Gmail. Further down the list is also YouTube, Merch.Amazon, and unexpectedly Wikipedia. We did not realize it at first, but Wikipedia's article editor is missing a find \& replace tool, so it makes sense that editors would use our extension to become much more productive while editing.
 
 \section{Support Website}
-There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
+There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email to our mailbox automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
 
-We decided to proceed with an alternative solution of creating a support website and storing all submitted feedback messages in a database. This database can later be queried and filtered based on various criteria (time of submission, feedback type -- general feedback vs complaint after uninstalling, ...), which simplified feedback evaluation.
+We decided to proceed with an alternative solution of creating a support website and storing all submitted feedback messages in a database. This database could later be queried and filtered based on various criteria (time of submission, feedback type -- general feedback vs complaint after uninstalling, and similar). This approach greatly simplified feedback evaluation.
 
 We created a static landing page website that presents the extension with relevant links to the browser web stores, and also allows users to submit feedback via a simple form.
 
@@ -849,16 +853,16 @@ We created a static landing page website that presents the extension with releva
 \caption{Support website landing page}
 \end{figure}
 
-The website was deployed using Firebase Hosting \cite{A8}, which is Google's hosting for deploying static content to its content-delivery network (CDN).
+The website was deployed using Firebase Hosting \cite{A8}, which is Google's hosting solution for deploying static content to its content-delivery network (CDN).
 
 The database used to store the feedback comments is Firebase Realtime Database \cite{A9}, which is a NoSQL cloud database from the same family of Google products. This allowed us to have a secure place to store our data with minimal setup time. It also allowed us to have an optimized static website with only the required JavaScript SDKs without having to implement a complex back-end server.
 
-At the time of writing, we have received 274 uninstall feedback comments (submitted via a form that appears when users uninstall the extension) and 17 general feedback comments (feedback that active users leave after clicking on the feedback link in the extension Help tab or alternatively directly via the website).
+At the time of writing, we have received over 400 uninstall feedback comments (submitted via a form that appears when users uninstall the extension) and over 20 general feedback comments (feedback that active users leave after clicking on the feedback link in the extension Help tab or alternatively directly via the website).
 
 \section{Iteration}
 After the initial web store release we continued to collect feedback from users, and subsequently kept releasing updates to the extension that were fixing bugs and issues that we found, or were adding features to the extension. The full changelog for specific releases can be found below.
 
-About eight releases were a direct response to written user feedback that I received, submitted either via feedback forms or (in about five cases) via a direct email message. Further, about six releases were linked to discussions with the project supervisor, about two were a reaction to data received through Google Analytics, two were addressing the results of our user study, and the rest of the releases were results of own ideation or simply work that had to be done on the extension.
+About eight releases were a direct response to written user feedback that we received, submitted either via feedback forms or (in about five cases) via a direct email message. Further, about six releases were linked to discussions with the project supervisor, about two were a reaction to data received through Google Analytics, two were addressing the results of our user study, and the rest of the releases were results of own ideation or simply work that had to be done on the extension.
 
 \paragraph*{Changelog}
 \begin{itemize}
@@ -914,23 +918,23 @@ About eight releases were a direct response to written user feedback that I rece
 \end{itemize}
 
 \section{User Study}
-To learn how first-time users try to use the extension, we created an online challenge\footnote{\url{https://find-and-replace-f6588.firebaseapp.com/challenge.html}} consisting of five tasks, each involving usage of different parts of the extension functionality. The first two tasks were focusing on the pure search \& replace operation. The remaining were testing additional features in extension's tabs (history, templates, etc.). For instance, to complete the final task one had to transform given paragraph to upper case, save it as a template, and subsequently use the template in their Gmail web app.
+To learn how first-time users try to use the extension, we created an online challenge\footnote{\url{https://find-and-replace-f6588.firebaseapp.com/challenge.html}} consisting of five tasks, each involving usage of different parts of the extension's functionality. The first two tasks were focusing on the pure search \& replace operation. The remaining were testing additional features in extension's tabs (history, templates, etc.). For instance, to complete the final task one had to transform given paragraph to upper case, save it as a template, and subsequently use the template in their Gmail web app.
 
-Instead of letting people play with the extension on their own (and conducting interviews afterwards), we decided to ask participants to complete our set of tasks and observe their behaviour. The extension targets a specific group of people who frequently edit text, so physically meeting a large number of real users in a short period of time would have been problematic. The reasoning behind our challenge was to force participants to work on tasks that real users very frequently tackle, and thus get them into the right mindset when they are testing our extension, no matter their background.
+Instead of letting people play with the extension on their own (and conducting interviews afterwards), we decided to ask participants to complete our set of tasks and observe their behaviour. The extension targets a specific group of people who frequently edit text, so physically meeting a large number of target users in a short period of time would have been problematic. The reasoning behind our challenge was to force participants to work on tasks that real users very frequently tackle, and thus get them into the right mindset when they are testing our extension, no matter their background (we did not expect participant to be bloggers, Wikipedia editors, or anything else close to that).
 
-This user session was run with multiple individuals from the School of Informatics at the University of Edinburgh. These users could be described as slightly more advanced as they had working knowledge of regular expressions, yet it was their first time using this extension.
+This lab study was run with multiple individuals from the School of Informatics at the University of Edinburgh. These users could be described as slightly more advanced as they had working knowledge of regular expressions, yet it was their first time using this extension.
 
-The results after observing the users and talking to them afterwards clearly showed that even though first-time users have no difficulty using the search \& replace user-interface including more advanced functionality, most of them struggled to use the templates panel correctly when they first used it. 
+The results after observing the users and talking to them afterwards clearly showed that even though first-time users had no difficulty using the search \& replace user-interface including more advanced functionality, most of them struggled to use the templates panel correctly when they first opened it. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\textwidth]{../docs/template-edit-mode-old.png}
-\caption{Template panel -- Old editing mode}
+\caption{Templates panel -- Old editing mode}
 \end{figure}
 
-The issue was that when users starts editing a template, they must click either the \textit{Save} or \textit{Cancel} icon before they exit (see figure). Many people closed the extension by clicking into the page (the browser closes the pop-up widget in such case -- this cannot be overridden), and thus lost their changes.
+The issue was that when users start editing a template, they must click either the \textit{Save} or \textit{Cancel} icon before they exit (see figure). Many people closed the extension by clicking into the page (the browser closes the pop-up widget in such case -- this cannot be overridden), and thus lost their changes.
 
-We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with the saving status indicator similar to the one used in Gmail. The indicator switches between the \textit{Saved} and \textit{Saving...} states as saving to storage takes place in the background. 
+We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with a saving status indicator similar to the one used in Gmail. The indicator switches between the \textit{Saved} and \textit{Saving...} states as saving to storage takes place in the background. 
 
 This prevented users from losing their template changes, while still allowing them to revert their edits using the \texttt{Ctrl+Z} keyboard shortcut.
 
@@ -940,7 +944,9 @@ This prevented users from losing their template changes, while still allowing th
 \caption{Template panel -- New editing mode}
 \end{figure}
 
-To make things slightly more efficient we implemented a debounce function \cite{A28} for our template editing mode. This means that instead of attempting to start saving changes immediately we wait a few milliseconds to see if the user is going to continue typing or is taking a break. In the former case, we delay our saving operation. Our implementation turned out to be slightly more challenging since we allow for multiple templates to be edited at the same time, which means we had to make sure we scope each debounce function to the right component.
+To make things slightly more efficient we implemented a debounce function \cite{A28} for our template editing mode. This means that instead of attempting to start saving changes immediately we wait a few milliseconds to see if the user is going to continue typing or is taking a break. In the former case, we delay our saving operation.
+
+Our implementation turned out to be slightly more challenging since we allow for multiple templates to be edited at the same time, which means we had to make sure we scope each debounce function to the right component.
 
 \chapter{Conclusions}
 The extension has received excellent reviews and at the time of writing has over 4000 weekly users (users from both browsers combined), $4.7/5$ stars (19 reviews) on the Chrome Web Store and $4.9/5$ stars (7 reviews) on the Firefox Web Store.
