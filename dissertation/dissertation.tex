@@ -964,6 +964,18 @@ I have also received a few minor donations via PayPal from users expressing thei
 
 The user growth has not been slowing down at all, and has been steadily growing for both the Chrome and Firefox version. The Chrome version has currently about six times more users than the Firefox version, which makes sense considering the browser market share analysis we mentioned in earlier chapters.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/chrome-version-users.png}
+\caption{Total active devices -- Chrome version}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/firefox-version-users.png}
+\caption{Daily active devices -- Firefox version}
+\end{figure}
+
 \section{Further Work}
 Facebook, Quora, and several other sites use contenteditables and keep the text content separately in JavaScript variables. When we insert our highlighting markup, and replace text, their JavaScript immediately restores the previous state (switches back to the original text). We could completely detach their JavaScript listeners, but that stops saving any further changes to the text. This is because the text that is posted is the content of their JavaScript variables, and not the current contenteditable content.
 
