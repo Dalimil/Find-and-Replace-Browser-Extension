@@ -193,37 +193,16 @@ This project focused on Chrome and Firefox, which together represent a large por
 
 Safari, although widely used by Mac users, has its own extension API and is in general much more involved as it requires dealing with Apple's developer libraries and licenses, so we decided not to develop an extension for this browser.
 
-\section{Background}
+
+
+\chapter{Design}
+
+\section{Browser Extensions Background}
 A browser extension is a bundled collection of files -- HTML, CSS, JavaScript, images and other assets, that together add functionality to the browser. They have access to the standard DOM API (same as a regular website) but in addition to that they can access the WebExtensions API, which is provided by the browser. At the time of writing, the WebExtensions API is to a large extent (only with slight deviations in implementations) supported by Mozilla Firefox, Google Chrome, Microsoft Edge, and Opera browsers (see detailed explanation in \cite{C1}, \cite{C2}, \cite{M6} and \cite{M7}).
 
 A typical extension consists of a background page, which holds the main logic of the extension and has full access to the APIs, pop-up widget, which presents the extension's user interface, and one or more content scripts, which are pieces of JavaScript code that are injected into the current web page so that we can interact with its content.
 
 After installing a browser extension in Chrome or Firefox, a small icon representing the extension is added to the top toolbar. When users click this icon, the extension displays its pop-up widget. The standard way to present an interface to the user is via this widget. One could come up with alternative ways to present extension's UI but this design pattern using a pop-up is the preferred way and something that users expect by default. Since a pop-up widget works well in our scenario, we decided to proceed with that.
-
-\chapter{Design}
-
-\section{Naming and Search Engine Optimization}
-Based on the competition research mentioned in the introduction chapter above, the following extension names already existed: \textit{Easy Replace}, \textit{Search and Replace}, \textit{FindR}, \textit{Find Replace}, \textit{FoxReplace}. Using any of these existing names would be bad for the SEO and discoverability, and would most likely lead to confusions.
-
-At the same time, we wanted to clearly indicate that the extension is used for input fields and editable content rather than HTML source code.
-
-People are likely to search for browser extensions by typing in the functionality that they need. In our case, that might look something like "find and replace in text input fields extension". We predicted that stating the extension's purpose in its title and description could help us do better in search results. Therefore, we avoided any newly-invented words and named it \textit{Find \& Replace for Text Editing}. We are not trying to trademark a new brand name, we are simply trying to match what people might search for, so that is why this name was chosen.
-
-\subsubsection*{Measuring Discoverability}
-The naming idea was largely successful. In March 2018 (a few months after the first release), the extension ranked 2nd in the Google search results for queries \textit{search and replace in firefox}, and \textit{search and replace browser}, and ranked 1st for the queries \textit{search and replace in chrome}, and \textit{find and replace in browser}.\footnote{Tested using incognito modes in both Firefox and Chrome, and searching via www.google.co.uk on 15th March 2018}
-
-At the time of writing, organic Google Search remains to be the primary user acquisition source. Almost 80\% of all downloads of the extension in the Chrome Web Store are users who came there from Google Search results. 
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.99\textwidth]{../docs/chrome-impressions.png}
-\caption{Chrome web store page -- impressions and installations per day}
-\end{figure}
-
-The Web Store Developer Dashboard even provides statistics on the number of impressions per day -- number of times a link to our Web Store listing appeared in search that day (both regular Google Search and search inside the Web Store).
-
-There is a more than 10\% chance that when our extension appeared in your search results, you ended up installing it, which we thought was a good number, considering how diverse search queries can be. At the current rate, this results in about 80 installations per day (for the Chrome version of the extension). This evaluation is further discussed in \autoref{chapter:evaluation}.
-
 
 
 \section{User Interface Inspiration}
@@ -376,6 +355,30 @@ This extension is not meant to modify (find \& replace) the raw HTML text of the
 There are certainly sites that might try to avoid all the options discussed above and implement their own text editor functionality. One notable example is Google Docs, which is using static DOM elements, and listen to user's keyboard events to modify it internally in JavaScript. Implementing an online text editor from scratch without using contenteditable or textareas involves a lot of programming work, and such editor should probably include its own find \& replace functionality anyway, which is exactly what Google Docs do. \\
 
 At the time when the project was first designed, it seemed reasonable to exclude single-line inputs from the scope, as their small editable input space didn't seem suitable for our search and replace functionality. After receiving a lot of user feedback which revealed new use cases, single-line inputs were included in the search scope via an optional checkbox option in the search widget (to ensure backward compatibility and no unexpected behaviour for existing users).
+
+
+\section{Naming and Search Engine Optimization}
+Based on the competition research mentioned in the introduction chapter above, the following extension names already existed: \textit{Easy Replace}, \textit{Search and Replace}, \textit{FindR}, \textit{Find Replace}, \textit{FoxReplace}. Using any of these existing names would be bad for the SEO and discoverability, and would most likely lead to confusions.
+
+At the same time, we wanted to clearly indicate that the extension is used for input fields and editable content rather than HTML source code.
+
+People are likely to search for browser extensions by typing in the functionality that they need. In our case, that might look something like "find and replace in text input fields extension". We predicted that stating the extension's purpose in its title and description could help us do better in search results. Therefore, we avoided any newly-invented words and named it \textit{Find \& Replace for Text Editing}. We are not trying to trademark a new brand name, we are simply trying to match what people might search for, so that is why this name was chosen.
+
+\subsubsection*{Measuring Discoverability}
+The naming idea was largely successful. In March 2018 (a few months after the first release), the extension ranked 2nd in the Google search results for queries \textit{search and replace in firefox}, and \textit{search and replace browser}, and ranked 1st for the queries \textit{search and replace in chrome}, and \textit{find and replace in browser}.\footnote{Tested using incognito modes in both Firefox and Chrome, and searching via www.google.co.uk on 15th March 2018}
+
+At the time of writing, organic Google Search remains to be the primary user acquisition source. Almost 80\% of all downloads of the extension in the Chrome Web Store are users who came there from Google Search results. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{../docs/chrome-impressions.png}
+\caption{Chrome web store page -- impressions and installations per day}
+\end{figure}
+
+The Web Store Developer Dashboard even provides statistics on the number of impressions per day -- number of times a link to our Web Store listing appeared in search that day (both regular Google Search and search inside the Web Store).
+
+There is a more than 10\% chance that when our extension appeared in your search results, you ended up installing it, which we thought was a good number, considering how diverse search queries can be. At the current rate, this results in about 80 installations per day (for the Chrome version of the extension). This evaluation is further discussed in \autoref{chapter:evaluation}.
+
 
 \chapter{Implementation}
 
