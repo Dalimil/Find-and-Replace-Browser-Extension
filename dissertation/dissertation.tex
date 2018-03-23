@@ -193,7 +193,7 @@ This project focused on Chrome and Firefox, which together represent a large por
 
 Safari, although widely used by Mac users, has its own extension API and is in general much more involved as it requires dealing with Apple's developer libraries and licenses, so we decided not to develop an extension for this browser.
 
-\chapter{Background}
+\section{Background}
 A browser extension is a bundled collection of files -- HTML, CSS, JavaScript, images and other assets, that together add functionality to the browser. They have access to the standard DOM API (same as a regular website) but in addition to that they can access the WebExtensions API, which is provided by the browser. At the time of writing, the WebExtensions API is to a large extent (only with slight deviations in implementations) supported by Mozilla Firefox, Google Chrome, Microsoft Edge, and Opera browsers (see detailed explanation in \cite{C1}, \cite{C2}, \cite{M6} and \cite{M7}).
 
 A typical extension consists of a background page, which holds the main logic of the extension and has full access to the APIs, pop-up widget, which presents the extension's user interface, and one or more content scripts, which are pieces of JavaScript code that are injected into the current web page so that we can interact with its content.
@@ -758,7 +758,7 @@ This method does not work in Mozilla Firefox extensions due to their review poli
 
 As a workaround, we need to use Google Analytics' Measurement Protocol \cite{A21}, which is a simple API that accepts HTTP requests with Analytics data. It collects data (and aggregates it for displaying dashboards and statistics via the same Analytics web interface) without relying on the Google Analytics JavaScript library running on the client. So we essentially had to implement the library ourselves and only send requests in the appropriate format to this API server.
 
-\chapter{Evaluation}
+\chapter{Deployment and Assessment}
 \label{chapter:evaluation}
 
 \section{Distribution and Marketing}
@@ -847,7 +847,7 @@ We used this list to better understand our users. For instance, it led to the di
 
 Overall, we had predicted a good number of the domains that emerged on top: Blogger, Google Sites, Reddit, and Gmail. Further down the list is also YouTube, Merch.Amazon, and unexpectedly Wikipedia. We did not realize it at first, but Wikipedia's article editor is missing a find \& replace tool, so it makes sense that editors would use our extension to become much more productive while editing.
 
-\section{Support Website}
+\section{Collecting Direct User Feedback}
 There are various ways we could collect user-submitted feedback. We could have a website that provides a contact email address or asks users for a feedback message and sends the email to our mailbox automatically. This email inbox could get very cluttered and hard to manage, especially since we want to collect various forms of feedback (e.g. did the user recently uninstall the extension, or are they happy and simply want to propose new features?). 
 
 We decided to proceed with an alternative solution of creating a support website and storing all submitted feedback messages in a database. This database could later be queried and filtered based on various criteria (time of submission, feedback type -- general feedback vs complaint after uninstalling, and similar). This approach greatly simplified feedback evaluation.
@@ -931,6 +931,8 @@ Instead of letting people play with the extension on their own (and conducting i
 
 This lab study was run with multiple individuals from the School of Informatics at the University of Edinburgh. These users could be described as slightly more advanced as they had working knowledge of regular expressions, yet it was their first time using this extension.
 
+Each participant was invited to come to the lab at a specific time, and each individual session lasted between 10 and 15 minutes. As the participant was working through the tasks of the challenge, we wrote down notes whenever they tried to take an unexpected approach, got stuck, asked for help, or said something out loud.
+
 The results after observing the users and talking to them afterwards clearly showed that even though first-time users had no difficulty using the search \& replace user-interface including more advanced functionality, most of them struggled to use the templates panel correctly when they first opened it. 
 
 \begin{figure}[h]
@@ -941,15 +943,15 @@ The results after observing the users and talking to them afterwards clearly sho
 
 The issue was that when users start editing a template, they must click either the \textit{Save} or \textit{Cancel} icon before they exit (see figure). Many people closed the extension by clicking into the page (the browser closes the pop-up widget in such case -- this cannot be overridden), and thus lost their changes.
 
-We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with a saving status indicator similar to the one used in Gmail. The indicator switches between the \textit{Saved} and \textit{Saving...} states as saving to storage takes place in the background. 
-
-This prevented users from losing their template changes, while still allowing them to revert their edits using the \texttt{Ctrl+Z} keyboard shortcut.
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\textwidth]{../docs/template-edit-mode.png}
 \caption{Template panel -- New editing mode}
 \end{figure}
+
+We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with a saving status indicator similar to the one used in Gmail. The indicator switches between the \textit{Saved} and \textit{Saving...} states as saving to storage takes place in the background. 
+
+This prevented users from losing their template changes, while still allowing them to revert their edits using the \texttt{Ctrl+Z} keyboard shortcut.
 
 To make things slightly more efficient we implemented a debounce function \cite{A28} for our template editing mode. This means that instead of attempting to start saving changes immediately we wait a few milliseconds to see if the user is going to continue typing or is taking a break. In the former case, we delay our saving operation.
 
