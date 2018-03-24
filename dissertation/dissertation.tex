@@ -193,9 +193,20 @@ This project focused on Chrome and Firefox, which together represent a large por
 
 Safari, although widely used by Mac users, has its own extension API and is in general much more involved as it requires dealing with Apple's developer libraries and licenses, so we decided not to develop an extension for this browser.
 
+\section{Our Extension}
+After reviewing existing extensions and setting goals based on project requirements, our find and replace extension was carefully designed, developed, released for both Chrome and Firefox, and further maintained, analyzed, and extended. The next chapters of this report look at each of these steps in detail.
 
+\subsubsection*{Overview of Chapters}
+We discuss the project design in \autoref{chapter:design}. This starts with a brief overview of modern browser extension components, then mentions reasoning behind the design of our user interface, lists the website components that will be the primary target of our extension, and finally explains selection of the extension's name with regard to discoverability.
+
+In \autoref{chapter:implementation} we go into detail about the extension's implementation. We first talk about the main components and how they work together, including the regexp search operation, highlighting, and the search user interface. The chapter then discusses the extra features of the extension, which are split into separate panels, and their implementation, including storing search history, favourite patterns, and using templates. It finishes with explanation of different testing strategies we employed to ensure everything works as expected.
+
+In \autoref{chapter:evaluation} we talk about work done after the extension was released, including subsequent iterative releases and ways we assessed the quality of our project. This involved examining collected analytics data, obtaining direct user feedback, and (lastly discussed) performing a user study.
+
+The concluding chapter (\autoref{chapter:conclusions}) looks at user growth and satisfaction, as well as the future of the project.
 
 \chapter{Design}
+\label{chapter:design}
 
 \section{Browser Extensions Background}
 A browser extension is a bundled collection of files -- HTML, CSS, JavaScript, images and other assets, that together add functionality to the browser. They have access to the standard DOM API (same as a regular website) but in addition to that they can access the WebExtensions API, which is provided by the browser. At the time of writing, the WebExtensions API is to a large extent (only with slight deviations in implementations) supported by Mozilla Firefox, Google Chrome, Microsoft Edge, and Opera browsers (see detailed explanation in \cite{C1}, \cite{C2}, \cite{M6} and \cite{M7}).
@@ -381,6 +392,7 @@ There is a more than 10\% chance that when our extension appeared in your search
 
 
 \chapter{Implementation}
+\label{chapter:implementation}
 
 \section{Component Overview}
 As mentioned before, our extension consists of three main components -- a pop-up widget presenting the search UI to the user, a few content scripts, which are pieces of JavaScript code that are injected into the current web page so that we can interact with its content (e.g. perform the search and highlighting), and finally an invisible background page, which has full access to the privileged extension APIs (other extension components do not) and performs our content script injection whenever the user launches the extension's search widget.
@@ -699,6 +711,19 @@ We also designed a user help guide that explains how to use the extension coveri
 \caption{User Guide Page Preview}
 \end{figure}
 
+
+\section{Google Analytics}
+In order to collect statistics on how users use our extension and how they interact with different UI elements, we implemented Google Analytics into our extension.
+
+Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would be small, which turned out to be true.
+
+\subsection{Google Analytics Implementation}
+The standard way of implementing Google Analytics involves inserting a short script into a web page, which then pulls more JavaScript code from Analytics servers to collect user data as well as provide a developer interface to send additional tracking events.
+
+This method does not work in Mozilla Firefox extensions due to their review policies (quoting from \cite{A20}): \textit{...The most popular way to do this is to inject the Google Analytics script into your codebase as if it were a web page. However, this is incompatible with our review policies. Injecting remote scripts into privileged code – or even content – is very dangerous and it’s not allowed.}
+
+As a workaround, we need to use Google Analytics' Measurement Protocol \cite{A21}, which is a simple API that accepts HTTP requests with Analytics data. It collects data (and aggregates it for displaying dashboards and statistics via the same Analytics web interface) without relying on the Google Analytics JavaScript library running on the client. So we essentially had to implement the library ourselves and only send requests in the appropriate format to this API server.
+
 \section{Testing}
 The Chrome Extension Developer Guides contain a section on debugging \cite{C3} but any standardized extension testing approaches are nonexistent. Due to technology similarities, we can examine how we could test our extension if it was a standard web application.
 
@@ -749,17 +774,6 @@ It is very quick to open this HTML page in a browser and use the already install
 
 Besides using it to manually test that the overall product works, it was also a good test of the overall user experience, as the HTML page contained the various editable elements that users would normally encounter on the web.
 
-\section{Google Analytics}
-In order to collect statistics on how users use our extension and how they interact with different UI elements, we implemented Google Analytics into our extension.
-
-Collecting this data requires us to inform users of the data collection and provide a way for the users to opt-out from collecting these analytics. This might dissuade a small percentage of potential users from installing the extension in the first place, but the belief was that this percentage would be small, which turned out to be true.
-
-\subsection{Google Analytics Implementation}
-The standard way of implementing Google Analytics involves inserting a short script into a web page, which then pulls more JavaScript code from Analytics servers to collect user data as well as provide a developer interface to send additional tracking events.
-
-This method does not work in Mozilla Firefox extensions due to their review policies (quoting from \cite{A20}): \textit{...The most popular way to do this is to inject the Google Analytics script into your codebase as if it were a web page. However, this is incompatible with our review policies. Injecting remote scripts into privileged code – or even content – is very dangerous and it’s not allowed.}
-
-As a workaround, we need to use Google Analytics' Measurement Protocol \cite{A21}, which is a simple API that accepts HTTP requests with Analytics data. It collects data (and aggregates it for displaying dashboards and statistics via the same Analytics web interface) without relying on the Google Analytics JavaScript library running on the client. So we essentially had to implement the library ourselves and only send requests in the appropriate format to this API server.
 
 \chapter{Deployment and Assessment}
 \label{chapter:evaluation}
@@ -961,6 +975,8 @@ To make things slightly more efficient we implemented a debounce function \cite{
 Our implementation turned out to be slightly more challenging since we allow for multiple templates to be edited at the same time, which means we had to make sure we scope each debounce function to the right component.
 
 \chapter{Conclusions}
+\label{chapter:conclusions}
+
 The extension has received excellent reviews and at the time of writing is installed on over 6000 active devices (users from both browsers combined), $4.7/5$ stars (21 reviews) on the Chrome Web Store and $4.8/5$ stars (7 reviews) on the Firefox Web Store.
 
 In February it was featured in a Medium article\footnote{\url{https://medium.com/@joisig/startupresources-io-issue-97-36a52e6e8478}} (Medium is an online publishing platform with a mixture of both professional and amateur publications), as well as on the \textit{StartupResources.io} page as the \textit{Tool of the week}.\footnote{\url{http://issues.startupresources.io/archive/93526}}
