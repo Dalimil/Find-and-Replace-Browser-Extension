@@ -904,7 +904,7 @@ The website was deployed using Firebase Hosting \cite{A8}, which is Google's hos
 
 The database used to store the feedback comments is Firebase Realtime Database \cite{A9}, which is a NoSQL cloud database from the same family of Google products. This allowed us to have a secure place to store our data with minimal setup time. It also allowed us to have an optimized static website with only the required JavaScript SDKs without having to implement a complex back-end server.
 
-At the time of writing, we have received over 400 uninstall feedback messages (submitted via a form that appears when users uninstall the extension) and over 20 general feedback messages (feedback that active users leave after clicking on the feedback link in the extension Help tab or alternatively directly via the website).
+At the time of writing, we have received over 400 uninstall feedback messages (submitted via a form that appears when users uninstall the extension) and over 20 general feedback messages (feedback that active users leave after clicking on the feedback link in the extension Help tab or alternatively directly via the website). Examples of these can be found in the appendix (\autoref{section:general-feedback-form} and \autoref{section:uninstall-feedback-form}).
 
 \begin{figure}[h]
 \centering
@@ -1007,7 +1007,7 @@ About eight releases were a direct response to written user feedback that we had
 \chapter{Conclusions}
 \label{chapter:conclusions}
 
-The extension has received excellent reviews and at the time of writing is installed on over 6000 active devices (users from both browsers combined), $4.7/5$ stars (23 reviews) on the Chrome Web Store and $4.8/5$ stars (7 reviews) on the Firefox Web Store.
+The extension has received excellent reviews and at the time of writing is installed on over 6000 active devices (users from both browsers combined), $4.7/5$ stars (23 reviews) on the Chrome Web Store and $4.8/5$ stars (7 reviews) on the Firefox Web Store. A small sample of these reviews can be found in the appendix (\autoref{section:feedback-reviews}).
 
 In February it was featured in a Medium article\footnote{\url{https://medium.com/@joisig/startupresources-io-issue-97-36a52e6e8478}} (Medium is an online publishing platform with a mixture of both professional and amateur publications), as well as on the \textit{StartupResources.io} page as the \textit{Tool of the week}.\footnote{\url{http://issues.startupresources.io/archive/93526}}
 
@@ -1042,6 +1042,65 @@ Google Docs implement their built-in find \& replace tool anyway. When users try
 Overall, bugs and issues that were found were all fixed in subsequent web store releases of the extension. The issues with the sites mentioned above had no straightforward solutions and were either reaching limits of extension API capabilities or were completely out of scope.
 
 In summary, it makes one feel extremely positive, having developed a tool that is used by thousands of people, and which makes their work faster and more productive every day.
+
+\appendix
+\chapter{User Feedback Examples}
+
+\section{Web Store Reviews}
+\label{section:feedback-reviews}
+Here are a few user reviews that were submitted and are now displayed on the Chrome Web Store page.
+\begin{itemize}
+\item
+Omar Filipovic (Mar 12, 2018): \textit{Excellent and very useful extension! The author is quick to reply, too.}
+\item
+Robert Diaz (Feb 19, 2018): \textit{It just works! huge time saver and love the add to favorites feature. Thanks}
+\item
+Robert Nader (Nov 1, 2017): \textit{Excellent search \& replace extension. The added feature for handling regular expressions is exactly what I was looking for! Thank you!}
+\end{itemize}
+
+Here are a few reviews from the Firefox extension listing page.
+\begin{itemize}
+\item
+By 3dMax, 4 months ago (Nov 2017): \textit{Thanks, works great! Favourites is a very good idea.}
+\item
+By Brainetree, 4 months ago (Nov 2017): \textit{A lot of old favorite extensions not working with the new Quantum Firefox - was looking for a Find extension, so glad I found this one and it works perfectly!}
+\item
+By jlvanderzwan, 25 days ago (Feb 2018): \textit{Works fine most of the time, but on some websites it has trouble finding anything - I guess due to JS frameworks messing with the DOM. I don't really blame the add-on for that, although it would be nice if it could support those sites too. perf.zone is a good test case, if you want to try to fix it}
+\end{itemize}
+
+\section{General Feedback Form Comments}
+\label{section:general-feedback-form}
+Here are a few comments submitted via the feedback form on the support website. Note that this is the scenario when a user decides to send feedback on their own, without being explicitly asked.
+\begin{itemize}
+\item
+11/30/2017: \textit{just installed you webextension on Firefox. Haven't used it yet, but do want to commend you on great documentation!}
+\item
+12/21/2017: \textit{I realy love this extension, but it does not work with applications written in AngularJS. in the application all the replacements are done properly, but when one tries to save the changes, all replacements are gone. AngularJS stores the updates when the "change" events are fired on the field. regards Christoph}
+\item
+2/10/2018: \textit{Great extension!  The only way to improve it is to make it so it can run multiple search and replace operations saved under favorites. In other words, link several together and run them with a single click.}
+\end{itemize}
+
+\section{Uninstall Feedback Form Comments}
+\label{section:uninstall-feedback-form}
+Here are a few comments submitted via the uninstall feedback form. When a user uninstalls the extension, we use the extension API to redirect them to our support website page with a simple uninstall feedback form asking \textit{Why did you uninstall?}.
+\begin{itemize}
+\item
+10/24/2017: \textit{couldnt open}
+\item
+11/3/2017: \textit{It did not help me out. I do not know computers well like this stuff.}
+\item
+11/16/2017: \textit{Extension did not work in the program I was using. }
+\item
+11/20/2017: \textit{Text would revert back to original}
+\item
+11/27/2017: \textit{Didn't find editable text in a jupyter notebook}
+\item
+12/11/2017: \textit{didn't use}
+\item
+12/12/2017: \textit{doesnt work for google docs}
+\item
+12/19/2017: \textit{I can use ctrl+F to search the text on page, do not need replace}
+\end{itemize}
 
 % Bibliography section --- use \cite{P1} with BibTeX
 \bibliographystyle{plain}
