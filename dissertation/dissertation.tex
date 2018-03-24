@@ -906,6 +906,39 @@ The database used to store the feedback comments is Firebase Realtime Database \
 
 At the time of writing, we have received over 400 uninstall feedback messages (submitted via a form that appears when users uninstall the extension) and over 20 general feedback messages (feedback that active users leave after clicking on the feedback link in the extension Help tab or alternatively directly via the website).
 
+\section{User Study}
+To learn how first-time users try to use the extension, we created an online challenge\footnote{\url{https://find-and-replace-f6588.firebaseapp.com/challenge.html}} consisting of five tasks, each involving usage of different parts of the extension's functionality. The first two tasks were focusing on the pure search \& replace operation. The remaining were testing additional features in extension's tabs (history, templates, etc.). For instance, to complete the final task one had to transform given paragraph to upper case, save it as a template, and subsequently use the template in their Gmail web app.
+
+Instead of letting people play with the extension on their own (and conducting interviews afterwards), we decided to ask participants to complete our set of tasks and observed their behaviour. The extension targets a specific group of people who frequently edit text, so physically meeting a large number of target users in a short period of time would have been problematic. The reasoning behind our challenge was to force participants to work on tasks that real users very frequently tackle, and thus get them into the right mindset when they are testing our extension, no matter their background (we did not expect participant to be bloggers, Wikipedia editors, or anything else close to that).
+
+This lab study was run with multiple individuals from the School of Informatics at the University of Edinburgh. These users could be described as slightly more advanced as they had working knowledge of regular expressions, yet it was their first time using this extension.
+
+Each participant was invited to come to the lab at a specific time, and each individual session lasted between 10 and 15 minutes. As the participant was working through the tasks of the challenge, we wrote down notes whenever they tried to take an unexpected approach, got stuck, asked for help, or said something out loud.
+
+The results after observing the users and talking to them afterwards clearly showed that even though first-time users had no difficulty using the search \& replace user-interface including more advanced functionality, most of them struggled to use the templates panel correctly when they first opened it. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/template-edit-mode-old.png}
+\caption{Templates panel -- Old editing mode}
+\end{figure}
+
+The issue was that when users start editing a template, they must click either the \textit{Save} or \textit{Cancel} icon before they exit (see figure). Many people closed the extension by clicking into the page (the browser closes the pop-up widget in such case -- this cannot be overridden), and thus lost their changes.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{../docs/template-edit-mode.png}
+\caption{Template panel -- New editing mode}
+\end{figure}
+
+We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with a saving status indicator similar to the one used in Gmail. The indicator switches between the \textit{Saved} and \textit{Saving...} states as saving to storage takes place in the background. 
+
+This prevented users from losing their template changes, while still allowing them to revert their edits using the \texttt{Ctrl+Z} keyboard shortcut.
+
+To make things slightly more efficient we implemented a debounce function \cite{A28} for our template editing mode. This means that instead of attempting to start saving changes immediately we wait a few milliseconds to see if the user is going to continue typing or is taking a break. In the former case, we delay our saving operation.
+
+Our implementation turned out to be slightly more challenging since we allow for multiple templates to be edited at the same time, which means we had to make sure we scope each debounce function to the right component.
+
 \section{Iteration}
 After the initial web store release we continued to collect feedback from users, and subsequently kept releasing extension updates, which were fixing bugs and issues that we found, or were adding features to the extension. The full changelog for specific releases can be found below.
 
@@ -964,38 +997,6 @@ About eight releases were a direct response to written user feedback that we had
 \texttt{v0.1} -- 13th Sep -- Raw dev work started
 \end{itemize}
 
-\section{User Study}
-To learn how first-time users try to use the extension, we created an online challenge\footnote{\url{https://find-and-replace-f6588.firebaseapp.com/challenge.html}} consisting of five tasks, each involving usage of different parts of the extension's functionality. The first two tasks were focusing on the pure search \& replace operation. The remaining were testing additional features in extension's tabs (history, templates, etc.). For instance, to complete the final task one had to transform given paragraph to upper case, save it as a template, and subsequently use the template in their Gmail web app.
-
-Instead of letting people play with the extension on their own (and conducting interviews afterwards), we decided to ask participants to complete our set of tasks and observed their behaviour. The extension targets a specific group of people who frequently edit text, so physically meeting a large number of target users in a short period of time would have been problematic. The reasoning behind our challenge was to force participants to work on tasks that real users very frequently tackle, and thus get them into the right mindset when they are testing our extension, no matter their background (we did not expect participant to be bloggers, Wikipedia editors, or anything else close to that).
-
-This lab study was run with multiple individuals from the School of Informatics at the University of Edinburgh. These users could be described as slightly more advanced as they had working knowledge of regular expressions, yet it was their first time using this extension.
-
-Each participant was invited to come to the lab at a specific time, and each individual session lasted between 10 and 15 minutes. As the participant was working through the tasks of the challenge, we wrote down notes whenever they tried to take an unexpected approach, got stuck, asked for help, or said something out loud.
-
-The results after observing the users and talking to them afterwards clearly showed that even though first-time users had no difficulty using the search \& replace user-interface including more advanced functionality, most of them struggled to use the templates panel correctly when they first opened it. 
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\textwidth]{../docs/template-edit-mode-old.png}
-\caption{Templates panel -- Old editing mode}
-\end{figure}
-
-The issue was that when users start editing a template, they must click either the \textit{Save} or \textit{Cancel} icon before they exit (see figure). Many people closed the extension by clicking into the page (the browser closes the pop-up widget in such case -- this cannot be overridden), and thus lost their changes.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\textwidth]{../docs/template-edit-mode.png}
-\caption{Template panel -- New editing mode}
-\end{figure}
-
-We have done some research around the topic and (after reading \cite{A26} and \cite{A27} and comparing advantages of several approaches) we decided to implement the auto-save pattern with a saving status indicator similar to the one used in Gmail. The indicator switches between the \textit{Saved} and \textit{Saving...} states as saving to storage takes place in the background. 
-
-This prevented users from losing their template changes, while still allowing them to revert their edits using the \texttt{Ctrl+Z} keyboard shortcut.
-
-To make things slightly more efficient we implemented a debounce function \cite{A28} for our template editing mode. This means that instead of attempting to start saving changes immediately we wait a few milliseconds to see if the user is going to continue typing or is taking a break. In the former case, we delay our saving operation.
-
-Our implementation turned out to be slightly more challenging since we allow for multiple templates to be edited at the same time, which means we had to make sure we scope each debounce function to the right component.
 
 \chapter{Conclusions}
 \label{chapter:conclusions}
