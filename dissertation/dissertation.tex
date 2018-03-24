@@ -208,6 +208,21 @@ The concluding chapter (\autoref{chapter:conclusions}) looks at user growth and 
 \chapter{Design}
 \label{chapter:design}
 
+\section{Requirements}
+The primary goal was to extend functionality of existing browsers to allow users to search and replace text in editable text input fields of web pages.
+
+Since there are too many different browsers and we could not possibly hope to implement this functionality for every single one, we should only select the main ones. We already decided to pick Chrome and Firefox as the target browsers (discussed in the previous chapter), which together represent a major portion of the market.
+
+Adding the find and replace functionality could either be accomplished by modifying the source code of the particular browser, or by implementing a browser extension. In the previous chapter we mentioned that the former option was rejected by browser developers, so the only option left was to implement it as a browser extension.
+
+Next section discusses the components that modern browser extensions consist of and the set of technologies, APIs, and design patterns that we are bound to use when developing an extension.
+
+The sections after that focus on the design of the user interface. Our tool should look somewhat similar to existing search and replace toolbars in advanced text editors that users are familiar with. Despite the large number of search options that we plan to implement (including support for regular expressions), the extension's interface must still be easy to use.
+
+Following that, this chapter talks about the website components that will be the primary target of our extension, it mentions issues related to identifying the right sections of a website and discusses text editability on the web in general.
+
+Since the extension must also be easily discoverable when users search for this kind of functionality, the final section in this chapter explains design decisions behind choosing the extension's name with regard to discoverability in Google Search results and in extension web stores.
+
 \section{Browser Extensions Background}
 A browser extension is a bundled collection of files -- HTML, CSS, JavaScript, images and other assets, that together add functionality to the browser. They have access to the standard DOM API (same as a regular website) but in addition to that they can access the WebExtensions API, which is provided by the browser. At the time of writing, the WebExtensions API is to a large extent (only with slight deviations in implementations) supported by Mozilla Firefox, Google Chrome, Microsoft Edge, and Opera browsers (see detailed explanation in \cite{C1}, \cite{C2}, \cite{M6} and \cite{M7}).
 
