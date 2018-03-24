@@ -409,6 +409,14 @@ There is a more than 10\% chance that when our extension appeared in your search
 \chapter{Implementation}
 \label{chapter:implementation}
 
+This chapter discusses the implementation of individual extension components, technologies that we used, and how everything fits together.
+
+We first give an overview of the main components in our extension and then go into detail about the implementation of each. The most important is the search widget, which is the search interface presented to the user, and then the content scripts, which operate in the context of a specific website and take care of the actual search operation, occurrence highlighting and similar functionality.
+
+This chapter then talks about the extra features bundled in the extension. These are split into different panels and include functionality such as storing search history, saving favourite patterns, or using text templates.
+
+The chapter then briefly explains our integration of Google Analytics, and concludes with a section on testing, which presents the different testing strategies we used to ensure correctness of our implementation.
+
 \section{Component Overview}
 As mentioned before, our extension consists of three main components -- a pop-up widget presenting the search UI to the user, a few content scripts, which are pieces of JavaScript code that are injected into the current web page so that we can interact with its content (e.g. perform the search and highlighting), and finally an invisible background page, which has full access to the privileged extension APIs (other extension components do not) and performs our content script injection whenever the user launches the extension's search widget.
 
@@ -710,13 +718,13 @@ The operations that can be performed using the templates panel are designed for 
 \section{Help Panel}
 The help panel contains links to the official website, feedback forms, as well as a link to the official help text. It also allows users to read through the privacy policy. Since all the data collected is based around usage statistics via Google Analytics, we were able to use a third-party tool \textit{iubenda} \cite{A25} to have the privacy policy text generated for us.
 
-At the same time, this tab gives users an option to opt-out of all Google Analytics reporting via a simple switch button. This was an important privacy requirement that had to be implemented.
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{../main/images/help/help-panel.png}
 \caption{Help Panel Tab}
 \end{figure}
+
+At the same time, this tab gives users an option to opt-out of all Google Analytics reporting via a simple switch button. This was an important privacy requirement that had to be implemented.
 
 We also designed a user help guide that explains how to use the extension covering everything from the very basic search functionality all the way to the most advanced use cases (see figure for preview). We open this help text in a new tab right after the extension is installed.
 
