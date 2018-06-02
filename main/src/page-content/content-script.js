@@ -124,11 +124,16 @@ function replaceCurrent(resultText) {
     const $mirror = $wrapper.find(SELECTORS.textareaContentMirror);
     $textarea.val($mirror.text());
   } else {
+    const contenteditable = $nodes.eq(0).closest('[contenteditable="true"]');
     // Contenteditable - we should use document.execCommand()
     $nodes.each((index, el) => {
       $(el).text(index == 0 ? resultText : "");
       Utils.flattenNode(el);
     });
+    // Trigger change event so that possible event listeners update appropriately
+    const nativeEvent = document.createEvent('Event');
+    nativeEvent.initEvent('input', true, true);
+    contenteditable.get(0).dispatchEvent(nativeEvent);
   }
 
   // Delete term mark-group from our list
