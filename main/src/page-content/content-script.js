@@ -138,6 +138,7 @@ function replaceCurrent(resultText) {
 }
 
 function replaceAll(rawReplaceText) {
+  console.log("RRT", rawReplaceText)
   while (Search.groupedMarks.length > 0) {
     // If regex groups are used, replace text will differ based on current term
     replaceCurrent(getReplaceText(rawReplaceText));
@@ -512,11 +513,18 @@ function getReplaceText(text) {
   // replace regex groups
   const currentOccurrenceText = getCurrentOccurrenceText();
   const matches = Search.lastSearchRegexp.exec(currentOccurrenceText);
+  const replacePlaceholder = (idx) => `◴◶${idx}◵◷`; // This unicode combo is unlikely to occur
   if (matches && matches.length > 0) {
-    // Replace starting from the largest number (replace $11 before $1)
-    matches.slice().reverse().forEach((groupText, index) => {
+    const reversedMatches = matches.slice().reverse();
+    // First stage replace: Replace $0, $1, ... by placeholders
+    reversedMatches.forEach((groupText, index) => {
       index = matches.length - 1 - index;
-      text = text.replace(new RegExp("\\$" + index, "g"), groupText || "");
+      text = text.replace(new RegExp("\\$" + index, "g"), replacePlaceholder(index));
+    });
+    // Replace placeholders by actual text
+    reversedMatches.forEach((groupText, index) => {
+      index = matches.length - 1 - index;
+      text = text.replace(replacePlaceholder(index), groupText || "");
     });
     text = text.replace(new RegExp("\\$&", "g"), matches[0]);
   }
