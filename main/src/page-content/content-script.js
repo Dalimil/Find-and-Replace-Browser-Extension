@@ -138,7 +138,6 @@ function replaceCurrent(resultText) {
 }
 
 function replaceAll(rawReplaceText) {
-  console.log("RRT", rawReplaceText)
   while (Search.groupedMarks.length > 0) {
     // If regex groups are used, replace text will differ based on current term
     replaceCurrent(getReplaceText(rawReplaceText));
