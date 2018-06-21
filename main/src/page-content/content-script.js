@@ -131,8 +131,7 @@ function replaceCurrent(resultText) {
       Utils.flattenNode(el);
     });
     // Trigger change event so that possible event listeners update appropriately
-    const nativeEvent = document.createEvent('Event');
-    nativeEvent.initEvent('input', true, true);
+    const nativeEvent = new Event('input', {bubbles: true, cancelable: true});
     contenteditable.get(0).dispatchEvent(nativeEvent);
   }
 
