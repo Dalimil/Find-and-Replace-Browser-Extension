@@ -518,13 +518,16 @@ function getReplaceText(text) {
   // replace regex groups
   const currentOccurrenceText = getCurrentOccurrenceText();
   const matches = Search.lastSearchRegexp.exec(currentOccurrenceText);
+  const placeholderChar = "◵";
   if (matches && matches.length > 0) {
     // Replace starting from the largest number (replace $11 before $1)
     matches.slice().reverse().forEach((groupText, index) => {
+      const groupTextToSubstitute = groupText ? groupText.replace(/\$/g, placeholderChar) : "";
       index = matches.length - 1 - index;
-      text = text.replace(new RegExp("\\$" + index, "g"), groupText || "");
+      text = text.replace(new RegExp("\\$" + index, "g"), groupTextToSubstitute);
     });
     text = text.replace(new RegExp("\\$&", "g"), matches[0]);
+    text = text.replace(new RegExp(placeholderChar, "g"), "$");
   }
   return text;
 }
