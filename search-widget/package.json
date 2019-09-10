@@ -4,7 +4,7 @@
   "description": "Search UI widget for Find & Replace browser extension",
   "author": "Dalimil Hajek",
   "main": "index.js",
-  "license": "MIT",
+  "license": "MPL-2.0",
   "scripts": {
     "build": "webpack --progress -p",
     "build:dev": "webpack --progress --watch",
