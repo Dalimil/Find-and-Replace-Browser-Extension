@@ -1,7 +1,7 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Find & Replace for Text Editing",
-  "version": "1.3.17",
+  "version": "1.4.0",
   "description": "Adds search & replace tool for input fields and editable text content.",
   "author": "Dalimil Hajek",
   "icons": {
@@ -12,13 +12,13 @@
   "permissions": [
     "activeTab",
     "contextMenus",
-    "storage"
+    "storage",
+    "scripting"
   ],
   "background": {
-    "persistent": false,
-    "scripts": [ "src/background.js" ]
+    "service_worker": "src/background.js"
   },
-  "browser_action": {
+  "action": {
     "default_title": "Find & Replace",
     "default_popup": "src/widget/widget.html",
     "default_icon": {
@@ -26,7 +26,7 @@
     }
   },
   "commands": {
-    "_execute_browser_action": {
+    "_execute_action": {
       "suggested_key": {
         "default": "Ctrl+Shift+F",
         "mac": "Command+Shift+F"
