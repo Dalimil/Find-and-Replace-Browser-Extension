@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Find & Replace for Text Editing",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Adds search & replace tool for input fields and editable text content.",
   "author": "Dalimil Hajek",
   "icons": {

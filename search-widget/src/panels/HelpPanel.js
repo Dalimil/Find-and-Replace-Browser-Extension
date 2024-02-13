@@ -13,7 +13,7 @@ class HelpPanel extends React.Component {
     this.navigate = this.navigate.bind(this);
     this.baseUrl = 'https://find-and-replace-f6588.firebaseapp.com/';
     this.feedbackUrl = this.baseUrl + 'feedback';
-    this.contributeUrl = 'https://www.paypal.me/Dalimil/5USD';
+    this.contributeUrl = 'https://www.paypal.com/paypalme/DaliCanada';
     this.helpUrl = '/help.html';
     this.privacyPolicyUrl = 'https://www.iubenda.com/privacy-policy/8243040';
 
