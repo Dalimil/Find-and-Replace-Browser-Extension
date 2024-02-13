@@ -12,6 +12,7 @@ RegEx Search & Replace Extension for Chrome and Firefox browsers.
 ![Find & Replace Browser Extension - Web Store Screenshot B](graphics/web-store/Search-and-Replace-Web-Store-B.jpg)
 
 ## Changelog (releases)
+- v1.4.1 - 13th Feb - Updated links
 - v1.4.0 - 20th Dec - Upgraded to Extension Manifest v3
 - v1.3.17 - 22nd Aug - Fix dollar sign in regex groups
 - v1.3.16 - 22nd Aug - Fix contenteditable input event
